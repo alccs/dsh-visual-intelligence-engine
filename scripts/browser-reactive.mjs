@@ -7,7 +7,7 @@ function evaluate(code){const r=spawnSync(exe,['--session',session,'--json','eva
 const frames='await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);';
 function check(name,code){assert.equal(evaluate(code),true,name);checks.push({name,passed:true});console.log('PASS '+name);}
 try{
- run('--executable-path',chrome,'--allow-file-access','open',pathToFileURL(path.join(root,'dist/VIE-Interactive-0.28.0.html')).href+'#reactive');run('set','viewport','1080','1200');run('snapshot','-i');
+ run('--executable-path',chrome,'--allow-file-access','open',pathToFileURL(path.join(root,'dist/VIE-Interactive-0.29.0.html')).href+'#reactive');run('set','viewport','1080','1200');run('snapshot','-i');
  run('wait','iframe[data-vie-ready="true"]');
  check('one document uses number, segmented, switch and slider controls',`document.querySelectorAll('#stage input[type=number]').length===1&&document.querySelectorAll('#stage .vie-segmented button').length===3&&document.querySelectorAll('#stage input[role=switch]').length===1&&document.querySelectorAll('#stage input[type=range]').length===1`);
  check('responsive composition renders chart, diagram and an opaque sandbox',`document.querySelectorAll('[data-vie-chart]').length===1&&document.querySelectorAll('[data-vie-visual=Diagram]').length===1&&document.querySelector('iframe').getAttribute('sandbox')==='allow-scripts'`);
@@ -26,18 +26,18 @@ try{
  check('state propagation keeps the same iframe document',`document.querySelector('iframe').srcdoc===window.originalFrame`);
  run('click','#theme');run('snapshot','-i');
  check('theme tokens update chart colors without resetting the iframe or user values',`getComputedStyle(document.querySelector('.vie-shell')).getPropertyValue('--vie-primary').trim()==='#83afff'&&document.querySelector('iframe').srcdoc===window.originalFrame&&document.querySelector('input[type=number]').value==='5'`);
- run('screenshot','--full','screenshots/reactive-dark-0.28.0.png');
- run('click','#theme');run('set','viewport','1080','1200');run('screenshot','--full','screenshots/reactive-desktop-0.28.0.png');
+ run('screenshot','--full','screenshots/reactive-dark-0.29.0.png');
+ run('click','#theme');run('set','viewport','1080','1200');run('screenshot','--full','screenshots/reactive-desktop-0.29.0.png');
  for(const width of [390,320]){run('set','viewport',String(width),'1200');run('snapshot','-i');check('all general graphics and controls fit '+width+'px',`document.documentElement.scrollWidth<=innerWidth&&getComputedStyle(document.querySelector('#stage .vie-row')).gridTemplateColumns.split(' ').length===1`);}
- run('screenshot','--full','screenshots/reactive-mobile-0.28.0.png');
+ run('screenshot','--full','screenshots/reactive-mobile-0.29.0.png');
  run('click','#remount');run('wait','iframe[data-vie-ready="true"]');run('snapshot','-i');
  check('remount restores shared controls and recomputes all bound views',`document.querySelector('input[type=number]').value==='5'&&VIEDemo.context.figures.block1.state.A===5&&VIEDemo.context.figures.block3.state.amplitude===5`);
  // Mount the actual composer component against a projection reader and command adapter.
  evaluate(`VIEDemo.setSource(VIEDemo.source,'composer');window.modeRoot=ReactDOM.createRoot(document.getElementById('intro'));window.modeView={mode:'auto',pending:false};window.modeCalls=[];window.modeLocked=false;window.modeFail=false;window.ModeComponent=VIE.createVIEModeView(React,ReactDOM);window.mountMode=()=>modeRoot.render(React.createElement(ModeComponent,{useProjection:()=>modeView,locked:modeLocked,flip:async mode=>{modeCalls.push(mode);if(modeFail)throw Error('测试切换失败');modeView={mode,pending:false};mountMode();}}));mountMode();`);run('set','viewport','1080','1200');run('snapshot','-i');
  check('composer trigger matches the native model selector dimensions and transparent borderless style',`(()=>{const t=document.querySelector('.vie-mode-trigger'),s=getComputedStyle(t);return s.height==='28px'&&s.fontSize==='13px'&&s.borderTopWidth==='0px'&&s.backgroundColor==='rgba(0, 0, 0, 0)'&&!document.querySelector('.vie-mode-control select')})()`);
  run('click','.vie-mode-trigger');run('snapshot','-i');
- check('menu uses a portal and focuses the selected mode',`document.activeElement.getAttribute('aria-checked')==='true'&&document.querySelector('.vie-mode-menu').parentElement===document.body&&document.querySelectorAll('[role=menuitemradio]').length===3`);
- run('screenshot','--full','screenshots/composer-menu-0.28.0.png');run('press','Escape');run('snapshot','-i');
+ check('menu uses a portal and focuses the selected mode',`document.activeElement.getAttribute('aria-checked')==='true'&&document.querySelector('.vie-mode-menu').parentElement===document.body&&document.querySelectorAll('[role=menuitemradio]').length===4`);
+ run('screenshot','--full','screenshots/composer-menu-0.29.0.png');run('press','Escape');run('snapshot','-i');
  check('Escape closes the menu and returns focus to the trigger',`!document.querySelector('.vie-mode-menu')&&document.activeElement.classList.contains('vie-mode-trigger')`);
  run('press','ArrowDown');run('snapshot','-i');run('press','End');run('press','Enter');run('snapshot','-i');
  check('keyboard mode selection invokes its command adapter without sending a chat message',`modeCalls.length===1&&modeCalls[0]==='off'&&document.querySelector('.vie-mode-label').textContent.includes('关闭')&&document.querySelector('#draft').value===''&&!document.querySelector('.vie-mode-menu')`);
@@ -46,8 +46,11 @@ try{
  evaluate('modeFail=false;modeView={mode:"off",pending:true};mountMode()');run('snapshot','-i');check('pending host projection disables the trigger',`document.querySelector('.vie-mode-trigger').disabled`);
  evaluate('modeView={mode:"off",pending:false};modeLocked=true;mountMode()');run('snapshot','-i');check('locked composer disables the trigger',`document.querySelector('.vie-mode-trigger').disabled`);
  evaluate('modeLocked=false;mountMode()');run('snapshot','-i');run('click','.vie-mode-trigger');run('click','#question');run('snapshot','-i');check('outside click closes the mode menu',`!document.querySelector('.vie-mode-menu')`);
- run('click','#theme');run('click','.vie-mode-trigger');run('snapshot','-i');run('screenshot','--full','screenshots/composer-menu-dark-0.28.0.png');run('press','Escape');
- check('no runtime errors are visible',`!document.querySelector('.vie-generated-error')&&!document.querySelector('.vie-error')`);
+ run('click','#theme');run('click','.vie-mode-trigger');run('snapshot','-i');run('screenshot','--full','screenshots/composer-menu-dark-0.29.0.png');run('press','Escape');
+ evaluate('modeLocked=false;modeView={mode:"auto",pending:false};mountMode()');run('snapshot','-i');run('click','.vie-mode-trigger');run('snapshot','-i');
+ const study=Object.entries(run('snapshot','-i').refs).find(([,v])=>v.role==='menuitemradio'&&v.name.includes('学习模式'));assert.ok(study);run('click','@'+study[0]);run('snapshot','-i');
+ check('study menu selection persists through the projection adapter',`modeView.mode==='study'&&modeCalls.at(-1)==='study'&&document.querySelector('.vie-mode-label').textContent.includes('学习模式')`);
+ check('no runtime errors are visible' ,`!document.querySelector('.vie-generated-error')&&!document.querySelector('.vie-error')`);
  const errors=run('errors').errors??[];assert.equal(errors.length,0,JSON.stringify(errors));
- fs.writeFileSync(path.join(root,'docs/validation/reactive-browser.json'),JSON.stringify({version:'0.28.0',checks:checks.length,results:checks,pageErrors:errors,externalModelRequests:0},null,2));
+ fs.writeFileSync(path.join(root,'docs/validation/reactive-browser.json'),JSON.stringify({version:'0.29.0',checks:checks.length,results:checks,pageErrors:errors,externalModelRequests:0},null,2));
 }finally{try{run('close');}catch{}}

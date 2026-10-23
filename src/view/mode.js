@@ -1,6 +1,6 @@
 /** Composer mode picker using the Harness model selector's sizing and theme tokens. */
 function createVIEModeView(React,ReactDOM){
-  const items=[{id:'auto',label:'自动'},{id:'on',label:'本聊天启用'},{id:'off',label:'关闭'}];
+  const items=[{id:'auto',label:'自动'},{id:'on',label:'本聊天启用'},{id:'study',label:'学习模式'},{id:'off',label:'关闭'}];
   return function VIEModeControl({useProjection,locked,flip}){
     const view=useProjection('dsh-vie:mode'),[busy,setBusy]=React.useState(false),[error,setError]=React.useState(''),[open,setOpen]=React.useState(false),[position,setPosition]=React.useState(null);
     const trigger=React.useRef(null),menu=React.useRef(null),alive=React.useRef(true),id=React.useId(),disabled=!!locked||busy||!!view?.pending;

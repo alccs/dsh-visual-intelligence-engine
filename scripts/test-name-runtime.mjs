@@ -6,5 +6,5 @@ const profile=path.join(root,cli.temporaryHome,'profiles/web'),meta=readPluginMe
 assert.ok(meta,JSON.stringify(meta));for(const language of ['en','zh'])assert.equal(typeof meta.title==='string'?meta.title:meta.title[language],'dsh-Visual-Interactive-Engine');
 assert.ok(meta.icon?.startsWith('data:image/svg+xml;base64,'),JSON.stringify(meta));
 assert.ok(Buffer.from(meta.icon.split(',')[1],'base64').equals(fs.readFileSync(path.join(root,'package/assets/icon.svg'))));
-fs.writeFileSync(path.join(root,'docs/validation/name-runtime.json'),JSON.stringify({version:'0.28.0',package:'dsh-visual-interactive-engine',displayName:'dsh-Visual-Interactive-Engine',reader:'real Harness readPluginMeta',languages:['en','zh'],passed:true,meta},null,2));
+fs.writeFileSync(path.join(root,'docs/validation/name-runtime.json'),JSON.stringify({version:'0.29.0',package:'dsh-visual-interactive-engine',displayName:'dsh-Visual-Interactive-Engine',reader:'real Harness readPluginMeta',languages:['en','zh'],passed:true,meta},null,2));
 console.log('PASS actual Harness metadata reader resolves the exact requested display name in en/zh');

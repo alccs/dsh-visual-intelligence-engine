@@ -1,4 +1,4 @@
-/* VIE v0.28.0 — DSH Host entry. */
+/* VIE v0.29.0 — DSH Host entry. */
 import { defineTool } from '@deepseek-ai/dsh-tools';
 import { Script as VIEJavaScriptParser } from 'node:vm';
 const VIE_SKILL_CONTENT=/* @asset assets/visual-lab-skill.md */ "";

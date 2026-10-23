@@ -5,7 +5,7 @@ node_modules/
 .validation/
 docs/validation/
 
-# Build output (published as GitHub Release assets instead of committed)
+# Build output (excluded from source commits)
 dist/
 *.tgz
 
@@ -14,8 +14,11 @@ tests/
 screenshots/
 .github/
 
-# Generated documentation (rebuilt by scripts/build.mjs)
-docs/
+# Generated/private documentation; publish only the reviewed overview
+docs/*
+!docs/ARCHITECTURE.md
+!docs/PROJECT-OVERVIEW-0.29.0.md
+!docs/OPTIMIZATIONS-0.29.0.md
 
 # OS / editor noise
 Thumbs.db

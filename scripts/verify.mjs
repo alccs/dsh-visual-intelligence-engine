@@ -14,7 +14,7 @@ for(const script of ['test-workflow','test-mode-runtime'])run(['scripts/'+script
 run(['--experimental-transform-types','scripts/test-assembly.mjs']);
 const npm=process.env.VIE_NPM_CLI??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
 run([npm,'pack','./package','--pack-destination','dist','--json']);
-run(['scripts/test-cli.mjs']);run(['scripts/test-dsh.mjs']);run(['scripts/test-name-runtime.mjs']);
+run(['scripts/test-cli.mjs']);run(['scripts/test-dsh.mjs']);run(['scripts/test-name-runtime.mjs']);run(['scripts/test-mode-runtime.mjs','--installed']);
 if(verificationHash(root)!==testedHash)throw Error('Sources changed during verification; rerun the release gate');
-fs.writeFileSync(path.join(root,'docs/validation/release-gate.json'),JSON.stringify({version:'0.28.0',passed:true,nodeTests:Number(tap.match(/# pass (\d+)/)?.[1]),browserScripts:8,hostScripts:6,verificationHash:verificationHash(root),externalModelRequests:0},null,2));
+fs.writeFileSync(path.join(root,'docs/validation/release-gate.json'),JSON.stringify({version:'0.29.0',passed:true,nodeTests:Number(tap.match(/# pass (\d+)/)?.[1]),browserScripts:8,hostScripts:7,verificationHash:verificationHash(root),externalModelRequests:0},null,2));
 console.log('Required release checks passed.');

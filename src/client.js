@@ -1,4 +1,4 @@
-/* VIE v0.28.0 — DSH browser entry. Generated includes are resolved by build.mjs. */
+/* VIE v0.29.0 — DSH browser entry. Generated includes are resolved by build.mjs. */
 window.__ModuleLoader__.load({id:'dsh-visual-interactive-engine',factory:(require)=>{
  const module={exports:{}};const exports=module.exports;
  const VIE_CSS=/* @style styles/base.css,styles/experiments.css,styles/system.css */ "";
@@ -1406,7 +1406,9 @@ function apply(ctx){
     const st=document.createElement('style');st.id='vie-v0250-theme';st.textContent=VIE_CSS;document.head.appendChild(st);
   }
   const ModeControl=createVIEModeView(require('react'),require('react-dom'));
-  ctx.inject?.(['sessions','remote.commands'],child=>child.slots.inject('conversation.input.activity',()=>child.slots.register({name:'conversation.input.activity',inject:sessionId=>({flip:async mode=>{const result=await child.remote.commands.execute(sessionId,'/vie '+mode,[]);if(!result.ok)throw Error(result.error?.message??'切换失败');if(result.value===undefined)throw Error('当前宿主未注册 /vie 命令');if(result.value.result?.kind==='error')throw Error(result.value.result.text);}})},ModeControl)));
+  // Cordis requires the namespace as well as its command capability. Keeping
+  // both in this scope also unloads the control when either service disconnects.
+  ctx.inject?.(['sessions','remote','remote.commands'],child=>child.slots.inject('conversation.input.activity',()=>child.slots.register({name:'conversation.input.activity',inject:sessionId=>({flip:async mode=>{const result=await child.remote.commands.execute(sessionId,'/vie '+mode,[]);if(!result.ok)throw Error(result.error?.message??'切换失败');if(result.value===undefined)throw Error('当前宿主未注册 /vie 命令');if(result.value.result?.kind==='error')throw Error(result.value.result.text);}})},ModeControl)));
   const bridge=createVIEBridge(SceneStore);
   const {VIEToolView,VIETurnTailView,VIEAnswerView}=createViews(require('react'),bridge);
   // Register the durable Turn projection before subscribing the tail seat.
@@ -1427,7 +1429,7 @@ function apply(ctx){
   },VIETurnTailView));
   // Diagnostic only: if the browser's module was never materialized, this
   // marker will be absent. No HMR rewriting or unverified bootstrap hack.
-  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.28.0',activated:true,at:Date.now()};
+  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.29.0',activated:true,at:Date.now()};
 }
 
 exports.name=name;exports.inject=inject;exports.apply=apply;return module.exports;

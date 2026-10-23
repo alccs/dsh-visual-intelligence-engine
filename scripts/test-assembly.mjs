@@ -86,5 +86,5 @@ const finalLive=engine();finalLive.activateTarget('chat');for(const event of rea
 const finalCold=engine();finalCold.activateTarget('chat');finalCold.replaceWindow(real.map(event=>({event})),false);finalCold.flush();checkCompleted(finalCold,'cold history final collapsed view uses native Markdown prose in original order');
 const finalPage=engine();finalPage.activateTarget('chat');finalPage.replaceWindow(real.filter(e=>e.seq>=50).map(event=>({event})),true);finalPage.flush();finalPage.prepend(real.filter(e=>e.seq<50).map(event=>({event})),false);finalPage.flush();checkCompleted(finalPage,'prepending real contact EMF history does not duplicate final prose');
 hook.deregister();
-fs.writeFileSync(path.join(root,'docs/validation/chat-assembly.json'),JSON.stringify({version:'0.28.0',engine:'real Harness source ConversationNodeAssembler + ChatSnapshotBuilder + ProcessState',source:vendor,checks:checks.length,results:checks,layout:live,externalModelRequests:0,fullGUI:false},null,2));
+fs.writeFileSync(path.join(root,'docs/validation/chat-assembly.json'),JSON.stringify({version:'0.29.0',engine:'real Harness source ConversationNodeAssembler + ChatSnapshotBuilder + ProcessState',source:vendor,checks:checks.length,results:checks,layout:live,externalModelRequests:0,fullGUI:false},null,2));
 console.log(checks.map(c=>'PASS '+c.name).join('\n'));

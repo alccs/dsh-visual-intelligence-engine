@@ -18,13 +18,13 @@ function createVIETextGuard(onIssue=()=>{}){
     }return out;}};
 }
 /** Inspect bounded, public session events only when recovering a truncated turn. */
-function visualContinuationHistory(agent){
+function visualContinuationHistory(agent,allowShortTopic=false){
   const session=agent?.session;if(typeof session?.eventAt!=='function'||!Number.isSafeInteger(session.seq))return null;
-  let truncated=false,closed=false;const visuals=new Set();
+  let truncated=false,timedOut=false,closed=false;const visuals=new Set();
   try{for(let n=session.seq-1;n>=Math.max(0,session.seq-400);n--){const event=session.eventAt(n);if(!event||typeof event.then==='function')return null;const d=event.data??{};
-    if(!closed){if(event.type!=='turn/end')continue;closed=true;truncated=d.reason?.kind==='max-tokens';if(!truncated)return null;}
+    if(!closed){if(event.type!=='turn/end')continue;closed=true;truncated=d.reason?.kind==='max-tokens';timedOut=d.reason?.kind==='aborted'&&d.reason.reason?.kind==='hook'&&/^VIE_REQUEST_TIMEOUT:/.test(d.reason.reason.reason??'');if(!truncated&&!timedOut)return null;}
     if(event.type==='tool/result'&&d.meta?.kind==='vie'&&d.meta.valid===true)visuals.add(String(d.meta.anchorCallId??d.meta.visualId??d.message?.source?.callId??event.seq));
-    if(event.type==='user/message'&&(d.message??d).source?.kind==='user'){const message=d.message??d;const raw=(message.content??[]).filter(b=>b.type==='text').map(b=>b.text??'').join(' ').trim();if(VIE_CONTINUE_RE.test(raw))continue;const intent=visualIntent(message);return intent.active?{...intent,truncated:true,visuals,rendered:visuals.size>0,failures:0,searches:0,searchUnavailable:new Set()}:null;}
+    if(event.type==='user/message'&&(d.message??d).source?.kind==='user'){const message=d.message??d;const raw=(message.content??[]).filter(b=>b.type==='text').map(b=>b.text??'').join(' ').trim();if(VIE_CONTINUE_RE.test(raw))continue;let intent=visualIntent(message);if(allowShortTopic&&intent.reason==='ambiguous'&&raw&&raw.length<=3000)intent={active:true,reason:'mode-on'};return intent.active?{...intent,truncated,timedOut,visuals,rendered:visuals.size>0,failures:0,searches:0,searchUnavailable:new Set()}:null;}
   }}catch{}return null;
 }
 function visualIntent(message){
@@ -43,12 +43,13 @@ function visualIntent(message){
 function visualWorkflowOptions(input={}){
   if(!input||typeof input!=='object'||Array.isArray(input))throw Error('Invalid VIE configuration');
   for(const k of Object.keys(input))if(!['visualMode','fastWorkflow','fastEffort','fastMaxTokens','fastMaxRequests','fastBudgetMs','fastMaxVisuals','fastMaxRepairs','fastMaxSearches','fastProseTokens','fastRequestMs'].includes(k))throw Error('Unknown VIE configuration: '+k);
-  const o={visualMode:'auto',fastWorkflow:true,fastEffort:'inherit',fastMaxTokens:0,fastMaxRequests:8,fastBudgetMs:60000,fastMaxVisuals:3,fastMaxRepairs:2,fastMaxSearches:2,fastProseTokens:0,fastRequestMs:120000,...input};
-  if(!['auto','on','off'].includes(o.visualMode))throw Error('Invalid visualMode');
+  const o={visualMode:'auto',fastWorkflow:true,fastEffort:'inherit',fastMaxTokens:0,fastMaxRequests:8,fastBudgetMs:60000,fastMaxVisuals:3,fastMaxRepairs:2,fastMaxSearches:2,fastProseTokens:0,fastRequestMs:0,...input};
+  if(!['auto','on','study','off'].includes(o.visualMode))throw Error('Invalid visualMode');
   if(typeof o.fastWorkflow!=='boolean'||!['low','inherit'].includes(o.fastEffort))throw Error('Invalid VIE workflow mode');
   if(o.fastMaxTokens!==0&&(!Number.isSafeInteger(o.fastMaxTokens)||o.fastMaxTokens<2048||o.fastMaxTokens>32768))throw Error('Invalid VIE workflow bound: fastMaxTokens');
   if(o.fastProseTokens!==0&&(!Number.isSafeInteger(o.fastProseTokens)||o.fastProseTokens<2048||o.fastProseTokens>32768))throw Error('Invalid VIE workflow bound: fastProseTokens');
-  for(const [key,min,max]of [['fastMaxRequests',2,12],['fastBudgetMs',10000,300000],['fastMaxVisuals',1,4],['fastMaxRepairs',1,4],['fastMaxSearches',0,4],['fastRequestMs',10000,300000]])if(!Number.isSafeInteger(o[key])||o[key]<min||o[key]>max)throw Error('Invalid VIE workflow bound: '+key);
+  for(const [key,min,max]of [['fastMaxRequests',2,12],['fastBudgetMs',10000,300000],['fastMaxVisuals',1,4],['fastMaxRepairs',1,4],['fastMaxSearches',0,4]])if(!Number.isSafeInteger(o[key])||o[key]<min||o[key]>max)throw Error('Invalid VIE workflow bound: '+key);
+  if(o.fastRequestMs!==0&&(!Number.isSafeInteger(o.fastRequestMs)||o.fastRequestMs<10000||o.fastRequestMs>300000))throw Error('Invalid VIE workflow bound: fastRequestMs');
   return o;
 }
 function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.visualMode??'auto'){
@@ -58,19 +59,19 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     const raw=(message.content??[]).filter(b=>b.type==='text').map(b=>b.text??'').join(' ').trim(),previous=states.get(agent);
     if(previous?.timer&&typeof clearTimeout==='function')clearTimeout(previous.timer);
     const continuation=(message.content??[]).every(b=>b.type==='text')&&VIE_CONTINUE_RE.test(raw);
-    const resume=continuation?(previous?.active&&(!previous.rendered||previous.truncated)?previous:!previous?visualContinuationHistory(agent):null):null;
+    const resume=continuation?(previous?.active&&(!previous.rendered||previous.truncated)?previous:!previous?visualContinuationHistory(agent,['on','study'].includes(modeFor(agent))):null):null;
     const continuing=!!resume;
     let intent=continuing?{active:true,reason:'continuation',keepEffort:resume.keepEffort,readSources:resume.readSources}:continuation?{active:false,reason:'continuation-without-pending'}:visualIntent(message);
     if(modeFor(agent)==='off')intent={active:false,reason:'mode-off'};
-    else if(modeFor(agent)==='on'&&intent.reason==='ambiguous'&&raw&&raw.length<=3000)intent={active:true,reason:'mode-on'};
+    else if(['on','study'].includes(modeFor(agent))&&intent.reason==='ambiguous'&&raw&&raw.length<=3000)intent={active:true,reason:'mode-on'};
     // A new, explicit user instruction always re-elects this scope; runtime contexts never do.
-    const value={...intent,active:options.fastWorkflow&&intent.active,turn,started:clock(),searches:resume?.searches??0,requests:0,steps:new Set(),pending:new Map(),rendered:resume?.rendered??false,visuals:new Set(resume?.visuals??[]),failures:resume?.failures??0,allowProtocolText:/DSML|DSEL|工具调用协议|调用格式示例/i.test(raw),fresh:true,resumeAfterTruncation:!!resume?.truncated,truncated:false,searchUnavailable:new Set(resume?.searchUnavailable??[])};
+    const value={...intent,study:modeFor(agent)==='study',active:options.fastWorkflow&&intent.active,turn,started:clock(),searches:resume?.searches??0,requests:0,steps:new Set(),pending:new Map(),rendered:resume?.rendered??false,visuals:new Set(resume?.visuals??[]),failures:resume?.failures??0,allowProtocolText:/DSML|DSEL|工具调用协议|调用格式示例/i.test(raw),fresh:true,resumeAfterTruncation:!!resume?.truncated,resumeAfterTimeout:!!resume?.timedOut,truncated:false,searchUnavailable:new Set(resume?.searchUnavailable??[])};
     states.set(agent,value);if(agent.session&&typeof agent.session==='object')sessions.set(agent.session,value);
   }
   function state(agent){return agent&&states.get(agent);}
   function repairLimit(s){return options.fastMaxRepairs+(s.visuals.size===0?1:0);}
   function closing(s){return s.visuals.size>=options.fastMaxVisuals||s.failures>=repairLimit(s)||s.requests>=options.fastMaxRequests-1;}
-  function visualWeight(args){try{const d=args?.document??(args?.spec?JSON.parse(args.spec):null);if(!d||d.controls?.length)return 1;return Math.max(1,(d.blocks??[]).filter(b=>['figure','graphic','chart','visual','experiment'].includes(b.type)||b.kind).length);}catch{return 1;}}
+  function visualWeight(args){try{const d=args?.document??(args?.spec?JSON.parse(args.spec):null);if(!d||d.controls?.length)return 1;return Math.max(1,(d.blocks??[]).filter(b=>['figure','learning','graphic','chart','visual','experiment'].includes(b.type)||b.kind).length);}catch{return 1;}}
   function allowed(agent,name,args){
     if(modeFor(agent)==='off')return !/^vie_/.test(name);
     const s=state(agent);if(!s?.active)return true;if(s.closingAtAssembly||s.requests>options.fastMaxRequests)return false;
@@ -80,8 +81,9 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     if(VIE_SEARCH_TOOLS.has(name))return s.visuals.size===0&&s.searches<options.fastMaxSearches&&clock()-s.started<options.fastBudgetMs&&!s.searchUnavailable.has(name);
     return name==='skill'&&(args===undefined||args?.name==='dsh-vie');
   }
-  function guidance(agent){
+  function guidanceBase(agent){
     const s=state(agent);if(!s?.active)return '';
+    if(s.resumeAfterTimeout)return '上一轮被VIE显式超时配置中止。恢复原问题，保留已有图和正文，不重新规划整堂课或重新检索；尚无主图时先交付最小可用图及对应解释，优先type:"learning"数据入口。已有图可继续解释，不重复生成。不声称上一轮已经出图。';
     if(s.resumeAfterTruncation)return '上一轮因输出token上限截断。接着续写未完成的内容，保留已有图形及其原调用锚点，不重画已完成图、不重新检索。仅在剩余图形/修复预算允许且确需补完原任务时调用VIE；完整解释继续使用Harness正文。续写继承Harness的输出和推理设置，不重复套用VIE额度。';
     if(closing(s))return '本轮可视化工具尝试已结束。禁止在正文模拟工具调用、输出DSML/DSEL标签、图形JSON或HTML/SVG源码。由Harness原生正文正常讲解；按问题需要决定篇幅，不限两句话。若主图未成功，如实说明，不声称已显示。';
     if(!s.visuals.size&&s.failures>=options.fastMaxRepairs)return '尚无成功主图，保留最后一次参数纠错机会。只使用vie_explain或vie_auto修正工具反馈中的具体字段，优先简单通用图，不重新检索、不编写外部脚本，不在正文输出伪调用。若仍失败，正常正文结束并如实说明。';
@@ -90,6 +92,7 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     return (s.readSources?'先用必要读取工具核对用户资料，然后直接出图，不进入终端开发。':'')+'可视化讲解：先用一句话说明正在画什么；下一步直接用vie_explain生成第一张图，恰好匹配的实验可用vie_auto。每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。每次只画当前段落的一个核心概念，先图→Harness原生正文解释→下一张图→对应正文；通常1张，复杂主题按需2–3张。不要把多个章节画成同一张SVG里的编号小面板、拼贴海报或缩小的多图总览；必须同时比较或共享交互的视图才可并列。补图不要求more，首图成功后仍可继续。VIE只放图、交互、图例与必要短标注，完整解释/公式/列表/表格写Harness正文。任意主题优先用graphic{kind:bars|donut|vectors,title,items}、chart或visual；特殊效果用隔离figure，不限模板。不要读取源码/安装包、写外部脚本或截图开发；visualId仅用于局部修复，不是图片URL。'+lookup;
 
   }
+  function guidance(agent){const s=state(agent);return (s?.active&&s.study?VIE_STUDY_POLICY+'\n':'')+guidanceBase(agent);}
   function assembly(value,{agent}={}){
     if(modeFor(agent)==='off')return {...value,tools:value.tools.filter(t=>!/^vie_/.test(t.name)),sections:value.sections.filter(s=>!s.name?.startsWith('dsh-vie:'))};
     const s=state(agent);if(!s?.active)return value;
@@ -166,7 +169,7 @@ function installVisualWorkflow(ctx,options,mode={get:()=>options.visualMode??'au
   const timers=new Set();
   const finish=s=>{if(!s)return;if(s.timer){clearTimeout(s.timer);timers.delete(s.timer);s.timer=null;}s.removeAbort?.();s.removeAbort=null;};
   ctx.effect?.(()=>()=>{for(const timer of timers)clearTimeout(timer);timers.clear();});
-  ctx.systemPrompt.section({name:'dsh-vie:entry',order:2950,interpolate:false,text:context=>mode.get(context?.agent)==='off'?'':VIE_POLICY+' 用户要求纯文字或开发/调试时遵循该请求。'});
+  ctx.systemPrompt.section({name:'dsh-vie:entry',order:2950,interpolate:false,text:context=>mode.get(context?.agent)==='off'?'':VIE_POLICY+(mode.get(context?.agent)==='study'?VIE_STUDY_POLICY:'')+' 用户要求纯文字或开发/调试时遵循该请求。'});
   ctx.on('agent/inbox/claimed',payload=>{if(payload.message?.source?.kind==='user')finish(workflow.state(payload.agent));workflow.claim(payload);});
   ctx.on('session/event',(session,event)=>workflow.observe(session,event));
   ctx.on('llm/stream',(call,next)=>workflow.stream(call,next));
@@ -174,8 +177,8 @@ function installVisualWorkflow(ctx,options,mode={get:()=>options.visualMode??'au
   ctx.on('agent/request',async(payload,next)=>{
     const config=workflow.request(payload,await next()),s=workflow.state(payload.agent);
     finish(s);if(s)s.requestStarted=Date.now();
-    if(s?.active&&!s.keepEffort&&!s.resumeAfterTruncation&&!s.visuals.size&&typeof payload.agent?.cancel==='function'){
-      s.timer=setTimeout(()=>{finish(s);if(workflow.state(payload.agent)!==s||mode.get(payload.agent)==='off')return;s.timedOut=true;payload.agent.cancel({kind:'hook',reason:'VIE_REQUEST_TIMEOUT: 可视化请求超过 '+workflow.options.fastRequestMs+'ms，已停止；可降低推理档位后重试。'},{keepInbox:true});},workflow.options.fastRequestMs);s.timer.unref?.();timers.add(s.timer);
+    if(workflow.options.fastRequestMs>0&&s?.active&&!s.keepEffort&&!s.resumeAfterTruncation&&!s.resumeAfterTimeout&&!s.visuals.size&&typeof payload.agent?.cancel==='function'){
+      s.timer=setTimeout(()=>{finish(s);if(workflow.state(payload.agent)!==s||mode.get(payload.agent)==='off')return;s.timedOut=true;payload.agent.cancel({kind:'hook',reason:'VIE_REQUEST_TIMEOUT: 可视化请求超过 '+workflow.options.fastRequestMs+'ms，已按显式超时配置停止；发送继续可恢复，fastRequestMs:0可关闭此限制。'},{keepInbox:true});},workflow.options.fastRequestMs);s.timer.unref?.();timers.add(s.timer);
       const abort=()=>finish(s);payload.signal?.addEventListener('abort',abort,{once:true});s.removeAbort=()=>payload.signal?.removeEventListener('abort',abort);
     }
     return config;

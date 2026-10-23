@@ -14,11 +14,11 @@ function check(name,code){assert.equal(evaluate(code),true,name);checks.push({na
 const frames='await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);';
 const set=(key,value)=>evaluate(`{const n=document.querySelector('[data-scene-input="${key}"]');n.value=${JSON.stringify(String(value))};n.dispatchEvent(new Event('input',{bubbles:true}));}`);
 try{
-  run('--executable-path',process.env.VIE_CHROME??'C:/Program Files/Google/Chrome/Application/chrome.exe','--allow-file-access','open',pathToFileURL(path.join(root,'dist/VIE-Interactive-0.28.0.html')).href);run('snapshot','-i');run('set','viewport','1040','1100');
+  run('--executable-path',process.env.VIE_CHROME??'C:/Program Files/Google/Chrome/Application/chrome.exe','--allow-file-access','open',pathToFileURL(path.join(root,'dist/VIE-Interactive-0.29.0.html')).href);run('snapshot','-i');run('set','viewport','1040','1100');
   // The gallery now opens on a generic graphic; select this suite's subject explicitly.
   run('click','#optional-components>summary');run('click','button[data-demo-topic="geartrain"]');run('snapshot','-i');
   check('three real tooth paths and correct initial rates',`(async()=>{${frames}return document.querySelectorAll('[data-train-gear]>path').length===3&&[...document.querySelectorAll('.vie-scene-readout strong')].map(n=>n.textContent).join(',')==='+1.00,-0.67,+0.50'})()`);
-  run('screenshot','--full','screenshots/geartrain-desktop-0.28.0.png');
+  run('screenshot','--full','screenshots/geartrain-desktop-0.29.0.png');
   set('teeth1',53);run('snapshot','-i');
   check('idler edit changes geometry but retains terminal ratio',`VIEDemo.context.experiments.experiment.parameters.teeth[1]===53&&VIEDemo.context.experiments.experiment.derived.outputRatio===.5&&document.querySelectorAll('.vie-scene-readout strong')[1].textContent==='-0.38'`);
   evaluate('VIEDemo.remount()');run('snapshot','-i');
@@ -35,7 +35,7 @@ try{
   check('draft insertion contains the actual geartrain inputs',`document.querySelector('#draft').value.includes('geartrain')&&document.querySelector('#draft').value.includes('teeth')`);
   run('click','[data-demo-topic="worm"]');run('snapshot','-i');set('starts',4);set('wheelTeeth',60);
   check('worm controls update the ideal reduction and wheel geometry',`VIEDemo.context.experiments.experiment.derived.transmissionRatio===15&&document.querySelectorAll('.vie-scene-readout strong')[2].textContent==='15.00'`);
-  run('screenshot','--full','screenshots/worm-desktop-0.28.0.png');
+  run('screenshot','--full','screenshots/worm-desktop-0.29.0.png');
   run('click','[data-demo-topic="schematic"]');run('snapshot','-i');
   check('human labels replace technical IDs',`[...document.querySelectorAll('.vie-visual-legend button')].map(n=>n.textContent).join(',')==='输入,计算关系,输出'`);
   run('find','role','button','click','--name','放大图形');
@@ -51,8 +51,8 @@ try{
   }
   evaluate(`VIEDemo.setSource(VIE.experimentSceneSource('geartrain',{teeth:[18,80,19,63,24,75]}),'six-wheels')`);run('snapshot','-i');
   check('six wheels render without page overflow',`document.querySelectorAll('[data-train-gear]').length===6&&document.documentElement.scrollWidth<=innerWidth`);
-  run('set','viewport','390','1000');evaluate(`VIEDemo.select('geartrain')`);run('snapshot','-i');run('click','[data-scene-action="reset"]');run('screenshot','--full','screenshots/geartrain-mobile-0.28.0.png');
-  run('click','#theme');run('snapshot','-i');run('screenshot','--full','screenshots/geartrain-dark-0.28.0.png');
+  run('set','viewport','390','1000');evaluate(`VIEDemo.select('geartrain')`);run('snapshot','-i');run('click','[data-scene-action="reset"]');run('screenshot','--full','screenshots/geartrain-mobile-0.29.0.png');
+  run('click','#theme');run('snapshot','-i');run('screenshot','--full','screenshots/geartrain-dark-0.29.0.png');
   check('dark appearance and visible tooth geometry coexist',`document.body.classList.contains('dark')&&document.querySelectorAll('[data-train-gear]>path').length===3`);
   run('set','media','reduced-motion');evaluate(`VIEDemo.select('worm')`);run('snapshot','-i');
   check('reduced motion does not start animation automatically',`!!document.querySelector('[aria-label="播放动画"]')`);
@@ -63,5 +63,5 @@ try{
   evaluate(`VIEDemo.setSource(VIE.storySceneSource(${old.spec}),'historical-conversation')`);run('snapshot','-i');
   check('historical recorded scenes remain readable and visibly qualified',`(async()=>{${frames}return !!document.querySelector('.vie-visual-hint')&&document.body.textContent.includes('运动示意')&&!document.querySelector('.vie-diagnostics')&&[...document.querySelectorAll('.vie-visual-legend button')].every(n=>!['s1','s2','s3'].includes(n.textContent))})()`);
   const errors=run('errors');assert.equal(errors.errors?.length??0,0,JSON.stringify(errors));
-  fs.writeFileSync(path.join(root,'docs/validation/transmission-browser.json'),JSON.stringify({version:'0.28.0',checks:checks.length,results:checks,errors},null,2));
+  fs.writeFileSync(path.join(root,'docs/validation/transmission-browser.json'),JSON.stringify({version:'0.29.0',checks:checks.length,results:checks,errors},null,2));
 }finally{try{run('close')}catch{}}

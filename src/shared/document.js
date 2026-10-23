@@ -1,4 +1,5 @@
 /** Topic-independent document and generated-figure contract. No topic allowlist. */
+/* @include shared/learning.js */
 function validateFigureState(input={}){
   const plain=x=>x!==null&&typeof x==='object'&&!Array.isArray(x)&&(Object.getPrototypeOf(x)===Object.prototype||Object.getPrototypeOf(x)===null);
   let nodes=0;
@@ -24,6 +25,7 @@ function validateFigureDefinition(input){
     result.bindings={};for(const [key,ref]of Object.entries(input.bindings)){if(!/^[A-Za-z][A-Za-z0-9_]{0,19}$/.test(key)||['constructor','prototype','__proto__'].includes(key)||typeof ref!=='string'||!/^\/(shared|derived)\/[A-Za-z][A-Za-z0-9_]{0,19}$/.test(ref))throw Error('Invalid figure binding');result.bindings[key]=ref;}
   }
   if(!result.html.trim())throw Error('Figure html must not be empty');
+  validateLearningCalls(result.js);
   if(!Number.isInteger(result.height)||result.height<160||result.height>1000)throw Error('Figure height must be 160–1000');
   if(/<(?:iframe|frame|object|embed|base)\b|<meta\b[^>]*http-equiv\s*=\s*["']?refresh/i.test(result.html))throw Error('Figure must be self-contained; nested browsing contexts and refresh are not supported');
   if(new TextEncoder().encode(JSON.stringify(result)).length>60000)throw Error('Figure exceeds serialized 60KB limit');
@@ -50,6 +52,10 @@ function validateDocumentSpec(input){
   let figures=0;
   const blocks=input.blocks.map((raw,index)=>{try{
     let block=raw;
+    if(block?.type==='learning'){
+      const lesson=validateLearningDefinition(block);
+      block={type:'figure',title:lesson.title,html:'<div id="vie-lesson"></div>',js:'VIE.mountLearning('+JSON.stringify({...lesson,root:'#vie-lesson'})+');'};
+    }
     // Normalize only unambiguous legacy aliases, then apply the regular validators.
     if(block&&block.type===undefined&&['text','figure','chart','experiment'].includes(block.kind)){const {kind,...rest}=block;block={type:kind,...rest};}
     if(block&&block.type===undefined&&block.kind===undefined&&typeof block.html==='string'&&Object.keys(block).every(k=>DOCUMENT_CONTRACT.blocks.figure.fields.includes(k)))block={type:'figure',...block};

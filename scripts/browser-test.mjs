@@ -16,7 +16,7 @@ function evaluate(code){const r=spawnSync(binary,[...base,'eval','--stdin'],{cwd
 function check(name,code){const result=evaluate(code);assert.equal(result,true,name+': '+JSON.stringify(result));checks.push({name,passed:true});console.log('PASS '+name);}
 const frame='await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);';
 try{
-  run(...(chrome?['--executable-path',chrome]:[]),'--allow-file-access','open',pathToFileURL(path.join(root,'dist/VIE-Interactive-0.28.0.html')).href);
+  run(...(chrome?['--executable-path',chrome]:[]),'--allow-file-access','open',pathToFileURL(path.join(root,'dist/VIE-Interactive-0.29.0.html')).href);
   run('snapshot','-i');run('set','viewport','1040','1100');evaluate(`VIEDemo.select('planetary')`);run('snapshot','-i');
   check('planetary correct initial rates and paused',`(async()=>{${frame}return JSON.stringify([...document.querySelectorAll('.vie-scene-readout strong')].map(n=>n.textContent))===JSON.stringify(['+1.00','0.00','+0.29'])&&!!document.querySelector('[aria-label="播放动画"]')})()`);
   run('click','[data-scene-case="sun-fixed"]');run('snapshot','-i');
@@ -36,21 +36,21 @@ try{
   run('click','[data-scene-action="play"]');
   check('play advances continuously and pause exports current phase',`(async()=>{await new Promise(r=>setTimeout(r,250));document.querySelector('[data-scene-action="play"]').click();return VIEDemo.context.experiments.experiment.state.phase>0&&!!document.querySelector('[aria-label="播放动画"]')})()`);
   run('click','[data-scene-action="reset"]');
-  run('screenshot','--full','screenshots/planetary-desktop-0.28.0.png');
+  run('screenshot','--full','screenshots/planetary-desktop-0.29.0.png');
   run('click','[data-demo-topic="wave"]');run('snapshot','-i');
   evaluate(`const slider=document.querySelector('[data-scene-input="phaseDegrees"]');slider.value='180';slider.dispatchEvent(new Event('input',{bubbles:true}));`);
   check('wave opposite phase cancels',`document.querySelectorAll('.vie-scene-readout strong')[1].textContent==='0.00'`);
-  run('screenshot','--full','screenshots/wave-desktop-0.28.0.png');
+  run('screenshot','--full','screenshots/wave-desktop-0.29.0.png');
   run('click','[data-demo-topic="process"]');run('snapshot','-i');run('click','[data-scene-action="step"]');run('snapshot','-i');
   check('process branch requires explicit selection',`document.querySelector('[data-scene-action="step"]').disabled&&document.querySelectorAll('[data-scene-branch]').length===2`);
   run('click','[data-scene-branch="1"]');run('snapshot','-i');
   check('process selected branch reaches declared target',`VIEDemo.context.experiments.experiment.derived.currentNode==='explain'&&document.querySelector('[data-scene-action="step"]').disabled`);
-  run('screenshot','--full','screenshots/process-desktop-0.28.0.png');
+  run('screenshot','--full','screenshots/process-desktop-0.29.0.png');
   run('click','[data-demo-topic="vector"]');run('snapshot','-i');
   check('vector shares geometric model and exposes keyboard handle',`Math.abs(VIEDemo.context.experiments.experiment.derived.x-Math.sqrt(12))<1e-8&&document.querySelector('[data-vector-handle]').getAttribute('tabindex')==='0'`);
   run('focus','[data-vector-handle]');run('press','ArrowLeft');run('snapshot','-i');
   check('vector handle responds to keyboard',`VIEDemo.context.experiments.experiment.parameters.angle!==30`);
-  run('screenshot','--full','screenshots/vector-desktop-0.28.0.png');
+  run('screenshot','--full','screenshots/vector-desktop-0.29.0.png');
   check('current lazy PartialArguments API renders preparing scene',`(async()=>{const values={query:'行星轮系',templateId:'lab.planetary',parameters:'{}'};VIEDemo.preview({text:k=>values[k],value:()=>undefined,complete:()=>true,closed:()=>true});${frame}return !!document.querySelector('[data-scene-template="planetary"]')})()`);
   check('keyed turn data updates without parent render',`(async()=>{VIEDemo.tail({items:[]});${frame}VIEDemo.updateTail({items:[{callId:'tail-wave',title:'Tail wave',source:VIE.experimentSceneSource('wave')}]});${frame}return !!document.querySelector('[data-scene-template="wave"]')})()`);
   for(const width of [740,600,390,320]){
@@ -60,10 +60,10 @@ try{
       check(topic+' fits '+width+'px',`document.documentElement.scrollWidth<=innerWidth&&!document.querySelector('.vie-diagnostics')`);
     }
   }
-  run('set','viewport','390','1000');evaluate(`VIEDemo.select('planetary')`);run('snapshot','-i');run('screenshot','--full','screenshots/planetary-mobile-0.28.0.png');
+  run('set','viewport','390','1000');evaluate(`VIEDemo.select('planetary')`);run('snapshot','-i');run('screenshot','--full','screenshots/planetary-mobile-0.29.0.png');
   run('click','#theme');run('snapshot','-i');
   check('dark appearance has a dark widget background',`getComputedStyle(document.querySelector('.vie-shell')).getPropertyValue('--vie-bg').trim()!=='#fff'`);
-  run('screenshot','--full','screenshots/planetary-dark-0.28.0.png');
+  run('screenshot','--full','screenshots/planetary-dark-0.29.0.png');
   run('set','media','reduced-motion');evaluate(`VIEDemo.select('gears')`);run('snapshot','-i');
   check('reduced-motion mode does not auto-play',`!!document.querySelector('[aria-label="播放动画"]')&&!document.querySelector('[aria-label="暂停动画"]')`);
   const errors=run('errors');assert.equal(errors.errors?.length??0,0,JSON.stringify(errors));

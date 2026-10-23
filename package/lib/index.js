@@ -1,8 +1,9 @@
-/* VIE v0.28.0 — DSH Host entry. */
+/* VIE v0.29.0 — DSH Host entry. */
 import { defineTool } from '@deepseek-ai/dsh-tools';
 import { Script as VIEJavaScriptParser } from 'node:vm';
-const VIE_SKILL_CONTENT="# VIE 0.28.0 · 主图与正文分工\n\n每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。VIE只画当前段落的图、交互、图例和短标注；完整解释/公式/表格由Harness正文渲染。任意主题均可。复杂主题按图→正文解释→下一图→正文解释展开，每张图聚焦一个概念；勿把各章节拼成一张SVG的编号小面板或多图海报。需同时比较或共享交互才并列。默认flow按调用位置显示，补图/修图无需more:true，通常1张、必要时2–3张。visualId仅供修改，不是图片URL；不必先加载技能或写脚本。\n\n## 默认做法\n\n直接调用vie_explain，不必先加载技能、读取源码、写脚本或截图验收。优先chart/visual等紧凑组件，复杂图用自由figure。vie_auto仅在现有实验恰好适合时使用。先一个可用主图，需要时再补辅助图；正常讲解篇幅由用户问题决定。\n\n首选原生document对象，避免把整份JSON再转义成spec字符串：\n\n```json\n{\"document\":{\"title\":\"改变斜率\",\"blocks\":[{\"type\":\"chart\",\"title\":\"y=kx\",\"x\":{\"min\":0,\"max\":4,\"label\":\"x\"},\"y\":{\"min\":0,\"max\":12,\"label\":\"y\"},\"series\":[{\"label\":\"y=kx\",\"expr\":\"k*x\"}],\"controls\":[{\"key\":\"k\",\"label\":\"斜率k\",\"min\":1,\"max\":3,\"value\":2,\"step\":0.1}]}]}}\n```\n\n每个块使用type字段：chart、visual、figure、可选experiment。text保留用于历史兼容与必要短标注，长文请写在Harness正文。旧spec JSON字符串仍可用。默认flow按各次调用位置显示，独立于工具过程折叠；显式start将本轮各图统一前置，tail/process保留原用途。\n\n## 分段图文讲解\n\n不要把不同章节的图都放进一次document。通常只需一个主图；若用户需要图文图文，使用以下顺序：\n\n1. vie_explain只提交第一段对应的一张聚焦图，不要求more:true。\n2. 在正常assistant正文中解释第一张图，随后调用vie_explain提交下一张图。\n3. 每张图后都用Harness正文解释；讲清问题后正常结束，不凑满调用次数。通常2–3张足够；真正需要同时比较或共享参数的图可以并列。\n\n单个figure也不要制作多章节拼贴：“连接结构、驱动原理、传输时序”应分别出图并在中间解释，不要缩进同一SVG的①②③小面板。此规则按讲解概念划分，适用于任意主题。more仅保留为旧版兼容提示，省略或false不会提前禁用补图和修图。\n\n不要写 `![图](visual-...)`，visualId仅是修复句柄，不是图片地址。历史记录若原本就是一次调用后输出一整篇文字，没有段落锚点，不能凭猜测重排；重新生成时使用上述分段调用。\n\n## 通用组件\n\nchart包含title、x/y:{min,max,label}、series:[{label,expr或points:[[x,y],...],tone?}]，可选controls、regions、note。controls最多4个，每个含key/label/min/max/value/可选step；series最多6条，每条最多256点；regions最多8个{label,points,tone?}。expr允许安全数学运算与sin/cos/sqrt/exp/log/min/max/clamp/if等函数，不执行任意JS。tone可用primary/secondary/accent/muted/warning。\n\nvisual:{kind,spec}。kind为Flow、RelationGraph、Timeline、Diagram、Animation。Flow/RelationGraph用nodes:[{id,label,detail?}]、edges:[{from,to,label?}]，Timeline用items:[{id,at,label,detail?}]。由引擎处理布局。\n\n## 一个参数驱动多张图\n\n在document.controls定义共享滑块，chart.bindings显式关联表达式局部变量与共享key；不按同名变量自动联动。\n\n```json\n{\"document\":{\"title\":\"同一个速度\",\"controls\":[{\"key\":\"speed\",\"label\":\"速度v\",\"min\":1,\"max\":6,\"value\":3,\"step\":0.5}],\"blocks\":[{\"type\":\"chart\",\"title\":\"位移\",\"x\":{\"min\":0,\"max\":10},\"y\":{\"min\":0,\"max\":60},\"series\":[{\"label\":\"s=vt\",\"expr\":\"v*x\"}],\"bindings\":{\"v\":\"speed\"}},{\"type\":\"chart\",\"title\":\"速度\",\"x\":{\"min\":0,\"max\":10},\"y\":{\"min\":0,\"max\":6},\"series\":[{\"label\":\"v\",\"expr\":\"v\"}],\"bindings\":{\"v\":\"speed\"}}]}}\n```\n\n共享参数在本地联动，不调用模型；原有块局部controls保持独立。\n\n## 局部修复\n\n工具结果返回visualId与revision。参数错误会指出blocks[index]并保留可解析草稿；只替换出错块：\n\n```json\n{\"visualId\":\"visual-1\",\"baseRevision\":1,\"changes\":[{\"index\":0,\"block\":{\"type\":\"figure\",\"title\":\"修复主图\",\"html\":\"<svg viewBox='0 0 100 100'><circle cx='50' cy='50' r='35' fill='#5483ef'/></svg>\"}}]}\n```\n\nindex为现有块的0起始编号；变更整体校验后提交，失败不覆盖有效基线，过期revision被拒绝。缓存按agent隔离，仅保留本进程最近4份草稿；重启/清理后REPAIR_BASE_MISSING需重交document。不可解析的旧spec不能可靠定位完整块，改用document对象，不宽松执行错误脚本。\n\n## 自由figure\n\n{type:\"figure\",title,html,css?,js?,state?,height?}。html只提交body片段，可用SVG/Canvas/原生WebGL；不要另建独立HTML文件。最多12块/4个figure；单figure60KB，html16KB/css8KB/js32KB，height160..1000仅为初始高度，实际随内容自适应。已提供基础控件样式和--vie-*主题变量；不要自行固定页面高度或强制显示滚动条。\n\n脚本在opaque-origin sandbox iframe中执行，无宿主DOM权限，不可使用CDN/fetch/外部库。window.VIE提供state、setState、theme、visible、reducedMotion、reportError；vie:themechange/vie:visibilitychange可用于重画。动画默认暂停，提供播放/暂停与复位；不要逐帧上报状态。页面重挂载保留编辑，刷新时在本地checkpoint与完整source一致时恢复有效参数。操作参数可进入继续提问草稿，由用户发送。\n\n协议有效或iframe ready不代表画面已通过像素验收，也不代表科学正确；说明概念示意/近似与专业仿真的范围。不写无界循环，不伪造来源。沙箱不承诺完整CPU/内存隔离。\n\n## 流程与预算\n\n普通讲解只开放VIE、VIE技能与可用网页检索，开发/附件/文件/纯文字请求保持正常流程。默认继承用户输出额度与推理强度，出图后在Harness正文正常解释；没有两句话或1024 token限制。\n\n默认最多3张概念图、2次失败参数修复（尚无成功图时额外保留1次纠错，仍受总请求上限约束）、2次资料读取/检索，总请求上限8次（第8次只输出正文）。默认输出额度与推理均继承Harness（fastMaxTokens:0、fastProseTokens:0、fastEffort:inherit）。low推理和额度上限仅为显式配置选项。token截断后继续接着未完成部分，不重画已有图、不重新检索，不重复套用VIE额度。仅等待首图的请求超过120秒由宿主取消钩子停止并显示超时提示，已有图后的正文与截断续写不启用该看门狗；当前宿主缺取消接口时仅保留额度限制。60秒是额外检索预算。资料任务保留必要读取能力，普通绘图不进入终端开发。首图成功后停止检索；每图后使用Harness正文解释再调用下一图。继续保留未完成任务与资料范围，不修改全局模型配置。\n\n## 可选实验与兼容\n\nvie_auto可选lab.planetary/gears/geartrain/worm/wave/process/vector。parameters是JSON字符串。worm starts为1..4、wheelTeeth为20..80整数；geartrain teeth为2..6轮、每轮18..80整数，inputSpeed为-4..4。例如 {\"query\":\"蜗杆传动\",\"templateId\":\"lab.worm\",\"parameters\":\"{\\\"starts\\\":1,\\\"wheelTeeth\\\":20}\"}。未匹配时用通用入口，不能声称主题不受支持。\n\nvie_quick/vie_compose/vie_story/vie_render继续兼容旧内容；通用齿轮图与动画没有主题关键词拦截。旧文字块不删除，旧历史位置迁移保持兼容。\n\n\n## 通用数据图形\n\n无需代码：`{type:\"graphic\",kind:\"bars\"或\"donut\",title:\"短标题\",unit:\"单位\",items:[{label:\"名称\",value:3}]}`；向量用`kind:\"vectors\",items:[{label:\"F\",x:3,y:4}]`。模型只提供数据，VIE处理配色与响应式布局。长解释仍写Harness正文。曲线可声明keyPoints与breaks（横坐标数组），相图等优先使用核对过的数据points；有界采样不保证任意函数的全部细节。\n";
-const VIE_COMPONENT_REFERENCE="# VIE component reference (generated)\n\n每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。VIE只画当前段落的图、交互、图例和短标注；完整解释/公式/表格由Harness正文渲染。任意主题均可。复杂主题按图→正文解释→下一图→正文解释展开，每张图聚焦一个概念；勿把各章节拼成一张SVG的编号小面板或多图海报。需同时比较或共享交互才并列。默认flow按调用位置显示，补图/修图无需more:true，通常1张、必要时2–3张。visualId仅供修改，不是图片URL；不必先加载技能或写脚本。\n\nDocument fields: caption, title, controls, derive, layout, blocks\n\n## graphic\n\nFields: type, kind, title, items, unit\n\nEngine-rendered bars/donut/vectors. items:[{label,value}] or vectors [{label,x,y}], optional tone. No HTML/CSS/JS required.\n\n## chart\n\nFields: type, title, x, y, series, regions, controls, inputs, bindings, note\n\nFormula or data curves, region fills; bindings map variable names to shared control/derived keys.\n\n## visual\n\nFields: type, kind, spec\n\nFlow, RelationGraph, Timeline, Diagram or Animation. Diagram coordinates may bind /shared/key or /derived/key.\n\n## figure\n\nFields: type, title, html, css, js, state, height, bindings\n\nOne focused diagram in an isolated HTML/CSS/JS sandbox; do not pack independent chapters into numbered SVG mini-panels. Put each chapter graphic in its own call, separated by native prose. bindings map state keys to shared controls/derived keys.\n\n## experiment\n\nFields: type, template, parameters, title\n\nOptional existing experiment shortcut, never a topic restriction.\n\n## text\n\nFields: type, title, body\n\nLegacy compatibility only; new explanations belong in Harness prose.\n\n## Controls\n\n- slider → Slider\n- number → NumberInput\n- select → SegmentedControl\n- toggle → Toggle\n\nControls are numeric. toggle uses 0/1; select uses options [{label,value}]. derive maps unique keys to bounded numeric expressions. layout is stack (default) or grid.\n";
+const VIE_SKILL_CONTENT="# VIE 0.29.0 · 主图与正文分工\n\n每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。VIE只画当前段落的图、交互、图例和短标注；完整解释/公式/表格由Harness正文渲染。任意主题均可。复杂主题按图→正文解释→下一图→正文解释展开，每张图聚焦一个概念；勿把各章节拼成一张SVG的编号小面板或多图海报。需同时比较或共享交互才并列。默认flow按调用位置显示，补图/修图无需more:true，通常1张、必要时2–3张。visualId仅供修改，不是图片URL；不必先加载技能或写脚本。\n\n## 默认做法\n\n直接调用vie_explain，不必先加载技能、读取源码、写脚本或截图验收。优先chart/visual等紧凑组件，复杂图用自由figure。vie_auto仅在现有实验恰好适合时使用。先一个可用主图，需要时再补辅助图；正常讲解篇幅由用户问题决定。\n\n首选原生document对象，避免把整份JSON再转义成spec字符串：\n\n```json\n{\"document\":{\"title\":\"改变斜率\",\"blocks\":[{\"type\":\"chart\",\"title\":\"y=kx\",\"x\":{\"min\":0,\"max\":4,\"label\":\"x\"},\"y\":{\"min\":0,\"max\":12,\"label\":\"y\"},\"series\":[{\"label\":\"y=kx\",\"expr\":\"k*x\"}],\"controls\":[{\"key\":\"k\",\"label\":\"斜率k\",\"min\":1,\"max\":3,\"value\":2,\"step\":0.1}]}]}}\n```\n\n每个块使用type字段：chart、visual、figure、可选experiment。text保留用于历史兼容与必要短标注，长文请写在Harness正文。旧spec JSON字符串仍可用。默认flow按各次调用位置显示，独立于工具过程折叠；显式start将本轮各图统一前置，tail/process保留原用途。\n\n## 分段图文讲解\n\n不要把不同章节的图都放进一次document。通常只需一个主图；若用户需要图文图文，使用以下顺序：\n\n1. vie_explain只提交第一段对应的一张聚焦图，不要求more:true。\n2. 在正常assistant正文中解释第一张图，随后调用vie_explain提交下一张图。\n3. 每张图后都用Harness正文解释；讲清问题后正常结束，不凑满调用次数。通常2–3张足够；真正需要同时比较或共享参数的图可以并列。\n\n单个figure也不要制作多章节拼贴：“连接结构、驱动原理、传输时序”应分别出图并在中间解释，不要缩进同一SVG的①②③小面板。此规则按讲解概念划分，适用于任意主题。more仅保留为旧版兼容提示，省略或false不会提前禁用补图和修图。\n\n不要写 `![图](visual-...)`，visualId仅是修复句柄，不是图片地址。历史记录若原本就是一次调用后输出一整篇文字，没有段落锚点，不能凭猜测重排；重新生成时使用上述分段调用。\n\n## 通用组件\n\nchart包含title、x/y:{min,max,label}、series:[{label,expr或points:[[x,y],...],tone?}]，可选controls、regions、note。controls最多4个，每个含key/label/min/max/value/可选step；series最多6条，每条最多256点；regions最多8个{label,points,tone?}。expr允许安全数学运算与sin/cos/sqrt/exp/log/min/max/clamp/if等函数，不执行任意JS。tone可用primary/secondary/accent/muted/warning。\n\nvisual:{kind,spec}。kind为Flow、RelationGraph、Timeline、Diagram、Animation。Flow/RelationGraph用nodes:[{id,label,detail?}]、edges:[{from,to,label?}]，Timeline用items:[{id,at,label,detail?}]。由引擎处理布局。\n\n## 一个参数驱动多张图\n\n在document.controls定义共享滑块，chart.bindings显式关联表达式局部变量与共享key；不按同名变量自动联动。\n\n```json\n{\"document\":{\"title\":\"同一个速度\",\"controls\":[{\"key\":\"speed\",\"label\":\"速度v\",\"min\":1,\"max\":6,\"value\":3,\"step\":0.5}],\"blocks\":[{\"type\":\"chart\",\"title\":\"位移\",\"x\":{\"min\":0,\"max\":10},\"y\":{\"min\":0,\"max\":60},\"series\":[{\"label\":\"s=vt\",\"expr\":\"v*x\"}],\"bindings\":{\"v\":\"speed\"}},{\"type\":\"chart\",\"title\":\"速度\",\"x\":{\"min\":0,\"max\":10},\"y\":{\"min\":0,\"max\":6},\"series\":[{\"label\":\"v\",\"expr\":\"v\"}],\"bindings\":{\"v\":\"speed\"}}]}}\n```\n\n共享参数在本地联动，不调用模型；原有块局部controls保持独立。\n\n## 局部修复\n\n工具结果返回visualId与revision。参数错误会指出blocks[index]并保留可解析草稿；只替换出错块：\n\n```json\n{\"visualId\":\"visual-1\",\"baseRevision\":1,\"changes\":[{\"index\":0,\"block\":{\"type\":\"figure\",\"title\":\"修复主图\",\"html\":\"<svg viewBox='0 0 100 100'><circle cx='50' cy='50' r='35' fill='#5483ef'/></svg>\"}}]}\n```\n\nindex为现有块的0起始编号；变更整体校验后提交，失败不覆盖有效基线，过期revision被拒绝。缓存按agent隔离，仅保留本进程最近4份草稿；重启/清理后REPAIR_BASE_MISSING需重交document。不可解析的旧spec不能可靠定位完整块，改用document对象，不宽松执行错误脚本。\n\n## 自由figure\n\n{type:\"figure\",title,html,css?,js?,state?,height?}。html只提交body片段，可用SVG/Canvas/原生WebGL；不要另建独立HTML文件。最多12块/4个figure；单figure60KB，html16KB/css8KB/js32KB，height160..1000仅为初始高度，实际随内容自适应。已提供基础控件样式和--vie-*主题变量；不要自行固定页面高度或强制显示滚动条。\n\n脚本在opaque-origin sandbox iframe中执行，无宿主DOM权限，不可使用CDN/fetch/外部库。window.VIE提供state、setState、theme、visible、reducedMotion、reportError；vie:themechange/vie:visibilitychange可用于重画。动画默认暂停，提供播放/暂停与复位；不要逐帧上报状态。页面重挂载保留编辑，刷新时在本地checkpoint与完整source一致时恢复有效参数。操作参数可进入继续提问草稿，由用户发送。\n\n协议有效或iframe ready不代表画面已通过像素验收，也不代表科学正确；说明概念示意/近似与专业仿真的范围。不写无界循环，不伪造来源。沙箱不承诺完整CPU/内存隔离。\n\n## 流程与预算\n\n普通讲解只开放VIE、VIE技能与可用网页检索，开发/附件/文件/纯文字请求保持正常流程。默认继承用户输出额度与推理强度，出图后在Harness正文正常解释；没有两句话或1024 token限制。\n\n默认最多3张概念图、2次失败参数修复（尚无成功图时额外保留1次纠错，仍受总请求上限约束）、2次资料读取/检索，总请求上限8次（第8次只输出正文）。默认输出额度与推理均继承Harness（fastMaxTokens:0、fastProseTokens:0、fastEffort:inherit）。low推理和额度上限仅为显式配置选项。token截断后继续接着未完成部分，不重画已有图、不重新检索，不重复套用VIE额度。仅等待首图的请求超过120秒由宿主取消钩子停止并显示超时提示，已有图后的正文与截断续写不启用该看门狗；当前宿主缺取消接口时仅保留额度限制。60秒是额外检索预算。资料任务保留必要读取能力，普通绘图不进入终端开发。首图成功后停止检索；每图后使用Harness正文解释再调用下一图。继续保留未完成任务与资料范围，不修改全局模型配置。\n\n## 可选实验与兼容\n\nvie_auto可选lab.planetary/gears/geartrain/worm/wave/process/vector。parameters是JSON字符串。worm starts为1..4、wheelTeeth为20..80整数；geartrain teeth为2..6轮、每轮18..80整数，inputSpeed为-4..4。例如 {\"query\":\"蜗杆传动\",\"templateId\":\"lab.worm\",\"parameters\":\"{\\\"starts\\\":1,\\\"wheelTeeth\\\":20}\"}。未匹配时用通用入口，不能声称主题不受支持。\n\nvie_quick/vie_compose/vie_story/vie_render继续兼容旧内容；通用齿轮图与动画没有主题关键词拦截。旧文字块不删除，旧历史位置迁移保持兼容。\n\n\n## 通用数据图形\n\n无需代码：`{type:\"graphic\",kind:\"bars\"或\"donut\",title:\"短标题\",unit:\"单位\",items:[{label:\"名称\",value:3}]}`；向量用`kind:\"vectors\",items:[{label:\"F\",x:3,y:4}]`。模型只提供数据，VIE处理配色与响应式布局。长解释仍写Harness正文。曲线可声明keyPoints与breaks（横坐标数组），相图等优先使用核对过的数据points；有界采样不保证任意函数的全部细节。\n";
+const VIE_COMPONENT_REFERENCE="# VIE component reference (generated)\n\n学习模式：面向任意知识主题，按用户水平先给一句直观定义和因果链，再用一张主图解释。简单问题不强制应用图、第二张图或测验；确有教学价值再追加。每图正文先解释新增关系，默认3–5句，深入推导按用户要求展开；结尾只保留一条记忆链，不重复全文。优先document.blocks中的type:\"learning\"，由引擎统一生成按钮、阶段说明、测验、主题和状态恢复；模型只填写当前主题的SVG/HTML和数据，不重写控制逻辑。示例：{type:\"learning\",title:\"过程\",stages:[{label:\"前\",html:\"<svg viewBox=\\\"0 0 320 180\\\">...</svg>\"},{label:\"后\",html:\"...\"}]}。测验可单独提交{type:\"learning\",title:\"理解测试\",quiz:{question:\"问题\",options:[{label:\"A\",feedback:\"原因\"},{label:\"B\",feedback:\"原因\"}],correct:1}}，correct必填且从0开始，不能根据反馈猜答案。图注、正文及总结不得提前泄露该题答案或等价结论，答案原因只在选择后反馈。复杂动画仍可用figure及VIE.mountLearning，自由绘制内容，不限领域模板。阶段必须改变对象、数量、位置、连接或高亮，不能只换文字；线段真正连接对应部件，符号与标题分行，不用绝对定位把文字压进标题；窄屏重排且留白不过量。主图外壳已有标题，内部不重复；通用样式优先使用主题色。简化模型注明假设，动态平衡不是粒子停止，不臆测课本章节。正文由Harness渲染，纯文字与调试请求优先。\n\n每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。VIE只画当前段落的图、交互、图例和短标注；完整解释/公式/表格由Harness正文渲染。任意主题均可。复杂主题按图→正文解释→下一图→正文解释展开，每张图聚焦一个概念；勿把各章节拼成一张SVG的编号小面板或多图海报。需同时比较或共享交互才并列。默认flow按调用位置显示，补图/修图无需more:true，通常1张、必要时2–3张。visualId仅供修改，不是图片URL；不必先加载技能或写脚本。\n\nDocument fields: caption, title, controls, derive, layout, blocks\n\n## learning\n\nFields: type, title, key, legend, note, stages, quiz\n\nValidated generic learning UI, no JavaScript needed. stages:[{label,title?,caption?,html,mobileHtml?}] contains freely drawn SVG/HTML. Optional quiz:{question,options:[{label,feedback}],correct:1}; correct is required and zero-based. Stages or quiz required. Use theme tokens; do not repeat the outer title.\n\n## graphic\n\nFields: type, kind, title, items, unit\n\nEngine-rendered bars/donut/vectors. items:[{label,value}] or vectors [{label,x,y}], optional tone. No HTML/CSS/JS required.\n\n## chart\n\nFields: type, title, x, y, series, regions, controls, inputs, bindings, note\n\nFormula or data curves, region fills; bindings map variable names to shared control/derived keys.\n\n## visual\n\nFields: type, kind, spec\n\nFlow, RelationGraph, Timeline, Diagram or Animation. Diagram coordinates may bind /shared/key or /derived/key.\n\n## figure\n\nFields: type, title, html, css, js, state, height, bindings\n\nLearning UI: VIE.mountLearning({root:\"#lesson\",key:\"lesson\",title,legend?,note?,stages:[{label,title,caption,html,mobileHtml?}],quiz?:{question,options:[{label,feedback}],correct:0}}) supplies generic stages, local quiz feedback and state. One focused diagram in an isolated HTML/CSS/JS sandbox; do not pack independent chapters into numbered SVG mini-panels. Put each chapter graphic in its own call, separated by native prose. bindings map state keys to shared controls/derived keys.\n\n## experiment\n\nFields: type, template, parameters, title\n\nOptional existing experiment shortcut, never a topic restriction.\n\n## text\n\nFields: type, title, body\n\nLegacy compatibility only; new explanations belong in Harness prose.\n\n## Controls\n\n- slider → Slider\n- number → NumberInput\n- select → SegmentedControl\n- toggle → Toggle\n\nControls are numeric. toggle uses 0/1; select uses options [{label,value}]. derive maps unique keys to bounded numeric expressions. layout is stack (default) or grid.\n";
+const VIE_STUDY_POLICY="学习模式：面向任意知识主题，按用户水平先给一句直观定义和因果链，再用一张主图解释。简单问题不强制应用图、第二张图或测验；确有教学价值再追加。每图正文先解释新增关系，默认3–5句，深入推导按用户要求展开；结尾只保留一条记忆链，不重复全文。优先document.blocks中的type:\"learning\"，由引擎统一生成按钮、阶段说明、测验、主题和状态恢复；模型只填写当前主题的SVG/HTML和数据，不重写控制逻辑。示例：{type:\"learning\",title:\"过程\",stages:[{label:\"前\",html:\"<svg viewBox=\\\"0 0 320 180\\\">...</svg>\"},{label:\"后\",html:\"...\"}]}。测验可单独提交{type:\"learning\",title:\"理解测试\",quiz:{question:\"问题\",options:[{label:\"A\",feedback:\"原因\"},{label:\"B\",feedback:\"原因\"}],correct:1}}，correct必填且从0开始，不能根据反馈猜答案。图注、正文及总结不得提前泄露该题答案或等价结论，答案原因只在选择后反馈。复杂动画仍可用figure及VIE.mountLearning，自由绘制内容，不限领域模板。阶段必须改变对象、数量、位置、连接或高亮，不能只换文字；线段真正连接对应部件，符号与标题分行，不用绝对定位把文字压进标题；窄屏重排且留白不过量。主图外壳已有标题，内部不重复；通用样式优先使用主题色。简化模型注明假设，动态平衡不是粒子停止，不臆测课本章节。正文由Harness渲染，纯文字与调试请求优先。";
 /** Shared authoring policy and document contracts consumed by validation and reference generation. */
 const VIE_POLICY='每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。VIE只画当前段落的图、交互、图例和短标注；完整解释/公式/表格由Harness正文渲染。任意主题均可。复杂主题按图→正文解释→下一图→正文解释展开，每张图聚焦一个概念；勿把各章节拼成一张SVG的编号小面板或多图海报。需同时比较或共享交互才并列。默认flow按调用位置显示，补图/修图无需more:true，通常1张、必要时2–3张。visualId仅供修改，不是图片URL；不必先加载技能或写脚本。';
 const VIE_VISUAL_POLICY='Use actual tool calls only; never print DSML/DSEL tags or visualization source in prose. When tools are unavailable, finish with normal prose. One focused concept per graphic; write the full explanation in normal Harness prose, then call the next graphic if needed. No multi-section SVG collages. Side-by-side only for comparisons/shared interaction. Any topic; prefer vie_explain, default flow. more is optional; visualId is not an image URL.';
@@ -10,10 +11,11 @@ const DOCUMENT_PROPERTIES=Object.freeze({caption:{type:'string',description:'Com
 const DOCUMENT_CONTRACT=Object.freeze({
   fields:Object.keys(DOCUMENT_PROPERTIES),
   blocks:{
+    learning:{fields:['type','title','key','legend','note','stages','quiz'],help:'Validated generic learning UI, no JavaScript needed. stages:[{label,title?,caption?,html,mobileHtml?}] contains freely drawn SVG/HTML. Optional quiz:{question,options:[{label,feedback}],correct:1}; correct is required and zero-based. Stages or quiz required. Use theme tokens; do not repeat the outer title.'},
     graphic:{fields:['type','kind','title','items','unit'],help:'Engine-rendered bars/donut/vectors. items:[{label,value}] or vectors [{label,x,y}], optional tone. No HTML/CSS/JS required.'},
     chart:{fields:['type','title','x','y','series','regions','controls','inputs','bindings','note'],help:'Formula or data curves, region fills; bindings map variable names to shared control/derived keys.'},
     visual:{fields:['type','kind','spec'],help:'Flow, RelationGraph, Timeline, Diagram or Animation. Diagram coordinates may bind /shared/key or /derived/key.'},
-    figure:{fields:['type','title','html','css','js','state','height','bindings'],help:'One focused diagram in an isolated HTML/CSS/JS sandbox; do not pack independent chapters into numbered SVG mini-panels. Put each chapter graphic in its own call, separated by native prose. bindings map state keys to shared controls/derived keys.'},
+    figure:{fields:['type','title','html','css','js','state','height','bindings'],help:'Learning UI: VIE.mountLearning({root:"#lesson",key:"lesson",title,legend?,note?,stages:[{label,title,caption,html,mobileHtml?}],quiz?:{question,options:[{label,feedback}],correct:0}}) supplies generic stages, local quiz feedback and state. One focused diagram in an isolated HTML/CSS/JS sandbox; do not pack independent chapters into numbered SVG mini-panels. Put each chapter graphic in its own call, separated by native prose. bindings map state keys to shared controls/derived keys.'},
     experiment:{fields:['type','template','parameters','title'],help:'Optional existing experiment shortcut, never a topic restriction.'},
     text:{fields:['type','title','body'],help:'Legacy compatibility only; new explanations belong in Harness prose.'}
   }
@@ -39,7 +41,7 @@ function validateControlSpec(c){
   return out;
 }
 function documentReference(){
-  return '# VIE component reference (generated)\n\n'+VIE_POLICY+'\n\nDocument fields: '+DOCUMENT_CONTRACT.fields.join(', ')+'\n\n'+Object.entries(DOCUMENT_CONTRACT.blocks).map(([type,c])=>'## '+type+'\n\nFields: '+c.fields.join(', ')+'\n\n'+c.help+'\n').join('\n')+'\n## Controls\n\n'+Object.entries(CONTROL_TYPES).map(([kind,type])=>'- '+kind+' → '+type).join('\n')+'\n\nControls are numeric. toggle uses 0/1; select uses options [{label,value}]. derive maps unique keys to bounded numeric expressions. layout is stack (default) or grid.\n';
+  return '# VIE component reference (generated)\n\n'+VIE_STUDY_POLICY+'\n\n'+VIE_POLICY+'\n\nDocument fields: '+DOCUMENT_CONTRACT.fields.join(', ')+'\n\n'+Object.entries(DOCUMENT_CONTRACT.blocks).map(([type,c])=>'## '+type+'\n\nFields: '+c.fields.join(', ')+'\n\n'+c.help+'\n').join('\n')+'\n## Controls\n\n'+Object.entries(CONTROL_TYPES).map(([kind,type])=>'- '+kind+' → '+type).join('\n')+'\n\nControls are numeric. toggle uses 0/1; select uses options [{label,value}]. derive maps unique keys to bounded numeric expressions. layout is stack (default) or grid.\n';
 }
 
 /** Trusted, deterministic experiment models shared by DSH Host and browser.
@@ -308,6 +310,42 @@ function semanticGraphic(input){
 }
 
 /** Topic-independent document and generated-figure contract. No topic allowlist. */
+/** Topic-neutral learning data. Never execute authored JavaScript on the Host. */
+function validateLearningDefinition(input,withRoot=false){
+ const fail=message=>{throw Error('VIE_LEARNING_INVALID: '+message);};
+ const object=(v,path,keys)=>{if(!v||typeof v!=='object'||Array.isArray(v))fail(path+' must be an object');for(const k of Object.keys(v))if(!keys.includes(k))fail(path+'.'+k+' is unknown');};
+ const text=(v,path,max=1000)=>{if(typeof v!=='string'||v.length>max)fail(path+' must be text (max '+max+')');return v;};
+ const requiredText=(v,path,max=1000)=>{const s=text(v,path,max);if(!s.trim())fail(path+' must not be blank');return s;};
+ object(input,'learning',['type','title','key','legend','note','stages','quiz',...(withRoot?['root']:[])]);
+ const out={title:requiredText(input.title??'交互演示','title',100),key:input.key??'learning'};
+ if(typeof out.key!=='string'||!/^[a-zA-Z][\w-]{0,30}$/.test(out.key)||['__proto__','constructor','prototype'].includes(out.key))fail('key is invalid');
+ for(const k of ['legend','note'])if(input[k]!==undefined)out[k]=text(input[k],k);
+ const stages=input.stages??[];if(!Array.isArray(stages)||stages.length>8)fail('stages needs 0–8 entries');
+ out.stages=stages.map((s,i)=>{const p='stages['+i+']';object(s,p,['label','title','caption','html','mobileHtml']);const v={label:requiredText(s.label??String(i+1),p+'.label',80),html:requiredText(s.html,p+'.html',16000)};for(const k of ['title','caption','mobileHtml'])if(s[k]!==undefined)v[k]=k==='mobileHtml'?requiredText(s[k],p+'.'+k,16000):text(s[k],p+'.'+k);return v;});
+ if(input.quiz!==undefined){const q=input.quiz;object(q,'quiz',['question','options','correct']);if(!Array.isArray(q.options)||q.options.length<2||q.options.length>6)fail('quiz.options needs 2–6 entries');if(!Number.isInteger(q.correct)||q.correct<0||q.correct>=q.options.length)fail('quiz.correct must be a zero-based option index; do not infer an answer from feedback');out.quiz={question:requiredText(q.question,'quiz.question'),correct:q.correct,options:q.options.map((o,i)=>{object(o,'quiz.options['+i+']',['label','feedback']);return {label:requiredText(o.label,'quiz.options['+i+'].label'),...(o.feedback!==undefined?{feedback:text(o.feedback,'quiz.options['+i+'].feedback')}:{})};})};}
+ if(!out.stages.length&&!out.quiz)fail('stages or quiz is required');
+ if(new TextEncoder().encode(JSON.stringify(out)).length>40000)fail('learning data exceeds 40KB');
+ return out;
+}
+/** Narrow static preflight for literal SDK calls. Strings/comments are skipped;
+ * dynamic JS remains subject to sandbox runtime validation, never Host eval. */
+function validateLearningCalls(js){
+ if(!js.includes('mountLearning'))return;
+ const t=[];let i=0;
+ while(i<js.length){const c=js[i];if(/\s/.test(c)){i++;continue;}if(js.startsWith('//',i)){i=js.indexOf('\n',i);if(i<0)break;continue;}if(js.startsWith('/*',i)){const end=js.indexOf('*/',i+2);i=end<0?js.length:end+2;continue;}
+  // Regex/division and template interpolation require a complete JS parser.
+  // Defer those scripts to the sandbox instead of guessing their meaning.
+  if(c==='/'||c==='`')return;
+  if(c==='"'||c==="'"){const quote=c;let value='',escaped=false;i++;while(i<js.length){const ch=js[i++];if(ch==='\\'){escaped=true;i++;continue;}if(ch===quote)break;value+=ch;}t.push({v:value,string:true,escaped});continue;}
+  const word=js.slice(i).match(/^[A-Za-z_$][\w$]*/);if(word){t.push({v:word[0]});i+=word[0].length;}else{t.push({v:c});i++;}
+ }
+ const is=(n,v)=>t[n]?.v===v&&!t[n]?.string;
+ const endOf=start=>{let depth=0;for(let n=start;n<t.length;n++){if(is(n,'{')||is(n,'[')||is(n,'('))depth++;if(is(n,'}')||is(n,']')||is(n,')'))if(--depth===0)return n;}return t.length;};
+ const property=(start,end,key)=>{for(let n=start+1;n<end;n++){if(t[n].v===key&&is(n+1,':'))return n+2;if(is(n,'{')||is(n,'[')||is(n,'('))n=endOf(n);}return -1;};
+ const staticKeys=(start,end)=>{let n=start+1;while(n<end){if(t[n].escaped||(!t[n].string&&!/^[A-Za-z_$][\w$]*$/.test(t[n].v))||!is(n+1,':'))return false;n+=2;while(n<end&&!is(n,',')){if(is(n,'{')||is(n,'[')||is(n,'('))n=endOf(n);n++;}n++;}return true;};
+ for(let n=0;n<t.length-4;n++)if(is(n,'VIE')&&is(n+1,'.')&&is(n+2,'mountLearning')&&is(n+3,'(')&&is(n+4,'{')){const end=endOf(n+4),quiz=property(n+4,end,'quiz');if(staticKeys(n+4,end)&&quiz>=0&&is(quiz,'{')&&staticKeys(quiz,endOf(quiz))&&property(quiz,endOf(quiz),'correct')<0)throw Error('VIE_LEARNING_INVALID: quiz.correct is required (zero-based option index). Prefer a document block with type:"learning" for full data validation.');n=end;}
+}
+
 function validateFigureState(input={}){
   const plain=x=>x!==null&&typeof x==='object'&&!Array.isArray(x)&&(Object.getPrototypeOf(x)===Object.prototype||Object.getPrototypeOf(x)===null);
   let nodes=0;
@@ -333,6 +371,7 @@ function validateFigureDefinition(input){
     result.bindings={};for(const [key,ref]of Object.entries(input.bindings)){if(!/^[A-Za-z][A-Za-z0-9_]{0,19}$/.test(key)||['constructor','prototype','__proto__'].includes(key)||typeof ref!=='string'||!/^\/(shared|derived)\/[A-Za-z][A-Za-z0-9_]{0,19}$/.test(ref))throw Error('Invalid figure binding');result.bindings[key]=ref;}
   }
   if(!result.html.trim())throw Error('Figure html must not be empty');
+  validateLearningCalls(result.js);
   if(!Number.isInteger(result.height)||result.height<160||result.height>1000)throw Error('Figure height must be 160–1000');
   if(/<(?:iframe|frame|object|embed|base)\b|<meta\b[^>]*http-equiv\s*=\s*["']?refresh/i.test(result.html))throw Error('Figure must be self-contained; nested browsing contexts and refresh are not supported');
   if(new TextEncoder().encode(JSON.stringify(result)).length>60000)throw Error('Figure exceeds serialized 60KB limit');
@@ -359,6 +398,10 @@ function validateDocumentSpec(input){
   let figures=0;
   const blocks=input.blocks.map((raw,index)=>{try{
     let block=raw;
+    if(block?.type==='learning'){
+      const lesson=validateLearningDefinition(block);
+      block={type:'figure',title:lesson.title,html:'<div id="vie-lesson"></div>',js:'VIE.mountLearning('+JSON.stringify({...lesson,root:'#vie-lesson'})+');'};
+    }
     // Normalize only unambiguous legacy aliases, then apply the regular validators.
     if(block&&block.type===undefined&&['text','figure','chart','experiment'].includes(block.kind)){const {kind,...rest}=block;block={type:kind,...rest};}
     if(block&&block.type===undefined&&block.kind===undefined&&typeof block.html==='string'&&Object.keys(block).every(k=>DOCUMENT_CONTRACT.blocks.figure.fields.includes(k)))block={type:'figure',...block};
@@ -1433,13 +1476,13 @@ function createVIETextGuard(onIssue=()=>{}){
     }return out;}};
 }
 /** Inspect bounded, public session events only when recovering a truncated turn. */
-function visualContinuationHistory(agent){
+function visualContinuationHistory(agent,allowShortTopic=false){
   const session=agent?.session;if(typeof session?.eventAt!=='function'||!Number.isSafeInteger(session.seq))return null;
-  let truncated=false,closed=false;const visuals=new Set();
+  let truncated=false,timedOut=false,closed=false;const visuals=new Set();
   try{for(let n=session.seq-1;n>=Math.max(0,session.seq-400);n--){const event=session.eventAt(n);if(!event||typeof event.then==='function')return null;const d=event.data??{};
-    if(!closed){if(event.type!=='turn/end')continue;closed=true;truncated=d.reason?.kind==='max-tokens';if(!truncated)return null;}
+    if(!closed){if(event.type!=='turn/end')continue;closed=true;truncated=d.reason?.kind==='max-tokens';timedOut=d.reason?.kind==='aborted'&&d.reason.reason?.kind==='hook'&&/^VIE_REQUEST_TIMEOUT:/.test(d.reason.reason.reason??'');if(!truncated&&!timedOut)return null;}
     if(event.type==='tool/result'&&d.meta?.kind==='vie'&&d.meta.valid===true)visuals.add(String(d.meta.anchorCallId??d.meta.visualId??d.message?.source?.callId??event.seq));
-    if(event.type==='user/message'&&(d.message??d).source?.kind==='user'){const message=d.message??d;const raw=(message.content??[]).filter(b=>b.type==='text').map(b=>b.text??'').join(' ').trim();if(VIE_CONTINUE_RE.test(raw))continue;const intent=visualIntent(message);return intent.active?{...intent,truncated:true,visuals,rendered:visuals.size>0,failures:0,searches:0,searchUnavailable:new Set()}:null;}
+    if(event.type==='user/message'&&(d.message??d).source?.kind==='user'){const message=d.message??d;const raw=(message.content??[]).filter(b=>b.type==='text').map(b=>b.text??'').join(' ').trim();if(VIE_CONTINUE_RE.test(raw))continue;let intent=visualIntent(message);if(allowShortTopic&&intent.reason==='ambiguous'&&raw&&raw.length<=3000)intent={active:true,reason:'mode-on'};return intent.active?{...intent,truncated,timedOut,visuals,rendered:visuals.size>0,failures:0,searches:0,searchUnavailable:new Set()}:null;}
   }}catch{}return null;
 }
 function visualIntent(message){
@@ -1458,12 +1501,13 @@ function visualIntent(message){
 function visualWorkflowOptions(input={}){
   if(!input||typeof input!=='object'||Array.isArray(input))throw Error('Invalid VIE configuration');
   for(const k of Object.keys(input))if(!['visualMode','fastWorkflow','fastEffort','fastMaxTokens','fastMaxRequests','fastBudgetMs','fastMaxVisuals','fastMaxRepairs','fastMaxSearches','fastProseTokens','fastRequestMs'].includes(k))throw Error('Unknown VIE configuration: '+k);
-  const o={visualMode:'auto',fastWorkflow:true,fastEffort:'inherit',fastMaxTokens:0,fastMaxRequests:8,fastBudgetMs:60000,fastMaxVisuals:3,fastMaxRepairs:2,fastMaxSearches:2,fastProseTokens:0,fastRequestMs:120000,...input};
-  if(!['auto','on','off'].includes(o.visualMode))throw Error('Invalid visualMode');
+  const o={visualMode:'auto',fastWorkflow:true,fastEffort:'inherit',fastMaxTokens:0,fastMaxRequests:8,fastBudgetMs:60000,fastMaxVisuals:3,fastMaxRepairs:2,fastMaxSearches:2,fastProseTokens:0,fastRequestMs:0,...input};
+  if(!['auto','on','study','off'].includes(o.visualMode))throw Error('Invalid visualMode');
   if(typeof o.fastWorkflow!=='boolean'||!['low','inherit'].includes(o.fastEffort))throw Error('Invalid VIE workflow mode');
   if(o.fastMaxTokens!==0&&(!Number.isSafeInteger(o.fastMaxTokens)||o.fastMaxTokens<2048||o.fastMaxTokens>32768))throw Error('Invalid VIE workflow bound: fastMaxTokens');
   if(o.fastProseTokens!==0&&(!Number.isSafeInteger(o.fastProseTokens)||o.fastProseTokens<2048||o.fastProseTokens>32768))throw Error('Invalid VIE workflow bound: fastProseTokens');
-  for(const [key,min,max]of [['fastMaxRequests',2,12],['fastBudgetMs',10000,300000],['fastMaxVisuals',1,4],['fastMaxRepairs',1,4],['fastMaxSearches',0,4],['fastRequestMs',10000,300000]])if(!Number.isSafeInteger(o[key])||o[key]<min||o[key]>max)throw Error('Invalid VIE workflow bound: '+key);
+  for(const [key,min,max]of [['fastMaxRequests',2,12],['fastBudgetMs',10000,300000],['fastMaxVisuals',1,4],['fastMaxRepairs',1,4],['fastMaxSearches',0,4]])if(!Number.isSafeInteger(o[key])||o[key]<min||o[key]>max)throw Error('Invalid VIE workflow bound: '+key);
+  if(o.fastRequestMs!==0&&(!Number.isSafeInteger(o.fastRequestMs)||o.fastRequestMs<10000||o.fastRequestMs>300000))throw Error('Invalid VIE workflow bound: fastRequestMs');
   return o;
 }
 function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.visualMode??'auto'){
@@ -1473,19 +1517,19 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     const raw=(message.content??[]).filter(b=>b.type==='text').map(b=>b.text??'').join(' ').trim(),previous=states.get(agent);
     if(previous?.timer&&typeof clearTimeout==='function')clearTimeout(previous.timer);
     const continuation=(message.content??[]).every(b=>b.type==='text')&&VIE_CONTINUE_RE.test(raw);
-    const resume=continuation?(previous?.active&&(!previous.rendered||previous.truncated)?previous:!previous?visualContinuationHistory(agent):null):null;
+    const resume=continuation?(previous?.active&&(!previous.rendered||previous.truncated)?previous:!previous?visualContinuationHistory(agent,['on','study'].includes(modeFor(agent))):null):null;
     const continuing=!!resume;
     let intent=continuing?{active:true,reason:'continuation',keepEffort:resume.keepEffort,readSources:resume.readSources}:continuation?{active:false,reason:'continuation-without-pending'}:visualIntent(message);
     if(modeFor(agent)==='off')intent={active:false,reason:'mode-off'};
-    else if(modeFor(agent)==='on'&&intent.reason==='ambiguous'&&raw&&raw.length<=3000)intent={active:true,reason:'mode-on'};
+    else if(['on','study'].includes(modeFor(agent))&&intent.reason==='ambiguous'&&raw&&raw.length<=3000)intent={active:true,reason:'mode-on'};
     // A new, explicit user instruction always re-elects this scope; runtime contexts never do.
-    const value={...intent,active:options.fastWorkflow&&intent.active,turn,started:clock(),searches:resume?.searches??0,requests:0,steps:new Set(),pending:new Map(),rendered:resume?.rendered??false,visuals:new Set(resume?.visuals??[]),failures:resume?.failures??0,allowProtocolText:/DSML|DSEL|工具调用协议|调用格式示例/i.test(raw),fresh:true,resumeAfterTruncation:!!resume?.truncated,truncated:false,searchUnavailable:new Set(resume?.searchUnavailable??[])};
+    const value={...intent,study:modeFor(agent)==='study',active:options.fastWorkflow&&intent.active,turn,started:clock(),searches:resume?.searches??0,requests:0,steps:new Set(),pending:new Map(),rendered:resume?.rendered??false,visuals:new Set(resume?.visuals??[]),failures:resume?.failures??0,allowProtocolText:/DSML|DSEL|工具调用协议|调用格式示例/i.test(raw),fresh:true,resumeAfterTruncation:!!resume?.truncated,resumeAfterTimeout:!!resume?.timedOut,truncated:false,searchUnavailable:new Set(resume?.searchUnavailable??[])};
     states.set(agent,value);if(agent.session&&typeof agent.session==='object')sessions.set(agent.session,value);
   }
   function state(agent){return agent&&states.get(agent);}
   function repairLimit(s){return options.fastMaxRepairs+(s.visuals.size===0?1:0);}
   function closing(s){return s.visuals.size>=options.fastMaxVisuals||s.failures>=repairLimit(s)||s.requests>=options.fastMaxRequests-1;}
-  function visualWeight(args){try{const d=args?.document??(args?.spec?JSON.parse(args.spec):null);if(!d||d.controls?.length)return 1;return Math.max(1,(d.blocks??[]).filter(b=>['figure','graphic','chart','visual','experiment'].includes(b.type)||b.kind).length);}catch{return 1;}}
+  function visualWeight(args){try{const d=args?.document??(args?.spec?JSON.parse(args.spec):null);if(!d||d.controls?.length)return 1;return Math.max(1,(d.blocks??[]).filter(b=>['figure','learning','graphic','chart','visual','experiment'].includes(b.type)||b.kind).length);}catch{return 1;}}
   function allowed(agent,name,args){
     if(modeFor(agent)==='off')return !/^vie_/.test(name);
     const s=state(agent);if(!s?.active)return true;if(s.closingAtAssembly||s.requests>options.fastMaxRequests)return false;
@@ -1495,8 +1539,9 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     if(VIE_SEARCH_TOOLS.has(name))return s.visuals.size===0&&s.searches<options.fastMaxSearches&&clock()-s.started<options.fastBudgetMs&&!s.searchUnavailable.has(name);
     return name==='skill'&&(args===undefined||args?.name==='dsh-vie');
   }
-  function guidance(agent){
+  function guidanceBase(agent){
     const s=state(agent);if(!s?.active)return '';
+    if(s.resumeAfterTimeout)return '上一轮被VIE显式超时配置中止。恢复原问题，保留已有图和正文，不重新规划整堂课或重新检索；尚无主图时先交付最小可用图及对应解释，优先type:"learning"数据入口。已有图可继续解释，不重复生成。不声称上一轮已经出图。';
     if(s.resumeAfterTruncation)return '上一轮因输出token上限截断。接着续写未完成的内容，保留已有图形及其原调用锚点，不重画已完成图、不重新检索。仅在剩余图形/修复预算允许且确需补完原任务时调用VIE；完整解释继续使用Harness正文。续写继承Harness的输出和推理设置，不重复套用VIE额度。';
     if(closing(s))return '本轮可视化工具尝试已结束。禁止在正文模拟工具调用、输出DSML/DSEL标签、图形JSON或HTML/SVG源码。由Harness原生正文正常讲解；按问题需要决定篇幅，不限两句话。若主图未成功，如实说明，不声称已显示。';
     if(!s.visuals.size&&s.failures>=options.fastMaxRepairs)return '尚无成功主图，保留最后一次参数纠错机会。只使用vie_explain或vie_auto修正工具反馈中的具体字段，优先简单通用图，不重新检索、不编写外部脚本，不在正文输出伪调用。若仍失败，正常正文结束并如实说明。';
@@ -1505,6 +1550,7 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     return (s.readSources?'先用必要读取工具核对用户资料，然后直接出图，不进入终端开发。':'')+'可视化讲解：先用一句话说明正在画什么；下一步直接用vie_explain生成第一张图，恰好匹配的实验可用vie_auto。每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。每次只画当前段落的一个核心概念，先图→Harness原生正文解释→下一张图→对应正文；通常1张，复杂主题按需2–3张。不要把多个章节画成同一张SVG里的编号小面板、拼贴海报或缩小的多图总览；必须同时比较或共享交互的视图才可并列。补图不要求more，首图成功后仍可继续。VIE只放图、交互、图例与必要短标注，完整解释/公式/列表/表格写Harness正文。任意主题优先用graphic{kind:bars|donut|vectors,title,items}、chart或visual；特殊效果用隔离figure，不限模板。不要读取源码/安装包、写外部脚本或截图开发；visualId仅用于局部修复，不是图片URL。'+lookup;
 
   }
+  function guidance(agent){const s=state(agent);return (s?.active&&s.study?VIE_STUDY_POLICY+'\n':'')+guidanceBase(agent);}
   function assembly(value,{agent}={}){
     if(modeFor(agent)==='off')return {...value,tools:value.tools.filter(t=>!/^vie_/.test(t.name)),sections:value.sections.filter(s=>!s.name?.startsWith('dsh-vie:'))};
     const s=state(agent);if(!s?.active)return value;
@@ -1581,7 +1627,7 @@ function installVisualWorkflow(ctx,options,mode={get:()=>options.visualMode??'au
   const timers=new Set();
   const finish=s=>{if(!s)return;if(s.timer){clearTimeout(s.timer);timers.delete(s.timer);s.timer=null;}s.removeAbort?.();s.removeAbort=null;};
   ctx.effect?.(()=>()=>{for(const timer of timers)clearTimeout(timer);timers.clear();});
-  ctx.systemPrompt.section({name:'dsh-vie:entry',order:2950,interpolate:false,text:context=>mode.get(context?.agent)==='off'?'':VIE_POLICY+' 用户要求纯文字或开发/调试时遵循该请求。'});
+  ctx.systemPrompt.section({name:'dsh-vie:entry',order:2950,interpolate:false,text:context=>mode.get(context?.agent)==='off'?'':VIE_POLICY+(mode.get(context?.agent)==='study'?VIE_STUDY_POLICY:'')+' 用户要求纯文字或开发/调试时遵循该请求。'});
   ctx.on('agent/inbox/claimed',payload=>{if(payload.message?.source?.kind==='user')finish(workflow.state(payload.agent));workflow.claim(payload);});
   ctx.on('session/event',(session,event)=>workflow.observe(session,event));
   ctx.on('llm/stream',(call,next)=>workflow.stream(call,next));
@@ -1589,8 +1635,8 @@ function installVisualWorkflow(ctx,options,mode={get:()=>options.visualMode??'au
   ctx.on('agent/request',async(payload,next)=>{
     const config=workflow.request(payload,await next()),s=workflow.state(payload.agent);
     finish(s);if(s)s.requestStarted=Date.now();
-    if(s?.active&&!s.keepEffort&&!s.resumeAfterTruncation&&!s.visuals.size&&typeof payload.agent?.cancel==='function'){
-      s.timer=setTimeout(()=>{finish(s);if(workflow.state(payload.agent)!==s||mode.get(payload.agent)==='off')return;s.timedOut=true;payload.agent.cancel({kind:'hook',reason:'VIE_REQUEST_TIMEOUT: 可视化请求超过 '+workflow.options.fastRequestMs+'ms，已停止；可降低推理档位后重试。'},{keepInbox:true});},workflow.options.fastRequestMs);s.timer.unref?.();timers.add(s.timer);
+    if(workflow.options.fastRequestMs>0&&s?.active&&!s.keepEffort&&!s.resumeAfterTruncation&&!s.resumeAfterTimeout&&!s.visuals.size&&typeof payload.agent?.cancel==='function'){
+      s.timer=setTimeout(()=>{finish(s);if(workflow.state(payload.agent)!==s||mode.get(payload.agent)==='off')return;s.timedOut=true;payload.agent.cancel({kind:'hook',reason:'VIE_REQUEST_TIMEOUT: 可视化请求超过 '+workflow.options.fastRequestMs+'ms，已按显式超时配置停止；发送继续可恢复，fastRequestMs:0可关闭此限制。'},{keepInbox:true});},workflow.options.fastRequestMs);s.timer.unref?.();timers.add(s.timer);
       const abort=()=>finish(s);payload.signal?.addEventListener('abort',abort,{once:true});s.removeAbort=()=>payload.signal?.removeEventListener('abort',abort);
     }
     return config;
@@ -1607,7 +1653,7 @@ function installVisualWorkflow(ctx,options,mode={get:()=>options.visualMode??'au
 }
 
 /** Session preferences are independent of subjects and never change model settings. */
-const VIE_MODES=['auto','on','off'];
+const VIE_MODES=['auto','on','study','off'];
 const VIE_NAMES=new Set(['vie_explain','vie_auto','vie_render','vie_compose','vie_story','vie_quick']);
 function createVIEMode(defaultMode='auto',snapshot={},persist=()=>{}){
   if(!VIE_MODES.includes(defaultMode))throw Error('Invalid visualMode');
@@ -1617,7 +1663,7 @@ function createVIEMode(defaultMode='auto',snapshot={},persist=()=>{}){
   return {
     get:agent=>sessions.get(typeof agent==='string'?agent:agent?.session?.id)??global,
     snapshot:()=>({global,sessions:Object.fromEntries(sessions)}),
-    set(mode,sessionId){if(!VIE_MODES.includes(mode))throw Error('Use auto, on or off');const before=new Map(sessions),prior=global;try{if(sessionId){sessions.delete(sessionId);sessions.set(sessionId,mode);while(sessions.size>256)sessions.delete(sessions.keys().next().value);}else global=mode;persist({global,sessions:Object.fromEntries(sessions)});}catch(error){global=prior;sessions.clear();for(const [id,value]of before)sessions.set(id,value);throw error;}}
+    set(mode,sessionId){if(!VIE_MODES.includes(mode))throw Error('Use auto, on, study or off');const before=new Map(sessions),prior=global;try{if(sessionId){sessions.delete(sessionId);sessions.set(sessionId,mode);while(sessions.size>256)sessions.delete(sessions.keys().next().value);}else global=mode;persist({global,sessions:Object.fromEntries(sessions)});}catch(error){global=prior;sessions.clear();for(const [id,value]of before)sessions.set(id,value);throw error;}}
   };
 }
 async function installVIESessionMode(ctx,defaultMode='auto'){
@@ -1629,11 +1675,11 @@ async function installVIESessionMode(ctx,defaultMode='auto'){
   const baseDir=path.join(path.dirname(file),'vie-baselines-v1'),baselineFile=id=>path.join(baseDir,crypto.createHash('sha256').update(String(id)).digest('hex')+'.json');
   VIE_BASELINE_STORAGE={load(id){const p=baselineFile(id);if(!fs.existsSync(p)||fs.statSync(p).size>1100000)return [];const data=JSON.parse(fs.readFileSync(p,'utf8'));return data.v===1&&Array.isArray(data.entries)?data.entries.slice(-4):[];},save(id,entries){fs.mkdirSync(baseDir,{recursive:true});const target=baselineFile(id),tmp=target+'.'+process.pid+'.tmp';fs.writeFileSync(tmp,JSON.stringify({v:1,entries:entries.slice(-4)}));fs.renameSync(tmp,target);const files=fs.readdirSync(baseDir).filter(n=>/^[a-f0-9]{64}\.json$/.test(n)).map(n=>({path:path.join(baseDir,n),time:fs.statSync(path.join(baseDir,n)).mtimeMs})).sort((a,b)=>b.time-a.time);for(const f of files.slice(64))fs.unlinkSync(f.path);}};
   const mode=createVIEMode(defaultMode,snapshot,value=>{const temporary=file+'.'+process.pid+'.tmp';fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(temporary,JSON.stringify(value)+'\n');fs.renameSync(temporary,file);});
-  ctx.inject?.(['commands'],scope=>scope.commands.register({definitionId:'dsh-vie:mode',name:'vie',description:'VIE auto/on/off for this chat; global auto/on/off sets the default for other chats',input:{hint:'[auto|on|off|global auto|global on|global off]'},handler:({agent,rawInput})=>{
+  ctx.inject?.(['commands'],scope=>scope.commands.register({definitionId:'dsh-vie:mode',name:'vie',description:'VIE auto/on/study/off for this chat; global auto/on/study/off sets the default for other chats',input:{hint:'[auto|on|study|off|global auto|global on|global study|global off]'},handler:({agent,rawInput})=>{
     const words=rawInput.trim().split(/\s+/),isGlobal=words[0]==='global',value=isGlobal?words[1]:words[0],sessionId=isGlobal?undefined:agent?.session?.id;
     if(rawInput.trim()==='status')return {kind:'success',text:JSON.stringify(VIE_WORKFLOW_STATS.get(agent)??{status:'No visual request measured in this process'})};
     if(!rawInput.trim())return {kind:'success',text:'VIE: '+mode.get(agent)};
-    if(!VIE_MODES.includes(value)||words.length>(isGlobal?2:1)||!isGlobal&&!sessionId)return {kind:'error',text:'Usage: /vie [auto|on|off|global auto|global on|global off]'};
+    if(!VIE_MODES.includes(value)||words.length>(isGlobal?2:1)||!isGlobal&&!sessionId)return {kind:'error',text:'Usage: /vie [auto|on|study|off|global auto|global on|global study|global off]'};
     try{mode.set(value,sessionId);return {kind:'success',text:'VIE '+(isGlobal?'默认模式':'本聊天')+'：'+value};}catch(error){return {kind:'error',text:'VIE preference could not be saved: '+error.message};}
   }}));
   // Optional projection only; a missing composer surface does not silently turn an explicit off into on.

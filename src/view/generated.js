@@ -1,5 +1,7 @@
 /** Generated code runs only inside an opaque-origin iframe, never the host DOM. */
 function figureBootstrap(config){
+  /* @include shared/learning.js */
+  /* @include view/learning.js */
   let state=config.state,theme=config.theme,visible=true,failed=false;
   const post=(type,value)=>{try{parent.postMessage({v:1,channel:config.channel,type,value},'*');}catch{}};
   const reportError=error=>{failed=true;post('error',String(error?.message??error).slice(0,1200));};
@@ -10,7 +12,7 @@ function figureBootstrap(config){
     window.dispatchEvent(new CustomEvent('vie:themechange',{detail:value}));
   };
   window.VIE={get state(){return state;},get theme(){return theme;},get visible(){return visible;},get reducedMotion(){return !!theme.reducedMotion;},
-    setState(value){if(!value||typeof value!=='object'||Array.isArray(value))throw Error('VIE.setState expects an object');state=value;post('state',value);},reportError};
+    title:config.title,setState(value){if(!value||typeof value!=='object'||Array.isArray(value))throw Error('VIE.setState expects an object');state=value;post('state',value);},reportError,mountLearning};
   window.addEventListener('message',event=>{
     if(event.source!==parent||event.data?.channel!==config.channel)return;
     if(event.data.type==='theme')applyTheme(event.data.value);
@@ -47,9 +49,9 @@ const FIGURE_BASE_CSS=`*{box-sizing:border-box}html,body{margin:0;background:tra
 const FIGURE_SCROLL_CSS='html,body,#vie-root,#vie-root *{scrollbar-width:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar,#vie-root::-webkit-scrollbar,#vie-root *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}';
 function buildFigureDocument(raw,{channel,state,theme}){
   const spec=validateFigureDefinition(raw),safeScript=x=>x.replace(/<\/script/gi,'<\\/script');
-  const settings=JSON.stringify({channel,state:validateFigureState(state??spec.state),theme,staticSvg:!spec.js.trim()}).replace(/</g,'\\u003c');
+  const settings=JSON.stringify({channel,title:spec.title,state:validateFigureState(state??spec.state),theme,staticSvg:!spec.js.trim()}).replace(/</g,'\\u003c');
   const csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; media-src data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'";
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${csp}"><style>${FIGURE_BASE_CSS}\n${spec.css.replace(/<\/style/gi,'<\\/style')}\n${FIGURE_SCROLL_CSS}</style><script>(${safeScript(figureBootstrap.toString())})(${settings});</script></head><body><div id="vie-root">${spec.html}</div><script>${safeScript(spec.js)}</script></body></html>`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${csp}"><style>${FIGURE_BASE_CSS}\n.vie-learn{border:0;border-radius:0;padding:0;display:grid;gap:12px}.vie-learn-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.vie-learn-heading small,.vie-learn-note{color:var(--vie-muted);font-size:12px}.vie-learn-panel{min-width:0;overflow:auto}.vie-learn-panel svg{width:100%;display:block}.vie-learn-tabs{display:flex;gap:8px;flex-wrap:wrap}.vie-learn-tabs button{flex:1 1 120px;border-radius:999px;background:transparent;color:var(--vie-ink);border:1px solid var(--vie-stroke);font-size:13px;min-height:38px}.vie-learn-tabs button[aria-selected=true]{background:var(--vie-ink);color:var(--vie-bg);border-color:var(--vie-ink)}.vie-learn-description{background:var(--vie-layer);border-radius:14px;padding:12px}.vie-learn-description p{margin:4px 0 0;font-size:14px}.vie-learn-quiz{border:0;min-width:0;margin:0;padding:0}.vie-learn-quiz legend{font-weight:600;margin-bottom:12px}.vie-learn-choices{display:grid;gap:12px}.vie-learn-choices label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:14px}.vie-learn-choices input{flex:none;accent-color:var(--vie-primary)}.vie-learn-feedback{margin-top:14px;border-radius:12px;padding:12px;background:var(--vie-layer)}.vie-learn-feedback[data-correct=true]{border-left:3px solid var(--vie-secondary)}.vie-learn-feedback[data-correct=false]{border-left:3px solid var(--vie-warning)}@media(max-width:440px){.vie-learn{padding:0}.vie-learn-tabs button{flex-basis:88px;font-size:13px}.vie-learn-panel>svg{width:100%;height:auto}}\n${spec.css.replace(/<\/style/gi,'<\\/style')}\n${FIGURE_SCROLL_CSS}</style><script>(${safeScript(figureBootstrap.toString())})(${settings});</script></head><body><div id="vie-root">${spec.html}</div><script>${safeScript(spec.js)}</script></body></html>`;
 }
 function mountGeneratedFigure(frame,raw,options={}){
   const spec=validateFigureDefinition(raw),win=frame.ownerDocument.defaultView;
