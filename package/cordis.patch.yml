@@ -1,0 +1,6 @@
+# Runtime identity: 'dsh-visual-interactive-engine' is the npm module specifier, not a display label.
+# User-facing name: dsh-Visual-Interactive-Engine
+# Insert plugin into the DSH profile's layer stack.
+- insert:
+    - id: dsh-visual-interactive-engine
+      name: 'dsh-visual-interactive-engine'

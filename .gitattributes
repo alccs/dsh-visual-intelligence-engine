@@ -1,0 +1,12 @@
+# Normalize text files to LF in the repository so builds are reproducible
+# across Windows, macOS and Linux checkouts.
+* text=auto eol=lf
+
+# Binary assets
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.tgz binary
+*.zip binary

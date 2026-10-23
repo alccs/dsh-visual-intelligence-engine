@@ -1,0 +1,4 @@
+export const compactExamples={
+  slope:{title:'斜率与直线',blocks:[{type:'chart',title:'改变 k，比较直线 y = kx',x:{min:0,max:4,label:'x'},y:{min:0,max:12,label:'y'},series:[{label:'y = kx',expr:'k*x'}],controls:[{key:'k',label:'斜率 k',min:1,max:3,value:2,step:.1}],note:'数学关系示意。滑块在本地重算，不调用模型。'},{type:'text',body:'固定一个 x，斜率 k 越大，y 越大。滑块改变的是同一条关系中的参数，不需要重新生成图形程序。'}]},
+  curve:{title:'增长速度与饱和',blocks:[{type:'chart',title:'不同参数怎样改变增长曲线？',x:{min:0,max:10,label:'时间（示意单位）'},y:{min:0,max:1.1,label:'相对水平'},series:[{label:'增长关系',expr:'1/(1+exp(-k*(x-5)))'},{label:'一半水平',points:[[0,.5],[10,.5]],tone:'muted'}],controls:[{key:'k',label:'增长参数 k',min:.2,max:2,value:1,step:.1}],regions:[{label:'达到一半之后',points:[[5,0],[10,0],[10,1.1],[5,1.1]],tone:'secondary'}],note:'为说明参数变化而设定的数学模型，不是实测数据。'},{type:'text',body:'增大 k，曲线在中间阶段上升得更快。阴影只标记横轴区间，不代表概率、实际发生时间或观测结果。'}]}
+};

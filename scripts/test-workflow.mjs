@@ -1,0 +1,71 @@
+/** Actual Cordis/DSH event middleware and execution gate, without an external model. */
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
+import {linkedMotion} from './visual-examples.mjs';
+import {createRequire,registerHooks} from 'node:module';import {pathToFileURL} from 'node:url';
+const root=path.resolve(import.meta.dirname,'..');
+const runtime=createRequire(path.resolve(process.env.VIE_DSH_RUNTIME??path.join(root,'.validation/runtime'),'package.json'));
+process.env.DSH_HOME=path.join(root,'.validation/workflow-home');
+const cliPath=path.join(root,'docs/validation/dsh-cli.json');
+let modulePath=path.join(root,'package/lib/index.js'),installed=false;
+if(process.argv.includes('--installed')){const cli=JSON.parse(fs.readFileSync(cliPath,'utf8'));modulePath=path.join(root,cli.temporaryHome,'profiles/web/node_modules/dsh-visual-interactive-engine/lib/index.js');assert.ok(fs.readFileSync(modulePath).equals(fs.readFileSync(path.join(root,'package/lib/index.js'))));installed=true;}
+const hook=registerHooks({resolve(s,c,next){if(['@deepseek-ai/dsh-tools','zod'].includes(s))return {url:pathToFileURL(runtime.resolve(s)).href,shortCircuit:true};return next(s,c);}});
+const load=s=>import(pathToFileURL(runtime.resolve(s)).href);
+const {Context}=await load('@deepseek-ai/cordis');
+const {default:SystemPrompt}=await load('@deepseek-ai/dsh-system-prompt');
+const {default:Tools}=await load('@deepseek-ai/dsh-tools');
+const {scopeTarget}=await load('@deepseek-ai/dsh-scope');
+const VIE=await import(pathToFileURL(modulePath).href);
+const ctx=new Context();await ctx.plugin(SystemPrompt);await ctx.plugin(Tools);
+const fiber=ctx.plugin(VIE);await fiber.await();await new Promise(setImmediate);
+const checks=[],pass=name=>{checks.push({name,passed:true});console.log('PASS '+name);};
+let shellCalls=0;
+const disposeShell=ctx.tools.register({...VIE.createExplainImplementation(),name:'pwsh',description:'Inert test stub',execute:async()=>{shellCalls++;return {note:'stub executed',meta:{}};}});
+const agent={id:'workflow-test'},carrier=scopeTarget(agent,agent),signal=new AbortController().signal;
+const user=text=>({source:{kind:'user'},content:[{type:'text',text}]});
+function claim(text,turn=1){ctx.emit(carrier,'agent/inbox/claimed',{agent,turn,message:user(text)});}
+const assemble=()=>ctx.systemPrompt.assemble({agent,scope:agent,signal});
+const request=(step,config={provider:'deepseek-account',model:'deepseek-flash',maxTokens:256000,reasoningEffort:'high'},turn=1)=>ctx.waterfall(carrier,'agent/request',{agent,turn,step,signal},async()=>config);
+let callSequence=0;
+const execute=(name,args={})=>ctx.tools.execute({agent,signal,callId:'test-'+(++callSequence)+'-'+name,name,arguments:args});
+try{
+ claim('解释蜗杆传动原理');
+ let a=await assemble();assert.ok(a.tools.some(t=>t.name==='vie_auto'));assert.ok(!a.tools.some(t=>t.name==='pwsh'));assert.ok(a.sections.some(s=>s.name==='dsh-vie:fast-turn'));pass('claimed message filters the very first real prompt assembly');
+ const first=await request(1);assert.equal(first.maxTokens,256000);assert.equal(first.reasoningEffort,'high');pass('real agent/request inherits the Harness output and reasoning settings on the real request hook');
+ const denied=await execute('pwsh');assert.equal(shellCalls,0);assert.match(JSON.stringify(denied),/VIE_FAST_PATH/);pass('unadvertised shell call is denied before actual execution');
+ const invalid=await execute('vie_auto',{query:'解释蜗杆传动',templateId:'lab.worm',parameters:'{"starts":1,"wheelTeeth":15}'});assert.equal(invalid.meta.valid,false);
+ a=await assemble();assert.ok(a.tools.some(t=>t.name==='vie_auto'));await request(2);pass('real invalid VIE result retains the parameter repair path');
+ const valid=await execute('vie_auto',{query:'解释蜗杆传动',templateId:'lab.worm',parameters:'{"starts":1,"wheelTeeth":20}'});assert.equal(valid.meta.valid,true);assert.equal(valid.meta.placement,'flow');
+ a=await assemble();assert.ok(a.tools.some(t=>t.name==='vie_explain'));assert.match(a.sections.at(-1).text,/Harness原生正文讲解/);const finalConfig=await request(3,first);assert.equal(finalConfig.maxTokens,256000);pass('successful real VIE result inherits the prose allowance and retains chapter tools');
+ await request(4);const third=await execute('vie_explain',{document:linkedMotion});assert.equal(third.meta.valid,true);
+ const repeated=await execute('vie_auto',{query:'解释蜗杆传动',templateId:'lab.worm'});assert.equal(repeated.meta.valid,true);a=await assemble();assert.equal(a.tools.length,0);pass('the default request bound closes tools after progressive requests');
+ claim('修改插件代码，优化渲染',2);a=await assemble();assert.ok(a.tools.some(t=>t.name==='pwsh'));await execute('pwsh');assert.equal(shellCalls,1);
+ const restored=await request(4,finalConfig,2);assert.equal(restored.maxTokens,256000);pass('next development message restores tools and original token cap');
+ claim('解释原理，只用文字',3);a=await assemble();assert.ok(a.tools.some(t=>t.name==='pwsh'));pass('explicit text-only teaching retains the standard workflow');
+ claim('图文解释一个全新主题',4);
+ for(let step=1;step<=8;step++){a=await assemble();assert.equal(a.tools.length===0,step===8);await request(step,undefined,4);}
+ pass('eighth request has no tools even if no visual succeeded');
+ claim('解释斜齿轮啮合原理',5);await assemble();await request(1,undefined,5);
+ claim('继续',6);a=await assemble();assert.ok(a.tools.some(t=>t.name==='vie_explain'));assert.ok(!a.tools.some(t=>t.name==='pwsh'));assert.equal((await request(1,{provider:'aliyunbailian',model:'qwen3.8-flash',maxTokens:128000},6)).maxTokens,128000);pass('continue and provider switch retain the pending scope and provider output allowance');
+ const draft={title:'native document',blocks:[{type:'figure',title:'keep',html:'<svg viewBox="0 0 10 10"><circle cx="5" cy="5" r="4"/></svg>'},{type:'unknown'}]};
+ const bad=await execute('vie_explain',{document:draft});assert.equal(bad.meta.valid,false);assert.equal(bad.meta.errorPath,'blocks[1]');assert.ok(bad.meta.visualId);pass('native object passes real schema and returns a block-specific repair baseline');
+ const patched=await execute('vie_explain',{visualId:bad.meta.visualId,baseRevision:bad.meta.revision,changes:[{index:1,block:{type:'figure',title:'new',html:'<svg viewBox="0 0 10 10"><rect width="10" height="10"/></svg>'}}]});assert.equal(patched.meta.valid,true,JSON.stringify(patched));assert.ok(patched.meta.source.includes('circle'));assert.equal(patched.meta.revision,2);pass('real execution repairs one block without resending the unchanged graphic');
+ a=await assemble();assert.ok(a.tools.some(t=>t.name==='vie_explain'));assert.equal((await request(2,{provider:'aliyunbailian',model:'qwen3.8-flash',maxTokens:128000},6)).maxTokens,128000);pass('normal Harness explanation inherits the output allowance after repair');
+ claim('解释匀速运动',7);await assemble();await request(1,undefined,7);const linked=await execute('vie_explain',{document:linkedMotion});assert.equal(linked.meta.valid,true,JSON.stringify(linked));assert.ok(linked.meta.source.includes('/shared/speed'));pass('native shared controls pass real Harness schema and compile into one linked parameter');
+ claim('分段图文解释弯矩图',8);await assemble();await request(1,undefined,8);
+ const main=await execute('vie_explain',{document:linkedMotion,more:true});assert.equal(main.meta.valid,true);assert.equal(main.meta.more,true);assert.ok(main.meta.anchorCallId);a=await assemble();assert.ok(a.tools.some(t=>t.name==='vie_explain'));assert.match(a.sections.at(-1).text,/先在Harness原生正文讲解/);pass('explicit continuation keeps a real next-graphic tool phase after native prose');
+ await request(2,undefined,8);const auxiliary=await execute('vie_explain',{document:linkedMotion});assert.equal(auxiliary.meta.valid,true);assert.notEqual(main.meta.anchorCallId,auxiliary.meta.anchorCallId);assert.ok((await assemble()).tools.some(t=>t.name==='vie_explain'));pass('a graphic without more does not disable a later chapter');
+ claim('解释铁碳合金相图',9);await assemble();await request(1,undefined,9);const phase=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/phase-document-missing-type.json'),'utf8'));const phaseResult=await execute('vie_explain',{document:phase,more:true});assert.equal(phaseResult.meta.valid,true,JSON.stringify(phaseResult));pass('the original phase-chart draft succeeds despite its unambiguous missing figure type');
+ claim('解释I2C通信原理',10);const {progressiveI2C}=await import('./progressive-examples.mjs');for(let i=0;i<3;i++){a=await assemble();assert.ok(a.tools.some(t=>t.name==='vie_explain'));await request(i+1,undefined,10);const result=await execute('vie_explain',{document:progressiveI2C[i].document});assert.equal(result.meta.valid,true);assert.equal(result.meta.more,false);}assert.equal((await assemble()).tools.length,0);pass('three focused I2C graphics execute without more and close at the request bound');
+ claim('解释I2C通信原理',11);await assemble();await request(1,undefined,11);const inferred=await execute('vie_explain',{document:{blocks:progressiveI2C[0].document.blocks}});assert.equal(inferred.meta.valid,true);pass('missing document title is inferred before real Host execution without a retry');
+ ctx.emit(carrier,'agent/assistant-stream',{agent,frame:{type:'chunk',chunk:{type:'finish',reason:{kind:'max-tokens'}}}});ctx.emit(carrier,'agent/assistant-stream',{agent,frame:{type:'end'}});
+ claim('继续',12);a=await assemble();assert.match(a.sections.at(-1).text,/续写/);assert.ok(!a.tools.some(t=>t.name==='web_search'));const continued=await request(1,{provider:'deepseek-account',model:'deepseek-flash',maxTokens:128000,reasoningEffort:'max'},12);assert.equal(continued.maxTokens,128000);assert.equal(continued.reasoningEffort,'max');pass('native max-token finish after an existing graphic resumes without a new cap or repeated lookup');
+ const notices=[];agent.session={id:'format-runtime'};agent.inject=m=>notices.push(m);claim('解释锻造原理',13);await assemble();await request(1,undefined,13);
+ const malformed='说明。<｜｜DSEL｜｜ calls><｜｜DSEL｜｜ invoke name="vie_explain"><svg>source</svg></｜｜DSEL｜｜ invoke></｜｜DSEL｜｜ calls>正文。',chunks=[];
+ const guarded=ctx.waterfall(ctx,'llm/stream',{sessionId:'format-runtime',signal},async function*(){for(const text of malformed)yield {type:'text-delta',index:0,text};yield {type:'block-end',index:0,block:{type:'text',text:malformed}};yield {type:'finish',reason:{kind:'completed'}};});
+ for await(const chunk of guarded)chunks.push(chunk);assert.ok(!JSON.stringify(chunks).includes('<svg>'));assert.equal(notices.length,1);assert.equal(notices[0].source.kind,'vie-format-check');pass('real llm waterfall removes split pseudo-tool source from live and settled text and injects one correction');
+ const forgingCalls=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/forging-caption-loop-calls.json'),'utf8'));for(let i=0;i<forgingCalls.length;i++){claim('解释锻造的流程',20+i);await assemble();await request(1,undefined,20+i);const r=await execute('vie_explain',forgingCalls[i]);assert.equal(r.meta?.valid,true,JSON.stringify(r));assert.equal(r.meta.caption,forgingCalls[i].caption);}pass('both exact forging calls pass real Harness schema including document.caption and self loops');
+ claim('解释一个通用流程',22);await assemble();await request(1,undefined,22);for(let i=0;i<2;i++)await execute('vie_explain',{document:{title:'invalid',blocks:[]}});a=await assemble();assert.ok(a.tools.some(t=>t.name==='vie_explain'));assert.ok(!a.tools.some(t=>t.name==='web_search'));await request(2,undefined,22);const finalTry=await execute('vie_explain',forgingCalls[0]);assert.equal(finalTry.meta?.valid,true);pass('two actual failures retain a bounded final opportunity to deliver the first graphic');
+ const other={id:'other-agent'};assert.ok((await ctx.systemPrompt.assemble({agent:other,scope:other,signal})).tools.some(t=>t.name==='pwsh'));pass('another agent is unaffected');
+ disposeShell();await fiber.dispose();assert.ok(!(await assemble()).sections.some(s=>s.name.startsWith('dsh-vie:')));pass('disposing the plugin removes hooks and prompt sections');
+ fs.writeFileSync(path.join(root,'docs/validation/workflow-runtime.json'),JSON.stringify({version:'0.27.0',runtime:'real Cordis 4 / DSH 0.2.1-rc.2',installedArtifact:installed,checks:checks.length,results:checks,externalModelRequests:0,scope:'Real lifecycle event dispatch, prompt assembly, request config and tool execution; model sequence scripted, no end-to-end latency claim.'},null,2));
+}finally{disposeShell();await fiber.dispose();await ctx.fiber.dispose();hook.deregister();}

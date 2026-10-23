@@ -1,0 +1,43 @@
+{
+  "name": "dsh-visual-interactive-engine",
+  "version": "0.27.0",
+  "type": "module",
+  "description": "Visual Interactive Engine — interactive graphics with native Harness prose; structured input, local repair and shared controls",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./assets/icon.svg"
+  },
+  "files": [
+    "lib",
+    "assets",
+    "cordis.patch.yml",
+    "locale"
+  ],
+  "engines": {
+    "node": ">=22.19.0",
+    "dsh": ">=0.2.1-rc.2 <0.3.0-0"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.4",
+    "@deepseek-ai/dsh-tools": ">=0.2.1-rc.2 <0.3.0-0",
+    "react": "^18.2.0",
+    "zod": "^4.0.0",
+    "react-dom": "^18.2.0"
+  },
+  "license": "MIT",
+  "displayName": "dsh-Visual-Interactive-Engine",
+  "icon": "./assets/icon.svg"
+}

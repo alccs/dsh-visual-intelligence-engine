@@ -1,0 +1,307 @@
+/* VIE 0.5 • content-first inline teaching widgets.
+   All rules are scoped to .vie-shell so DSH native chat stays untouched. */
+.vie-shell {
+  --vie-ink:var(--dsw-alias-text-primary,#222326);
+  --vie-muted:var(--dsw-alias-text-secondary,#777980);
+  --vie-stroke:var(--dsw-alias-border-l2,#e7e7e9);
+  --vie-layer:var(--dsw-alias-background-secondary,#f6f6f7);
+  --vie-bg:var(--dsw-alias-background-primary,#fff);
+  --vie-blue:#4088d0; --vie-green:#419d7d; --vie-amber:#c99f45;
+  --vie-color:#4088d0;
+  box-sizing:border-box; width:100%; max-width:760px; margin:6px 0 12px;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:14px; line-height:1.55; color:var(--vie-ink); background:transparent;
+}
+.vie-shell *, .vie-shell *::before, .vie-shell *::after {box-sizing:border-box}
+.vie-body {display:flex;flex-direction:column;gap:14px;padding:17px 19px;border:1px solid var(--vie-stroke);border-radius:17px;background:var(--vie-bg)}
+.vie-body > [data-id],.vie-body > section {min-width:0}
+.vie-text h3 {font-weight:620;font-size:16px;line-height:1.4;margin:0 0 3px;letter-spacing:-.025em}
+.vie-text p {margin:0;color:var(--vie-muted);font-size:13px;line-height:1.6}
+.vie-row {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.vie-column {display:flex;flex-direction:column;gap:9px;min-width:0}
+.vie-card {min-width:0;display:flex;flex-direction:column;gap:10px}
+.vie-card-title {font-size:12px;font-weight:600}
+.vie-divider {border:none;border-top:1px solid var(--vie-stroke);margin:1px 0}
+.vie-control {display:flex;flex-direction:column;gap:6px;min-width:0}
+.vie-control-label {display:flex;align-items:center;justify-content:space-between;gap:9px;font-size:13px;color:var(--vie-muted);font-variant-numeric:tabular-nums}
+.vie-control-label b {font-size:13px;color:var(--vie-ink);font-weight:620;white-space:nowrap}
+.vie-control input[type="range"],.vie-can-inputs input[type="range"] {width:100%;height:18px;background:transparent;appearance:none;-webkit-appearance:none;cursor:pointer;margin:0;touch-action:pan-y}
+.vie-control input[type="range"]::-webkit-slider-runnable-track,.vie-can-inputs input[type="range"]::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:#ededee}
+.vie-control input[type="range"]::-moz-range-track,.vie-can-inputs input[type="range"]::-moz-range-track{height:5px;border-radius:999px;background:#ededee}
+.vie-control input[type="range"]::-webkit-slider-thumb,.vie-can-inputs input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-5.5px;border-radius:50%;background:#fff;border:1px solid #dfe0e3;box-shadow:0 1px 4px #00000024}
+.vie-control input[type="range"]::-moz-range-thumb,.vie-can-inputs input[type="range"]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:#fff;border:1px solid #dfe0e3;box-shadow:0 1px 4px #00000024}
+.vie-metric {display:flex;flex-direction:row;justify-content:space-between;gap:12px;align-items:baseline;min-width:0}
+.vie-metric small {color:var(--vie-muted);font-size:12px}
+.vie-metric strong {font-weight:680;font-size:20px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.vie-badge {font-size:11px;padding:2px 7px;border:1px solid var(--vie-stroke);border-radius:999px;color:var(--vie-muted);width:max-content}
+.vie-shell button.vie-button,.vie-shell button.vie-pill {border:1px solid var(--vie-stroke);border-radius:999px;padding:5px 11px;min-height:32px;display:inline-flex;align-items:center;justify-content:center;gap:5px;background:transparent;color:var(--vie-ink);font:inherit;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s,transform .1s}
+.vie-shell button.vie-button:hover,.vie-shell button.vie-pill:hover{background:var(--vie-layer);border-color:#d8d8db}
+.vie-shell button.vie-button:active,.vie-shell button.vie-pill:active{transform:scale(.985)}
+.vie-shell button:focus-visible,.vie-shell input:focus-visible,.vie-shell summary:focus-visible {outline:2px solid var(--vie-blue);outline-offset:3px}
+.vie-chart {min-width:0;display:flex;flex-direction:column;gap:5px}
+.vie-chart-title {font-weight:580;font-size:13px;color:var(--vie-muted)}
+.vie-chart svg {display:block;width:100%;height:auto;max-height:184px}
+.vie-chart text,.vie-motion text{font:10.5px ui-sans-serif,system-ui;fill:var(--vie-muted)}
+.vie-motion {min-width:0}
+.vie-motion-header {display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0;color:var(--vie-muted);font-size:12px}
+.vie-motion-header strong{color:var(--vie-ink);font-weight:620}
+.vie-motion svg{display:block;width:100%;height:auto;max-height:156px}
+.vie-motion .vie-car{transition:transform .2s ease-out}
+.vie-progress{display:flex;flex-direction:column;gap:7px}
+.vie-track{height:5px;border-radius:999px;overflow:hidden;background:var(--vie-layer)}
+.vie-track-fill{height:100%;background:var(--vie-color);border-radius:999px;transition:width .15s}
+.vie-empty{font-size:12px;color:var(--vie-muted);padding:14px;text-align:center}
+.vie-diagnostics{font-size:11px;color:#9d6c36}.vie-diagnostics pre{overflow-wrap:anywhere;white-space:pre-wrap}
+/* Knowledge component: readable, one visual focus, quiet controls. */
+.vie-canlab{color:var(--vie-ink);min-width:0;width:100%;font-variant-numeric:tabular-nums}
+.vie-can-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 15px}
+.vie-can-head h3{font-size:16px;line-height:1.4;font-weight:610;letter-spacing:-.018em;margin:0}
+.vie-can-head .vie-can-reset{height:32px;min-height:32px;padding:3px 12px}
+.vie-can-tabs{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--vie-layer);border-radius:999px;padding:3px;margin:0 0 17px}
+.vie-shell .vie-can-tabs button.vie-can-tab{appearance:none;background:transparent;border:0;border-radius:999px;padding:6px 9px;min-width:0;min-height:30px;font:inherit;font-size:13px;line-height:1.3;cursor:pointer;color:var(--vie-muted);transition:background .16s,box-shadow .16s,color .16s}
+.vie-shell .vie-can-tabs button.vie-can-tab.active{color:var(--vie-ink);font-weight:610;background:var(--vie-bg);box-shadow:0 1px 3px #00000010}
+.vie-shell .vie-can-tabs button.vie-can-tab:hover:not(.active){background:color-mix(in srgb,var(--vie-bg) 45%,transparent)}
+.vie-can-segments{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:0 0 13px}
+.vie-can-segments>div{min-width:0;display:flex;flex-direction:column;gap:2px}
+.vie-can-segments span{font-size:12px;color:var(--vie-muted)}
+.vie-can-segments strong{font-size:18px;font-weight:660;line-height:1.35;letter-spacing:-.025em}
+.vie-can-timeline{position:relative;margin:0 0 17px}
+.vie-can-track{display:flex;overflow:hidden;width:100%;height:42px;border-radius:6px;user-select:none}
+.vie-can-seg{display:flex;align-items:center;justify-content:center;min-width:0;color:white;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;border-right:2px solid var(--vie-bg);transition:flex-grow .17s ease}
+.vie-can-seg.sync{background:#528ac4}.vie-can-seg.before{background:#3da080}.vie-can-seg.after{background:#c9a047;border-right:0}
+.vie-can-sp-indicator{position:absolute;top:41px;left:83.33%;transform:translateX(-50%);font-size:17px;line-height:17px;width:22px;text-align:center;color:#3984da;transition:left .17s;pointer-events:none}
+.vie-can-grab{position:absolute;top:3px;height:42px;width:26px;left:83.33%;transform:translateX(-50%);cursor:ew-resize;touch-action:none;z-index:2;outline-offset:4px;border-radius:8px}
+.vie-can-grab::before{content:'';display:block;position:absolute;top:-1px;left:50%;height:44px;width:2px;transform:translateX(-50%);background:#ffffffbb;box-shadow:0 0 0 1px #00000006;opacity:.85}
+.vie-can-grab:hover::after,.vie-can-grab:focus-visible::after{content:'';display:block;position:absolute;top:15px;left:50%;height:13px;width:7px;transform:translateX(-50%);border-radius:4px;background:#fff;box-shadow:0 1px 5px #0003}
+.vie-can-axis{display:flex;align-items:center;justify-content:space-between;position:relative;height:28px;padding-top:9px;color:var(--vie-muted);font-size:11.5px}
+.vie-can-axis strong{font-size:12px;color:#3984da;font-weight:570}
+.vie-can-metrics{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 13px}
+.vie-can-metrics>div{min-width:0}.vie-can-metrics span{display:block;color:var(--vie-muted);font-size:12px;margin-bottom:1px}
+.vie-can-metrics strong{display:block;font-size:23px;font-weight:660;letter-spacing:-.028em;line-height:1.4}
+.vie-can-guidance{font-size:13px;line-height:1.62;color:var(--vie-ink);margin:5px 0 8px}
+.vie-can-message{font-size:12px;line-height:1.5;color:#9a6b26;margin:4px 0}.vie-can-message:empty{display:none}
+.vie-can-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--vie-stroke);padding-top:9px}
+.vie-can-more{min-width:0;flex:1}.vie-can-more summary{width:max-content;list-style:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;color:var(--vie-muted);padding:4px 2px}
+.vie-can-more summary::-webkit-details-marker{display:none}.vie-can-more[open] summary span{transform:rotate(180deg)}
+.vie-can-more summary span{font-size:12px;display:inline-block;transition:transform .14s}
+.vie-can-extra-body{display:flex;flex-direction:column;gap:13px;padding:13px 0 4px}
+.vie-can-inputs{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 0 3px}
+.vie-can-inputs label{display:flex;flex-direction:column;gap:8px;min-width:0}
+.vie-can-inputs label>span{display:flex;justify-content:space-between;gap:6px;font-size:13px;color:var(--vie-muted)}
+.vie-can-inputs b{color:var(--vie-ink);font-weight:610}
+.vie-can-lock{font-size:12px;display:flex;align-items:center;gap:7px;color:var(--vie-muted)}
+.vie-can-lock input{width:15px;height:15px;margin:0;accent-color:var(--vie-blue)}
+.vie-can-advanced{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.vie-can-advanced label{display:flex;flex-direction:column;min-width:0;gap:5px;font-size:12px;color:var(--vie-muted)}
+.vie-can-advanced input{width:100%;min-width:0;border:1px solid var(--vie-stroke);border-radius:9px;height:34px;padding:4px 9px;background:var(--vie-bg);color:var(--vie-ink);font:inherit;font-size:13px}
+.vie-can-presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.vie-can-presets>span{font-size:12px;color:var(--vie-muted);margin-right:5px}
+.vie-can-extra-values{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--vie-muted)}.vie-can-extra-values strong{color:var(--vie-ink);font-weight:600}
+.vie-can-compare{border-top:1px solid var(--vie-stroke);padding-top:11px}.vie-can-compare>strong{font-size:13px;font-weight:610}
+.vie-can-compare-lines{display:grid;gap:8px;margin:10px 0}.vie-can-compare-lines>div{display:grid;grid-template-columns:16px 1fr 70px;gap:9px;align-items:center;color:var(--vie-muted);font-size:12px}
+.vie-can-compare-lines b{text-align:right;color:var(--vie-ink);font-weight:600}.vie-can-mini{height:5px;border-radius:99px;background:var(--vie-layer);overflow:hidden}
+.vie-can-mini i{display:block;height:100%;background:var(--vie-blue)}.vie-can-compare-lines>div:nth-child(2) i{background:var(--vie-green)}
+.vie-can-compare p,.vie-can-formula{font-size:12px;color:var(--vie-muted);line-height:1.6;margin:6px 0}
+.vie-can-explanation{margin-top:11px;padding:10px 12px;background:var(--vie-layer);border-radius:9px;line-height:1.65;color:var(--vie-ink);font-size:13px}.vie-can-explanation[hidden]{display:none}
+.vie-shell .vie-can-why{display:inline-flex;gap:6px}
+@media(max-width:580px){.vie-body{padding:14px 14px;gap:12px}.vie-can-head{margin-bottom:12px}.vie-can-segments{gap:8px}.vie-can-segments strong{font-size:16px}.vie-can-tabs{margin-bottom:13px}.vie-can-track{height:38px}.vie-can-grab{height:39px}.vie-can-sp-indicator{top:37px}.vie-can-metrics strong{font-size:21px}.vie-can-inputs{gap:12px}.vie-can-advanced{gap:6px}.vie-can-advanced label{font-size:11px}.vie-can-guidance{font-size:12.5px}}
+@media(prefers-color-scheme:dark){.vie-shell{--vie-ink:#f2f2f3;--vie-muted:#b5b5bc;--vie-stroke:#454549;--vie-layer:#313134;--vie-bg:#242426;--vie-blue:#78aaec;--vie-green:#479c80;--vie-amber:#b79045}.vie-can-seg{color:#fff}.vie-can-tab.active{background:#444448}}
+@media(prefers-reduced-motion:reduce){.vie-shell *, .vie-shell *::before,.vie-shell *::after{transition:none!important;animation:none!important}}
+
+/* VIE 0.8: legible coordinate plots and evidence-bearing data charts. */
+.vie-chart {gap:4px}
+.vie-chart-title{font-size:13px;font-weight:600;color:var(--vie-ink)}
+.vie-chart-drawing{width:100%;min-width:0}
+.vie-chart-drawing svg{display:block;width:100%;height:auto;max-height:245px;overflow:visible}
+.vie-chart-drawing svg text{font:11px ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;fill:var(--vie-muted);font-variant-numeric:tabular-nums}
+.vie-chart-drawing svg .vie-axis-name{font-size:12px;font-weight:600;fill:var(--vie-ink)}
+.vie-grid-line{stroke:var(--vie-stroke);stroke-width:1;stroke-dasharray:3 4}
+.vie-data-axis{stroke:var(--vie-muted);stroke-width:1.1;opacity:.6}
+.vie-bar-item{cursor:pointer;outline:none}
+.vie-bar-item:focus .vie-data-bar{stroke:var(--vie-ink);stroke-width:2.5}
+.vie-data-bar{fill:#9cbfe5;transition:fill .12s ease,opacity .12s ease}
+.vie-data-bar.is-active{fill:var(--vie-blue)}
+.vie-bar-item:hover .vie-data-bar{fill:#6ba2dc}
+.vie-chart-drawing svg .vie-bar-value{font-weight:600;font-size:11px;fill:var(--vie-ink)}
+.vie-chart-note{font-size:12.5px;line-height:1.5;color:var(--vie-ink);min-height:20px}
+.vie-chart-footer{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;color:var(--vie-muted);font-size:11px}
+.vie-raw-data{border-top:1px solid var(--vie-stroke);margin-top:5px;padding-top:7px;font-size:12px;color:var(--vie-muted)}
+.vie-raw-data summary{cursor:pointer;list-style:none;width:max-content}
+.vie-raw-data summary::before{content:'＋';margin-right:6px}
+.vie-raw-data[open] summary::before{content:'－'}
+.vie-data-table{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-top:12px}
+.vie-data-table>div{display:flex;flex-direction:column;gap:2px;padding:7px 9px;background:var(--vie-layer);border-radius:9px}
+.vie-data-table strong{font-size:13px;color:var(--vie-ink);font-weight:610}
+@media(max-width:450px){.vie-chart-drawing svg{max-height:225px}.vie-chart-note{font-size:12px}.vie-data-table{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Context handoff remains invisible until a value changes; no extra default UI. */
+.vie-context-row{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:2px;font-size:11px;color:var(--vie-muted)}
+.vie-context-button{font:500 12px system-ui,sans-serif;color:var(--vie-muted);border:1px solid var(--vie-stroke);background:transparent;border-radius:999px;padding:5px 10px;cursor:pointer}
+.vie-context-button:hover{color:var(--vie-ink);background:var(--vie-layer)}
+.vie-context-button:focus-visible{outline:2px solid var(--vie-blue);outline-offset:2px}
+
+.vie-error{padding:9px 12px;border:1px solid var(--vie-stroke);border-radius:10px;font:13px system-ui,sans-serif;color:var(--vie-muted)}
+
+/* VIE 0.13: generic semantics-first visual grammar */
+.vie-visual-host{min-width:0;width:100%}
+.vie-visual-panel{display:flex;flex-direction:column;gap:9px;min-width:0;color:var(--vie-ink);font:inherit}
+.vie-visual-heading{display:flex;align-items:center;gap:9px;justify-content:space-between;font-size:14px;line-height:1.45}
+.vie-visual-heading strong{font-weight:660}
+.vie-visual-subtitle{font-size:12.5px;line-height:1.5;color:var(--vie-muted);margin:0}
+.vie-visual-content{background:var(--vie-bg);min-width:0;border-radius:12px;overflow:hidden}
+.vie-visual-svg{width:100%;height:auto;max-height:440px;display:block;overflow:visible}
+.vie-visual-svg text{font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;paint-order:stroke}
+.vie-visual-hint{font-size:11.5px;color:var(--vie-muted);line-height:1.5}
+.vie-visual-selected{padding:10px 12px;border-radius:10px;background:var(--vie-layer);display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px}
+.vie-visual-selected strong{font-size:13px;color:var(--vie-ink)}.vie-visual-selected span{color:var(--vie-muted)}
+.vie-visual-accuracy{font-size:11px;color:var(--vie-muted)}
+.vie-svg-item{outline:none;cursor:pointer}.vie-svg-item:focus-visible>rect,.vie-svg-item:hover>rect{stroke:#5285be;stroke-width:2.6}
+.vie-svg-item:focus-visible>circle,.vie-svg-item:hover>circle{stroke:#5285be;stroke-width:3}
+.vie-visual-mobile-list{display:none;flex-wrap:wrap;gap:7px}
+.vie-visual-mobile-list button{border:1px solid var(--vie-stroke);border-radius:999px;background:transparent;padding:6px 10px;color:var(--vie-ink);font:inherit;font-size:12px;cursor:pointer}
+.vie-visual-mobile-list button.is-active{border-color:var(--vie-blue);background:var(--vie-layer)}
+.vie-timeline-list{display:flex;gap:9px;overflow-x:auto;padding:4px 0 10px;scroll-snap-type:x proximity}
+.vie-timeline-item{position:relative;flex:1;min-width:94px;min-height:98px;border:1px solid var(--vie-stroke);border-radius:12px;background:var(--vie-bg);display:flex;flex-direction:column;gap:7px;align-items:flex-start;padding:12px 10px;text-align:left;color:var(--vie-ink);font:inherit;cursor:pointer;scroll-snap-align:start}
+.vie-timeline-item.is-active{border-color:var(--vie-blue);background:var(--vie-layer)}
+.vie-timeline-step{width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:var(--vie-layer);color:var(--vie-ink);font-size:11px;font-weight:600}
+.vie-timeline-when{font-size:11px;color:var(--vie-muted)}.vie-timeline-item strong{font-size:12px;line-height:1.4;font-weight:600}
+@media(max-width:550px){.vie-visual-svg{max-height:290px}.vie-visual-panel[data-vie-visual='RelationGraph'] .vie-visual-svg{max-height:230px}.vie-visual-mobile-list{display:flex}.vie-timeline-list{gap:7px}.vie-timeline-item{min-width:110px;flex:0 0 44%}}
+@media(prefers-reduced-motion:reduce){.vie-visual-panel *, .vie-visual-panel *::after,.vie-visual-panel *::before{animation:none!important;transition:none!important}}
+
+.vie-visual-legend{display:flex;flex-wrap:wrap;gap:6px}.vie-visual-legend button{font:inherit;font-size:11.5px;border:1px solid var(--vie-stroke);background:var(--vie-bg);color:var(--vie-ink);border-radius:999px;padding:5px 10px;cursor:pointer}.vie-visual-legend button.is-active{background:var(--vie-layer);border-color:var(--vie-blue)}
+
+.vie-visual-mobile-svg{display:none}
+@media(max-width:550px){.vie-visual-desktop-svg{display:none}.vie-visual-mobile-svg{display:block;max-height:none}.vie-visual-panel[data-vie-visual="Diagram"] .vie-visual-content{overflow-x:auto}.vie-visual-panel[data-vie-visual="Diagram"] .vie-visual-svg{min-width:450px;max-height:300px}}
+
+/* 0.14.1 runtime diagnostics and compact accessibility. */
+.vie-runtime-diagnostics{border:1px solid var(--vie-stroke);background:var(--vie-layer);border-radius:9px;padding:7px 10px;color:var(--vie-muted);font-size:12px;line-height:1.5}.vie-runtime-diagnostics p{margin:2px 0}.vie-error pre{white-space:pre-wrap;word-break:break-word;font-size:11px}.vie-error details{margin-top:7px}.vie-error summary{cursor:pointer}.vie-row{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:370px){.vie-row{grid-template-columns:minmax(0,1fr)}}
+
+/* Empty diagnostic holders must not reserve card space. */
+.vie-runtime-diagnostics:empty,.vie-diagnostics:empty{display:none}
+
+/* VIE 0.15.2: quiet, readable captions beneath optional single-scene visuals. */
+.vie-figure-caption{font-size:12px;line-height:1.65;color:var(--vie-muted,#64748b);margin:6px 0 2px;overflow-wrap:anywhere}
+.vie-annotated-surface{min-width:0;max-width:100%}
+@media (max-width:390px){.vie-figure-caption{font-size:11px}}
+
+/* 0.16 declarative responsive split; no untrusted freeform CSS. */
+.vie-split{display:grid;grid-template-columns:minmax(0,var(--vie-split-ratio,50%)) minmax(0,1fr);gap:12px;align-items:start}
+.vie-split>*{min-width:0}
+@media(max-width:600px){.vie-split{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.vie-split *{scroll-behavior:auto}}
+
+/* Chat-scale visual experiments: one primary visual, one light control row, one takeaway. */
+.vie-semantic-host{width:100%;min-width:0}
+.vie-semantic-lab{min-width:0;color:var(--vie-ink)}
+.vie-lab-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}
+.vie-lab-head h3{font-size:16px;letter-spacing:-.025em;line-height:1.35;margin:0 0 3px;font-weight:650}
+.vie-lab-head p{margin:0;color:var(--vie-muted);font-size:12.5px;line-height:1.5}
+.vie-lab-head button{flex-shrink:0}
+.vie-lab-visual{min-width:0;margin:1px 0 12px}
+.vie-lab-svg{display:block;width:100%;max-height:175px;height:auto;overflow:visible}
+.vie-lab-explain{font-size:12.5px;line-height:1.6;color:var(--vie-ink);margin:11px 0 0}
+.vie-lab-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}
+.vie-lab-controls:empty{display:none}
+.vie-lab-slider{display:flex;flex-direction:column;min-width:0;gap:4px}
+.vie-lab-slider>span{font-size:12px;display:flex;justify-content:space-between;gap:8px;color:var(--vie-muted)}
+.vie-lab-slider b{color:var(--vie-ink);font-weight:650;font-variant-numeric:tabular-nums}
+.vie-lab-slider input{width:100%;margin:3px 0 0;accent-color:var(--vie-blue);cursor:pointer;min-height:22px}
+.vie-lab-pills{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.vie-lab-pills .selected{background:var(--vie-layer)!important;border-color:#d6dbe1!important}
+.vie-bit-panel{padding:8px 0}
+.vie-bit-row{display:grid;grid-template-columns:28px minmax(0,1fr) 34px;gap:7px;align-items:center;margin:6px 0}
+.vie-bit-row>span{color:var(--vie-muted);font-size:12px;font-weight:650}
+.vie-bit-row>small{text-align:right;color:var(--vie-muted);font-variant-numeric:tabular-nums}
+.vie-bit-cells{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}
+.vie-bit{min-width:0;height:34px;padding:0!important;border:1px solid var(--vie-stroke)!important;border-radius:7px!important;background:var(--vie-layer)!important;font:600 14px ui-monospace,monospace!important;color:var(--vie-ink)!important;cursor:pointer}
+.vie-bit:hover{border-color:var(--vie-blue)!important}
+.vie-bit-result{display:flex;align-items:center;justify-content:center;height:34px;background:var(--vie-layer);border-radius:7px;font:650 14px ui-monospace,monospace}
+.vie-bit-result.on{background:#e7f2ff;color:#237ac3}
+.vie-bit-separator{height:1px;background:var(--vie-stroke);margin:9px 37px 9px 35px}
+.vie-outcomes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:13px 0 15px}
+.vie-outcome{min-width:0;border-radius:10px!important;background:var(--vie-layer)!important;border:1px solid var(--vie-stroke)!important;min-height:53px;color:var(--vie-ink)!important;font:650 18px ui-sans-serif,system-ui!important;cursor:pointer}
+.vie-outcome.chosen{background:#e9f3ff!important;border-color:#83b5e8!important;color:#1767ac!important}
+.vie-prob-bar{height:12px;background:var(--vie-layer);border-radius:50px;overflow:hidden}
+.vie-prob-bar>div{background:#4a8bd1;height:100%;border-radius:50px;transition:width .12s}
+.vie-prob-label{display:flex;justify-content:space-between;font-size:12px;color:var(--vie-muted);margin-top:7px}
+.vie-prob-label strong{color:var(--vie-blue);font-weight:650}
+@media(max-width:440px){.vie-lab-controls{gap:13px;grid-template-columns:1fr}.vie-outcomes{gap:4px}.vie-outcome{min-height:45px}.vie-bit-cells{gap:2px}.vie-bit{height:32px}.vie-lab-head p{font-size:12px}}
+/* Shared native-like range controls: neutral track, quiet round thumb. */
+.vie-shell .vie-lab-slider input[type="range"]{appearance:none;-webkit-appearance:none;height:20px;background:transparent;margin:1px 0 0}
+.vie-shell .vie-lab-slider input[type="range"]::-webkit-slider-runnable-track{height:5px;border-radius:50px;background:#eaecef}
+.vie-shell .vie-lab-slider input[type="range"]::-moz-range-track{height:5px;border-radius:50px;background:#eaecef}
+.vie-shell .vie-lab-slider input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-5.5px;border-radius:50%;background:white;border:1px solid #d7d9dd;box-shadow:0 1px 4px #0000001c}
+.vie-shell .vie-lab-slider input[type="range"]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:white;border:1px solid #d7d9dd;box-shadow:0 1px 4px #0000001c}
+.vie-shell .vie-lab-slider input[type="range"]:focus-visible{outline:2px solid var(--vie-blue);outline-offset:4px;border-radius:4px}
+
+/* Intelligent-UI-style vector explorer: the diagram is the lesson, not a mini dashboard. */
+.vie-lab-vector {
+  --vie-vector-main:#367eea;
+  --vie-vector-x:#2e9c7c;
+  --vie-vector-y:#d6a04b;
+  --vie-vector-axis:#9ba5b3;
+  --vie-vector-grid:rgba(145,159,175,.18);
+  --vie-vector-angle:#718399;
+  --vie-vector-tip-ring:#fff;
+}
+.vie-lab-vector .vie-lab-head{margin-bottom:5px}
+.vie-vector-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(142px,172px);align-items:center;gap:7px 12px;min-width:0}
+.vie-vector-canvas{position:relative;min-width:0;display:flex;align-items:center;justify-content:center}
+.vie-vector-svg{width:100%;height:auto;max-width:410px;max-height:242px;display:block;overflow:visible;touch-action:pan-y}
+.vie-vector-svg [data-vector-handle]{cursor:grab;outline:none;touch-action:none}
+.vie-vector-svg [data-vector-handle].dragging{cursor:grabbing}
+.vie-vector-svg [data-vector-handle]:focus-visible{stroke:var(--vie-vector-main);stroke-width:2;stroke-dasharray:3 3}
+.vie-vector-tick{font-size:10.5px;fill:var(--vie-muted);font-variant-numeric:tabular-nums}
+.vie-vector-axis-label{font-size:12px;fill:var(--vie-muted);font-weight:550}
+.vie-vector-arc-label{font-size:11px;fill:var(--vie-vector-angle);text-anchor:middle;font-variant-numeric:tabular-nums}
+.vie-vector-coordinate{font-size:10.5px;fill:var(--vie-ink);font-variant-numeric:tabular-nums;font-weight:550}
+.vie-vector-hint{display:inline-flex;align-items:center;gap:4px;position:absolute;left:11px;bottom:8px;color:var(--vie-muted);font-size:11px;pointer-events:none}
+.vie-vector-insights{min-width:0;display:flex;flex-direction:column;gap:13px;padding:2px 0 2px 13px;border-left:1px solid var(--vie-stroke)}
+.vie-vector-meta span{color:var(--vie-muted);font-size:11.5px;display:block;margin-bottom:3px}
+.vie-vector-meta strong{display:block;font-size:15px;font-weight:660;letter-spacing:-.018em;font-variant-numeric:tabular-nums}
+.vie-vector-metric-label{display:flex;align-items:center;gap:7px;color:var(--vie-muted);font-size:11.5px;white-space:nowrap}
+.vie-vector-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--vie-vector-x);flex-shrink:0}
+.vie-vector-metric.y .vie-vector-dot{background:var(--vie-vector-y)}
+.vie-vector-metric>strong{font-size:23px;line-height:1.2;letter-spacing:-.035em;display:block;font-weight:650;font-variant-numeric:tabular-nums;color:var(--vie-ink);margin-top:3px}
+.vie-vector-metric>small{font-size:10.5px;color:var(--vie-muted)}
+.vie-lab-vector .vie-vector-controls{margin:2px 0 0;gap:8px 19px}
+.vie-lab-vector .vie-vector-explain{margin:7px 0 0;color:var(--vie-muted);font-size:12px}
+@media(max-width:560px){
+ .vie-vector-stage{grid-template-columns:minmax(0,1fr);gap:0}
+ .vie-vector-svg{max-height:205px;max-width:325px}
+ .vie-vector-insights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:3px 0 9px;border:0;border-bottom:1px solid var(--vie-stroke)}
+ .vie-vector-meta{align-self:center}
+ .vie-vector-meta strong{font-size:13px}
+ .vie-vector-metric-label{font-size:10px;gap:3px;white-space:normal}
+ .vie-vector-metric>strong{font-size:18px;margin-top:2px}
+ .vie-vector-metric>small{display:none}
+ .vie-vector-hint{bottom:2px;left:0}
+ .vie-lab-vector .vie-vector-controls{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}
+ .vie-lab-vector .vie-vector-explain{font-size:11.5px}
+}
+
+/* Stable completed-Turn surface; keeps the visual aid outside folded work steps. */
+.vie-tail{display:grid;gap:12px;margin:9px 0 16px;max-width:100%;min-width:0}
+.vie-tail-item{min-width:0}
+.vie-tail-label{font-size:12px;font-weight:600;color:var(--vie-text,#293342);margin:0 0 6px 2px}
+.vie-published-marker{display:inline-block;font-size:11px;color:var(--vie-muted,#64748b);padding:5px 1px}
+
+/* VIE 0.14: semantic multi-panel answers and motion controls */
+.vie-animation-controls{display:flex;gap:9px;align-items:center;margin:9px 0 3px;padding:7px 2px;min-width:0}
+.vie-animation-controls>button{border:1px solid var(--vie-border,#e5e9ef);background:var(--vie-layer,#f8f9fb);border-radius:999px;padding:5px 12px;color:inherit;white-space:nowrap;cursor:pointer;font:inherit;font-size:12px}
+.vie-animation-controls>button:focus-visible{outline:2px solid #4789db;outline-offset:2px}
+.vie-animation-controls>input{flex:1;min-width:36px;accent-color:#4c82c9;cursor:pointer;touch-action:pan-y}
+.vie-animation-controls>span{min-width:38px;font-size:11px;font-variant-numeric:tabular-nums;color:var(--vie-muted,#6c7987);text-align:right}
+.vie-visual-content svg [data-vie-shape]{transform-box:view-box}
+.vie-visual-host .vie-visual-panel{margin-bottom:5px}
+@media(max-width:380px){.vie-animation-controls{gap:5px}.vie-animation-controls>button{padding:5px 9px;font-size:11px}}
+
+/* VIE 0.16.1 article-flow for multi-panel stories inside the persistent turn tail. */
+.vie-body--article { border:0; border-radius:0; background:transparent; padding:4px 0; gap:18px }
+.vie-body--article > .vie-text {padding:2px 1px; max-width:72ch}
+.vie-body--article > .vie-text p {font-size:15px;line-height:1.8;color:var(--vie-ink);white-space:pre-line;overflow-wrap:anywhere}
+.vie-body--article > .vie-visual-host {border:1px solid var(--vie-stroke);background:var(--vie-bg);border-radius:14px;padding:12px}
+.vie-visual-warning{font-size:12px;color:#a46d2f;margin:4px 0}
+@media(max-width:420px){.vie-body--article > .vie-text p {font-size:14px;line-height:1.75}.vie-body--article > .vie-visual-host{padding:7px}}
+@media(prefers-reduced-motion:reduce){.vie-body--article *{scroll-behavior:auto!important;transition:none!important}}
+
+.vie-answer{min-width:0;margin:10px 0 18px}.vie-answer:empty{display:none}.vie-generation-status{font-size:12px;color:var(--vie-muted,#718096);margin:6px 0}.vie-general-chart{border:1px solid var(--vie-stroke,#dde3eb);border-radius:14px;padding:14px;min-width:0}.vie-general-chart header{display:flex;align-items:center;justify-content:space-between;gap:12px}.vie-general-chart h3{font-size:15px;margin:0}.vie-general-chart button{font:inherit;border:1px solid var(--vie-stroke,#dde3eb);border-radius:8px;background:transparent;color:inherit;padding:5px 10px;cursor:pointer}.vie-general-chart svg{display:block;width:100%;height:auto;overflow:visible}.vie-general-chart text{font:11px system-ui;fill:var(--vie-muted,#718096)}.vie-general-chart-grid{stroke:var(--vie-stroke,#dde3eb);stroke-width:.7;fill:none}.vie-general-chart-axis{stroke:var(--vie-muted,#718096);fill:none}.vie-general-chart-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px}.vie-general-chart-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.vie-general-chart-controls{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}.vie-general-chart-controls label{display:flex;flex-direction:column;flex:1 1 160px;gap:5px;font-size:12px}.vie-general-chart-controls input{width:100%;accent-color:#4d82d6}.vie-general-chart-note,.vie-general-chart [data-chart-error]{font-size:12px;color:var(--vie-muted,#718096);line-height:1.6}.vie-general-chart [data-chart-error]:empty{display:none}

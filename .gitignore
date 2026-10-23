@@ -1,0 +1,24 @@
+# Dependencies
+node_modules/
+
+# Local verification sandbox and generated reports
+.validation/
+docs/validation/
+
+# Build output (published as GitHub Release assets instead of committed)
+dist/
+*.tgz
+
+# Not part of the published source tree
+tests/
+screenshots/
+.github/
+
+# Generated documentation (rebuilt by scripts/build.mjs)
+docs/
+
+# OS / editor noise
+Thumbs.db
+.DS_Store
+*.log
+npm-debug.log*
