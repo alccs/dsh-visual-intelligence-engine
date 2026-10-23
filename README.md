@@ -1,106 +1,151 @@
-# dsh-Visual-Interactive-Engine 0.29.0
+<div align="center">
 
-DeepSeek Harness 通用可视化插件。VIE 负责图形、交互和短标注；完整解释由 Harness 正文渲染，按「图 → 文 → 图 → 文」展开，一个概念一张图。
+<img src="package/assets/icon.png" width="88" alt="VIE 插件图标" />
 
-任意主题均可组合通用组件，复杂画面仍可自定义 figure。结构校验、iframe ready、动画运行都不等于科学正确；尚无真实外部模型端到端速度承诺。
+# dsh-Visual-Interactive-Engine
 
-0.29.0 更新：新增通用学习数据与学习模式，阶段图和测验复用统一交互外壳；修复模式菜单依赖、测验字段校验和动态SDK误拦；补齐短主题冷恢复，默认关闭120秒强制中止。保留原有最终图文阅读流、自由绘图及局部修订能力。
+**把回答变成看得见、能操作的解释。**
 
-## 下载
+DeepSeek Harness 通用可视化插件 · 图文结合 · 动画演示 · 本地交互
 
-[VIE 0.29.0正式版已发布](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.0)，可直接下载安装：
+[下载 0.29.0](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.0) · [快速开始](#快速开始) · [效果展示](#效果展示) · [架构文档](docs/ARCHITECTURE.md)
 
-| 文件 | 用途 |
-|---|---|
-| [dsh-visual-interactive-engine-0.29.0.tgz](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/dsh-visual-interactive-engine-0.29.0.tgz) | Harness插件安装包 |
-| [SHA256SUMS.txt](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/SHA256SUMS.txt) | 本次插件附件的SHA256校验值 |
+</div>
 
-公开源码即本仓库。离线演示可从源码构建，本次Release未上传本地完整源码ZIP、会话记录或私有验证材料。
+VIE 让模型在聊天中绘制图形、构建动画和交互演示。解释复杂概念时，可以一边看图、一边读正文，再通过拖动参数、切换阶段或单步播放观察变化。
 
-## 安装
+**图形和交互交给 VIE，完整讲解由 Harness 正文呈现。** 图与文字按讲解顺序穿插，让每一张图都有相邻的解释。
 
-Desktop：在 DeepSeek Harness 应用内插件管理器安装上面的 TGZ，重启应用并新开聊天。
+![学习模式：切换接触前、电子扩散、达到平衡三个阶段](docs/readme/learning.png)
 
-Web CLI：
+*接触电动势示意：切换阶段，观察电子重新分布与电场的形成。图中使用教学简化模型。*
+
+## 能做什么
+
+| 能力 | 使用方式 |
+| --- | --- |
+| **通用绘图** | 根据问题绘制结构、关系、流程、时间线和自由图形；已有示例不限制可讲解的主题。 |
+| **动画与模拟** | 演示运动或状态变化；支持带播放、单步、复位等控制的场景。具体操作由场景决定。 |
+| **参数交互** | 用滑块、选项和输入框改变参数，在浏览器中更新图形与读数。 |
+| **图表联动** | 绘制数据与函数曲线，共享参数可同时驱动多张图和自定义画面。 |
+| **图文交替** | 按「图 → 解释 → 图 → 解释」组织回答，图内保留操作、必要标签与短说明。 |
+| **学习模式** | 用直观定义、因果链和主图讲清概念，按需加入应用示例与交互测验。 |
+| **继续追问** | 将当前图形参数放入输入框，让后续问题接着当前状态讨论。 |
+
+交互逻辑生成后，切换阶段、调节参数等已实现的操作在本地运行，无需为每次点击重新请求模型。需要新的解释或修改画面时，再继续对话。
+
+## 效果展示
+
+以下包含实际聊天截图，以及使用 **0.29.0 插件渲染器**截取的离线演示。README 中展示的是静态截图，安装后可操作对应场景。
+
+### 材料与组织：把抽象变化排成一眼能比较的图
+
+从低碳到高碳，对比室温组织的变化。图中突出组织形态与标注，材料性质和形成过程由相邻正文解释。
+
+![铁碳合金：不同含碳量下的室温组织示意](docs/readme/iron-carbon.png)
+
+*实际聊天截图。组织纹理用于示意，不是金相照片。*
+
+### 受力与几何：用方向、颜色和位置解释关系
+
+在同一啮合点标出法向力及其分量，让受力方向与几何关系对应起来。
+
+![直齿圆柱齿轮：啮合点 P 的力分解](docs/readme/gear-forces.png)
+
+*实际聊天截图。可放大观察细节，完整分析继续使用 Harness 正文。*
+
+### 机构与运动：切换条件，观察不同输出
+
+行星轮系演示可切换固定构件、播放运动、单步推进并比较转速读数。这是可直接复用的机构示例，其他主题也可以使用通用绘图与交互能力构建。
+
+![行星轮系：固定条件、运动控制与转速读数](docs/readme/planetary.png)
+
+*0.29.0 渲染器演示。齿形为教学示意，转速按示例的理想模型计算。*
+
+### 图文讲解：每张图后面，就有它的解释
+
+先看弯矩图及其说明，再看剪力图及其说明。长内容分段阅读，图之间的正文保留在对应位置。
+
+![弯矩与剪力：图、正文、图、正文的阅读顺序](docs/readme/figure-and-prose.png)
+
+*0.29.0 离线演示，展示图形与正文的排列方式。*
+
+## 快速开始
+
+### 1. 安装插件
+
+下载 [dsh-visual-interactive-engine-0.29.0.tgz](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/dsh-visual-interactive-engine-0.29.0.tgz)，在 **DeepSeek Harness 桌面版的插件管理器**中安装，完成后完全退出并重新打开 Harness。
+
+使用 Web CLI 时：
 
 ```powershell
 dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-0.29.0.tgz"
 ```
 
-兼容 DSH `>=0.2.1-rc.2 <0.3.0-0`、Node `>=22.19`。旧工具名、`/vie` 命令和偏好文件保持兼容。
+重启承载 Web UI 的 Harness 进程。兼容范围：DSH `>=0.2.1-rc.2 <0.3.0-0`；Node.js `>=22.19`。
 
-安装后可直接提问，例如「画出齿轮啮合受力分析图」或「用图文解释文件系统为什么需要日志」；`/vie status` 查看本进程统计。
+安装详情与排障见 [安装指南](INSTALL.md)，安装包校验值见 [SHA256SUMS.txt](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/SHA256SUMS.txt)。
 
-输入框的 VIE 开关支持自动 / 本聊天启用 / 学习模式 / 关闭，也可直接输入：
+### 2. 选择模式
+
+在输入框旁的 **VIE** 菜单中选择，也可以输入命令：
+
+| 模式 | 作用 | 命令 |
+| --- | --- | --- |
+| **自动** | 按问题意图判断是否需要可视化。 | `/vie auto` |
+| **本聊天启用** | 明确本聊天的可视化偏好，也支持直接输入简短主题。 | `/vie on` |
+| **学习模式** | 在可视化基础上，增加分阶段理解、因果解释和按需测验的讲解指引。 | `/vie study` |
+| **关闭** | 停止生成新的 VIE 内容，已生成的图仍可查看。 | `/vie off` |
+
+自动模式与学习模式共用绘图能力；自动模式不默认加入学习模式的讲解结构。当前聊天的选择独立保存；`/vie global auto` 可设置未单独配置聊天的默认模式。
+
+### 3. 直接提问
+
+不必先选模板，可以从你正在研究的问题开始：
 
 ```text
-/vie
-/vie auto
-/vie on
-/vie study
-/vie off
-/vie global auto
+用图文解释接触电动势，分阶段展示电子重新分布的过程。
+
+画出齿轮啮合点的受力分析图，标出法向力和两个分量。
+
+解释二分查找，让我逐步查看每轮保留和排除的区间。
+
+画出 y = A sin(ωt)，让我调节振幅和频率，观察曲线变化。
 ```
 
-`auto` / `on` / `study` / `off` 只设置当前聊天；`global auto|on|study|off` 修改其他未配置聊天的默认值，不覆盖已有明确选择。偏好保存在 `DSH_HOME/dsh-vie-mode.json`。
+## 如何实现
 
-学习模式按直观定义、因果链和主图组织内容，应用与测验按需追加；自动模式共享同一套绘图能力，但不默认套用学习指引。
+模型根据内容生成场景数据或自定义 SVG / HTML / Canvas 等画面；VIE 负责渲染、交互状态和与聊天的衔接。常见图表、阶段切换与测验可以复用现成组件，复杂画面可自由绘制。
 
-## 从源码构建
+```text
+用户提问 → 模型组织内容 → VIE 绘图与本地交互
+                       → Harness 渲染正文解释
+```
+
+自定义可执行画面运行在受限 iframe 内。引擎提供统一的部分控件与主题适配，自定义画面也可拥有自己的布局和样式。
+
+生成耗时取决于模型、内容复杂度和生成量；本地交互可以减少重复请求。图形能渲染、动画能运行，并不自动代表知识或物理模型正确，专业用途仍需核对。
+
+## 开发与文档
 
 ```bash
 npm install
-npm run build     # src/ -> package/lib/{index,client}.js
+npm run build
+npm pack ./package
 ```
 
-`npm run build` 是确定性的离线拼接，无外部依赖、无 eval。构建后可自行 `npm pack ./package` 得到安装包。
+`src/` 为引擎源码，`package/` 为插件清单、资源与构建产物，`scripts/` 为构建和验证脚本。
 
-> 本仓库只发布源码与插件清单。完整验证门禁（`tests/`、验证报告、`screenshots/`、隔离宿主运行时）不在仓库内，也不随 Release 分发；`npm run check`、`npm run verify`、`npm run release` 需要那套目录树才能运行。`npm run build` 与 `npm pack` 不依赖它们。项目概览见[当前项目总结](docs/PROJECT-OVERVIEW-0.29.0.md)，模块与数据流见[架构说明](docs/ARCHITECTURE.md)。
+| 文档 | 内容 |
+| --- | --- |
+| [安装指南](INSTALL.md) | 安装、配置与排障 |
+| [项目概览](docs/PROJECT-OVERVIEW-0.29.0.md) | 项目定位、能力与边界 |
+| [架构说明](docs/ARCHITECTURE.md) | Host、客户端、文档模型与渲染流程 |
+| [0.29.0 更新说明](docs/OPTIMIZATIONS-0.29.0.md) | 当前版本的改进 |
+| [更新日志](CHANGELOG.md) | 历史版本记录 |
 
-## 目录结构
-
-```text
-src/                引擎源码
-  host.js           Host 入口（工具定义、工作流、额度）
-  client.js         浏览器入口
-  workflow.js       分阶段预算与工具准入
-  shared/           文档模型、图形、采样、协议
-  view/             各类图形渲染
-  styles/           样式
-package/            插件包目录（npm pack 的输入）
-  package.json      插件清单
-  cordis.patch.yml  安装补丁
-  assets/           图标、组件参考、技能文档
-  lib/              构建产物（由 src/ 生成）
-  locale/           本地化
-scripts/            构建与验证脚本
-```
-
-## 配置
-
-```yaml
-- id: dsh-visual-interactive-engine
-  name: dsh-visual-interactive-engine
-  config:
-    visualMode: auto
-    fastWorkflow: true
-    fastEffort: inherit
-    fastMaxTokens: 0
-    fastProseTokens: 0
-    fastMaxRequests: 8
-    fastMaxVisuals: 3
-    fastMaxRepairs: 2
-    fastMaxSearches: 2
-    fastRequestMs: 0
-    fastBudgetMs: 60000
-```
-
-默认 `fastMaxTokens: 0`、`fastProseTokens: 0`、`fastEffort: inherit`，即继承 Harness 的输出与推理设置，不覆盖。显式设置时取 2048..32768，且保留用户更低的额度。`fastMaxRequests` 2..12、`fastMaxVisuals` 1..4、`fastMaxRepairs` 1..4、`fastMaxSearches` 0..4、`fastRequestMs` 默认0关闭强制中止，显式开启范围10000..300000。
+公开仓库可构建并打包插件。完整测试夹具与隔离宿主运行时不在公开仓库内，`check`、`verify`、`release` 脚本需配套验证目录才能运行；本地完整验收包含 173 项测试、8 组浏览器检查和 7 组宿主检查，不代表 GitHub 在线 CI 已运行。
 
 ## 许可
 
-MIT，见 [LICENSE](LICENSE)。内嵌 React 18.3.1 与宿主源码快照的许可声明见 [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt)。
-
-## 发布与隐私
-
-本仓库不上传真实聊天记录、回放fixtures、验证报告、截图、本机配置、缓存、凭据及本地完整源码ZIP。插件包通过Releases单独发布，离线演示可自行构建；GitHub自动源码归档只包含本仓库公开文件。此次完整本地验收：173项测试、8组浏览器检查和7组宿主检查通过；这不等于GitHub在线CI已执行。
+[MIT](LICENSE)。第三方依赖声明见 [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt)。
