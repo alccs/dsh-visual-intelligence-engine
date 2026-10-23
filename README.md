@@ -8,15 +8,14 @@ DeepSeek Harness 通用可视化插件。VIE 负责图形、交互和短标注�
 
 ## 下载
 
-本次更新推送0.29.0源码，未创建新的GitHub Release。历史预构建产物见 [Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases)。0.29.0可按下方说明构建，生成文件对应如下：
+[VIE 0.29.0正式版已发布](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.0)，可直接下载安装：
 
 | 文件 | 用途 |
 |---|---|
-| `dsh-visual-interactive-engine-0.29.0.tgz` | Harness 安装包 |
-| `VIE-Interactive-0.29.0.html` | 离线演示，浏览器直接打开 |
-| `SHA256SUMS.txt` | 校验和 |
+| [dsh-visual-interactive-engine-0.29.0.tgz](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/dsh-visual-interactive-engine-0.29.0.tgz) | Harness插件安装包 |
+| [SHA256SUMS.txt](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/SHA256SUMS.txt) | 本次插件附件的SHA256校验值 |
 
-源码即本仓库，按下方「从源码构建」自行打包。
+公开源码即本仓库。离线演示可从源码构建，本次Release未上传本地完整源码ZIP、会话记录或私有验证材料。
 
 ## 安装
 
@@ -104,4 +103,4 @@ MIT，见 [LICENSE](LICENSE)。内嵌 React 18.3.1 与宿主源码快照的许�
 
 ## 发布与隐私
 
-本仓库不上传真实聊天记录、回放fixtures、验证报告、截图、本机配置、缓存、凭据及本地完整源码ZIP。安装包与离线演示单独发布，GitHub自动源码归档只包含本仓库公开文件。此次完整本地验收：173项测试、8组浏览器检查和7组宿主检查通过；这不等于GitHub在线CI已执行。
+本仓库不上传真实聊天记录、回放fixtures、验证报告、截图、本机配置、缓存、凭据及本地完整源码ZIP。插件包通过Releases单独发布，离线演示可自行构建；GitHub自动源码归档只包含本仓库公开文件。此次完整本地验收：173项测试、8组浏览器检查和7组宿主检查通过；这不等于GitHub在线CI已执行。

@@ -1,6 +1,6 @@
 # 安装 VIE 0.29.0
 
-Desktop：在 DeepSeek Harness 应用内插件管理器安装 dsh-visual-interactive-engine-0.29.0.tgz，重启应用并新开聊天。官方 CLI 的 desktop profile 由 Electron 管理，不支持 `dsh plugin --profile desktop add`。
+Desktop：下载[0.29.0插件包](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/dsh-visual-interactive-engine-0.29.0.tgz)，在 DeepSeek Harness 应用内插件管理器安装，重启应用并新开聊天。官方 CLI 的 desktop profile 由 Electron 管理，不支持 `dsh plugin --profile desktop add`。
 
 Web CLI：
 
@@ -54,7 +54,7 @@ fastMaxRequests 为2..12；fastMaxVisuals 为1..4；fastMaxRepairs 为1..4；fas
 
 ## 从公开源码构建与验证边界
 
-npm ci后运行npm run build，再运行npm pack ./package生成插件TGZ。node scripts/export-demo.mjs可生成离线HTML。当前只推送0.29.0源码，不代表GitHub Releases已提供本版本附件。
+npm ci后运行npm run build，再运行npm pack ./package生成插件TGZ。node scripts/export-demo.mjs可生成离线HTML。[GitHub Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.0)已提供0.29.0插件TGZ和SHA256校验值。
 
 本地完整项目已通过173项测试、8组浏览器检查及7组宿主/安装检查。出于隐私考虑，公开仓库不含真实会话回放fixtures、tests目录、验证报告、截图和隔离宿主环境；npm run check/verify/release需要完整验证目录，不能在公开源码树中直接完成。未声称GitHub在线CI已经执行。
 
