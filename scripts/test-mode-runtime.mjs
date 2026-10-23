@@ -33,5 +33,5 @@ try{
  await command(two,'vie global off');const three={id:'third',session:session('three')};assert.ok(!(await assemble(three)).tools.some(t=>t.name==='vie_explain'));assert.equal(view(one).mode,'on');pass('global default applies to unconfigured chats and preserves explicit chat choices');
  const invalid=await command(two,'vie arbitrary');assert.equal(invalid.result.kind,'error');assert.equal(view(two).mode,'off');pass('invalid mode command cannot change the saved choice');
  await fiber.dispose();assert.equal(ctx.commands.view(one).get('vie'),undefined);assert.equal(view(one),undefined);pass('plugin disposal removes commands, projections and hooks');
- fs.writeFileSync(path.join(root,'docs/validation/mode-runtime.json'),JSON.stringify({version:'0.27.0',runtime:'Cordis4 / DSH0.2.1-rc.2',sessionAdapter:'in-memory log; real Commands and SessionProjection services',isolatedHome:true,checks:checks.length,results:checks,externalModelRequests:0},null,2));
+ fs.writeFileSync(path.join(root,'docs/validation/mode-runtime.json'),JSON.stringify({version:'0.28.0',runtime:'Cordis4 / DSH0.2.1-rc.2',sessionAdapter:'in-memory log; real Commands and SessionProjection services',isolatedHome:true,checks:checks.length,results:checks,externalModelRequests:0},null,2));
 }finally{await fiber.dispose();await ctx.fiber.dispose();hook.deregister();}

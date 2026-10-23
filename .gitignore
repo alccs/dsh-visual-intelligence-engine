@@ -22,3 +22,18 @@ Thumbs.db
 .DS_Store
 *.log
 npm-debug.log*
+
+# Credentials and local machine files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+*.zstd
+*.jsonl
+*.sqlite*
+*.db
+*private*
+*session-*.json

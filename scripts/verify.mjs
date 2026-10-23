@@ -16,5 +16,5 @@ const npm=process.env.VIE_NPM_CLI??path.join(path.dirname(process.execPath),'nod
 run([npm,'pack','./package','--pack-destination','dist','--json']);
 run(['scripts/test-cli.mjs']);run(['scripts/test-dsh.mjs']);run(['scripts/test-name-runtime.mjs']);
 if(verificationHash(root)!==testedHash)throw Error('Sources changed during verification; rerun the release gate');
-fs.writeFileSync(path.join(root,'docs/validation/release-gate.json'),JSON.stringify({version:'0.27.0',passed:true,nodeTests:Number(tap.match(/# pass (\d+)/)?.[1]),browserScripts:8,hostScripts:6,verificationHash:verificationHash(root),externalModelRequests:0},null,2));
+fs.writeFileSync(path.join(root,'docs/validation/release-gate.json'),JSON.stringify({version:'0.28.0',passed:true,nodeTests:Number(tap.match(/# pass (\d+)/)?.[1]),browserScripts:8,hostScripts:6,verificationHash:verificationHash(root),externalModelRequests:0},null,2));
 console.log('Required release checks passed.');

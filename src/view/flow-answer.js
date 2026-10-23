@@ -1,5 +1,32 @@
 /** One chronological Chat node per logical visual, alongside native assistant prose. */
 const VIE_FLOW_KIND='vie-flow-answer';
+/** Publish only public prose outside the completed-process disclosure.
+ * Reuse Harness's assistant-step renderer (Markdown/math/links), never VIE text.
+ * Original events remain intact in the diagnostic process transcript.
+ */
+function createVIEProseDefinition(){
+  return {kind:'vie-flow-prose',target:'chat',
+    match(event){return event.type==='assistant/message'&&Number.isSafeInteger(event.data?.turn)&&Number.isSafeInteger(event.data?.step)?{id:event.data.turn+':'+event.data.step,role:'start'}:null;},
+    start(_ctx,match){return {seq:match.event.seq};},
+    update(_ctx,match){return {seq:match.event.seq};},
+    publication:()=> 'immediate',
+    buildViewNode(context){
+      const loc=context.start?.location??context.matches[0]?.location,turn=loc?.turn;
+      const hidden=()=>context.current?.get('chat')?{...context.current.get('chat'),visibility:'hidden'}:null;
+      if(loc?.kind!=='step'||turn?.status!=='closed')return hidden();
+      if(turn.data?.get(VIE_TURN_KIND)?.flow!==true)return hidden();
+      const data=loc.step.data.get('assistant-step');
+      if(!data||data.status==='running')return hidden();
+      const answer=turn.data.get('turn-process');
+      // The native final answer already survives folding; do not repeat it.
+      if(answer?.answerStep===data.step)return hidden();
+      if(!answer&&turn.steps.at(-1)?.step===data.step&&!data.blocks.some(b=>b.kind==='tool-call'))return hidden();
+      const blocks=data.blocks.filter(b=>b.kind==='text'&&b.text?.trim());
+      if(!blocks.length)return hidden();
+      return {key:context.key,id:context.id,kind:'assistant-step',target:'chat',anchorSeq:context.state.seq-0.02,location:loc,groupTree:'turn',visibility:'visible',data:{...data,blocks}};
+    }
+  };
+}
 function flowVIECall(event){
   if(event.type==='tool/result'&&event.data.meta?.kind==='vie')return {id:String(event.data.meta.anchorCallId??event.data.message?.source?.callId??''),result:true};
   if(event.type==='tool/call'&&VIE_TOOL_NAMES.has(event.data.name))return {id:String(event.data.callId),name:event.data.name,raw:event.data.arguments};

@@ -20,7 +20,7 @@ const {toolDefinition}=await load('ui-chat/src/client/conversation-nodes/tool.ts
 const {turnProcessDefinition}=await load('ui-chat/src/client/conversation-nodes/turn-process.ts');
 const {messageDefinition}=await load('ui-chat/src/client/conversation-nodes/message.ts');
 const c={TextEncoder,console};c.window={__ModuleLoader__:{load:({factory})=>factory(()=>({}))}};
-vm.runInNewContext(fs.readFileSync(path.join(root,'package/lib/client.js'),'utf8').replace('exports.name=name;','globalThis.probe={createVIEAnswerDefinition,flow:typeof createVIEFlowDefinition===\'function\'?createVIEFlowDefinition:null};exports.name=name;'),c);
+vm.runInNewContext(fs.readFileSync(path.join(root,'package/lib/client.js'),'utf8').replace('exports.name=name;','globalThis.probe={createVIETurnDefinition,createVIEProseDefinition,createVIEAnswerDefinition,flow:typeof createVIEFlowDefinition===\'function\'?createVIEFlowDefinition:null};exports.name=name;'),c);
 const events=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/placement-history.json'),'utf8'));
 const definitions=[assistantDefinition,toolDefinition,turnProcessDefinition,messageDefinition,c.probe.createVIEAnswerDefinition(),...(c.probe.flow?[c.probe.flow()]:[])];
 function engine(){return new ConversationNodeAssembler({entries:()=>definitions,fallbackEntry:()=>undefined},{entries:()=>[chatViewDefinition]},{entries:()=>[processGroupDefinition],forTarget:()=>processGroupDefinition});}
@@ -64,6 +64,27 @@ chapterEvents.push(e('step/start',103,4),prose('原生正文：最后一张时�
 for(const event of chapterEvents){chapters.append({event});chapters.flush();}
 function inspectChapters(assembly,name){const snapshot=assembly.get('chat'),roots=assembly.grouped('chat').entries.filter(entry=>entry.kind==='node').map(entry=>snapshot.nodes.get(entry.key)).filter(node=>node.visibility!=='hidden'&&(node.kind==='vie-flow-answer'||node.kind==='assistant-step'&&node.data.blocks.some(b=>b.kind==='text')));assert.deepEqual(roots.map(n=>n.kind==='vie-flow-answer'?'figure':'prose'),['figure','prose','figure','prose','figure','prose']);checks.push({name,passed:true});}
 inspectChapters(chapters,'three concepts without more interleave with native prose in actual Harness grouping');const coldChapters=engine();coldChapters.activateTarget('chat');coldChapters.replaceWindow(chapterEvents.map(event=>({event})),false);coldChapters.flush();inspectChapters(coldChapters,'cold history preserves all three concept/explanation pairs');
+// Final visibility uses the actual ChatNodeSeat predicate, not grouped roots alone.
+definitions.push(c.probe.createVIETurnDefinition(),c.probe.createVIEProseDefinition());
+const seatSource=fs.readFileSync(path.join(root,'tests/host-source/packages/client/ui-chat/src/client/chat/ChatNodeSeat.tsx'),'utf8');
+const seatExpression=seatSource.split('const processMember = ')[1].split('const processAnswer = ')[0].trim();
+const processMember=new Function('routedNode','processSpec','processWindowReady','liveProcess','groupPart','isAtOrOutside','return ('+seatExpression+')');
+const outside=(n)=>['turn','input','exchange'].includes(n.groupTree);
+const real=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/contact-emf-flow.json'),'utf8'));
+function checkCompleted(a,label){
+ const snap=a.get('chat'),nodes=snap.order.map(k=>snap.nodes.get(k)),control=nodes.find(n=>n.kind==='turn-process'),spec=control.data;
+ const visible=nodes.filter(n=>n.visibility==='visible'&&!processMember(n,spec,true,false,undefined,outside));
+ const figures=visible.filter(n=>n.kind==='vie-flow-answer');assert.equal(figures.length,3,label);
+ const text=visible.filter(n=>n.kind==='assistant-step');assert.equal(text.length,4,label);
+ assert.ok(text.slice(0,3).every(n=>n.key.includes('vie-flow-prose')&&n.groupTree==='turn'),JSON.stringify(text.map(n=>({key:n.key,groupTree:n.groupTree}))));
+ assert.ok(text.every(n=>n.data.blocks.every(b=>b.kind==='text')));
+ assert.deepEqual(visible.filter(n=>figures.includes(n)||text.includes(n)).map(n=>n.kind==='vie-flow-answer'?'figure':'prose'),['prose','figure','prose','figure','prose','figure','prose']);
+ for(const n of text)assert.equal(visible.filter(v=>v.kind==='assistant-step'&&v.data.blocks.map(b=>b.text).join('')===n.data.blocks.map(b=>b.text).join('')).length,1);
+ checks.push({name:label,passed:true});
+}
+const finalLive=engine();finalLive.activateTarget('chat');for(const event of real){finalLive.append({event});finalLive.flush();}checkCompleted(finalLive,'real contact EMF final collapsed view retains each prose segment exactly once');
+const finalCold=engine();finalCold.activateTarget('chat');finalCold.replaceWindow(real.map(event=>({event})),false);finalCold.flush();checkCompleted(finalCold,'cold history final collapsed view uses native Markdown prose in original order');
+const finalPage=engine();finalPage.activateTarget('chat');finalPage.replaceWindow(real.filter(e=>e.seq>=50).map(event=>({event})),true);finalPage.flush();finalPage.prepend(real.filter(e=>e.seq<50).map(event=>({event})),false);finalPage.flush();checkCompleted(finalPage,'prepending real contact EMF history does not duplicate final prose');
 hook.deregister();
-fs.writeFileSync(path.join(root,'docs/validation/chat-assembly.json'),JSON.stringify({version:'0.27.0',engine:'real Harness source ConversationNodeAssembler + ChatSnapshotBuilder + ProcessState',source:vendor,checks:checks.length,results:checks,layout:live,externalModelRequests:0,fullGUI:false},null,2));
+fs.writeFileSync(path.join(root,'docs/validation/chat-assembly.json'),JSON.stringify({version:'0.28.0',engine:'real Harness source ConversationNodeAssembler + ChatSnapshotBuilder + ProcessState',source:vendor,checks:checks.length,results:checks,layout:live,externalModelRequests:0,fullGUI:false},null,2));
 console.log(checks.map(c=>'PASS '+c.name).join('\n'));

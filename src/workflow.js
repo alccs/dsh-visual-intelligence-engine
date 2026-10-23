@@ -32,6 +32,7 @@ function visualIntent(message){
   const attachment=(message.content??[]).some(b=>b.type!=='text');
   const raw=(message.content??[]).filter(b=>b.type==='text').map(b=>b.text??'').join('\n').trim();
   if(!raw||raw.length>3000)return {active:false,reason:'ambiguous'};
+  if((/(?:最终显示|最终渲染|已完成|打开思考|渲染)/.test(raw)&&/(?:问题|异常|错误|丢失|去掉|删|连在一起|堆|折叠|排查|修复)/.test(raw))||(/(?:图文|正文|文字)/.test(raw)&&/(?:丢失|去掉|删除|连在一起|堆叠|被折叠)/.test(raw)))return {active:false,reason:'development-or-source'};
   if(/只(?:要|用|需)?(?:纯)?文字|纯文字|不要(?:任何)?(?:图|画图|可视化)|不(?:用|使用)VIE|text[ -]only|no visual/i.test(raw))return {active:false,reason:'text-only'};
   const text=raw.replace(/(?:不需要|不用|不要|无需|无须|别)(?:再|先|额外)?(?:读取|搜索|生成|编写|创建|启动|运行|做|进行)?(?:插件源码|源码|安装包|截图|文件|脚本|测试|调试|浏览器|命令)[^，。;；\n]*/g,'');
   const readSources=attachment||/(?:[a-z]:[\\/]|https?:\/\/|\.(?:pdf|docx?|xlsx?|csv|json|html?|py|js|ts)\b|附件|这张图|此图|这份|上传|资料|@\S+)/i.test(text);
@@ -86,7 +87,7 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     if(!s.visuals.size&&s.failures>=options.fastMaxRepairs)return '尚无成功主图，保留最后一次参数纠错机会。只使用vie_explain或vie_auto修正工具反馈中的具体字段，优先简单通用图，不重新检索、不编写外部脚本，不在正文输出伪调用。若仍失败，正常正文结束并如实说明。';
     if(s.visuals.size)return '当前图形已提交视图。先在Harness原生正文讲解这张图；原问题还需另一概念图时，直接调用vie_explain，再写对应正文，形成图→文→图→文。补图和局部修复不要求more:true；无需额外图时正常结束，不凑调用次数。不要把完整解释写进VIE、不重复造图、不再检索。修图可用visualId/baseRevision/changes；visualId不是图片URL。正文不限两句话。';
     const lookup=clock()-s.started>=options.fastBudgetMs||s.searchUnavailable.size?'额外检索已停止或不可用；仍可调用VIE完成主图或修复参数。未核实的品牌/机型细节说明范围，不编造来源。':'';
-    return (s.readSources?'先用必要读取工具核对用户资料，然后直接出图，不进入终端开发。':'')+'可视化讲解：先用一句话说明正在画什么；下一步直接用vie_explain生成第一张图，恰好匹配的实验可用vie_auto。每次只画当前段落的一个核心概念，先图→Harness原生正文解释→下一张图→对应正文；通常1张，复杂主题按需2–3张。不要把多个章节画成同一张SVG里的编号小面板、拼贴海报或缩小的多图总览；必须同时比较或共享交互的视图才可并列。补图不要求more，首图成功后仍可继续。VIE只放图、交互、图例与必要短标注，完整解释/公式/列表/表格写Harness正文。任意主题优先用graphic{kind:bars|donut|vectors,title,items}、chart或visual；特殊效果用隔离figure，不限模板。不要读取源码/安装包、写外部脚本或截图开发；visualId仅用于局部修复，不是图片URL。'+lookup;
+    return (s.readSources?'先用必要读取工具核对用户资料，然后直接出图，不进入终端开发。':'')+'可视化讲解：先用一句话说明正在画什么；下一步直接用vie_explain生成第一张图，恰好匹配的实验可用vie_auto。每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。每次只画当前段落的一个核心概念，先图→Harness原生正文解释→下一张图→对应正文；通常1张，复杂主题按需2–3张。不要把多个章节画成同一张SVG里的编号小面板、拼贴海报或缩小的多图总览；必须同时比较或共享交互的视图才可并列。补图不要求more，首图成功后仍可继续。VIE只放图、交互、图例与必要短标注，完整解释/公式/列表/表格写Harness正文。任意主题优先用graphic{kind:bars|donut|vectors,title,items}、chart或visual；特殊效果用隔离figure，不限模板。不要读取源码/安装包、写外部脚本或截图开发；visualId仅用于局部修复，不是图片URL。'+lookup;
 
   }
   function assembly(value,{agent}={}){

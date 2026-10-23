@@ -24,6 +24,11 @@ function figureBootstrap(config){
   applyTheme(config.theme);
   document.addEventListener('DOMContentLoaded',()=>{
     const root=document.getElementById('vie-root');let frame=0,last='';
+    if(config.staticSvg&&root.children.length===1&&root.firstElementChild.tagName.toLowerCase()==='svg'){
+      const svg=root.firstElementChild;let readable=0;
+      const fit=()=>{const fonts=[...svg.querySelectorAll('text')].map(t=>parseFloat(getComputedStyle(t).fontSize)*Math.hypot(t.getScreenCTM()?.a??1,t.getScreenCTM()?.b??0)).filter(n=>n>0);const min=Math.min(...fonts);if(min<10.99&&readable<1800){readable=Math.min(1800,Math.ceil(svg.getBoundingClientRect().width*11/min)+2);svg.style.minWidth=readable+'px';svg.style.maxWidth='none';root.style.overflowX='auto';root.tabIndex=0;root.setAttribute('aria-label','图形可横向滚动查看');}};
+      new ResizeObserver(fit).observe(root);fit();
+    }
     const measure=()=>{if(frame)return;frame=requestAnimationFrame(()=>{frame=0;
       // scrollHeight includes positioned children; a small rounding allowance prevents
       // subpixel overflow from repeatedly adding/removing the Windows scrollbar gutter.
@@ -42,7 +47,7 @@ const FIGURE_BASE_CSS=`*{box-sizing:border-box}html,body{margin:0;background:tra
 const FIGURE_SCROLL_CSS='html,body,#vie-root,#vie-root *{scrollbar-width:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar,#vie-root::-webkit-scrollbar,#vie-root *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}';
 function buildFigureDocument(raw,{channel,state,theme}){
   const spec=validateFigureDefinition(raw),safeScript=x=>x.replace(/<\/script/gi,'<\\/script');
-  const settings=JSON.stringify({channel,state:validateFigureState(state??spec.state),theme}).replace(/</g,'\\u003c');
+  const settings=JSON.stringify({channel,state:validateFigureState(state??spec.state),theme,staticSvg:!spec.js.trim()}).replace(/</g,'\\u003c');
   const csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; media-src data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'";
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${csp}"><style>${FIGURE_BASE_CSS}\n${spec.css.replace(/<\/style/gi,'<\\/style')}\n${FIGURE_SCROLL_CSS}</style><script>(${safeScript(figureBootstrap.toString())})(${settings});</script></head><body><div id="vie-root">${spec.html}</div><script>${safeScript(spec.js)}</script></body></html>`;
 }

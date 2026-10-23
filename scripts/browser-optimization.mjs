@@ -62,5 +62,15 @@ try{
  for(const [kind,spec]of nativeSpecs){ev(`VIEDemo.setSource(VIE.visualSceneSource(${JSON.stringify(kind)},${JSON.stringify(spec)}),'expand-${kind}')`);run('snapshot','-i');click('展开');check(kind+' supports shared expansion',`!!document.querySelector('.vie-native-frame.vie-figure-expanded .vie-visual-host')`);click('收起');}
  ev('VIEDemo.select("planetary")');run('snapshot','-i');run('click','[data-scene-action="step"]');run('snapshot','-i');ev(`(()=>{window.__experimentPhase=VIEDemo.context.experiments.experiment.state.phase;window.__experimentCanvas=document.querySelector('.vie-experiment-host');return true})()`);click('展开');click('收起');
  check('interactive scene expansion retains playback phase and mounted view',`VIEDemo.context.experiments.experiment.state.phase===window.__experimentPhase&&window.__experimentPhase>0&&document.querySelector('.vie-experiment-host')===window.__experimentCanvas`);
+ const staticDocs=JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/forging-static-readability.json'),'utf8'));
+ ev(`(()=>{window.__readability=null;window.addEventListener('message',e=>{if(e.source===document.querySelector('iframe')?.contentWindow&&e.data?.type==='height')window.__readability=e.data.value;});return true})()`);
+ for(const width of [320,1080]){run('set','viewport',String(width),'1000');for(const [i,doc]of staticDocs.entries()){
+  ev(`window.__readability=null;VIEDemo.setSource(VIE.documentSceneSource(${JSON.stringify(doc)}),'readable-${width}-${i}')`);run('wait','iframe[data-vie-ready="true"]');run('snapshot','-i');
+  check('original static SVG retains 11px text and outer fit at '+width+' / '+i,`(async()=>{${frames}return window.__readability?.minFont>=10.99&&document.documentElement.scrollWidth<=innerWidth&&document.querySelector('iframe').dataset.vieOverflow==='false'})()`);
+  check('stateless static SVG omits reset at '+width+' / '+i,`![...document.querySelectorAll('.vie-figure-actions button')].some(b=>b.textContent==='复位')`);
+ }}
+ ev('VIEDemo.select("changes")');run('wait','iframe[data-vie-ready="true"]');run('snapshot','-i');
+ check('responsive change comparison example renders without errors',`!document.querySelector('.vie-generated-error')&&document.querySelector('iframe').dataset.vieOverflow==='false'`);
+ run('screenshot','--full',path.join(root,'screenshots/change-comparison-'+version+'.png'));
  fs.writeFileSync(path.join(root,'docs/validation/optimization-browser.json'),JSON.stringify({version,checks:checks.length,results:checks,contrast:a11y.counts,externalModelRequests:0},null,2));
 }finally{try{run('close')}catch{}}

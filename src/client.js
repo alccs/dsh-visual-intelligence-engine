@@ -1,4 +1,4 @@
-/* VIE v0.27.0 — DSH browser entry. Generated includes are resolved by build.mjs. */
+/* VIE v0.28.0 — DSH browser entry. Generated includes are resolved by build.mjs. */
 window.__ModuleLoader__.load({id:'dsh-visual-interactive-engine',factory:(require)=>{
  const module={exports:{}};const exports=module.exports;
  const VIE_CSS=/* @style styles/base.css,styles/experiments.css,styles/system.css */ "";
@@ -331,6 +331,7 @@ function toVIEResult(event) {
 
 function createVIETurnDefinition() {
   const project = event => toVIEResult(event);
+  const flow = event => event.type==='tool/result'&&event.data?.meta?.kind==='vie'&&event.data.meta.valid===true&&event.data.message?.isError!==true&&effectiveVIEPlacement(event.data.meta)==='flow'&&!!event.data.meta.source;
   const merge = (items, item) => {
     const next = items.filter(v => v.callId !== item.callId);
     next.push(item);
@@ -343,25 +344,25 @@ function createVIETurnDefinition() {
         return {id: String(event.data.turn), role: 'start'};
       // Use start instead of update so a tail-first history page has a
       // checkpoint even without the earlier turn/start event.
-      if (project(event)) return {id:String(event.data.turn), role:'start'};
+      if (project(event)||flow(event)) return {id:String(event.data.turn), role:'start'};
       return null;
     },
     start(_context, match) {
       const event = match.event;
       const item = project(event);
-      return {turn: event.data.turn, items: item ? [item] : []};
+      return {turn: event.data.turn, items: item ? [item] : [],flow:flow(event)};
     },
     update(context, match) {
       const item = project(match.event);
-      if (!item) return context.state;
+      if (!item) return flow(match.event)?{...context.state,flow:true}:context.state;
       return {...context.state, items:merge(context.state.items, item)};
     },
     publication: () => 'immediate',
     buildLocationData(context, scope) {
       const state = context.state;
-      if (scope !== 'turn' || !state || !state.items.length) return null;
+      if (scope !== 'turn' || !state || (!state.items.length&&!state.flow)) return null;
       // The key MUST equal the Definition kind or DSH rejects the projection.
-      return {kind:'turn', turn:state.turn, key:VIE_TURN_KIND, value:{items:state.items}};
+      return {kind:'turn', turn:state.turn, key:VIE_TURN_KIND, value:{items:state.items,flow:state.flow===true}};
     }
   };
 }
@@ -1071,7 +1072,7 @@ function makeReactView(React, core) {
     React.useEffect(()=>{controller.current=mountGeneratedFigure(frame.current,config,{initialState:store.local(nodeId)??config.state,onChange:state=>store.setLocal(nodeId,state),currentState:()=>store.local(nodeId),onError:message=>{setError(message);store.setFigureError(nodeId,message);}});const unsubscribe=store.subscribe(()=>{try{controller.current?.update(store.local(nodeId)??config.state);}catch(error){setError(error.message);}});return ()=>{unsubscribe();controller.current?.dispose();controller.current=null;};},[store,nodeId,JSON.stringify(config)]);
     React.useEffect(()=>{const observer=new MutationObserver(()=>setSmall(frame.current?.dataset.vieSmallText==='true'));observer.observe(frame.current,{attributes:true,attributeFilter:['data-vie-small-text']});return ()=>observer.disconnect();},[]);
     return h('section',{ref:container,className:'vie-generated-figure'+(expanded?' vie-figure-expanded':''),key:nodeId,role:expanded?'dialog':undefined,'aria-modal':expanded?true:undefined,'aria-label':expanded?config.title:undefined},[
-      h('header',{key:'head',className:'vie-generated-heading'},[h('h3',{key:'title',title:config.title},config.title),h('div',{className:'vie-figure-actions',key:'actions'},[h('button',{type:'button',key:'expand',ref:expandButton,className:'vie-context-button','aria-expanded':expanded,onClick:toggle},expanded?'收起':'展开'),h('button',{type:'button',key:'zoom',className:'vie-context-button','aria-pressed':zoom,onClick:()=>setZoom(!zoom)},zoom?'适合宽度':'放大'),h('button',{type:'button',key:'reset',className:'vie-context-button',onClick:()=>controller.current?.reset()},'复位')])]),
+      h('header',{key:'head',className:'vie-generated-heading'},[h('h3',{key:'title',title:config.title},config.title),h('div',{className:'vie-figure-actions',key:'actions'},[h('button',{type:'button',key:'expand',ref:expandButton,className:'vie-context-button','aria-expanded':expanded,onClick:toggle},expanded?'收起':'展开'),h('button',{type:'button',key:'zoom',className:'vie-context-button','aria-pressed':zoom,onClick:()=>setZoom(!zoom)},zoom?'适合宽度':'放大'),(config.js?.trim()||Object.keys(config.state??{}).length>0)&&h('button',{type:'button',key:'reset',className:'vie-context-button',onClick:()=>controller.current?.reset()},'复位')])]),
       small&&!zoom&&h('p',{key:'small',className:'vie-figure-hint',role:'status'},'图中文字较小，可展开或放大查看。'),
       h('div',{key:'viewport',className:'vie-figure-viewport',tabIndex:zoom?0:undefined,'aria-label':zoom?'放大图形，可横向滚动查看':undefined},h('iframe',{key:'frame',ref:frame,title:config.title,sandbox:'allow-scripts',referrerPolicy:'no-referrer',allow:"camera 'none'; microphone 'none'; geolocation 'none'; clipboard-read 'none'; clipboard-write 'none'",style:{width:zoom?'max(100%, 800px)':'100%',maxWidth:zoom?'none':'100%',height:config.height+'px',border:0},'data-vie-generated':nodeId})),
       error&&h('p',{key:'error',className:'vie-generated-error',role:'alert'},'交互图运行错误：'+error)
@@ -1412,6 +1413,7 @@ function apply(ctx){
   ctx.uiConversation.events.register(createVIETurnDefinition());
   ctx.uiConversation.events.register(createVIEAnswerDefinition());
   ctx.uiConversation.events.register(createVIEFlowDefinition());
+  ctx.uiConversation.events.register(createVIEProseDefinition());
   ctx.slots.inject('conversation.chat.node',()=>ctx.slots.register({name:'conversation.chat.node',key:VIE_ANSWER_KIND},VIEAnswerView));
   ctx.slots.inject('conversation.chat.node',()=>ctx.slots.register({name:'conversation.chat.node',key:VIE_FLOW_KIND},VIEAnswerView));
   ctx.slots.inject('tool.call.toolview',()=>{
@@ -1425,7 +1427,7 @@ function apply(ctx){
   },VIETurnTailView));
   // Diagnostic only: if the browser's module was never materialized, this
   // marker will be absent. No HMR rewriting or unverified bootstrap hack.
-  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.27.0',activated:true,at:Date.now()};
+  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.28.0',activated:true,at:Date.now()};
 }
 
 exports.name=name;exports.inject=inject;exports.apply=apply;return module.exports;

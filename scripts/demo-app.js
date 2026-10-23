@@ -3,6 +3,7 @@ const style=document.createElement('style');style.textContent=VIE.VIE_CSS;docume
 const bridge=VIE.createVIEBridge(VIE.SceneStore);
 const views=VIE.createViews(React,bridge);
 const topics={
+  changes:{general:true,label:'变化前后',question:'如何看清工件形状变化？',intro:'',prose:'以钢材自由锻形状变化为例。图示只说明方向与形状关系；完整工艺还取决于材料、温度、工具和变形量。',source:()=>VIE.documentSceneSource(VIEExamples.changeComparison)},
   'i2c-flow':{general:true,label:'I²C 分段讲解',question:'解释一下 I²C 通信原理',intro:'',source:()=>''},
   flow:{general:true,label:'图文交替',question:'弯矩图与剪力图之间有什么关系？',intro:'',source:()=>''},
   budget:{general:true,label:'图框适配修复',question:'预算图在不同窗口宽度下能否完整显示？',intro:'',source:()=>VIE.documentSceneSource({title:'预算图框适配',blocks:[{type:'graphic',kind:'donut',title:'每月预算',unit:'美元',items:[{label:'房租',value:1800},{label:'餐饮',value:700},{label:'交通',value:300},{label:'娱乐',value:500},{label:'储蓄',value:2700}]}]})},

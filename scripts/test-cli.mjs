@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 const root=path.resolve(import.meta.dirname,'..');
 const runtime=path.resolve(process.env.VIE_DSH_RUNTIME??path.join(root,'.validation/runtime'));
-const tarball=path.join(root,'dist/dsh-visual-interactive-engine-0.27.0.tgz');
+const tarball=path.join(root,'dist/dsh-visual-interactive-engine-0.28.0.tgz');
 const tarHash=crypto.createHash('sha256').update(fs.readFileSync(tarball)).digest('hex');
 const home=path.join(root,'.validation/cli-home-'+tarHash.slice(0,12));
 const staged=path.join(root,'.validation','dsh-visual-interactive-engine-'+tarHash.slice(0,12)+'.tgz');

@@ -1,8 +1,10 @@
-# dsh-Visual-Interactive-Engine 0.27.0
+# dsh-Visual-Interactive-Engine 0.28.0
 
 DeepSeek Harness 通用可视化插件。VIE 负责图形、交互和短标注；完整解释由 Harness 正文渲染，按「图 → 文 → 图 → 文」展开，一个概念一张图。
 
 任意主题均可组合通用组件，复杂画面仍可自定义 figure。结构校验、iframe ready、动画运行都不等于科学正确；尚无真实外部模型端到端速度承诺。
+
+0.28.0 更新：长流程与静态SVG保持可读字号；静态无状态图隐藏复位；最终答复保留图间解释正文；渲染问题诊断不再误入出图快路径。完成后的正文使用Harness原生Markdown，原始工具过程仍可展开查看。
 
 ## 下载
 
@@ -10,8 +12,8 @@ DeepSeek Harness 通用可视化插件。VIE 负责图形、交互和短标注�
 
 | 文件 | 用途 |
 |---|---|
-| `dsh-visual-interactive-engine-0.27.0.tgz` | Harness 安装包 |
-| `VIE-Interactive-0.27.0.html` | 离线演示，浏览器直接打开 |
+| `dsh-visual-interactive-engine-0.28.0.tgz` | Harness 安装包 |
+| `VIE-Interactive-0.28.0.html` | 离线演示，浏览器直接打开 |
 | `SHA256SUMS.txt` | 校验和 |
 
 源码即本仓库，按下方「从源码构建」自行打包。
@@ -23,7 +25,7 @@ Desktop：在 DeepSeek Harness 应用内插件管理器安装上面的 TGZ，重
 Web CLI：
 
 ```powershell
-dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-0.27.0.tgz"
+dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-0.28.0.tgz"
 ```
 
 兼容 DSH `>=0.2.1-rc.2 <0.3.0-0`、Node `>=22.19`。旧工具名、`/vie` 命令和偏好文件保持兼容。
@@ -91,8 +93,12 @@ scripts/            构建与验证脚本
     fastBudgetMs: 60000
 ```
 
-默认 `fastMaxTokens: 0`、`fastProseTokens: 0`、`fastEffort: inherit`，即继承 Harness 的输出与推理设置，不覆盖。显式设置时取 2048..32768，且保留用户更低的额度。`fastMaxRequests` 1..12、`fastMaxVisuals` 1..4、`fastMaxRepairs` 1..4、`fastMaxSearches` 1..4、`fastRequestMs` 10000..300000。
+默认 `fastMaxTokens: 0`、`fastProseTokens: 0`、`fastEffort: inherit`，即继承 Harness 的输出与推理设置，不覆盖。显式设置时取 2048..32768，且保留用户更低的额度。`fastMaxRequests` 2..12、`fastMaxVisuals` 1..4、`fastMaxRepairs` 1..4、`fastMaxSearches` 0..4、`fastRequestMs` 10000..300000。
 
 ## 许可
 
 MIT，见 [LICENSE](LICENSE)。内嵌 React 18.3.1 与宿主源码快照的许可声明见 [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt)。
+
+## 发布与隐私
+
+本仓库不上传真实聊天记录、回放fixtures、验证报告、截图、本机配置、缓存、凭据及本地完整源码ZIP。安装包与离线演示单独发布，GitHub自动源码归档只包含本仓库公开文件。此次完整本地验收：165项测试、8组浏览器检查和6组宿主检查通过；这不等于GitHub在线CI已执行。

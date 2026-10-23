@@ -54,3 +54,8 @@
 @container(max-width:520px){.vie-row{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:520px){.vie-row{grid-template-columns:minmax(0,1fr)}.vie-body{padding:12px}.vie-general-chart-controls{grid-template-columns:minmax(0,1fr)}}
 @media(prefers-reduced-motion:reduce){.vie-shell *{transition:none!important;scroll-behavior:auto!important}}
+
+.vie-visual-panel[data-vie-visual=Flow] .vie-visual-svg{max-height:none}
+
+.vie-visual-panel[data-vie-visual=Flow] .vie-visual-svg{min-width:320px}
+.vie-visual-panel[data-vie-visual=Flow] .vie-visual-content{overflow:auto}

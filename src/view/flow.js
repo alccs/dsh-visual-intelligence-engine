@@ -25,12 +25,12 @@ function flowSVG(spec,selected,compact=false){
     }else{
       const rail=compact?25:70;path=`M${a.x} ${ay}C${rail} ${ay} ${rail} ${by} ${b.x} ${by}`;lx=rail;ly=(ay+by)/2;lw=compact?44:112;
     }
-    const label=edge.label?`<rect x="${lx-lw/2}" y="${ly-18}" width="${lw}" height="33" rx="7" fill="var(--vie-bg,#fff)" fill-opacity=".95"/>${wrappedText(lx,ly,edge.label,lw,10,2,'fill="var(--vie-muted,#647587)"')}`:'';
+    const label=edge.label?`<rect x="${lx-lw/2}" y="${ly-18}" width="${lw}" height="33" rx="7" fill="var(--vie-bg,#fff)" fill-opacity=".95"/>${wrappedText(lx,ly,edge.label,lw,12,2,'fill="var(--vie-muted,#647587)"')}`:'';
     return `<path ${edge.from===edge.to?'data-vie-self-loop="true"':''} d="${path}" fill="none" stroke="#98a8b8" stroke-width="1.6" ${edge.kind==='line'?'':'marker-end="url(#vie-arrow-head)"'}><title>${esc(edge.label??'')}</title></path>${label}`;
   }).join('');
   const cards=spec.nodes.map(node=>{
     const r=locations.get(node.id),tone=roleTone[node.role]||'muted',active=selected===node.id,role=node.role&&node.role!=='default';
-    return `<g data-vie-item="${esc(node.id)}" tabindex="0" role="button" aria-label="${esc(node.label)}" class="vie-svg-item${active?' is-active':''}" style="cursor:pointer"><rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="13" fill="${bg(tone)}" stroke="${active?color(tone):'#d2dce5'}" stroke-width="${active?2.5:1.3}"/>${wrappedText(r.x+r.w/2,r.y+(role?29:41),node.label,r.w,13,role?2:3,'font-weight="600" fill="#334358"')}${role?text(r.x+r.w/2,r.y+61,{input:'输入',output:'输出',fixed:'固定',important:'重点',step:'步骤',neutral:'',default:''}[node.role]??'','font-size="11" text-anchor="middle" fill="'+color(tone)+'"'):''}</g>`;
+    return `<g data-vie-item="${esc(node.id)}" tabindex="0" role="button" aria-label="${esc(node.label)}" class="vie-svg-item${active?' is-active':''}" style="cursor:pointer"><rect x="${r.x}" y="${r.y}" width="${r.w}" height="${r.h}" rx="13" fill="${bg(tone)}" stroke="${active?color(tone):'#d2dce5'}" stroke-width="${active?2.5:1.3}"/>${wrappedText(r.x+r.w/2,r.y+(role?29:41),node.label,r.w,14,role?2:3,'font-weight="600" fill="#334358"')}${role?text(r.x+r.w/2,r.y+61,{input:'输入',output:'输出',fixed:'固定',important:'重点',step:'步骤',neutral:'',default:''}[node.role]??'','font-size="11" text-anchor="middle" fill="'+color(tone)+'"'):''}</g>`;
   }).join('');
   return svgOpen(W,H,spec.title).replace('class="vie-visual-svg"',`class="vie-visual-svg ${compact?'vie-visual-mobile-svg':'vie-visual-desktop-svg'}"`)+edges+cards+'</svg>';
 }

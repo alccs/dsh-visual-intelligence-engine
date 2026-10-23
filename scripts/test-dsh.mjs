@@ -34,9 +34,9 @@ for(const withSkills of [false,true]){
       if(!valid)assert.match(JSON.stringify(result),/VIE_DOMAIN_REQUIRED/);
       checks.push({withSkills,tool:name,case:args.templateId??args.preset??JSON.parse(args.spec).title,requiresTemplateId:!!args.templateId,valid});
     }
-    if(withSkills)assert.match((await ctx.skills.get('dsh-vie')).content,/VIE 0.27.0/);
+    if(withSkills)assert.match((await ctx.skills.get('dsh-vie')).content,/VIE 0.28.0/);
   }finally{await fiber.dispose();assert.equal(ctx.tools.get('vie_auto'),undefined);if(withSkills)assert.equal(await ctx.skills.get('dsh-vie'),undefined);await ctx.fiber.dispose();}
 }
 hook.deregister();
-const result={dsh:'0.2.1-rc.2',version:'0.27.0',installedFilesMatchBuild:true,realCordis:true,peerResolution:'real host peer mapped with Node resolve hook; plugin source unchanged',toolCalls:checks.length,externalModelRequests:0,skillRegistrationAndDisposal:true,checks};
+const result={dsh:'0.2.1-rc.2',version:'0.28.0',installedFilesMatchBuild:true,realCordis:true,peerResolution:'real host peer mapped with Node resolve hook; plugin source unchanged',toolCalls:checks.length,externalModelRequests:0,skillRegistrationAndDisposal:true,checks};
 fs.writeFileSync(path.join(root,'docs/validation/dsh-runtime.json'),JSON.stringify(result,null,2));console.log(JSON.stringify(result,null,2));
