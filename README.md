@@ -8,7 +8,7 @@ DeepSeek Harness 通用可视化插件。VIE 负责图形、交互和短标注�
 
 ## 下载
 
-预构建产物见 [Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases)：
+本次更新推送0.28.0源码，未创建新的GitHub Release。历史预构建产物见 [Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases)。0.28.0可按下方说明构建，生成文件对应如下：
 
 | 文件 | 用途 |
 |---|---|
