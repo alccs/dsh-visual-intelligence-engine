@@ -56,7 +56,7 @@ fastMaxRequests 为2..12；fastMaxVisuals 为1..4；fastMaxRepairs 为1..4；fas
 
 npm ci后运行npm run build，再运行npm pack ./package生成插件TGZ。离线演示导出需要完整验证目录中的示例夹具。[GitHub Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.2)已提供0.29.2插件TGZ和SHA256校验值。
 
-本地完整项目已通过190项测试、11组浏览器检查及7组宿主/安装检查。出于隐私考虑，公开仓库不含真实会话回放fixtures、tests目录、验证报告、截图和隔离宿主环境；npm run check/verify/release需要完整验证目录，不能在公开源码树中直接完成。未声称GitHub在线CI已经执行。
+本地完整项目已通过190项测试、11组浏览器检查及7组宿主/安装检查。npm run check/verify/release需要配套测试环境。
 
 ## 从旧包迁移
 
