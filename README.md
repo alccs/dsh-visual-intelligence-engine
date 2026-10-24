@@ -8,7 +8,7 @@
 
 DeepSeek Harness 通用可视化插件 · 图文结合 · 动画演示 · 本地交互
 
-[下载 0.29.0](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.0) · [快速开始](#快速开始) · [效果展示](#效果展示) · [架构文档](docs/ARCHITECTURE.md)
+[下载 0.29.2](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.2) · [快速开始](#快速开始) · [效果展示](#效果展示) · [架构文档](docs/ARCHITECTURE.md)
 
 </div>
 
@@ -29,6 +29,8 @@ VIE 让模型在聊天中绘制图形、构建动画和交互演示。解释复�
 | **参数交互** | 用滑块、选项和输入框改变参数，在浏览器中更新图形与读数。 |
 | **图表联动** | 绘制数据与函数曲线，共享参数可同时驱动多张图和自定义画面。 |
 | **图文交替** | 按「图 → 解释 → 图 → 解释」组织回答，图内保留操作、必要标签与短说明。 |
+| **流程图阅读** | 全景查看分支与汇合，或逐步选路径；宽分类树按父分支分组，窄屏自动重排。 |
+| **逐题练习** | 一组支持 1–32 题，逐题反馈、计分和重做；点击答题在本地完成。 |
 | **学习模式** | 用直观定义、因果链和主图讲清概念，按需加入应用示例与交互测验。 |
 | **继续追问** | 将当前图形参数放入输入框，让后续问题接着当前状态讨论。 |
 
@@ -74,17 +76,17 @@ VIE 让模型在聊天中绘制图形、构建动画和交互演示。解释复�
 
 ### 1. 安装插件
 
-下载 [dsh-visual-interactive-engine-0.29.0.tgz](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/dsh-visual-interactive-engine-0.29.0.tgz)，在 **DeepSeek Harness 桌面版的插件管理器**中安装，完成后完全退出并重新打开 Harness。
+下载 [dsh-visual-interactive-engine-0.29.2.tgz](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.2/dsh-visual-interactive-engine-0.29.2.tgz)，在 **DeepSeek Harness 桌面版的插件管理器**中安装，完成后完全退出并重新打开 Harness。
 
 使用 Web CLI 时：
 
 ```powershell
-dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-0.29.0.tgz"
+dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-0.29.2.tgz"
 ```
 
 重启承载 Web UI 的 Harness 进程。兼容范围：DSH `>=0.2.1-rc.2 <0.3.0-0`；Node.js `>=22.19`。
 
-安装详情与排障见 [安装指南](INSTALL.md)，安装包校验值见 [SHA256SUMS.txt](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/SHA256SUMS.txt)。
+安装详情与排障见 [安装指南](INSTALL.md)，安装包校验值见 [SHA256SUMS.txt](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.2/SHA256SUMS.txt)。
 
 ### 2. 选择模式
 
@@ -141,10 +143,11 @@ npm pack ./package
 | [安装指南](INSTALL.md) | 安装、配置与排障 |
 | [项目概览](docs/PROJECT-OVERVIEW-0.29.0.md) | 项目定位、能力与边界 |
 | [架构说明](docs/ARCHITECTURE.md) | Host、客户端、文档模型与渲染流程 |
-| [0.29.0 更新说明](docs/OPTIMIZATIONS-0.29.0.md) | 当前版本的改进 |
+| [0.29.2 更新说明](docs/OPTIMIZATIONS-0.29.2.md) | 流程图布局、逐步引导、逐题练习与升级样式修复 |
+| [0.29.0 更新说明](docs/OPTIMIZATIONS-0.29.0.md) | 0.29.0 的改进 |
 | [更新日志](CHANGELOG.md) | 历史版本记录 |
 
-公开仓库可构建并打包插件。完整测试夹具与隔离宿主运行时不在公开仓库内，`check`、`verify`、`release` 脚本需配套验证目录才能运行；本地完整验收包含 173 项测试、8 组浏览器检查和 7 组宿主检查，不代表 GitHub 在线 CI 已运行。
+公开仓库可构建并打包插件。完整测试夹具与隔离宿主运行时不在公开仓库内，`check`、`verify`、`release` 脚本需配套验证目录才能运行；本地完整验收包含 190 项测试、11 组浏览器检查和 7 组宿主检查，不代表 GitHub 在线 CI 已运行。
 
 ## 许可
 

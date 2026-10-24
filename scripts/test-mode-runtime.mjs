@@ -1,5 +1,5 @@
 /** Actual Cordis, Commands, SessionProjection and Tools with an in-memory Session log adapter. */
-import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';import assert from 'node:assert/strict';import {createRequire,registerHooks} from 'node:module';import {pathToFileURL} from 'node:url';import {reactiveWave} from './reactive-examples.mjs';
+import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';import assert from 'node:assert/strict';import {createRequire,registerHooks} from 'node:module';import {pathToFileURL} from 'node:url';import {reactiveWave} from './reactive-examples.mjs';import {flowDocument} from './flow-examples.mjs';
 const root=path.resolve(import.meta.dirname,'..'),runtime=createRequire(path.resolve(process.env.VIE_DSH_RUNTIME??path.join(root,'.validation/runtime'),'package.json'));
 const home=path.join(root,'.validation/mode-home-'+process.pid);fs.mkdirSync(home,{recursive:true});process.env.DSH_HOME=home;
 const hook=registerHooks({resolve(s,c,next){if(['@deepseek-ai/dsh-tools','zod'].includes(s))return {url:pathToFileURL(runtime.resolve(s)).href,shortCircuit:true};return next(s,c);}});
@@ -54,6 +54,9 @@ try{
  assert.ok((await assemble(one)).tools.some(t=>t.name==='vie_explain'));assert.equal(view(one).mode,'auto');pass('default auto mode is available through actual Host projection');
  await checkClientModes();
  await command(one,'vie study');assert.equal(view(one).mode,'study');assert.equal(view(two).mode,'auto');assert.ok((await assemble(one)).sections.some(s=>s.text.includes('学习模式')));pass('study command persists per chat and injects learning guidance');
+ const flowProps=result=>result.meta.source.trim().split('\n').map(JSON.parse).find(e=>e.type==='Flow').props;
+ for(const [agent,presentation] of [[one,'guided'],[two,'overview']]){const r=await ctx.tools.execute({agent,signal,callId:'flow-'+presentation,name:'vie_explain',arguments:{document:flowDocument()}});assert.equal(r.meta?.valid,true,JSON.stringify(r));assert.equal(flowProps(r).presentation,presentation);}
+ const explicit=await ctx.tools.execute({agent:one,signal,callId:'flow-explicit',name:'vie_explain',arguments:{document:flowDocument('overview')}});assert.equal(flowProps(explicit).presentation,'overview');pass('study freezes guided Flow and auto freezes overview; explicit figure choice wins');
  const off=await command(one,'vie off');assert.equal(off.result.kind,'success');assert.equal(view(one).mode,'off');assert.equal(view(one).pending,false);pass('real command lifecycle updates the composer projection');
  let a=await assemble(one);assert.ok(!a.tools.some(t=>t.name.startsWith('vie_')));assert.ok(!a.sections.some(s=>s.name.startsWith('dsh-vie:')&&s.text));pass('off hides all VIE tool schemas and prompt instructions');
  const denied=await ctx.tools.execute({agent:one,signal,callId:'disabled',name:'vie_explain',arguments:{document:reactiveWave}});assert.match(JSON.stringify(denied),/VIE_FAST_PATH/);pass('off denies a direct unadvertised tool execution');
@@ -73,5 +76,5 @@ try{
  await command(two,'vie global off');const three={id:'third',session:session('three')};assert.ok(!(await assemble(three)).tools.some(t=>t.name==='vie_explain'));assert.equal(view(one).mode,'on');pass('global default applies to unconfigured chats and preserves explicit chat choices');
  const invalid=await command(two,'vie arbitrary');assert.equal(invalid.result.kind,'error');assert.equal(view(two).mode,'off');pass('invalid mode command cannot change the saved choice');
  await fiber.dispose();assert.equal(ctx.commands.view(one).get('vie'),undefined);assert.equal(view(one),undefined);pass('plugin disposal removes commands, projections and hooks');
- fs.writeFileSync(path.join(root,'docs/validation/mode-runtime.json'),JSON.stringify({version:'0.29.0',runtime:'Cordis4 / DSH0.2.1-rc.2',installedArtifact:installed,clientBinding:'actual client apply and Cordis with sibling remote providers; slot surface and in-process transport adapters',sessionAdapter:'in-memory log; real Commands and SessionProjection services',isolatedHome:true,checks:checks.length,results:checks,externalModelRequests:0},null,2));
+ fs.writeFileSync(path.join(root,'docs/validation/mode-runtime.json'),JSON.stringify({version:'0.29.2',runtime:'Cordis4 / DSH0.2.1-rc.2',installedArtifact:installed,clientBinding:'actual client apply and Cordis with sibling remote providers; slot surface and in-process transport adapters',sessionAdapter:'in-memory log; real Commands and SessionProjection services',isolatedHome:true,checks:checks.length,results:checks,externalModelRequests:0},null,2));
 }finally{await fiber.dispose();await ctx.fiber.dispose();hook.deregister();}

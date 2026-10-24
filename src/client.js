@@ -1,4 +1,4 @@
-/* VIE v0.29.0 — DSH browser entry. Generated includes are resolved by build.mjs. */
+/* VIE v0.29.2 — DSH browser entry. Generated includes are resolved by build.mjs. */
 window.__ModuleLoader__.load({id:'dsh-visual-interactive-engine',factory:(require)=>{
  const module={exports:{}};const exports=module.exports;
  const VIE_CSS=/* @style styles/base.css,styles/experiments.css,styles/system.css */ "";
@@ -8,6 +8,7 @@ window.__ModuleLoader__.load({id:'dsh-visual-interactive-engine',factory:(requir
 /* @include shared/chart-sampling.js */
 /* @include shared/graphics.js */
 /* @include shared/document.js */
+/* @include shared/flow-layout.js */
 /* @include shared/protocol.js */
 /* @include shared/preview.js */
 /* @include view/generated.js */
@@ -104,12 +105,12 @@ function resolveVisual(input,kind,values){
   };
 }
 /** Returns trusted HTML only after strict validation. User labels are XML-escaped. */
-function makeVisualMarkup(kind,input,selected='',values={}){
+function makeVisualMarkup(kind,input,selected='',values={},flowState){
   const s=resolveVisual(input,kind,values);
   const selectedId=kind==='Timeline'?s.items.find(i=>i.id===selected)?.id:(kind==='Diagram'||kind==='Animation')?s.shapes.find(i=>i.id===selected)?.id:s.nodes.find(i=>i.id===selected)?.id;
   const chosen=selectedId||'';
   let visual='';
-  if(kind==='Flow')visual=flowSVG(s,chosen)+flowSVG(s,chosen,true);
+  if(kind==='Flow')return flowMarkup(s,chosen,flowState);
   if(kind==='RelationGraph')visual=graphSVG(s,chosen)+graphSVG(s,chosen,true);
   if(kind==='Diagram'||kind==='Animation')visual=diagramSVG(s,chosen);
   if(kind==='Timeline')visual=`<div class="vie-timeline-list" role="list">${s.items.map((v,i)=>`<button type="button" role="listitem" class="vie-timeline-item${chosen===v.id?' is-active':''}" data-vie-item="${esc(v.id)}"><span class="vie-timeline-step">${i+1}</span><span class="vie-timeline-when">${esc(v.at)}</span><strong>${esc(v.label)}</strong></button>`).join('')}</div>`;
@@ -163,7 +164,7 @@ class SceneStore {
     for(const [id,value] of Object.entries(this.localState)){
       const node=parser.scene.nodes.get(id),previous=this.parser.scene.nodes.get(id);
       if(!node||node.type!==previous?.type)continue;
-      try{if(node.type==='GenerativeFigure'&&JSON.stringify(previous.props)!==JSON.stringify(node.props))continue;next[id]=node.type==='GenerativeFigure'?validateFigureState(value):node.type==='Chart'?validateChartState(node.props,value):node.type==='InteractiveScene'?validateExperimentSnapshot(node.props,value):copyValue(value);}catch{/* A replacement definition can invalidate old interactive inputs. */}
+      try{if(node.type==='GenerativeFigure'&&JSON.stringify(previous.props)!==JSON.stringify(node.props))continue;next[id]=node.type==='GenerativeFigure'?validateFigureState(value):node.type==='Chart'?validateChartState(node.props,value):node.type==='InteractiveScene'?validateExperimentSnapshot(node.props,value):node.type==='Flow'?validateFlowState(node.props,value):copyValue(value);}catch{/* A replacement definition can invalidate old interactive inputs. */}
     }
     return next;
   }
@@ -194,7 +195,8 @@ class SceneStore {
   local(nodeId){const node=this.parser.scene.nodes.get(nodeId),computed=this.parser.snapshot().values;if(node?.type==='GenerativeFigure'&&node.props.bindings)return validateFigureState({...node.props.state,...(this.localState[nodeId]??{}),...Object.fromEntries(Object.entries(node.props.bindings).map(([key,path])=>[key,Number.isFinite(computed[path])?computed[path]:null]))});if(node?.type==='Chart'&&(node.props.controls.some(c=>c.bind)||(node.props.inputs??[]).length))return validateChartState(node.props,{...(this.localState[nodeId]??{}),...Object.fromEntries([...node.props.controls.filter(c=>c.bind),...(node.props.inputs??[])].map(c=>[c.key,Object.hasOwn(computed,c.bind)?computed[c.bind]:NaN]))});return own(this.localState,nodeId)?copyValue(this.localState[nodeId]):null;}
   setLocal(nodeId,value){
     const node=this.parser.scene.nodes.get(nodeId);
-    if(!node||!['CanTimingLab','InteractiveLab','InteractiveScene','GenerativeFigure','Chart'].includes(node.type))throw Error('Unknown interactive node');
+    if(!node||!['CanTimingLab','InteractiveLab','InteractiveScene','GenerativeFigure','Chart','Flow'].includes(node.type))throw Error('Unknown interactive node');
+    if(node.type==='Flow'){const clean=validateFlowState(node.props,value);if(JSON.stringify(this.localState[nodeId])===JSON.stringify(clean))return;this.localState[nodeId]=copyValue(clean);this.revision++;this.emit();return;}
     if(node.type==='Chart'){const clean=validateChartState(node.props,value);for(const c of node.props.controls.filter(c=>c.bind)){for(const other of this.parser.scene.nodes.values())if(other.type==='Chart')for(const peer of other.props.controls.filter(x=>x.bind===c.bind))if(clean[c.key]<peer.min||clean[c.key]>peer.max)throw Error('Shared chart parameter out of range');}const sharedChanged=node.props.controls.some(c=>c.bind&&this.parser.scene.state[c.bind]!==clean[c.key]);for(const c of node.props.controls.filter(c=>c.bind))this.parser.set(c.bind,clean[c.key]);if(!sharedChanged&&JSON.stringify(this.localState[nodeId])===JSON.stringify(clean))return;this.localState[nodeId]=copyValue(clean);this.revision++;this.emit();return;}
     if(node.type==='GenerativeFigure'){const clean=validateFigureState(value);const writes=[];for(const [key,path]of Object.entries(node.props.bindings??{})){if(!path.startsWith('/shared/')||!Object.hasOwn(clean,key)||Object.is(clean[key],this.parser.scene.state[path]))continue;const constraint=sliderConstraints(this.parser.scene.nodes).get(path);if(!constraint)throw Error('Missing bound figure control');assertSliderValue(constraint,clean[key],'Figure shared parameter');writes.push([path,clean[key]]);}for(const [path,v]of writes)this.parser.set(path,v);if(!writes.length&&JSON.stringify(this.localState[nodeId])===JSON.stringify(clean))return;this.localState[nodeId]=copyValue(clean);this.revision++;this.emit();return;}
     if(node.type==='InteractiveScene'){const clean=validateExperimentSnapshot(node.props,value);if(JSON.stringify(this.localState[nodeId])===JSON.stringify(clean))return;this.localState[nodeId]=copyValue(clean);this.revision++;this.emit();return;}
@@ -284,7 +286,8 @@ class SceneStore {
     const labStates=Object.create(null);
     for(const [id,value] of Object.entries(checkpoint.interactiveState??{})){
       const node=parser.scene.nodes.get(id);
-      if(!node||!['CanTimingLab','InteractiveLab','InteractiveScene','GenerativeFigure','Chart'].includes(node.type))throw Error('Unknown interactive node');
+      if(!node||!['CanTimingLab','InteractiveLab','InteractiveScene','GenerativeFigure','Chart','Flow'].includes(node.type))throw Error('Unknown interactive node');
+      if(node.type==='Flow'){labStates[id]=validateFlowState(node.props,value);continue;}
       if(node.type==='Chart'){labStates[id]=validateChartState(node.props,value);continue;}
       if(node.type==='GenerativeFigure'){labStates[id]=validateFigureState(value);continue;}
       if(node.type==='InteractiveScene'){labStates[id]=validateExperimentSnapshot(node.props,value);continue;}
@@ -1078,19 +1081,31 @@ function makeReactView(React, core) {
       error&&h('p',{key:'error',className:'vie-generated-error',role:'alert'},'交互图运行错误：'+error)
     ]);
   }
-  function GenericVisual({kind,config,values={}}){
+  function GenericVisual({kind,config,values={},nodeId,store}){
     const root=React.useRef(null),saved=React.useRef({progress:0,playing:undefined});
     const zoom=React.useRef(1);
     const scope=useSvgScope();
     const [selected,setSelected]=React.useState('');
-    let markup='',failure='';
-    try{markup=scopeSvgMarkup(makeVisualMarkup(kind,config,selected,values),scope);}catch(error){failure=String(error.message);}
+    const focus=React.useRef(null);
+    let markup='',failure='',flowState;
+    try{if(kind==='Flow')flowState=validateFlowState(config,store?.local(nodeId));markup=scopeSvgMarkup(makeVisualMarkup(kind,config,selected,values,flowState),scope);}catch(error){failure=String(error.message);}
     React.useEffect(()=>{if(kind!=='Animation'||failure)return;const controller=mountVisualAnimation(root.current,config,saved.current);return ()=>{saved.current=controller.snapshot?.()??saved.current;controller.dispose();};},[kind,JSON.stringify(config),markup,failure]);
     const applyZoom=()=>{const svg=root.current?.querySelector('.vie-visual-content>svg');if(!svg||!root.current?.querySelector('[data-vie-zoom]'))return;svg.style.width=(zoom.current*100)+'%';svg.style.minWidth='0';svg.style.maxHeight='none';root.current.querySelector('[data-vie-zoom-value]').textContent=Math.round(zoom.current*100)+'%';};
-    React.useEffect(applyZoom,[markup]);
+    React.useEffect(()=>{applyZoom();if(focus.current){root.current?.querySelector(focus.current)?.focus({preventScroll:true});focus.current=null;}},[markup]);
     if(failure)return h('p',{className:'vie-diagnostics',role:'alert'},'视觉规范校验失败：'+failure);
-    const select=e=>{const control=e.target?.closest?.('[data-vie-zoom]');if(control){const action=control.dataset.vieZoom;zoom.current=action==='fit'?1:Math.min(3,Math.max(.5,zoom.current*(action==='in'?1.25:.8)));applyZoom();return;}const item=e.target?.closest?.('[data-vie-item]');if(item){setSelected(item.getAttribute('data-vie-item'));}};
-    const keySelect=e=>{if(e.key==='Enter'||e.key===' '){const item=e.target?.closest?.('[data-vie-item]');if(item){e.preventDefault();setSelected(item.getAttribute('data-vie-item'));}}};
+    const select=e=>{const action=e.target?.closest?.('[data-vie-flow-action]');if(action&&kind==='Flow'){
+      const next={...flowState,history:[...flowState.history]};delete next.choice;
+      const kind=action.dataset.vieFlowAction,id=action.dataset.vieFlowTarget;
+      if(kind==='overview'||kind==='guided'){next.presentation=kind;focus.current='[data-vie-flow-action="'+kind+'"]';}
+      else if(kind==='choice'){next.choice=id;focus.current='[data-vie-flow-action="next"]';}
+      else if(kind==='next'){const edges=config.edges.filter(e=>e.from===next.history.at(-1)),target=flowState.choice??(edges.length===1?edges[0].to:undefined);if(!target||next.history.length>=64)return;next.history.push(target);focus.current='[data-vie-flow-current]';}
+      else if(kind==='back'){if(next.history.length<2)return;next.history.pop();focus.current='[data-vie-flow-current]';}
+      else if(kind==='restart')next.history=[layoutFlow(config).roots[0]];
+      else if(kind==='root'){if(!layoutFlow(config).roots.includes(id))return;next.history=[id];}
+      else if(kind==='seek'){const index=Number(action.dataset.vieFlowIndex);if(!Number.isInteger(index)||index<0||index>=next.history.length)return;next.history.length=index+1;focus.current='[data-vie-flow-current]';}
+      store.setLocal(nodeId,next);return;
+    }const control=e.target?.closest?.('[data-vie-zoom]');if(control){const action=control.dataset.vieZoom;zoom.current=action==='fit'?1:Math.min(3,Math.max(.5,zoom.current*(action==='in'?1.25:.8)));applyZoom();return;}const item=e.target?.closest?.('[data-vie-item]');if(item){focus.current=(item.closest('.vie-visual-mobile-svg')?'.vie-visual-mobile-svg ':item.closest('.vie-visual-desktop-svg')?'.vie-visual-desktop-svg ':'')+'[data-vie-item="'+item.getAttribute('data-vie-item')+'"]';setSelected(item.getAttribute('data-vie-item'));}};
+    const keySelect=e=>{if(e.key==='Enter'||e.key===' '){const item=e.target?.closest?.('[data-vie-item]');if(item){e.preventDefault();focus.current=(item.closest('.vie-visual-mobile-svg')?'.vie-visual-mobile-svg ':item.closest('.vie-visual-desktop-svg')?'.vie-visual-desktop-svg ':'')+'[data-vie-item="'+item.getAttribute('data-vie-item')+'"]';setSelected(item.getAttribute('data-vie-item'));}}};
     return h('div',{ref:root,className:'vie-visual-host',onClick:select,onKeyDown:keySelect,dangerouslySetInnerHTML:{__html:markup}});
   }
   function fmt(x,format='number'){
@@ -1106,7 +1121,7 @@ function makeReactView(React, core) {
     const child=(tag,props,children)=>h(tag,props,children);
     const cls='vie-'+n.type.toLowerCase();
     switch(n.type){
-      case 'Flow':case 'RelationGraph':case 'Timeline':case 'Diagram':case 'Animation':return h(NativeVisualFrame,{key:n.id,title:p.title},h(GenericVisual,{key:n.id,kind:n.type,config:p,values:env.values}));
+      case 'Flow':case 'RelationGraph':case 'Timeline':case 'Diagram':case 'Animation':return h(NativeVisualFrame,{key:n.id,title:p.title},h(GenericVisual,{key:n.id,kind:n.type,config:p,values:env.values,nodeId:n.id,store:env.store}));
       case 'Chart':return h(NativeVisualFrame,{key:n.id,title:p.title},h(ChartView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
       case 'GenerativeFigure':return h(FigureView,{key:n.id,config:p,nodeId:n.id,store:env.store});
       case 'InteractiveScene':return h(NativeVisualFrame,{key:n.id,title:p.title||'交互场景'},h(ExperimentView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
@@ -1402,8 +1417,13 @@ function makeView(React){
 }
 
 function apply(ctx){
-  if(typeof document!=='undefined'&&!document.getElementById('vie-v0250-theme')){
-    const st=document.createElement('style');st.id='vie-v0250-theme';st.textContent=VIE_CSS;document.head.appendChild(st);
+  if(typeof document!=='undefined'){
+    // Harness can reapply a new client while the old stylesheet survives. The
+    // stable id prevents duplication, but must not pin a previous CSS revision.
+    let st=document.getElementById('vie-v0250-theme');
+    if(!st){st=document.createElement('style');st.id='vie-v0250-theme';document.head.appendChild(st);}
+    if(st.textContent!==VIE_CSS)st.textContent=VIE_CSS;
+    st.dataset.vieVersion='0.29.2';
   }
   const ModeControl=createVIEModeView(require('react'),require('react-dom'));
   // Cordis requires the namespace as well as its command capability. Keeping
@@ -1429,7 +1449,7 @@ function apply(ctx){
   },VIETurnTailView));
   // Diagnostic only: if the browser's module was never materialized, this
   // marker will be absent. No HMR rewriting or unverified bootstrap hack.
-  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.29.0',activated:true,at:Date.now()};
+  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.29.2',activated:true,at:Date.now()};
 }
 
 exports.name=name;exports.inject=inject;exports.apply=apply;return module.exports;

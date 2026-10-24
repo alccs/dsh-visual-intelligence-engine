@@ -31,9 +31,9 @@ function makeZip(entries){const local=[],central=[];let offset=0;
   const directory=Buffer.concat(central),end=Buffer.alloc(22);end.writeUInt32LE(0x06054b50);end.writeUInt16LE(entries.length,8);end.writeUInt16LE(entries.length,10);end.writeUInt32LE(directory.length,12);end.writeUInt32LE(offset,16);return Buffer.concat([...local,directory,end]);
 }
 function walk(folder){return fs.readdirSync(path.join(root,folder),{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(folder+'/'+entry.name):[folder+'/'+entry.name]);}
-const files=[...['README.md','INSTALL.md','CHANGELOG.md','LICENSE','THIRD-PARTY-NOTICES.txt','package.json','package-lock.json','.gitignore'],...['src','scripts','tests','package','docs','.github'].flatMap(walk),...walk('screenshots').filter(name=>name.endsWith('-0.29.0.png')),'dist/VIE-Interactive-0.29.0.html','dist/'+tarball].sort();
-const entries=files.map(name=>({name:'Visual-Interactive-Engine-0.29.0/'+name,data:fs.readFileSync(path.join(root,name))}));
-const zipName='VIE-0.29.0-source.zip';fs.writeFileSync(path.join(dist,zipName),makeZip(entries));
-const deliverables=[tarball,zipName,'VIE-Interactive-0.29.0.html'];
+const files=[...['README.md','INSTALL.md','CHANGELOG.md','LICENSE','THIRD-PARTY-NOTICES.txt','package.json','package-lock.json','.gitignore'],...['src','scripts','tests','package','docs','.github'].flatMap(walk),...walk('screenshots').filter(name=>name.endsWith('-0.29.2.png')),'dist/VIE-Interactive-0.29.2.html','dist/'+tarball].sort();
+const entries=files.map(name=>({name:'Visual-Interactive-Engine-0.29.2/'+name,data:fs.readFileSync(path.join(root,name))}));
+const zipName='VIE-0.29.2-source.zip';fs.writeFileSync(path.join(dist,zipName),makeZip(entries));
+const deliverables=[tarball,zipName,'VIE-Interactive-0.29.2.html'];
 fs.writeFileSync(path.join(dist,'SHA256SUMS.txt'),deliverables.map(name=>sha(fs.readFileSync(path.join(dist,name)))+'  '+name).join('\n')+'\n');
 console.log('Release artifacts: '+deliverables.join(', '));

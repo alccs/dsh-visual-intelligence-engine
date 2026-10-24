@@ -1,4 +1,4 @@
-# VIE 0.29.0 架构
+# VIE 0.29.2 架构
 
 VIE是运行于DeepSeek Harness中的插件，包含Host与Client两个入口。它复用Harness模型、命令、会话、工具和正文能力，无独立业务服务器。技术主体为JavaScript、React、Cordis与自包含的隔离图形运行时。
 
@@ -32,7 +32,7 @@ src/mode.js实现auto/on/study/off、/vie命令、按聊天偏好及状态投影
 
 src/shared/catalog.js集中声明字段、组件参考和生成指引。src/shared/document.js验证并将文档编译为版本化场景事件，Host与Client使用相同源码。
 
-- learning：主题无关的阶段与测验数据。SVG/HTML由模型自由绘制，控制外壳由引擎生成；shared/learning.js检查必填内容、答案索引、状态键及大小。
+- learning：主题无关的阶段与测验数据，包含 1–32 题的逐题练习、进度、计分、即时反馈与重做。SVG/HTML由模型自由绘制，控制外壳由引擎生成；shared/learning.js检查必填内容、答案索引、状态键及大小。
 - graphic：柱图、环图、向量等数据，由引擎生成响应式figure。
 - chart：公式或数据曲线、区域、断点、关键点及可绑定参数。
 - visual：Flow、RelationGraph、Timeline、Diagram、Animation等声明式图形。
@@ -55,12 +55,18 @@ view/generated.js在opaque-origin iframe中运行自定义figure，以CSP禁止�
 
 view/learning.js统一阶段按钮、键盘操作、短说明与本地测验反馈。通用参数与derive把控件、曲线和示意图连接起来；用户操作不自动调用模型。图形支持展开、放大、主题、窄屏阅读与原挂载状态保留。
 
+## 流程图与样式更新
+
+src/shared/flow-layout.js 以强连通分量和拓扑层级排列节点，保留分支、汇合与循环。src/view/flow.js 提供全景、逐步引导及宽分类树的父分支分组；引导仅沿声明的边行进，路径有界并可校验恢复。聊天模式只决定未显式指定的默认视图，不改变图的关系。
+
+客户端激活时复用唯一的主题样式节点，并在内容变化时刷新 CSS，避免升级后新版视图复用旧样式。iframe 消息按状态与 ready/error 分别限量，待合并状态在重置或卸载时清理。
+
 ## 存储与恢复
 
 聊天模式保存在DSH_HOME/dsh-vie-mode.json；修图基线使用按会话哈希命名的限量文件。两者均由Harness环境提供存储位置。view/checkpoints.js保存有限本地checkpoint，只有源及会话/调用匹配才恢复；不支持天然跨设备同步。截断和显式VIE超时可从有限公开会话事件恢复，study/on下的简短主题也保留任务范围。
 
 ## 构建与交付
 
-scripts/build.mjs确定性展开共享源码并生成组件/技能参考，生成package/lib/index.js与client.js。verify.mjs执行Node测试、8组Chrome测试、真实Host与Chat组装、隔离CLI安装和元数据验证，最后确认验证哈希未变化。release.mjs生成TGZ、源码ZIP、离线HTML及SHA256校验值。
+scripts/build.mjs确定性展开共享源码并生成组件/技能参考，生成package/lib/index.js与client.js。verify.mjs执行Node测试、11组Chrome测试、真实Host与Chat组装、隔离CLI安装和元数据验证，最后确认验证哈希未变化。release.mjs生成TGZ、源码ZIP、离线HTML及SHA256校验值。
 
 这些检查覆盖软件契约与既定回归，不构成任意生成内容的专业认证，也不等于完整Electron桌面GUI或外部模型延迟A/B验收。

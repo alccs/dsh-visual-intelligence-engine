@@ -1,11 +1,11 @@
-# 安装 VIE 0.29.0
+# 安装 VIE 0.29.2
 
-Desktop：下载[0.29.0插件包](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.0/dsh-visual-interactive-engine-0.29.0.tgz)，在 DeepSeek Harness 应用内插件管理器安装，重启应用并新开聊天。官方 CLI 的 desktop profile 由 Electron 管理，不支持 `dsh plugin --profile desktop add`。
+Desktop：下载[0.29.2插件包](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.2/dsh-visual-interactive-engine-0.29.2.tgz)，在 DeepSeek Harness 应用内插件管理器安装，重启应用并新开聊天。官方 CLI 的 desktop profile 由 Electron 管理，不支持 `dsh plugin --profile desktop add`。
 
 Web CLI：
 
 ```powershell
-dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-0.29.0.tgz"
+dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-0.29.2.tgz"
 ```
 
 兼容 DSH >=0.2.1-rc.2 <0.3.0-0、Node >=22.19；验证使用 Node24、DSH0.2.1-rc.2、Cordis4、Chrome。输入区模式选择器依赖可选 sessions、remote、remote.commands、Host commands/sessionProjections；缺少服务时使用配置模式，不会把显式关闭改成开启。
@@ -54,25 +54,25 @@ fastMaxRequests 为2..12；fastMaxVisuals 为1..4；fastMaxRepairs 为1..4；fas
 
 ## 从公开源码构建与验证边界
 
-npm ci后运行npm run build，再运行npm pack ./package生成插件TGZ。node scripts/export-demo.mjs可生成离线HTML。[GitHub Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.0)已提供0.29.0插件TGZ和SHA256校验值。
+npm ci后运行npm run build，再运行npm pack ./package生成插件TGZ。离线演示导出需要完整验证目录中的示例夹具。[GitHub Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.2)已提供0.29.2插件TGZ和SHA256校验值。
 
-本地完整项目已通过173项测试、8组浏览器检查及7组宿主/安装检查。出于隐私考虑，公开仓库不含真实会话回放fixtures、tests目录、验证报告、截图和隔离宿主环境；npm run check/verify/release需要完整验证目录，不能在公开源码树中直接完成。未声称GitHub在线CI已经执行。
+本地完整项目已通过190项测试、11组浏览器检查及7组宿主/安装检查。出于隐私考虑，公开仓库不含真实会话回放fixtures、tests目录、验证报告、截图和隔离宿主环境；npm run check/verify/release需要完整验证目录，不能在公开源码树中直接完成。未声称GitHub在线CI已经执行。
 
 ## 从旧包迁移
 
 本版显示名称为 `dsh-Visual-Interactive-Engine`，包标识为 `dsh-visual-interactive-engine`。先在插件管理器卸载旧 `dsh-vie`，再安装新 TGZ 并重启，避免两个包同时注册同名工具。工具名 vie_*、/vie 命令、历史事件、模式偏好文件与内部投影标识保持不变。旧版本目录保留。
 
-## 0.29.0 输出额度修正
+## 0.29.2 输出额度修正
 
-本次仍为0.29.0。默认fastMaxTokens:0、fastProseTokens:0、fastEffort:inherit；原先的16384/8192自动限制已取消。配置里若曾手工填写旧额度，应改为0才能继承。token截断后发送继续会保留已有图形与读取范围，续写不重复套用VIE限额；会话重开可从最近400条公开事件恢复被截断的视觉任务。
+本次仍为0.29.2。默认fastMaxTokens:0、fastProseTokens:0、fastEffort:inherit；原先的16384/8192自动限制已取消。配置里若曾手工填写旧额度，应改为0才能继承。token截断后发送继续会保留已有图形与读取范围，续写不重复套用VIE限额；会话重开可从最近400条公开事件恢复被截断的视觉任务。
 
 安装更新包后重启；建议新建聊天验证默认值。旧会话的Harness请求头或服务端原有上限可能仍会沿用，不通过改写历史日志来猜测和提高它们。/vie status中的effectiveMaxTokens是本中间件返回的额度，null表示交由宿主/提供方默认；不代表已探测服务端最大输出能力。
-# 0.29.0 同版本修正：原生图展开
+# 0.29.2 同版本修正：原生图展开
 
-本包补齐流程图、曲线图、关系图、时间轴、示意图、动画和交互实验的“展开/收起”。更新后请重新安装本目录dist中的0.29.0 TGZ并重启Harness以刷新前端资源。已有会话中的成功原生图也由新渲染器提供展开按钮，无需模型重新生成。展开保留当前参数与挂载视图，支持Esc退出，工具栏继续避让窗口右上角。
+本包补齐流程图、曲线图、关系图、时间轴、示意图、动画和交互实验的“展开/收起”。更新后请重新安装本目录dist中的0.29.2 TGZ并重启Harness以刷新前端资源。已有会话中的成功原生图也由新渲染器提供展开按钮，无需模型重新生成。展开保留当前参数与挂载视图，支持Esc退出，工具栏继续避让窗口右上角。
 
 
-## 0.29.0 可读性与生成改进
+## 0.29.2 可读性与生成改进
 
 安装本版本TGZ并重启Harness。旧图会应用新的阅读布局和静态控件规则，原有图形内容保持不变。新生成的回答采用改进的图后解释、前后变化与适用范围指引。离线演示新增“变化前后”校正示例。自动字号适配针对无脚本的单一SVG，极小标签仍受1800px安全宽度上限约束；其他自定义复杂布局仍需作者使用响应式设计。
 
@@ -80,11 +80,11 @@ npm ci后运行npm run build，再运行npm pack ./package生成插件TGZ。node
 
 输入区VIE菜单新增“学习模式”，或使用/vie study。只作用于本聊天，/vie global study修改未单独设置聊天的默认模式。学习模式按直观定义、因果链和主图组织回答，按需补应用和理解测试，不强制每题生成三张图。图与简短交互由VIE呈现，大段解释由Harness正文呈现。尊重纯文字和开发排查请求；不切换模型、不增加默认token上限。任意主题可使用通用VIE.mountLearning阶段与测验组件，接触电动势只是演示。
 
-本次同版本修复菜单切换时的cannot get property "remote" without inject。请重新安装本目录dist中的0.29.0 TGZ并完全退出、重启Harness，刷新已加载的客户端资源。更新前可直接输入/vie study切换当前聊天。
+本次同版本修复菜单切换时的cannot get property "remote" without inject。请重新安装本目录dist中的0.29.2 TGZ并完全退出、重启Harness，刷新已加载的客户端资源。更新前可直接输入/vie study切换当前聊天。
 
 ## 学习组件与超时修正
 
-本次仍为0.29.0。默认fastRequestMs改为0，不因生成超过120秒就取消。若旧配置手工保留120000，请改为0；模型推理与输出额度继续继承Harness。这消除插件强制截断，不等于保证模型在固定时间完成。
+本次仍为0.29.2。默认fastRequestMs改为0，不因生成超过120秒就取消。若旧配置手工保留120000，请改为0；模型推理与输出额度继续继承Harness。这消除插件强制截断，不等于保证模型在固定时间完成。
 
 推荐直接提交document.blocks中的learning数据，例如：
 ```json
@@ -92,3 +92,10 @@ npm ci后运行npm run build，再运行npm pack ./package生成插件TGZ。node
 ```
 
 也可只提供quiz:{question,options:[{label,feedback}],correct:1}，correct为必填的零起始答案索引。Host和Client共用字段校验；按钮、状态与反馈由引擎提供，主题图形仍自由绘制。旧figure中可静态判定的字面量VIE.mountLearning调用可预检遗漏的quiz.correct；对象展开、简写、计算键、模板与正则等动态写法留待隔离运行校验；任意动态JavaScript仍必须在隔离视图运行，Host不会执行模型代码，也不声称完成科学语义认证。历史错误测验需要带正确答案重新生成；引擎不会猜答案或改写历史会话。
+
+
+## 0.29.2 流程图与练习
+
+流程图默认全景总览，学习模式默认逐步引导；图内可切换，支持分支选择、返回、重新开始与本地恢复。宽分类树按父子关系分组，窄屏重排，汇合和循环保留原图结构。新增 1–32 题的逐题练习。
+
+此安装包同时修复旧样式残留导致的按钮和逐步布局异常。更新后请完全退出、重启 Harness，以载入新的客户端资源；已有原生流程图无需重新生成。

@@ -6,9 +6,9 @@ function evaluate(code){const r=spawnSync(exe,['--session',session,'--json','eva
 function check(name,code){assert.equal(evaluate(code),true,name);checks.push({name,passed:true});console.log('PASS '+name);}
 const frames='await new Promise(requestAnimationFrame);await new Promise(requestAnimationFrame);';
 try{
- run('--executable-path',process.env.VIE_CHROME??'C:/Program Files/Google/Chrome/Application/chrome.exe','--allow-file-access','open',pathToFileURL(path.join(root,'dist/VIE-Interactive-0.29.0.html')).href);run('set','viewport','1040','1100');run('snapshot','-i');
+ run('--executable-path',process.env.VIE_CHROME??'C:/Program Files/Google/Chrome/Application/chrome.exe','--allow-file-access','open',pathToFileURL(path.join(root,'dist/VIE-Interactive-0.29.2.html')).href);run('set','viewport','1040','1100');run('snapshot','-i');
  check('default VIE contains only the graphic while ordinary prose is outside its shell',`document.querySelector('.vie-body').querySelectorAll('.vie-text').length===0&&document.querySelector('[data-native-explanation]').textContent.includes('Harness')&&!document.querySelector('.vie-shell [data-native-explanation]')`);
- run('screenshot','--full','screenshots/visual-and-native-prose-0.29.0.png');
+ run('screenshot','--full','screenshots/visual-and-native-prose-0.29.2.png');
  run('click','button[data-demo-topic="shared"]');run('snapshot','-i');
  check('two charts expose one shared speed slider',`document.querySelectorAll('[data-vie-chart]').length===2&&document.querySelectorAll('#stage input[type="range"]').length===1`);
  evaluate(`window.beforeCurves=[...document.querySelectorAll('.vie-general-chart [clip-path] path')].map(p=>p.getAttribute('d'))`);
@@ -17,9 +17,9 @@ try{
  check('both actual SVG curves change without a model request',`[...document.querySelectorAll('.vie-general-chart [clip-path] path')].every((p,i)=>p.getAttribute('d')!==window.beforeCurves[i])`);
  evaluate('VIEDemo.remount()');run('snapshot','-i');
  check('shared speed and both curves survive remount',`VIEDemo.context.figures.block1.state.v===6&&VIEDemo.context.figures.block2.state.v===6&&document.querySelector('#stage input[type="range"]').value==='6'`);
- run('screenshot','--full','screenshots/shared-chart-desktop-0.29.0.png');
+ run('screenshot','--full','screenshots/shared-chart-desktop-0.29.2.png');
  for(const width of [390,320]){run('set','viewport',String(width),'1100');run('snapshot','-i');check('linked charts and shared control fit '+width+'px',`document.documentElement.scrollWidth<=innerWidth&&document.querySelectorAll('[data-vie-chart] svg').length===2`);}
- run('screenshot','--full','screenshots/shared-chart-mobile-0.29.0.png');run('click','#theme');check('shared charts follow host dark theme',`document.body.classList.contains('dark')`);
+ run('screenshot','--full','screenshots/shared-chart-mobile-0.29.2.png');run('click','#theme');check('shared charts follow host dark theme',`document.body.classList.contains('dark')`);
  run('set','viewport','1040','1100');
  check('current lazy PartialArguments accepts a native document object',`(async()=>{VIEDemo.preview({text:()=>undefined,value:k=>k==='document'?window.VIELinkedMotion:undefined,complete:()=>true,closed:()=>true},'native-object');${frames}return document.querySelectorAll('[data-vie-chart]').length===2&&!document.querySelector('.vie-error')})()`);
  check('a raw native tool stream previews its first complete chart in the new flow node',`(async()=>{const raw=JSON.stringify({document:window.VIELinkedMotion}),cut=raw.indexOf('},{"type":"chart"')+1;VIEDemo.answerHistory([{type:'assistant/live-chunk',seq:1,time:1,data:{turn:1,step:1,chunk:{type:'tool-call-delta',id:'native-stream',name:'vie_explain',argumentsDelta:raw.slice(0,cut)}}}],true);${frames}return document.querySelectorAll('[data-vie-chart]').length===1&&!!document.querySelector('[data-vie-answer]')})()`);
@@ -29,5 +29,5 @@ try{
 
  check('normal visual-only and linked examples have no visible runtime errors',`!document.querySelector('.vie-error')&&!document.querySelector('.vie-generated-error')`);
  const errors=run('errors').errors??[];assert.equal(errors.length,0,JSON.stringify(errors));
- fs.writeFileSync(path.join(root,'docs/validation/visual-browser.json'),JSON.stringify({version:'0.29.0',checks:checks.length,results:checks,pageErrors:errors,externalModelRequests:0},null,2));
+ fs.writeFileSync(path.join(root,'docs/validation/visual-browser.json'),JSON.stringify({version:'0.29.2',checks:checks.length,results:checks,pageErrors:errors,externalModelRequests:0},null,2));
 }finally{try{run('close');}catch{}}

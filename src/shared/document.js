@@ -34,10 +34,11 @@ function validateFigureDefinition(input){
 function validateDocumentSpec(input){
   if(!input||typeof input!=='object'||Array.isArray(input)||Object.getPrototypeOf(input)!==Object.prototype)throw Error('Document requires an object');
   if(input.caption!==undefined){if(typeof input.caption!=='string'||input.caption.length>140)throw Error('document.caption must be text of at most 140 characters');const {caption,...rest}=input;input=rest;}
-  if(input.title===undefined){const first=input.blocks?.[0]?.title;input={...input,title:typeof first==='string'&&first.trim()?first.trim().slice(0,100):'交互图解'};}
+  if(input.title===undefined){const first=isLearningQuestionGroup(input.blocks)?'选择题练习':input.blocks?.[0]?.title;input={...input,title:typeof first==='string'&&first.trim()?first.trim().slice(0,100):'交互图解'};}
   for(const key of Object.keys(input))if(!DOCUMENT_CONTRACT.fields.includes(key))throw Error('Unknown document field: '+key);
   if(typeof input.title!=='string'||!input.title.trim()||input.title.length>100)throw Error('Document requires a short title');
   if(!Array.isArray(input.blocks)||input.blocks.length<1||input.blocks.length>12)throw Error('Document requires 1–12 ordered blocks');
+  if(isLearningQuestionGroup(input.blocks))input={...input,blocks:[{type:'learning',title:input.title,questions:input.blocks.map((b,i)=>{try{const q=validateLearningDefinition(b);return {...q.quiz,title:q.title};}catch(error){error.path='blocks['+i+']';throw error;}})}]};
   const controls=input.controls===undefined?[]:validateChartSpec({title:'shared',controls:input.controls,series:[{label:'validation',expr:'x'}]}).controls;
   if(controls.some(c=>c.bind))throw Error('Document controls cannot contain bind');
   const derive=input.derive??{};

@@ -10,11 +10,12 @@ const testedHash=verificationHash(root);
 async function browser(name){return new Promise((resolve,reject)=>{const child=spawn(process.execPath,['scripts/browser-'+name+'.mjs'],{cwd:root,windowsHide:true,timeout:600000});let output='';child.stdout.on('data',data=>{output+=data;});child.stderr.on('data',data=>{output+=data;});child.on('error',reject);child.on('close',code=>{process.stdout.write(output);code===0?resolve():reject(Error('Browser suite failed: '+name));});});}
 // Separate named browser sessions and separate reports/screenshots; no shared app state.
 for(const batch of [['reactive','visual','speed'],['general','test','transmission'],['layout','optimization']]){const results=await Promise.allSettled(batch.map(browser));for(const result of results)if(result.status==='rejected')throw result.reason;}
+await browser('questions');await browser('flow-ui');await browser('flow-repair');
 for(const script of ['test-workflow','test-mode-runtime'])run(['scripts/'+script+'.mjs']);
 run(['--experimental-transform-types','scripts/test-assembly.mjs']);
 const npm=process.env.VIE_NPM_CLI??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
 run([npm,'pack','./package','--pack-destination','dist','--json']);
 run(['scripts/test-cli.mjs']);run(['scripts/test-dsh.mjs']);run(['scripts/test-name-runtime.mjs']);run(['scripts/test-mode-runtime.mjs','--installed']);
 if(verificationHash(root)!==testedHash)throw Error('Sources changed during verification; rerun the release gate');
-fs.writeFileSync(path.join(root,'docs/validation/release-gate.json'),JSON.stringify({version:'0.29.0',passed:true,nodeTests:Number(tap.match(/# pass (\d+)/)?.[1]),browserScripts:8,hostScripts:7,verificationHash:verificationHash(root),externalModelRequests:0},null,2));
+fs.writeFileSync(path.join(root,'docs/validation/release-gate.json'),JSON.stringify({version:'0.29.2',passed:true,nodeTests:Number(tap.match(/# pass (\d+)/)?.[1]),browserScripts:11,hostScripts:7,verificationHash:verificationHash(root),externalModelRequests:0},null,2));
 console.log('Required release checks passed.');

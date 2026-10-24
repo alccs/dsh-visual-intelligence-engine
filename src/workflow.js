@@ -32,12 +32,12 @@ function visualIntent(message){
   const attachment=(message.content??[]).some(b=>b.type!=='text');
   const raw=(message.content??[]).filter(b=>b.type==='text').map(b=>b.text??'').join('\n').trim();
   if(!raw||raw.length>3000)return {active:false,reason:'ambiguous'};
-  if((/(?:最终显示|最终渲染|已完成|打开思考|渲染)/.test(raw)&&/(?:问题|异常|错误|丢失|去掉|删|连在一起|堆|折叠|排查|修复)/.test(raw))||(/(?:图文|正文|文字)/.test(raw)&&/(?:丢失|去掉|删除|连在一起|堆叠|被折叠)/.test(raw)))return {active:false,reason:'development-or-source'};
+  if((/(?:最终显示|最终渲染|已完成|打开思考|渲染)/.test(raw)&&/(?:问题|异常|错误|丢失|去掉|删|连在一起|堆|折叠|排查|修复)/.test(raw))||(/(?:图文|正文|文字)/.test(raw)&&/(?:显示|渲染|回复|回答|聊天|会话|插件|VIE|发现|我发现)/i.test(raw)&&/(?:丢失|去掉|删除|连在一起|堆叠|被折叠)/.test(raw)))return {active:false,reason:'development-or-source'};
   if(/只(?:要|用|需)?(?:纯)?文字|纯文字|不要(?:任何)?(?:图|画图|可视化)|不(?:用|使用)VIE|text[ -]only|no visual/i.test(raw))return {active:false,reason:'text-only'};
   const text=raw.replace(/(?:不需要|不用|不要|无需|无须|别)(?:再|先|额外)?(?:读取|搜索|生成|编写|创建|启动|运行|做|进行)?(?:插件源码|源码|安装包|截图|文件|脚本|测试|调试|浏览器|命令)[^，。;；\n]*/g,'');
   const readSources=attachment||/(?:[a-z]:[\\/]|https?:\/\/|\.(?:pdf|docx?|xlsx?|csv|json|html?|py|js|ts)\b|附件|这张图|此图|这份|上传|资料|@\S+)/i.test(text);
   if(/(?:修复|修改|优化|开发|调试|安装|卸载|部署|打包|排查|诊断|执行|运行)(?:.{0,16})(?:插件|源码|仓库|项目|程序|脚本|代码|命令|文件|问题|组件|VIE)|(?:源码|仓库|代码库|这段代码|这个项目).{0,12}(?:修改|修复|开发|调试)|精确仿真|有限元|真实接触线|\b(?:debug|implement|repository)\b/i.test(text))return {active:false,reason:'development-or-source'};
-  if(!/解释|讲解|讲讲|介绍|说明|原理|区别|差异|比较|对比|是什么|怎么工作|如何|怎样|为什么|可视化|示意图|图文|演示|画出|绘制|画一|画个|画图|受力图|流程图|\bdraw\b|\bdiagram\b|explain|describe|compare|visuali[sz]e|illustrat|what is|how (?:does|do)|why (?:does|do)/i.test(text))return {active:false,reason:readSources?'source-task':'ambiguous'};
+  if(!/出.{0,12}题|练习|测验|选择题|quiz|解释|讲解|讲讲|介绍|说明|原理|区别|差异|比较|对比|是什么|怎么工作|如何|怎样|为什么|可视化|示意图|图文|演示|画出|绘制|画一|画个|画图|受力图|流程图|\bdraw\b|\bdiagram\b|explain|describe|compare|visuali[sz]e|illustrat|what is|how (?:does|do)|why (?:does|do)/i.test(text))return {active:false,reason:readSources?'source-task':'ambiguous'};
   return {active:true,readSources,reason:'explanation',keepEffort:/深度思考|完整推导|仔细推导|高推理|high reasoning|think hard/i.test(text)};
 }
 function visualWorkflowOptions(input={}){
@@ -65,13 +65,13 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     if(modeFor(agent)==='off')intent={active:false,reason:'mode-off'};
     else if(['on','study'].includes(modeFor(agent))&&intent.reason==='ambiguous'&&raw&&raw.length<=3000)intent={active:true,reason:'mode-on'};
     // A new, explicit user instruction always re-elects this scope; runtime contexts never do.
-    const value={...intent,study:modeFor(agent)==='study',active:options.fastWorkflow&&intent.active,turn,started:clock(),searches:resume?.searches??0,requests:0,steps:new Set(),pending:new Map(),rendered:resume?.rendered??false,visuals:new Set(resume?.visuals??[]),failures:resume?.failures??0,allowProtocolText:/DSML|DSEL|工具调用协议|调用格式示例/i.test(raw),fresh:true,resumeAfterTruncation:!!resume?.truncated,resumeAfterTimeout:!!resume?.timedOut,truncated:false,searchUnavailable:new Set(resume?.searchUnavailable??[])};
+    const value={...intent,practice:/出.{0,40}题|(?:给我|生成|来|做).{0,20}(?:选择题|练习题|测验)|考考我|自测|\bquiz\b/i.test(raw)&&!/(?:解释|解析|解答|讲解).{0,8}(?:这|此|该).{0,6}题/.test(raw),study:modeFor(agent)==='study',active:options.fastWorkflow&&intent.active,turn,started:clock(),searches:resume?.searches??0,requests:0,steps:new Set(),pending:new Map(),rendered:resume?.rendered??false,visuals:new Set(resume?.visuals??[]),failures:resume?.failures??0,allowProtocolText:/DSML|DSEL|工具调用协议|调用格式示例/i.test(raw),fresh:true,resumeAfterTruncation:!!resume?.truncated,resumeAfterTimeout:!!resume?.timedOut,truncated:false,searchUnavailable:new Set(resume?.searchUnavailable??[])};
     states.set(agent,value);if(agent.session&&typeof agent.session==='object')sessions.set(agent.session,value);
   }
   function state(agent){return agent&&states.get(agent);}
   function repairLimit(s){return options.fastMaxRepairs+(s.visuals.size===0?1:0);}
   function closing(s){return s.visuals.size>=options.fastMaxVisuals||s.failures>=repairLimit(s)||s.requests>=options.fastMaxRequests-1;}
-  function visualWeight(args){try{const d=args?.document??(args?.spec?JSON.parse(args.spec):null);if(!d||d.controls?.length)return 1;return Math.max(1,(d.blocks??[]).filter(b=>['figure','learning','graphic','chart','visual','experiment'].includes(b.type)||b.kind).length);}catch{return 1;}}
+  function visualWeight(args){try{const d=args?.document??(args?.spec?JSON.parse(args.spec):null);if(!d||d.controls?.length||isLearningQuestionGroup(d.blocks))return 1;return Math.max(1,(d.blocks??[]).filter(b=>['figure','learning','graphic','chart','visual','experiment'].includes(b.type)||b.kind).length);}catch{return 1;}}
   function allowed(agent,name,args){
     if(modeFor(agent)==='off')return !/^vie_/.test(name);
     const s=state(agent);if(!s?.active)return true;if(s.closingAtAssembly||s.requests>options.fastMaxRequests)return false;
@@ -81,14 +81,24 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     if(VIE_SEARCH_TOOLS.has(name))return s.visuals.size===0&&s.searches<options.fastMaxSearches&&clock()-s.started<options.fastBudgetMs&&!s.searchUnavailable.has(name);
     return name==='skill'&&(args===undefined||args?.name==='dsh-vie');
   }
+  function denial(exec){
+    const s=state(exec.agent);
+    if(s?.active&&VIE_FAST_TOOLS.has(exec.name)){
+      const pending=[...s.pending.values()].reduce((a,b)=>a+b,0),remaining=Math.max(0,options.fastMaxVisuals-s.visuals.size-pending);
+      return 'VIE_VISUAL_BUDGET: 剩余交互单元 '+remaining+'，本次请求 '+visualWeight(exec.arguments)+'，每轮上限 '+options.fastMaxVisuals+'；已用 '+s.visuals.size+'，待执行 '+pending+'，校验失败 '+s.failures+' / '+repairLimit(s)+'。请将整组题合并为一个learning.questions块（最多32题），不要一题一个图形。额度拒绝不计为校验失败；仍需遵守模型请求及修复预算。不要在正文模拟工具调用。';
+    }
+    return 'VIE_FAST_PATH: 当前讲解流程不允许该工具，请使用vie_explain或vie_auto；开发排障请求请明确说明。';
+  }
   function guidanceBase(agent){
     const s=state(agent);if(!s?.active)return '';
     if(s.resumeAfterTimeout)return '上一轮被VIE显式超时配置中止。恢复原问题，保留已有图和正文，不重新规划整堂课或重新检索；尚无主图时先交付最小可用图及对应解释，优先type:"learning"数据入口。已有图可继续解释，不重复生成。不声称上一轮已经出图。';
     if(s.resumeAfterTruncation)return '上一轮因输出token上限截断。接着续写未完成的内容，保留已有图形及其原调用锚点，不重画已完成图、不重新检索。仅在剩余图形/修复预算允许且确需补完原任务时调用VIE；完整解释继续使用Harness正文。续写继承Harness的输出和推理设置，不重复套用VIE额度。';
     if(closing(s))return '本轮可视化工具尝试已结束。禁止在正文模拟工具调用、输出DSML/DSEL标签、图形JSON或HTML/SVG源码。由Harness原生正文正常讲解；按问题需要决定篇幅，不限两句话。若主图未成功，如实说明，不声称已显示。';
     if(!s.visuals.size&&s.failures>=options.fastMaxRepairs)return '尚无成功主图，保留最后一次参数纠错机会。只使用vie_explain或vie_auto修正工具反馈中的具体字段，优先简单通用图，不重新检索、不编写外部脚本，不在正文输出伪调用。若仍失败，正常正文结束并如实说明。';
+    if(s.visuals.size&&s.practice)return '题组已提交。正文只说明操作方式与题目范围，不列答案、不逐题解析，不因图文交替规则追加概念图；解析由卡片在作答后显示。用户要求的题数尚未满足时继续补充题组，不能以普通正文冒充交互题交付。';
     if(s.visuals.size)return '当前图形已提交视图。先在Harness原生正文讲解这张图；原问题还需另一概念图时，直接调用vie_explain，再写对应正文，形成图→文→图→文。补图和局部修复不要求more:true；无需额外图时正常结束，不凑调用次数。不要把完整解释写进VIE、不重复造图、不再检索。修图可用visualId/baseRevision/changes；visualId不是图片URL。正文不限两句话。';
     const lookup=clock()-s.started>=options.fastBudgetMs||s.searchUnavailable.size?'额外检索已停止或不可用；仍可调用VIE完成主图或修复参数。未核实的品牌/机型细节说明范围，不编造来源。':'';
+    if(s.practice)return '出题任务：下一步直接调用vie_explain，提交一个learning块的questions数组，按用户要求生成完整题数（最多32题一组），不要一题一图。采用逐题闯关卡片：进度、得分、锁定选项、选后解析、下一题、总分与重做。不先生成概念图，不在正文或图注泄露答案，不加载技能或手写控制JS。超出32题时分组，说明范围。';
     return (s.readSources?'先用必要读取工具核对用户资料，然后直接出图，不进入终端开发。':'')+'可视化讲解：先用一句话说明正在画什么；下一步直接用vie_explain生成第一张图，恰好匹配的实验可用vie_auto。每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。每次只画当前段落的一个核心概念，先图→Harness原生正文解释→下一张图→对应正文；通常1张，复杂主题按需2–3张。不要把多个章节画成同一张SVG里的编号小面板、拼贴海报或缩小的多图总览；必须同时比较或共享交互的视图才可并列。补图不要求more，首图成功后仍可继续。VIE只放图、交互、图例与必要短标注，完整解释/公式/列表/表格写Harness正文。任意主题优先用graphic{kind:bars|donut|vectors,title,items}、chart或visual；特殊效果用隔离figure，不限模板。不要读取源码/安装包、写外部脚本或截图开发；visualId仅用于局部修复，不是图片URL。'+lookup;
 
   }
@@ -133,7 +143,7 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
     const s=state(exec.agent);if(!s?.active)return;
     if(VIE_SEARCH_TOOLS.has(exec.name)||VIE_READ_TOOLS.has(exec.name))s.searches++;
     s.lastTool=exec.name;
-    if(VIE_FAST_TOOLS.has(exec.name)){if(value.isError!==true&&value.meta?.kind==='vie'&&value.meta.valid===true){const id=value.meta.anchorCallId??value.meta.visualId??exec.callId??s.visuals.size;for(let i=0;i<visualWeight(exec.arguments);i++)s.visuals.add(i?String(id)+':'+i:id);s.rendered=value.meta.more!==true;if(s.firstGraphicMs===undefined)s.firstGraphicMs=clock()-s.started;}else s.failures++;}
+    if(VIE_FAST_TOOLS.has(exec.name)){if(value.isError!==true&&value.meta?.kind==='vie'&&value.meta.valid===true){const id=value.meta.anchorCallId??value.meta.visualId??exec.callId??s.visuals.size;for(let i=0;i<visualWeight(exec.arguments);i++)s.visuals.add(i?String(id)+':'+i:id);s.rendered=value.meta.more!==true;if(s.firstGraphicMs===undefined)s.firstGraphicMs=clock()-s.started;}else if(!/VIE_VISUAL_BUDGET/.test(JSON.stringify(value)))s.failures++;}
     if(VIE_SEARCH_TOOLS.has(exec.name)&&value.isError===true){const reason=JSON.stringify(value.error??value.content??value.message??'').slice(0,5000);if(/API.?key|credential|ACCOUNT_QUOTA|quota|balance|unauthori[sz]ed|authentication|凭据|密钥|额度/i.test(reason))s.searchUnavailable.add(exec.name);}
     VIE_WORKFLOW_STATS.set(exec.agent,{requests:s.requests,searches:s.searches,repairs:s.failures,visuals:s.visuals.size,firstTextMs:s.firstTextMs,firstGraphicMs:s.firstGraphicMs,elapsedMs:clock()-s.started,...s.requestLimits,truncated:!!s.truncated});
   }
@@ -161,7 +171,7 @@ function createVisualWorkflow(input={},clock=()=>Date.now(),modeFor=()=>input.vi
       yield chunk;
     }
   }
-  return {options,claim,state,allowed,guidance,assembly,request,result,observe,stream,reserve,release};
+  return {options,claim,state,allowed,guidance,assembly,request,result,observe,stream,reserve,release,denial};
 }
 function installVisualWorkflow(ctx,options,mode={get:()=>options.visualMode??'auto'}){
   if(typeof ctx.on!=='function'||!ctx.systemPrompt)return;
@@ -190,6 +200,6 @@ function installVisualWorkflow(ctx,options,mode={get:()=>options.visualMode??'au
     if(frame.type==='end'){finish(s);VIE_WORKFLOW_STATS.set(agent,{requests:s.requests,searches:s.searches,repairs:s.failures,visuals:s.visuals.size,firstTextMs:s.firstTextMs,firstGraphicMs:s.firstGraphicMs,lastRequestMs:Date.now()-(s.requestStarted??s.started),timedOut:!!s.timedOut,formatIssues:s.formatIssues??0,formatFeedback:s.formatFeedback??0,...s.requestLimits,finishReason:s.finishReason,truncated:!!s.truncated});}
   });
   ctx.on('agent/status',({agent,status})=>{if(status?.kind==='idle')finish(workflow.state(agent));});
-  ctx.on('tools/pre-execute',async(exec,next)=>{if(workflow.reserve(exec)){try{const decision=await next();if(decision?.kind==='deny')workflow.release(exec);return decision;}catch(error){workflow.release(exec);throw error;}}return {kind:'deny',reason:'VIE_FAST_PATH: 普通知识讲解请直接使用vie_explain或vie_auto；不进入文件/终端/截图调试。主图已生成时请在Harness正文正常讲解。'};});
+  ctx.on('tools/pre-execute',async(exec,next)=>{if(workflow.reserve(exec)){try{const decision=await next();if(decision?.kind==='deny')workflow.release(exec);return decision;}catch(error){workflow.release(exec);throw error;}}return {kind:'deny',reason:workflow.denial(exec)};});
   ctx.on('tools/result',(exec,result)=>{workflow.result(exec,result);});
 }

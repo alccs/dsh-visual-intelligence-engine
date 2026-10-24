@@ -64,9 +64,10 @@ function validateEdge(e,known){
 }
 function validateVisualSpec(kind,value){
   if(!VISUAL_KINDS.includes(kind))err('unknown visual kind');
-  keys(value,['title','subtitle','layout','nodes','edges','items','shapes','width','height','accuracy','representation','duration','motions']);
+  keys(value,['title','subtitle','layout','nodes','edges','items','shapes','width','height','accuracy','representation','duration','motions','presentation']);
   const result={title:str(value.title??'',100)};
   if(value.subtitle!==undefined)result.subtitle=str(value.subtitle,160);
+  if(value.presentation!==undefined){if(kind!=='Flow'||!['overview','guided'].includes(value.presentation))err('invalid flow presentation');result.presentation=value.presentation;}
   if(value.accuracy!==undefined){if(!['schematic','calculated','validated'].includes(value.accuracy))err('invalid accuracy');result.accuracy=value.accuracy;}
   if(value.representation!==undefined){if(!['structure','pitch-circles'].includes(value.representation)||!['Diagram','Animation'].includes(kind))err('invalid representation');result.representation=value.representation;}
   if(kind==='Flow'||kind==='RelationGraph'){
@@ -206,7 +207,7 @@ const COMPONENT_CATALOG=Object.freeze({
   CanTimingLab:{props:['clockMHz','prescaler','bs1','bs2','sjw','compareBs1','compareBs2'],description:'bxCAN bit timing experiment'},
   InteractiveLab:{props:['kind'],description:'Built-in bitwise/timer/ohm/fraction/probability/vector lab'},
   InteractiveScene:{props:['template','parameters','title'],description:'Registered experiment: planetary/gears/geartrain/worm/wave/process/vector; use geartrain for 2–6 serial external gears, worm for crossed-axis worm drive; trusted geometry, controls and readouts'},
-  Flow:{props:['title','subtitle','layout','nodes','edges','accuracy'],description:'Automatic flow layout'},
+  Flow:{props:['title','subtitle','layout','nodes','edges','accuracy','presentation'],description:'Topology-based overview or guided flow navigation'},
   RelationGraph:{props:['title','subtitle','layout','nodes','edges','accuracy'],description:'Automatic relationship graph'},
   Timeline:{props:['title','subtitle','items','accuracy'],description:'Interactive chronological events'},
   Diagram:{props:['title','subtitle','shapes','width','height','accuracy','representation'],description:'Bounded schematic primitives; shapes can have label/detail; geometry is not a domain solver'},

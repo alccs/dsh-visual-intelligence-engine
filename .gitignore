@@ -19,6 +19,7 @@ docs/*
 !docs/ARCHITECTURE.md
 !docs/PROJECT-OVERVIEW-0.29.0.md
 !docs/OPTIMIZATIONS-0.29.0.md
+!docs/OPTIMIZATIONS-0.29.2.md
 !docs/readme/
 docs/readme/*
 !docs/readme/*.png
