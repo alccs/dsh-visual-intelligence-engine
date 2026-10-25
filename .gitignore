@@ -12,7 +12,10 @@ dist/
 # Not part of the published source tree
 tests/
 screenshots/
-.github/
+.github/*
+!.github/workflows/
+.github/workflows/*
+!.github/workflows/release-assets.yml
 
 # Generated/private documentation; publish only the reviewed overview
 docs/*
