@@ -58,8 +58,6 @@ npm ci后运行npm run build，再运行npm pack ./package生成插件TGZ。离�
 
 本地完整项目已通过190项测试、11组浏览器检查及7组宿主/安装检查。npm run check/verify/release需要配套测试环境。
 
-固定名称安装包与 Release 自动上传方式见[发布流程](docs/RELEASING.md)。已有版本包可运行 npm run release:assets 补充同名副本及校验值，包内版本保持不变。
-
 ## 从旧包迁移
 
 本版显示名称为 `dsh-Visual-Interactive-Engine`，包标识为 `dsh-visual-interactive-engine`。先在插件管理器卸载旧 `dsh-vie`，再安装新 TGZ 并重启，避免两个包同时注册同名工具。工具名 vie_*、/vie 命令、历史事件、模式偏好文件与内部投影标识保持不变。旧版本目录保留。
