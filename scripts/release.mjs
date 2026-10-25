@@ -5,6 +5,7 @@ import zlib from 'node:zlib';
 import crypto from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {verificationHash} from './verification-hash.mjs';
+import {prepareReleaseAssets} from './release-assets.mjs';
 const root=path.resolve(import.meta.dirname,'..'),dist=path.join(root,'dist');
 fs.mkdirSync(dist,{recursive:true});fs.mkdirSync(path.join(root,'docs/validation'),{recursive:true});
 const sha=buffer=>crypto.createHash('sha256').update(buffer).digest('hex');
@@ -34,6 +35,5 @@ function walk(folder){return fs.readdirSync(path.join(root,folder),{withFileType
 const files=[...['README.md','INSTALL.md','CHANGELOG.md','LICENSE','THIRD-PARTY-NOTICES.txt','package.json','package-lock.json','.gitignore'],...['src','scripts','tests','package','docs','.github'].flatMap(walk),...walk('screenshots').filter(name=>name.endsWith('-0.29.2.png')),'dist/VIE-Interactive-0.29.2.html','dist/'+tarball].sort();
 const entries=files.map(name=>({name:'Visual-Interactive-Engine-0.29.2/'+name,data:fs.readFileSync(path.join(root,name))}));
 const zipName='VIE-0.29.2-source.zip';fs.writeFileSync(path.join(dist,zipName),makeZip(entries));
-const deliverables=[tarball,zipName,'VIE-Interactive-0.29.2.html'];
-fs.writeFileSync(path.join(dist,'SHA256SUMS.txt'),deliverables.map(name=>sha(fs.readFileSync(path.join(dist,name)))+'  '+name).join('\n')+'\n');
+const deliverables=prepareReleaseAssets(root,{files:[zipName,'VIE-Interactive-0.29.2.html']}).files;
 console.log('Release artifacts: '+deliverables.join(', '));
