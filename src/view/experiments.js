@@ -199,7 +199,7 @@ function mountInteractiveScene(root,rawSpec,options={}){
       el('[data-scene-insight]').textContent=`角度 ${parameters.angle}°，长度 ${parameters.magnitude.toFixed(1)}，水平分量 ${sceneSigned(x)}，竖直分量 ${sceneSigned(y)}。`;
       el('[data-scene-equation]').textContent='x=r cos θ，y=r sin θ；x²+y²=r²。';el('[data-scene-scope]').textContent='二维直角坐标的几何关系；数值为教学设定。';
     }
-    if(catalog.timed){el('[data-scene-rate]').textContent=state.rate.toFixed(1)+'×';el('[data-scene-input="rate"]').value=String(state.rate);}
+    if(catalog.timed){el('[data-scene-rate]').textContent=state.rate.toFixed(1)+'×';el('[data-scene-input="rate"]').value=String(state.rate);updateRangePresentation(el('[data-scene-input="rate"]'));}
     draw();
   }
   function mountVector(){

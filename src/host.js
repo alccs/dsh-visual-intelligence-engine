@@ -1,17 +1,21 @@
-/* VIE v0.29.2 — DSH Host entry. */
+/* VIE v__VIE_VERSION__ — DSH Host entry. */
 import { defineTool } from '@deepseek-ai/dsh-tools';
 import { Script as VIEJavaScriptParser } from 'node:vm';
 const VIE_SKILL_CONTENT=/* @asset assets/visual-lab-skill.md */ "";
 const VIE_COMPONENT_REFERENCE=/* @asset assets/components-reference.md */ "";
 /* @include shared/catalog.js */
+/* @include shared/identity.js */
 /* @include shared/experiments.js */
 /* @include shared/chart.js */
 /* @include shared/chart-sampling.js */
 /* @include shared/graphics.js */
+/* @include shared/sdk-geometry.js */
+/* @include shared/sdk-preflight.js */
 /* @include shared/document.js */
 /* @include shared/flow-layout.js */
 /* @include shared/protocol.js */
 /* @include shared/quality.js */
+/* @include render-feedback.js */
 /* @include workflow.js */
 /* @include mode.js */
 /* @include document-tool.js */
@@ -197,20 +201,21 @@ export function createAutoImplementation(){
  });
 }
 export function apply(ctx,options={}){
-  const workflowOptions=visualWorkflowOptions(options);
+  const workflowOptions=visualWorkflowOptions(options),feedback=createRenderFeedbackRegistry();
+  ctx.effect?.(()=>()=>feedback.dispose());
   let activeMode=createVIEMode(workflowOptions.visualMode);
-  const register=implementation=>ctx.tools.register({...implementation,execute:async(...args)=>{const result=await implementation.execute(...args);if(result.meta?.valid&&result.meta.source)result.meta={...result.meta,source:flowPresentationSource(result.meta.source,activeMode.get(args[1]?.agent))};return result;}});
+  const register=implementation=>ctx.tools.register({...implementation,execute:async(...args)=>{const result=await implementation.execute(...args);if(result.meta?.valid&&result.meta.source)result.meta={...result.meta,source:flowPresentationSource(result.meta.source,activeMode.get(args[1]?.agent))};feedback.expect(args[1],result);return result;}});
   register(createExplainImplementation());
   register(createQuickImplementation());register(createVIEImplementation());
   register(createComposeImplementation());register(createStoryImplementation());register(createAutoImplementation());
   const finish=mode=>{
   activeMode=mode;
-  ctx.inject?.(['systemPrompt'],services=>installVisualWorkflow(services,workflowOptions,mode));
+  ctx.inject?.(['systemPrompt'],services=>installVisualWorkflow(services,workflowOptions,mode,feedback));
   ctx.inject?.(['skills'],services=>{
     services.skills.register({name:'dsh-vie',description:'Optional detailed reference for VIE visual explanations. Direct vie_explain/vie_auto calls need no preliminary skill load. Any subject; templates optional.',source:'bundled',content:VIE_SKILL_CONTENT+'\n\n'+VIE_COMPONENT_REFERENCE});
   });
   };
-  if(typeof ctx.on==='function')return installVIESessionMode(ctx,workflowOptions.visualMode).then(finish);
+  if(typeof ctx.on==='function')return installVIESessionMode(ctx,workflowOptions.visualMode,feedback).then(finish);
   finish(createVIEMode(workflowOptions.visualMode));
 }
 
@@ -218,7 +223,7 @@ export function apply(ctx,options={}){
 export function createExplainImplementation(){
   return defineVisualTool({
     name:'vie_explain',
-    description:VIE_VISUAL_POLICY+' Native document {title,controls?,derive?,layout?:stack|grid,blocks:[...]}. Blocks: learning {title,questions?:[{title?,question,options:[{label,feedback?}],correct,explanation?}],stages?:[{label,html,title?,caption?,mobileHtml?}],quiz?:{question,options:[{label,feedback?}],correct}} for any topic, no JS needed; questions (1–32) or stages or quiz required; questions use a single scored step-by-step card, correct is a required zero-based option index. graphic {kind:bars|donut|vectors,title,items:[{label,value}] OR vectors [{label,x,y}],unit?}; chart {title,x:{min,max,label?},y:{min,max,label?},series:[{label,expr OR points:[[x,y],...],keyPoints?:[x],breaks?:[x]}],controls?,bindings?,regions?:[{label,points}],note?}; visual {kind:Flow|RelationGraph|Timeline|Diagram|Animation,spec}; figure {title,html,css?,js?,state?,height?,bindings?} for SVG/Canvas/WebGL. Flow spec {title,presentation?:overview|guided,nodes:[{id,label,detail?}],edges:[{from,to,label?}]}. Self loops express feedback cycles; use node.detail for descriptions. caption belongs at tool level (document.caption accepted as alias). Controls [{key,label,min,max,value,step?,kind?:slider|number|select|toggle,options?:[{label,value}]}]; numeric toggle 0/1. derive:{s:"A*sin(w*t)"}; unique keys. Chart/figure bindings map local keys to control/derive keys; Diagram coordinates use {$bind:"/derived/s",scale?,offset?}. Figures have no network/libraries; use VIE.state,setState,theme,visible,reducedMotion,reportError and vie:statechange events. Complete blocks preview early. Repair only changed blocks with visualId/baseRevision/changes. Max12 blocks/4 figures, figure60KB. Detailed optional reference: dsh-vie skill. Scientific accuracy requires checking data and calculations.',
+    description:VIE_VISUAL_POLICY+' Native document {title,controls?,derive?,layout?:stack|grid,blocks:[...]}. Blocks: learning {title,questions?:[{title?,question,options:[{label,feedback?}],correct,explanation?}],stages?:[{label,html,title?,caption?,mobileHtml?}],quiz?:{question,options:[{label,feedback?}],correct}} for any topic, no JS needed; questions (1–32) or stages or quiz required; questions use a single scored step-by-step card, correct is a required zero-based option index. graphic {kind:bars|donut|vectors,title,items:[{label,value}] OR vectors [{label,x,y}],unit?}; chart {title,x:{min,max,label?},y:{min,max,label?},series:[{label,expr OR points:[[x,y],...],keyPoints?:[x],breaks?:[x]}],controls?,bindings?,regions?:[{label,points}],note?}; visual {kind:Flow|RelationGraph|Timeline|Diagram|Animation,spec}; figure {title,html,css?,js?,state?,height?,bindings?} for SVG/Canvas/WebGL. Flow spec {title,presentation?:overview|guided,nodes:[{id,label,detail?}],edges:[{from,to,label?}]}. Self loops express feedback cycles; use node.detail for descriptions. caption belongs at tool level (document.caption accepted as alias). Controls [{key,label,min,max,value,step?,kind?:slider|number|select|toggle,options?:[{label,value}]}]; numeric toggle 0/1. derive:{s:"A*sin(w*t)"}; unique keys. Chart/figure bindings map local keys to control/derive keys; Diagram coordinates use {$bind:"/derived/s",scale?,offset?}. Figures have no network imports. SDK: const g=VIE.svg({root:"#plot",width:520,height:280}); g.arrow({from:[60,160],to:[280,80],label:"F"}); g.rect({at:[40,60],width:80,height:40}); g.circle({at:[220,80],radius:20}); g.label({at:[100,30],text:"label"}); handles.set(next). group({translate:[x,y],rotate:degrees}) groups shapes. g.connect(a,b,{fromAnchor:"right",toAnchor:"left"}) follows handles; g.anchor(handle,"center") returns pixel coordinates. x/y,cx/cy/r and CSS colors accepted; strokeWidth is thickness, rect width is geometry. g.coordinates({x:[min,max],y:[min,max],bounds:[left,top,width,height]}) maps data and marker labels consistently. VIE.canvas({root,draw:({ctx,width,height,state})=>{...}}), VIE.animate({root,duration:4000,stateKey:"motion",render:({progress})=>{...}}) handle resizing, controls and recovery. VIE.ui.toolbar({root,items:[{id,label,onClick}]}) and VIE.ui.readouts({root,items:[{id,label,value:s=>s.x,unit?}]}) supply shared UI. Parameters use document.controls and bindings. 3D: const s=VIE.scene3d({root:"#plot",height:300}); s.box({at:[0,0,0],size:[1,1,1]}); sphere/cylinder/torus/helix/mesh/line/group are available, rotations in radians. Three.js, camera/light/orbit/zoom are offline; no npm/CDN/project setup. Figure height 80..1000, below160 auto-fits; complete HTML previews inertly, final code activates once. Repair with visualId/baseRevision/changes. Max12 blocks/4 figures, figure60KB. Advanced reference optional: dsh-vie skill. Scientific accuracy requires checking data and calculations.',
     parameters:{document:{type:'object',description:'Preferred native object. Only graphics and necessary short labels; full explanation belongs in Harness prose.',additionalProperties:false,properties:DOCUMENT_PROPERTIES},spec:{type:'string',description:'Legacy JSON string alternative to document; avoid double escaping.'},visualId:{type:'string',description:'Returned baseline ID for changes.'},baseRevision:{type:'integer',description:'Exact baseline revision for changes.'},changes:{type:'array',description:'Atomic block replacements [{index,block}], existing zero-based indices.',items:{type:'object',additionalProperties:false,properties:{index:{type:'integer',required:true},block:{type:'json',required:true}}}},...PRESENTATION_PARAMETERS},
     output:{schema:OUTPUT_SCHEMA,render:(_a,v)=>[{type:'text',text:v.note}],presentationMeta:(_a,v)=>v.meta},
     isConcurrencySafe:()=>true,

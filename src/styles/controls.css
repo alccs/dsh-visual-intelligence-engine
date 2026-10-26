@@ -1,0 +1,53 @@
+/* A / neutral controls. Native views and opaque figures share this vocabulary.
+   Control colors are separate from semantic graph/data colors. */
+.vie-shell,[data-vie-runtime]{--vie-control-radius:10px;--vie-control-height:38px;--vie-control-compact:32px;--vie-control-gap:8px;--vie-control-primary:var(--vie-ink,#272c33);--vie-control-on-primary:var(--vie-bg,#fff);--vie-control-stroke:var(--vie-stroke,#e4e8ed);--vie-control-layer:color-mix(in srgb,var(--vie-ink,#272c33) 5%,var(--vie-bg,#fff));--vie-control-track:color-mix(in srgb,var(--vie-ink,#272c33) 12%,var(--vie-bg,#fff));--vie-control-focus:color-mix(in srgb,var(--vie-ink,#272c33) 65%,var(--vie-bg,#fff));--vie-control-thumb:#fff}
+.vie-shell :where(button),[data-vie-runtime] :where(button){box-sizing:border-box;font:inherit;min-height:var(--vie-control-height);border-radius:var(--vie-control-radius);padding:7px 12px;cursor:pointer;touch-action:manipulation}
+.vie-shell :is(button.vie-button,button.vie-pill,button.vie-context-button,button.vie-can-tab,button.vie-scene-button),.vie-shell :is(.vie-visual-zoom,.vie-case-tabs,.vie-animation-controls,.vie-flow-footer,.vie-flow-roots,.vie-general-chart>header)>button,[data-vie-runtime] button{appearance:none;font:500 12px/1.5 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;min-height:var(--vie-control-height);border:1px solid var(--vie-control-stroke);border-radius:var(--vie-control-radius);background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);padding:7px 12px;box-shadow:none;transition:background-color .12s,border-color .12s}
+.vie-shell :where(button):disabled,[data-vie-runtime] :where(button):disabled{cursor:default;opacity:.45}
+.vie-shell button:hover:not(:disabled),[data-vie-runtime] button:hover:not(:disabled){background:var(--vie-control-layer)}
+.vie-shell :is(button,input,select):focus-visible,[data-vie-runtime] :is(button,input,select):focus-visible{outline:2px solid var(--vie-control-focus);outline-offset:3px}
+.vie-shell :is(.vie-pill,.vie-button,.vie-context-button,.vie-flow-footer button,.vie-case-tabs button,.vie-scene-button):focus-visible{outline:2px solid var(--vie-control-focus);outline-offset:3px}
+.vie-shell :is([data-vie-play],.vie-scene-button.is-primary,.vie-flow-footer button.vie-flow-next),.vie-sdk-transport button:first-child,[data-vie-runtime] :is(button.primary,button[data-vie-button=primary],button.vie-question-next){background:var(--vie-control-primary);border-color:var(--vie-control-primary);color:var(--vie-control-on-primary)}
+.vie-shell :is([data-vie-play],.vie-scene-button.is-primary,.vie-flow-footer button.vie-flow-next):hover:not(:disabled),.vie-sdk-transport button:first-child:hover:not(:disabled),[data-vie-runtime] :is(button.primary,button[data-vie-button=primary],button.vie-question-next):hover:not(:disabled){background:color-mix(in srgb,var(--vie-control-primary) 88%,var(--vie-control-on-primary));border-color:transparent}
+[data-vie-runtime] button[data-vie-button=ghost]{background:transparent;border-color:transparent;color:var(--vie-muted,#7d8794)}
+[data-vie-runtime] button[data-vie-button=ghost]:hover:not(:disabled){background:var(--vie-control-layer);color:var(--vie-ink)}
+.vie-shell .vie-figure-actions button,.vie-shell .vie-context-row button{min-height:var(--vie-control-compact);font-size:12px;border-radius:var(--vie-control-radius);padding:5px 10px;color:var(--vie-muted)}
+.vie-shell .vie-segmented,.vie-shell .vie-flow-modes,[data-vie-runtime] .vie-learn-tabs{padding:3px;gap:3px;border-radius:10px;background:var(--vie-control-layer)}
+.vie-shell .vie-segmented button,.vie-shell .vie-flow-modes button,[data-vie-runtime] .vie-learn-tabs button{min-height:var(--vie-control-compact);padding:5px 10px;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--vie-muted,#7d8794);font:500 12px/1.5 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;box-shadow:none}
+.vie-shell .vie-segmented button[aria-pressed=true],.vie-shell .vie-flow-modes button[aria-pressed=true],[data-vie-runtime] .vie-learn-tabs button[aria-selected=true]{background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);border-color:var(--vie-control-stroke);box-shadow:0 1px 3px #1420330a}
+.vie-shell .vie-case-tabs button[aria-selected=true],.vie-shell button.vie-can-tab.active,.vie-shell button.vie-pill.selected,[data-vie-runtime] .vie-sdk-toolbar button[aria-pressed=true]{background:var(--vie-control-layer);border-color:var(--vie-control-primary);color:var(--vie-ink,#272c33)}
+.vie-shell :is(select,input[type=number]),[data-vie-runtime] :is(select,input[type=number]){box-sizing:border-box;max-width:100%;min-width:0;min-height:var(--vie-control-height);border:1px solid var(--vie-control-stroke);border-radius:var(--vie-control-radius);background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);font:400 13px/1.5 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;padding:7px 10px;font-variant-numeric:tabular-nums}
+.vie-shell input[type=number],[data-vie-runtime] input[type=number]{appearance:textfield;-moz-appearance:textfield}
+.vie-shell input[type=number]::-webkit-inner-spin-button,.vie-shell input[type=number]::-webkit-outer-spin-button,[data-vie-runtime] input[type=number]::-webkit-inner-spin-button,[data-vie-runtime] input[type=number]::-webkit-outer-spin-button{appearance:none;margin:0}
+.vie-shell input[type=range],[data-vie-runtime] input[type=range]{appearance:none;-webkit-appearance:none;box-sizing:border-box;display:block;width:100%;max-width:100%;height:24px;min-height:24px;padding:0;margin:0;background:transparent;cursor:pointer;touch-action:pan-y;accent-color:var(--vie-control-primary)}
+.vie-shell input[type=range]::-webkit-slider-runnable-track,[data-vie-runtime] input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:999px;background:linear-gradient(to right,var(--vie-control-primary) var(--vie-range-fill,0%),var(--vie-control-track) var(--vie-range-fill,0%))}
+.vie-shell input[type=range]::-moz-range-track,[data-vie-runtime] input[type=range]::-moz-range-track{height:4px;border-radius:999px;background:var(--vie-control-track)}
+.vie-shell input[type=range]::-moz-range-progress,[data-vie-runtime] input[type=range]::-moz-range-progress{height:4px;border-radius:999px;background:var(--vie-control-primary)}
+.vie-shell input[type=range]::-webkit-slider-thumb,[data-vie-runtime] input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:14px;height:14px;margin-top:-5px;border-radius:50%;border:1px solid var(--vie-control-stroke);background:var(--vie-control-thumb);box-shadow:0 1px 4px #10182826}
+.vie-shell input[type=range]::-moz-range-thumb,[data-vie-runtime] input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;border:1px solid var(--vie-control-stroke);background:var(--vie-control-thumb);box-shadow:0 1px 4px #10182826}
+.vie-shell :is(input[type=range],input[type=number],select):disabled,[data-vie-runtime] :is(input[type=range],input[type=number],select):disabled{opacity:.45;cursor:default}
+.vie-shell :is(input[type=checkbox],input[type=radio]),[data-vie-runtime] :is(input[type=checkbox],input[type=radio]){accent-color:var(--vie-control-primary)}
+.vie-shell input[type=checkbox][role=switch],[data-vie-runtime] input[type=checkbox][role=switch]{appearance:none;-webkit-appearance:none;position:relative;display:inline-block;width:34px;height:20px;min-width:34px;min-height:20px;padding:0;margin:0;border:0;border-radius:999px;background:var(--vie-control-track);cursor:pointer;vertical-align:middle}
+.vie-shell input[type=checkbox][role=switch]::before,[data-vie-runtime] input[type=checkbox][role=switch]::before{content:"";position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:var(--vie-control-thumb);box-shadow:0 1px 3px #10182820;transition:transform .14s}
+.vie-shell input[type=checkbox][role=switch]:checked,[data-vie-runtime] input[type=checkbox][role=switch]:checked{background:var(--vie-control-primary)}
+.vie-shell input[type=checkbox][role=switch]:checked::before,[data-vie-runtime] input[type=checkbox][role=switch]:checked::before{transform:translateX(14px);background:var(--vie-control-on-primary)}
+.vie-shell input[type=checkbox][role=switch]:disabled,[data-vie-runtime] input[type=checkbox][role=switch]:disabled{opacity:.45;cursor:default}
+.vie-sdk-viewport{max-width:100%;overflow:auto;overscroll-behavior:contain;border-radius:12px}
+.vie-sdk-viewport[data-vie-pannable=true]::after{content:'左右滑动查看完整图形';display:block;position:sticky;left:0;width:100%;font-size:12px;color:var(--vie-muted,#718096);padding:4px 0;text-align:center}
+.vie-sdk-transport{display:flex;flex-wrap:wrap;align-items:center;gap:var(--vie-control-gap);margin-top:12px}
+.vie-sdk-transport input[type=range]{flex:1 1 140px;min-width:80px;max-width:100%}
+.vie-sdk-canvas{display:block;max-width:100%}
+.vie-sdk-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--vie-control-gap);margin-block:10px}
+.vie-sdk-readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr));gap:8px;margin:10px 0}
+.vie-sdk-readouts>div{min-width:0;border:1px solid var(--vie-stroke);border-radius:var(--vie-control-radius);padding:10px 12px;background:var(--vie-bg,#fff)}
+.vie-sdk-readouts dt{font-size:12px;color:var(--vie-muted,#718096);overflow-wrap:anywhere}
+.vie-sdk-readouts dd{margin:4px 0 0;font-variant-numeric:tabular-nums;font-weight:600;overflow-wrap:anywhere}
+[data-vie-runtime] .vie-question-option{min-height:44px;padding:10px 12px;border-radius:var(--vie-control-radius);font-size:14px;text-align:left}
+[data-vie-runtime] .vie-question-option:disabled{opacity:1}
+[data-vie-runtime] .vie-question-option.is-correct{border-color:var(--vie-secondary);background:color-mix(in srgb,var(--vie-secondary) 12%,var(--vie-bg))}
+[data-vie-runtime] .vie-question-option.is-wrong{border-color:var(--vie-warning);background:color-mix(in srgb,var(--vie-warning) 12%,var(--vie-bg))}
+[data-vie-runtime] .vie-question-progress{accent-color:var(--vie-control-primary)}
+.vie-sdk-3d{position:relative;width:100%;max-width:100%;overflow:hidden;border-radius:12px;background:var(--vie-layer,#f4f6fa)}.vie-sdk-3d canvas{display:block;width:100%;height:100%;max-width:100%}
+@media(pointer:coarse){.vie-shell,[data-vie-runtime]{--vie-control-height:44px;--vie-control-compact:44px}}
+@media(max-width:440px){.vie-sdk-transport{gap:6px}.vie-sdk-transport button{flex:1}.vie-sdk-transport input[type=range]{flex-basis:100%}}
+@media(prefers-reduced-motion:reduce){.vie-shell input[role=switch]::before,[data-vie-runtime] input[role=switch]::before{transition:none}}

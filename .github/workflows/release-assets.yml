@@ -7,7 +7,6 @@ on:
       tag:
         description: Existing release tag
         required: true
-        default: v0.29.2
 permissions:
   contents: write
 concurrency:

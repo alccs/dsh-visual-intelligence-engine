@@ -1,12 +1,13 @@
-/* VIE v0.29.2 — DSH browser entry. Generated includes are resolved by build.mjs. */
+/* VIE v0.30.6-dev.1 — DSH browser entry. Generated includes are resolved by build.mjs. */
 window.__ModuleLoader__.load({id:'dsh-visual-interactive-engine',factory:(require)=>{
  const module={exports:{}};const exports=module.exports;
- const VIE_CSS="/* VIE 0.5 • content-first inline teaching widgets.\n   All rules are scoped to .vie-shell so DSH native chat stays untouched. */\n.vie-shell {\n  --vie-ink:var(--dsw-alias-text-primary,#222326);\n  --vie-muted:var(--dsw-alias-text-secondary,#777980);\n  --vie-stroke:var(--dsw-alias-border-l2,#e7e7e9);\n  --vie-layer:var(--dsw-alias-background-secondary,#f6f6f7);\n  --vie-bg:var(--dsw-alias-background-primary,#fff);\n  --vie-blue:#4088d0; --vie-green:#419d7d; --vie-amber:#c99f45;\n  --vie-color:#4088d0;\n  box-sizing:border-box; width:100%; max-width:760px; margin:6px 0 12px;\n  font-family:ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",sans-serif;\n  font-size:14px; line-height:1.55; color:var(--vie-ink); background:transparent;\n}\n.vie-shell *, .vie-shell *::before, .vie-shell *::after {box-sizing:border-box}\n.vie-body {display:flex;flex-direction:column;gap:14px;padding:17px 19px;border:1px solid var(--vie-stroke);border-radius:17px;background:var(--vie-bg)}\n.vie-body > [data-id],.vie-body > section {min-width:0}\n.vie-text h3 {font-weight:620;font-size:16px;line-height:1.4;margin:0 0 3px;letter-spacing:-.025em}\n.vie-text p {margin:0;color:var(--vie-muted);font-size:13px;line-height:1.6}\n.vie-row {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}\n.vie-column {display:flex;flex-direction:column;gap:9px;min-width:0}\n.vie-card {min-width:0;display:flex;flex-direction:column;gap:10px}\n.vie-card-title {font-size:12px;font-weight:600}\n.vie-divider {border:none;border-top:1px solid var(--vie-stroke);margin:1px 0}\n.vie-control {display:flex;flex-direction:column;gap:6px;min-width:0}\n.vie-control-label {display:flex;align-items:center;justify-content:space-between;gap:9px;font-size:13px;color:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-control-label b {font-size:13px;color:var(--vie-ink);font-weight:620;white-space:nowrap}\n.vie-control input[type=\"range\"],.vie-can-inputs input[type=\"range\"] {width:100%;height:18px;background:transparent;appearance:none;-webkit-appearance:none;cursor:pointer;margin:0;touch-action:pan-y}\n.vie-control input[type=\"range\"]::-webkit-slider-runnable-track,.vie-can-inputs input[type=\"range\"]::-webkit-slider-runnable-track{height:5px;border-radius:999px;background:#ededee}\n.vie-control input[type=\"range\"]::-moz-range-track,.vie-can-inputs input[type=\"range\"]::-moz-range-track{height:5px;border-radius:999px;background:#ededee}\n.vie-control input[type=\"range\"]::-webkit-slider-thumb,.vie-can-inputs input[type=\"range\"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-5.5px;border-radius:50%;background:#fff;border:1px solid #dfe0e3;box-shadow:0 1px 4px #00000024}\n.vie-control input[type=\"range\"]::-moz-range-thumb,.vie-can-inputs input[type=\"range\"]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;background:#fff;border:1px solid #dfe0e3;box-shadow:0 1px 4px #00000024}\n.vie-metric {display:flex;flex-direction:row;justify-content:space-between;gap:12px;align-items:baseline;min-width:0}\n.vie-metric small {color:var(--vie-muted);font-size:12px}\n.vie-metric strong {font-weight:680;font-size:20px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}\n.vie-badge {font-size:11px;padding:2px 7px;border:1px solid var(--vie-stroke);border-radius:999px;color:var(--vie-muted);width:max-content}\n.vie-shell button.vie-button,.vie-shell button.vie-pill {border:1px solid var(--vie-stroke);border-radius:999px;padding:5px 11px;min-height:32px;display:inline-flex;align-items:center;justify-content:center;gap:5px;background:transparent;color:var(--vie-ink);font:inherit;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s,transform .1s}\n.vie-shell button.vie-button:hover,.vie-shell button.vie-pill:hover{background:var(--vie-layer);border-color:#d8d8db}\n.vie-shell button.vie-button:active,.vie-shell button.vie-pill:active{transform:scale(.985)}\n.vie-shell button:focus-visible,.vie-shell input:focus-visible,.vie-shell summary:focus-visible {outline:2px solid var(--vie-blue);outline-offset:3px}\n.vie-chart {min-width:0;display:flex;flex-direction:column;gap:5px}\n.vie-chart-title {font-weight:580;font-size:13px;color:var(--vie-muted)}\n.vie-chart svg {display:block;width:100%;height:auto;max-height:184px}\n.vie-chart text,.vie-motion text{font:10.5px ui-sans-serif,system-ui;fill:var(--vie-muted)}\n.vie-motion {min-width:0}\n.vie-motion-header {display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0;color:var(--vie-muted);font-size:12px}\n.vie-motion-header strong{color:var(--vie-ink);font-weight:620}\n.vie-motion svg{display:block;width:100%;height:auto;max-height:156px}\n.vie-motion .vie-car{transition:transform .2s ease-out}\n.vie-progress{display:flex;flex-direction:column;gap:7px}\n.vie-track{height:5px;border-radius:999px;overflow:hidden;background:var(--vie-layer)}\n.vie-track-fill{height:100%;background:var(--vie-color);border-radius:999px;transition:width .15s}\n.vie-empty{font-size:12px;color:var(--vie-muted);padding:14px;text-align:center}\n.vie-diagnostics{font-size:11px;color:#9d6c36}.vie-diagnostics pre{overflow-wrap:anywhere;white-space:pre-wrap}\n/* Knowledge component: readable, one visual focus, quiet controls. */\n.vie-canlab{color:var(--vie-ink);min-width:0;width:100%;font-variant-numeric:tabular-nums}\n.vie-can-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 15px}\n.vie-can-head h3{font-size:16px;line-height:1.4;font-weight:610;letter-spacing:-.018em;margin:0}\n.vie-can-head .vie-can-reset{height:32px;min-height:32px;padding:3px 12px}\n.vie-can-tabs{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--vie-layer);border-radius:999px;padding:3px;margin:0 0 17px}\n.vie-shell .vie-can-tabs button.vie-can-tab{appearance:none;background:transparent;border:0;border-radius:999px;padding:6px 9px;min-width:0;min-height:30px;font:inherit;font-size:13px;line-height:1.3;cursor:pointer;color:var(--vie-muted);transition:background .16s,box-shadow .16s,color .16s}\n.vie-shell .vie-can-tabs button.vie-can-tab.active{color:var(--vie-ink);font-weight:610;background:var(--vie-bg);box-shadow:0 1px 3px #00000010}\n.vie-shell .vie-can-tabs button.vie-can-tab:hover:not(.active){background:color-mix(in srgb,var(--vie-bg) 45%,transparent)}\n.vie-can-segments{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:0 0 13px}\n.vie-can-segments>div{min-width:0;display:flex;flex-direction:column;gap:2px}\n.vie-can-segments span{font-size:12px;color:var(--vie-muted)}\n.vie-can-segments strong{font-size:18px;font-weight:660;line-height:1.35;letter-spacing:-.025em}\n.vie-can-timeline{position:relative;margin:0 0 17px}\n.vie-can-track{display:flex;overflow:hidden;width:100%;height:42px;border-radius:6px;user-select:none}\n.vie-can-seg{display:flex;align-items:center;justify-content:center;min-width:0;color:white;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;border-right:2px solid var(--vie-bg);transition:flex-grow .17s ease}\n.vie-can-seg.sync{background:#528ac4}.vie-can-seg.before{background:#3da080}.vie-can-seg.after{background:#c9a047;border-right:0}\n.vie-can-sp-indicator{position:absolute;top:41px;left:83.33%;transform:translateX(-50%);font-size:17px;line-height:17px;width:22px;text-align:center;color:#3984da;transition:left .17s;pointer-events:none}\n.vie-can-grab{position:absolute;top:3px;height:42px;width:26px;left:83.33%;transform:translateX(-50%);cursor:ew-resize;touch-action:none;z-index:2;outline-offset:4px;border-radius:8px}\n.vie-can-grab::before{content:'';display:block;position:absolute;top:-1px;left:50%;height:44px;width:2px;transform:translateX(-50%);background:#ffffffbb;box-shadow:0 0 0 1px #00000006;opacity:.85}\n.vie-can-grab:hover::after,.vie-can-grab:focus-visible::after{content:'';display:block;position:absolute;top:15px;left:50%;height:13px;width:7px;transform:translateX(-50%);border-radius:4px;background:#fff;box-shadow:0 1px 5px #0003}\n.vie-can-axis{display:flex;align-items:center;justify-content:space-between;position:relative;height:28px;padding-top:9px;color:var(--vie-muted);font-size:11.5px}\n.vie-can-axis strong{font-size:12px;color:#3984da;font-weight:570}\n.vie-can-metrics{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 13px}\n.vie-can-metrics>div{min-width:0}.vie-can-metrics span{display:block;color:var(--vie-muted);font-size:12px;margin-bottom:1px}\n.vie-can-metrics strong{display:block;font-size:23px;font-weight:660;letter-spacing:-.028em;line-height:1.4}\n.vie-can-guidance{font-size:13px;line-height:1.62;color:var(--vie-ink);margin:5px 0 8px}\n.vie-can-message{font-size:12px;line-height:1.5;color:#9a6b26;margin:4px 0}.vie-can-message:empty{display:none}\n.vie-can-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--vie-stroke);padding-top:9px}\n.vie-can-more{min-width:0;flex:1}.vie-can-more summary{width:max-content;list-style:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;color:var(--vie-muted);padding:4px 2px}\n.vie-can-more summary::-webkit-details-marker{display:none}.vie-can-more[open] summary span{transform:rotate(180deg)}\n.vie-can-more summary span{font-size:12px;display:inline-block;transition:transform .14s}\n.vie-can-extra-body{display:flex;flex-direction:column;gap:13px;padding:13px 0 4px}\n.vie-can-inputs{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 0 3px}\n.vie-can-inputs label{display:flex;flex-direction:column;gap:8px;min-width:0}\n.vie-can-inputs label>span{display:flex;justify-content:space-between;gap:6px;font-size:13px;color:var(--vie-muted)}\n.vie-can-inputs b{color:var(--vie-ink);font-weight:610}\n.vie-can-lock{font-size:12px;display:flex;align-items:center;gap:7px;color:var(--vie-muted)}\n.vie-can-lock input{width:15px;height:15px;margin:0;accent-color:var(--vie-blue)}\n.vie-can-advanced{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}\n.vie-can-advanced label{display:flex;flex-direction:column;min-width:0;gap:5px;font-size:12px;color:var(--vie-muted)}\n.vie-can-advanced input{width:100%;min-width:0;border:1px solid var(--vie-stroke);border-radius:9px;height:34px;padding:4px 9px;background:var(--vie-bg);color:var(--vie-ink);font:inherit;font-size:13px}\n.vie-can-presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.vie-can-presets>span{font-size:12px;color:var(--vie-muted);margin-right:5px}\n.vie-can-extra-values{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--vie-muted)}.vie-can-extra-values strong{color:var(--vie-ink);font-weight:600}\n.vie-can-compare{border-top:1px solid var(--vie-stroke);padding-top:11px}.vie-can-compare>strong{font-size:13px;font-weight:610}\n.vie-can-compare-lines{display:grid;gap:8px;margin:10px 0}.vie-can-compare-lines>div{display:grid;grid-template-columns:16px 1fr 70px;gap:9px;align-items:center;color:var(--vie-muted);font-size:12px}\n.vie-can-compare-lines b{text-align:right;color:var(--vie-ink);font-weight:600}.vie-can-mini{height:5px;border-radius:99px;background:var(--vie-layer);overflow:hidden}\n.vie-can-mini i{display:block;height:100%;background:var(--vie-blue)}.vie-can-compare-lines>div:nth-child(2) i{background:var(--vie-green)}\n.vie-can-compare p,.vie-can-formula{font-size:12px;color:var(--vie-muted);line-height:1.6;margin:6px 0}\n.vie-can-explanation{margin-top:11px;padding:10px 12px;background:var(--vie-layer);border-radius:9px;line-height:1.65;color:var(--vie-ink);font-size:13px}.vie-can-explanation[hidden]{display:none}\n.vie-shell .vie-can-why{display:inline-flex;gap:6px}\n@media(max-width:580px){.vie-body{padding:14px 14px;gap:12px}.vie-can-head{margin-bottom:12px}.vie-can-segments{gap:8px}.vie-can-segments strong{font-size:16px}.vie-can-tabs{margin-bottom:13px}.vie-can-track{height:38px}.vie-can-grab{height:39px}.vie-can-sp-indicator{top:37px}.vie-can-metrics strong{font-size:21px}.vie-can-inputs{gap:12px}.vie-can-advanced{gap:6px}.vie-can-advanced label{font-size:11px}.vie-can-guidance{font-size:12.5px}}\n@media(prefers-color-scheme:dark){.vie-shell{--vie-ink:#f2f2f3;--vie-muted:#b5b5bc;--vie-stroke:#454549;--vie-layer:#313134;--vie-bg:#242426;--vie-blue:#78aaec;--vie-green:#479c80;--vie-amber:#b79045}.vie-can-seg{color:#fff}.vie-can-tab.active{background:#444448}}\n@media(prefers-reduced-motion:reduce){.vie-shell *, .vie-shell *::before,.vie-shell *::after{transition:none!important;animation:none!important}}\n\n/* VIE 0.8: legible coordinate plots and evidence-bearing data charts. */\n.vie-chart {gap:4px}\n.vie-chart-title{font-size:13px;font-weight:600;color:var(--vie-ink)}\n.vie-chart-drawing{width:100%;min-width:0}\n.vie-chart-drawing svg{display:block;width:100%;height:auto;max-height:245px;overflow:visible}\n.vie-chart-drawing svg text{font:11px ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",sans-serif;fill:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-chart-drawing svg .vie-axis-name{font-size:12px;font-weight:600;fill:var(--vie-ink)}\n.vie-grid-line{stroke:var(--vie-stroke);stroke-width:1;stroke-dasharray:3 4}\n.vie-data-axis{stroke:var(--vie-muted);stroke-width:1.1;opacity:.6}\n.vie-bar-item{cursor:pointer;outline:none}\n.vie-bar-item:focus .vie-data-bar{stroke:var(--vie-ink);stroke-width:2.5}\n.vie-data-bar{fill:#9cbfe5;transition:fill .12s ease,opacity .12s ease}\n.vie-data-bar.is-active{fill:var(--vie-blue)}\n.vie-bar-item:hover .vie-data-bar{fill:#6ba2dc}\n.vie-chart-drawing svg .vie-bar-value{font-weight:600;font-size:11px;fill:var(--vie-ink)}\n.vie-chart-note{font-size:12.5px;line-height:1.5;color:var(--vie-ink);min-height:20px}\n.vie-chart-footer{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;color:var(--vie-muted);font-size:11px}\n.vie-raw-data{border-top:1px solid var(--vie-stroke);margin-top:5px;padding-top:7px;font-size:12px;color:var(--vie-muted)}\n.vie-raw-data summary{cursor:pointer;list-style:none;width:max-content}\n.vie-raw-data summary::before{content:'＋';margin-right:6px}\n.vie-raw-data[open] summary::before{content:'－'}\n.vie-data-table{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-top:12px}\n.vie-data-table>div{display:flex;flex-direction:column;gap:2px;padding:7px 9px;background:var(--vie-layer);border-radius:9px}\n.vie-data-table strong{font-size:13px;color:var(--vie-ink);font-weight:610}\n@media(max-width:450px){.vie-chart-drawing svg{max-height:225px}.vie-chart-note{font-size:12px}.vie-data-table{grid-template-columns:repeat(2,minmax(0,1fr))}}\n\n/* Context handoff remains invisible until a value changes; no extra default UI. */\n.vie-context-row{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:2px;font-size:11px;color:var(--vie-muted)}\n.vie-context-button{font:500 12px system-ui,sans-serif;color:var(--vie-muted);border:1px solid var(--vie-stroke);background:transparent;border-radius:999px;padding:5px 10px;cursor:pointer}\n.vie-context-button:hover{color:var(--vie-ink);background:var(--vie-layer)}\n.vie-context-button:focus-visible{outline:2px solid var(--vie-blue);outline-offset:2px}\n\n.vie-error{padding:9px 12px;border:1px solid var(--vie-stroke);border-radius:10px;font:13px system-ui,sans-serif;color:var(--vie-muted)}\n\n/* VIE 0.13: generic semantics-first visual grammar */\n.vie-visual-host{min-width:0;width:100%}\n.vie-visual-panel{display:flex;flex-direction:column;gap:9px;min-width:0;color:var(--vie-ink);font:inherit}\n.vie-visual-heading{display:flex;align-items:center;gap:9px;justify-content:space-between;font-size:14px;line-height:1.45}\n.vie-visual-heading strong{font-weight:660}\n.vie-visual-subtitle{font-size:12.5px;line-height:1.5;color:var(--vie-muted);margin:0}\n.vie-visual-content{background:var(--vie-bg);min-width:0;border-radius:12px;overflow:hidden}\n.vie-visual-svg{width:100%;height:auto;max-height:440px;display:block;overflow:visible}\n.vie-visual-svg text{font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;paint-order:stroke}\n.vie-visual-hint{font-size:11.5px;color:var(--vie-muted);line-height:1.5}\n.vie-visual-selected{padding:10px 12px;border-radius:10px;background:var(--vie-layer);display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px}\n.vie-visual-selected strong{font-size:13px;color:var(--vie-ink)}.vie-visual-selected span{color:var(--vie-muted)}\n.vie-visual-accuracy{font-size:11px;color:var(--vie-muted)}\n.vie-svg-item{outline:none;cursor:pointer}.vie-svg-item:focus-visible>rect,.vie-svg-item:hover>rect{stroke:#5285be;stroke-width:2.6}\n.vie-svg-item:focus-visible>circle,.vie-svg-item:hover>circle{stroke:#5285be;stroke-width:3}\n.vie-visual-mobile-list{display:none;flex-wrap:wrap;gap:7px}\n.vie-visual-mobile-list button{border:1px solid var(--vie-stroke);border-radius:999px;background:transparent;padding:6px 10px;color:var(--vie-ink);font:inherit;font-size:12px;cursor:pointer}\n.vie-visual-mobile-list button.is-active{border-color:var(--vie-blue);background:var(--vie-layer)}\n.vie-timeline-list{display:flex;gap:9px;overflow-x:auto;padding:4px 0 10px;scroll-snap-type:x proximity}\n.vie-timeline-item{position:relative;flex:1;min-width:94px;min-height:98px;border:1px solid var(--vie-stroke);border-radius:12px;background:var(--vie-bg);display:flex;flex-direction:column;gap:7px;align-items:flex-start;padding:12px 10px;text-align:left;color:var(--vie-ink);font:inherit;cursor:pointer;scroll-snap-align:start}\n.vie-timeline-item.is-active{border-color:var(--vie-blue);background:var(--vie-layer)}\n.vie-timeline-step{width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:var(--vie-layer);color:var(--vie-ink);font-size:11px;font-weight:600}\n.vie-timeline-when{font-size:11px;color:var(--vie-muted)}.vie-timeline-item strong{font-size:12px;line-height:1.4;font-weight:600}\n@media(max-width:550px){.vie-visual-svg{max-height:290px}.vie-visual-panel[data-vie-visual='RelationGraph'] .vie-visual-svg{max-height:230px}.vie-visual-mobile-list{display:flex}.vie-timeline-list{gap:7px}.vie-timeline-item{min-width:110px;flex:0 0 44%}}\n@media(prefers-reduced-motion:reduce){.vie-visual-panel *, .vie-visual-panel *::after,.vie-visual-panel *::before{animation:none!important;transition:none!important}}\n\n.vie-visual-legend{display:flex;flex-wrap:wrap;gap:6px}.vie-visual-legend button{font:inherit;font-size:11.5px;border:1px solid var(--vie-stroke);background:var(--vie-bg);color:var(--vie-ink);border-radius:999px;padding:5px 10px;cursor:pointer}.vie-visual-legend button.is-active{background:var(--vie-layer);border-color:var(--vie-blue)}\n\n.vie-visual-mobile-svg{display:none}\n@media(max-width:550px){.vie-visual-desktop-svg{display:none}.vie-visual-mobile-svg{display:block;max-height:none}.vie-visual-panel[data-vie-visual=\"Diagram\"] .vie-visual-content{overflow-x:auto}.vie-visual-panel[data-vie-visual=\"Diagram\"] .vie-visual-svg{min-width:450px;max-height:300px}}\n\n/* 0.14.1 runtime diagnostics and compact accessibility. */\n.vie-runtime-diagnostics{border:1px solid var(--vie-stroke);background:var(--vie-layer);border-radius:9px;padding:7px 10px;color:var(--vie-muted);font-size:12px;line-height:1.5}.vie-runtime-diagnostics p{margin:2px 0}.vie-error pre{white-space:pre-wrap;word-break:break-word;font-size:11px}.vie-error details{margin-top:7px}.vie-error summary{cursor:pointer}.vie-row{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:370px){.vie-row{grid-template-columns:minmax(0,1fr)}}\n\n/* Empty diagnostic holders must not reserve card space. */\n.vie-runtime-diagnostics:empty,.vie-diagnostics:empty{display:none}\n\n/* VIE 0.15.2: quiet, readable captions beneath optional single-scene visuals. */\n.vie-figure-caption{font-size:12px;line-height:1.65;color:var(--vie-muted,#64748b);margin:6px 0 2px;overflow-wrap:anywhere}\n.vie-annotated-surface{min-width:0;max-width:100%}\n@media (max-width:390px){.vie-figure-caption{font-size:11px}}\n\n/* 0.16 declarative responsive split; no untrusted freeform CSS. */\n.vie-split{display:grid;grid-template-columns:minmax(0,var(--vie-split-ratio,50%)) minmax(0,1fr);gap:12px;align-items:start}\n.vie-split>*{min-width:0}\n@media(max-width:600px){.vie-split{grid-template-columns:minmax(0,1fr)}}\n@media(prefers-reduced-motion:reduce){.vie-split *{scroll-behavior:auto}}\n\n/* Chat-scale visual experiments: one primary visual, one light control row, one takeaway. */\n.vie-semantic-host{width:100%;min-width:0}\n.vie-semantic-lab{min-width:0;color:var(--vie-ink)}\n.vie-lab-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}\n.vie-lab-head h3{font-size:16px;letter-spacing:-.025em;line-height:1.35;margin:0 0 3px;font-weight:650}\n.vie-lab-head p{margin:0;color:var(--vie-muted);font-size:12.5px;line-height:1.5}\n.vie-lab-head button{flex-shrink:0}\n.vie-lab-visual{min-width:0;margin:1px 0 12px}\n.vie-lab-svg{display:block;width:100%;max-height:175px;height:auto;overflow:visible}\n.vie-lab-explain{font-size:12.5px;line-height:1.6;color:var(--vie-ink);margin:11px 0 0}\n.vie-lab-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}\n.vie-lab-controls:empty{display:none}\n.vie-lab-slider{display:flex;flex-direction:column;min-width:0;gap:4px}\n.vie-lab-slider>span{font-size:12px;display:flex;justify-content:space-between;gap:8px;color:var(--vie-muted)}\n.vie-lab-slider b{color:var(--vie-ink);font-weight:650;font-variant-numeric:tabular-nums}\n.vie-lab-slider input{width:100%;margin:3px 0 0;accent-color:var(--vie-blue);cursor:pointer;min-height:22px}\n.vie-lab-pills{display:flex;align-items:center;gap:7px;flex-wrap:wrap}\n.vie-lab-pills .selected{background:var(--vie-layer)!important;border-color:#d6dbe1!important}\n.vie-bit-panel{padding:8px 0}\n.vie-bit-row{display:grid;grid-template-columns:28px minmax(0,1fr) 34px;gap:7px;align-items:center;margin:6px 0}\n.vie-bit-row>span{color:var(--vie-muted);font-size:12px;font-weight:650}\n.vie-bit-row>small{text-align:right;color:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-bit-cells{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}\n.vie-bit{min-width:0;height:34px;padding:0!important;border:1px solid var(--vie-stroke)!important;border-radius:7px!important;background:var(--vie-layer)!important;font:600 14px ui-monospace,monospace!important;color:var(--vie-ink)!important;cursor:pointer}\n.vie-bit:hover{border-color:var(--vie-blue)!important}\n.vie-bit-result{display:flex;align-items:center;justify-content:center;height:34px;background:var(--vie-layer);border-radius:7px;font:650 14px ui-monospace,monospace}\n.vie-bit-result.on{background:#e7f2ff;color:#237ac3}\n.vie-bit-separator{height:1px;background:var(--vie-stroke);margin:9px 37px 9px 35px}\n.vie-outcomes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:13px 0 15px}\n.vie-outcome{min-width:0;border-radius:10px!important;background:var(--vie-layer)!important;border:1px solid var(--vie-stroke)!important;min-height:53px;color:var(--vie-ink)!important;font:650 18px ui-sans-serif,system-ui!important;cursor:pointer}\n.vie-outcome.chosen{background:#e9f3ff!important;border-color:#83b5e8!important;color:#1767ac!important}\n.vie-prob-bar{height:12px;background:var(--vie-layer);border-radius:50px;overflow:hidden}\n.vie-prob-bar>div{background:#4a8bd1;height:100%;border-radius:50px;transition:width .12s}\n.vie-prob-label{display:flex;justify-content:space-between;font-size:12px;color:var(--vie-muted);margin-top:7px}\n.vie-prob-label strong{color:var(--vie-blue);font-weight:650}\n@media(max-width:440px){.vie-lab-controls{gap:13px;grid-template-columns:1fr}.vie-outcomes{gap:4px}.vie-outcome{min-height:45px}.vie-bit-cells{gap:2px}.vie-bit{height:32px}.vie-lab-head p{font-size:12px}}\n/* Shared native-like range controls: neutral track, quiet round thumb. */\n.vie-shell .vie-lab-slider input[type=\"range\"]{appearance:none;-webkit-appearance:none;height:20px;background:transparent;margin:1px 0 0}\n.vie-shell .vie-lab-slider input[type=\"range\"]::-webkit-slider-runnable-track{height:5px;border-radius:50px;background:#eaecef}\n.vie-shell .vie-lab-slider input[type=\"range\"]::-moz-range-track{height:5px;border-radius:50px;background:#eaecef}\n.vie-shell .vie-lab-slider input[type=\"range\"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;margin-top:-5.5px;border-radius:50%;background:white;border:1px solid #d7d9dd;box-shadow:0 1px 4px #0000001c}\n.vie-shell .vie-lab-slider input[type=\"range\"]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:white;border:1px solid #d7d9dd;box-shadow:0 1px 4px #0000001c}\n.vie-shell .vie-lab-slider input[type=\"range\"]:focus-visible{outline:2px solid var(--vie-blue);outline-offset:4px;border-radius:4px}\n\n/* Intelligent-UI-style vector explorer: the diagram is the lesson, not a mini dashboard. */\n.vie-lab-vector {\n  --vie-vector-main:#367eea;\n  --vie-vector-x:#2e9c7c;\n  --vie-vector-y:#d6a04b;\n  --vie-vector-axis:#9ba5b3;\n  --vie-vector-grid:rgba(145,159,175,.18);\n  --vie-vector-angle:#718399;\n  --vie-vector-tip-ring:#fff;\n}\n.vie-lab-vector .vie-lab-head{margin-bottom:5px}\n.vie-vector-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(142px,172px);align-items:center;gap:7px 12px;min-width:0}\n.vie-vector-canvas{position:relative;min-width:0;display:flex;align-items:center;justify-content:center}\n.vie-vector-svg{width:100%;height:auto;max-width:410px;max-height:242px;display:block;overflow:visible;touch-action:pan-y}\n.vie-vector-svg [data-vector-handle]{cursor:grab;outline:none;touch-action:none}\n.vie-vector-svg [data-vector-handle].dragging{cursor:grabbing}\n.vie-vector-svg [data-vector-handle]:focus-visible{stroke:var(--vie-vector-main);stroke-width:2;stroke-dasharray:3 3}\n.vie-vector-tick{font-size:10.5px;fill:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-vector-axis-label{font-size:12px;fill:var(--vie-muted);font-weight:550}\n.vie-vector-arc-label{font-size:11px;fill:var(--vie-vector-angle);text-anchor:middle;font-variant-numeric:tabular-nums}\n.vie-vector-coordinate{font-size:10.5px;fill:var(--vie-ink);font-variant-numeric:tabular-nums;font-weight:550}\n.vie-vector-hint{display:inline-flex;align-items:center;gap:4px;position:absolute;left:11px;bottom:8px;color:var(--vie-muted);font-size:11px;pointer-events:none}\n.vie-vector-insights{min-width:0;display:flex;flex-direction:column;gap:13px;padding:2px 0 2px 13px;border-left:1px solid var(--vie-stroke)}\n.vie-vector-meta span{color:var(--vie-muted);font-size:11.5px;display:block;margin-bottom:3px}\n.vie-vector-meta strong{display:block;font-size:15px;font-weight:660;letter-spacing:-.018em;font-variant-numeric:tabular-nums}\n.vie-vector-metric-label{display:flex;align-items:center;gap:7px;color:var(--vie-muted);font-size:11.5px;white-space:nowrap}\n.vie-vector-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--vie-vector-x);flex-shrink:0}\n.vie-vector-metric.y .vie-vector-dot{background:var(--vie-vector-y)}\n.vie-vector-metric>strong{font-size:23px;line-height:1.2;letter-spacing:-.035em;display:block;font-weight:650;font-variant-numeric:tabular-nums;color:var(--vie-ink);margin-top:3px}\n.vie-vector-metric>small{font-size:10.5px;color:var(--vie-muted)}\n.vie-lab-vector .vie-vector-controls{margin:2px 0 0;gap:8px 19px}\n.vie-lab-vector .vie-vector-explain{margin:7px 0 0;color:var(--vie-muted);font-size:12px}\n@media(max-width:560px){\n .vie-vector-stage{grid-template-columns:minmax(0,1fr);gap:0}\n .vie-vector-svg{max-height:205px;max-width:325px}\n .vie-vector-insights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:3px 0 9px;border:0;border-bottom:1px solid var(--vie-stroke)}\n .vie-vector-meta{align-self:center}\n .vie-vector-meta strong{font-size:13px}\n .vie-vector-metric-label{font-size:10px;gap:3px;white-space:normal}\n .vie-vector-metric>strong{font-size:18px;margin-top:2px}\n .vie-vector-metric>small{display:none}\n .vie-vector-hint{bottom:2px;left:0}\n .vie-lab-vector .vie-vector-controls{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}\n .vie-lab-vector .vie-vector-explain{font-size:11.5px}\n}\n\n/* Stable completed-Turn surface; keeps the visual aid outside folded work steps. */\n.vie-tail{display:grid;gap:12px;margin:9px 0 16px;max-width:100%;min-width:0}\n.vie-tail-item{min-width:0}\n.vie-tail-label{font-size:12px;font-weight:600;color:var(--vie-text,#293342);margin:0 0 6px 2px}\n.vie-published-marker{display:inline-block;font-size:11px;color:var(--vie-muted,#64748b);padding:5px 1px}\n\n/* VIE 0.14: semantic multi-panel answers and motion controls */\n.vie-animation-controls{display:flex;gap:9px;align-items:center;margin:9px 0 3px;padding:7px 2px;min-width:0}\n.vie-animation-controls>button{border:1px solid var(--vie-border,#e5e9ef);background:var(--vie-layer,#f8f9fb);border-radius:999px;padding:5px 12px;color:inherit;white-space:nowrap;cursor:pointer;font:inherit;font-size:12px}\n.vie-animation-controls>button:focus-visible{outline:2px solid #4789db;outline-offset:2px}\n.vie-animation-controls>input{flex:1;min-width:36px;accent-color:#4c82c9;cursor:pointer;touch-action:pan-y}\n.vie-animation-controls>span{min-width:38px;font-size:11px;font-variant-numeric:tabular-nums;color:var(--vie-muted,#6c7987);text-align:right}\n.vie-visual-content svg [data-vie-shape]{transform-box:view-box}\n.vie-visual-host .vie-visual-panel{margin-bottom:5px}\n@media(max-width:380px){.vie-animation-controls{gap:5px}.vie-animation-controls>button{padding:5px 9px;font-size:11px}}\n\n/* VIE 0.16.1 article-flow for multi-panel stories inside the persistent turn tail. */\n.vie-body--article { border:0; border-radius:0; background:transparent; padding:4px 0; gap:18px }\n.vie-body--article > .vie-text {padding:2px 1px; max-width:72ch}\n.vie-body--article > .vie-text p {font-size:15px;line-height:1.8;color:var(--vie-ink);white-space:pre-line;overflow-wrap:anywhere}\n.vie-body--article > .vie-visual-host {border:1px solid var(--vie-stroke);background:var(--vie-bg);border-radius:14px;padding:12px}\n.vie-visual-warning{font-size:12px;color:#a46d2f;margin:4px 0}\n@media(max-width:420px){.vie-body--article > .vie-text p {font-size:14px;line-height:1.75}.vie-body--article > .vie-visual-host{padding:7px}}\n@media(prefers-reduced-motion:reduce){.vie-body--article *{scroll-behavior:auto!important;transition:none!important}}\n\n.vie-answer{min-width:0;margin:10px 0 18px}.vie-answer:empty{display:none}.vie-generation-status{font-size:12px;color:var(--vie-muted,#718096);margin:6px 0}.vie-general-chart{border:1px solid var(--vie-stroke,#dde3eb);border-radius:14px;padding:14px;min-width:0}.vie-general-chart header{display:flex;align-items:center;justify-content:space-between;gap:12px}.vie-general-chart h3{font-size:15px;margin:0}.vie-general-chart button{font:inherit;border:1px solid var(--vie-stroke,#dde3eb);border-radius:8px;background:transparent;color:inherit;padding:5px 10px;cursor:pointer}.vie-general-chart svg{display:block;width:100%;height:auto;overflow:visible}.vie-general-chart text{font:11px system-ui;fill:var(--vie-muted,#718096)}.vie-general-chart-grid{stroke:var(--vie-stroke,#dde3eb);stroke-width:.7;fill:none}.vie-general-chart-axis{stroke:var(--vie-muted,#718096);fill:none}.vie-general-chart-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px}.vie-general-chart-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.vie-general-chart-controls{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}.vie-general-chart-controls label{display:flex;flex-direction:column;flex:1 1 160px;gap:5px;font-size:12px}.vie-general-chart-controls input{width:100%;accent-color:#4d82d6}.vie-general-chart-note,.vie-general-chart [data-chart-error]{font-size:12px;color:var(--vie-muted,#718096);line-height:1.6}.vie-general-chart [data-chart-error]:empty{display:none}\n/* 0.29.2: topology overview and topic-independent guided navigation. */\n.vie-flow-panel{gap:12px}.vie-flow-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}.vie-flow-heading strong{font-size:15px;line-height:1.5;font-weight:650}.vie-flow-heading p{font-size:12px;color:var(--vie-muted);margin:5px 0 0;line-height:1.7}.vie-flow-modes{display:flex;padding:3px;border:1px solid var(--vie-stroke);border-radius:20px;flex-shrink:0;gap:2px}.vie-flow-modes button{border:0;background:transparent;border-radius:16px;color:var(--vie-muted);padding:5px 11px;font:inherit;font-size:11px;cursor:pointer}.vie-flow-modes button[aria-pressed=true]{background:var(--vie-layer);color:var(--vie-ink);font-weight:600}.vie-flow-scroll{overflow-x:auto;scrollbar-width:none;container-type:inline-size;outline:none}.vie-flow-scroll::-webkit-scrollbar{display:none}.vie-flow-panel .vie-flow-svg{max-height:none!important;min-height:0;overflow:visible}.vie-flow-detail{border:1px solid var(--vie-stroke);background:var(--vie-layer);border-radius:11px;padding:13px 15px;display:flex;flex-direction:column;gap:5px;font-size:12px;line-height:1.8;overflow-wrap:anywhere}.vie-flow-detail strong{font-weight:600;color:var(--vie-ink)}.vie-flow-detail span{color:var(--vie-muted)}.vie-flow-guided{display:grid;grid-template-columns:minmax(100px,30%) minmax(0,1fr);gap:26px;padding:12px 0 6px;align-items:start;min-width:0}.vie-flow-rail{display:flex;flex-direction:column;max-height:420px;overflow:auto;scrollbar-width:none}.vie-flow-rail::-webkit-scrollbar{display:none}.vie-flow-rail button{position:relative;display:flex;gap:10px;align-items:flex-start;text-align:left;border:0;padding:8px 3px 20px;background:transparent;color:var(--vie-muted);font:inherit;font-size:11px;cursor:pointer;line-height:1.7;overflow-wrap:anywhere}.vie-flow-rail button>span:first-child{display:grid;place-items:center;border-radius:50%;width:25px;height:25px;flex-shrink:0;background:var(--vie-layer);border:1px solid var(--vie-stroke);font-size:10px;z-index:1}.vie-flow-rail button:not(:last-child):after{content:\"\";position:absolute;left:15px;top:32px;bottom:0;border-left:1px solid var(--vie-stroke)}.vie-flow-rail button[aria-current=step]{color:var(--vie-ink);font-weight:600}.vie-flow-rail button[aria-current=step]>span:first-child{background:var(--vie-primary,#4b71ed);color:var(--vie-bg,#fff);border-color:transparent}.vie-flow-work{min-width:0}.vie-flow-work h3{font-size:17px;font-weight:650;line-height:1.6;margin:3px 0 10px;overflow-wrap:anywhere}.vie-flow-description{font-size:12px;line-height:1.9;color:var(--vie-muted);margin:0 0 18px;overflow-wrap:anywhere}.vie-flow-choices{display:flex;flex-direction:column;gap:8px}.vie-flow-choices button{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--vie-stroke);background:var(--vie-bg);color:var(--vie-ink);border-radius:11px;padding:12px 14px;cursor:pointer;font:inherit;text-align:left;line-height:1.65;min-height:48px}.vie-flow-choices strong{font-size:12px;font-weight:550;overflow-wrap:anywhere}.vie-flow-choices small{display:block;color:var(--vie-muted);font-size:11px;margin-top:3px;overflow-wrap:anywhere}.vie-flow-choices button[aria-pressed=true]{border-color:var(--vie-primary,#4b71ed);background:color-mix(in srgb,var(--vie-primary,#4b71ed) 7%,var(--vie-bg,#fff))}.vie-flow-choice-mark{width:20px;height:20px;display:grid;place-items:center;border:1px solid var(--vie-stroke);border-radius:50%;font-size:10px;flex-shrink:0}.vie-flow-choices button[aria-pressed=true] .vie-flow-choice-mark{background:var(--vie-primary,#4b71ed);color:#fff;border-color:transparent}.vie-flow-result{padding:3px 0 3px 12px;border-left:2px solid var(--vie-primary,#4b71ed);margin-top:18px;font-size:12px;color:var(--vie-muted);line-height:1.8;overflow-wrap:anywhere}.vie-flow-result strong{color:var(--vie-ink);font-weight:550}.vie-flow-result p{margin:5px 0 0}.vie-flow-footer{margin-top:24px;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}.vie-flow-footer>span{font-size:11px;color:var(--vie-muted)}.vie-flow-footer>div{display:flex;gap:7px}.vie-flow-footer button,.vie-flow-roots button{border:1px solid var(--vie-stroke);background:var(--vie-bg);color:var(--vie-ink);font:inherit;font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer}.vie-flow-footer button.vie-flow-next{background:var(--vie-ink);color:var(--vie-bg);border-color:var(--vie-ink)}.vie-flow-footer button:disabled{opacity:.4;cursor:default}.vie-flow-terminal{background:var(--vie-layer);padding:14px;border-radius:10px;font-size:12px;color:var(--vie-muted);line-height:1.8}.vie-flow-roots{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.vie-flow-roots button[aria-pressed=true]{border-color:var(--vie-primary,#4b71ed)}.vie-flow-panel button:focus-visible,.vie-flow-scroll:focus-visible,.vie-flow-work h3:focus-visible{outline:2px solid var(--vie-primary,#4b71ed);outline-offset:3px}\n@container(max-width:550px){.vie-flow-scroll>.vie-visual-desktop-svg{display:none}.vie-flow-scroll>.vie-visual-mobile-svg{display:block}}\n@container(min-width:551px){.vie-flow-scroll>.vie-visual-desktop-svg{display:block}.vie-flow-scroll>.vie-visual-mobile-svg{display:none}}\n@media(max-width:550px){.vie-flow-guided{grid-template-columns:1fr;gap:14px}.vie-flow-rail{flex-direction:row;gap:6px;max-height:120px}.vie-flow-rail button{flex:0 0 94px;flex-direction:column;align-items:center;text-align:center;padding:4px 2px 9px;font-size:10px}.vie-flow-rail button:not(:last-child):after{display:none}.vie-flow-work h3{font-size:16px}.vie-flow-heading{gap:10px}.vie-flow-modes button{font-size:11px;padding:5px 9px}}\n/* Wide trees retain the declared parent groups instead of one oversized leaf rank. */\n.vie-flow-tree{width:100%;min-width:0;container-type:inline-size;color:var(--vie-ink);padding:12px 4px 4px;box-sizing:border-box}.vie-flow-tree ul{list-style:none;margin:0;padding:0;min-width:0}.vie-flow-tree-roots{display:flex;flex-direction:column;gap:22px}.vie-flow-tree-node{position:relative;min-width:0;box-sizing:border-box}.vie-flow-tree .vie-flow-tree-card{display:flex;flex-direction:column;gap:4px;text-align:left;width:100%;min-width:0;min-height:60px;box-sizing:border-box;padding:11px 13px;border:1px solid var(--vie-stroke);border-radius:11px;background:var(--vie-bg);color:var(--vie-ink);font:inherit;line-height:1.65;cursor:pointer;overflow-wrap:anywhere;box-shadow:none;appearance:none}.vie-flow-tree-card strong{font-size:13px;font-weight:600}.vie-flow-tree-condition{display:block;font-size:11px;color:var(--vie-muted);line-height:1.7;overflow-wrap:anywhere}.vie-flow-tree .vie-flow-tree-card:hover{border-color:var(--vie-flow-branch)}.vie-flow-tree .vie-flow-tree-card[aria-pressed=true]{border-color:var(--vie-flow-branch);background:color-mix(in srgb,var(--vie-flow-branch) 7%,var(--vie-bg));box-shadow:0 0 0 1px var(--vie-flow-branch)}.vie-flow-tree .is-root>.vie-flow-tree-card{max-width:280px;margin:0 auto;text-align:center;align-items:center;background:var(--vie-layer)}.vie-flow-tree .vie-flow-tree-children.is-split{position:relative;display:grid;grid-template-columns:repeat(var(--vie-flow-columns),minmax(0,1fr));gap:20px;margin:24px 0 0;padding-top:18px}.vie-flow-tree .is-split:before{content:\"\";position:absolute;top:0;left:calc(50% / var(--vie-flow-columns));right:calc(50% / var(--vie-flow-columns));height:0;border-top:1px solid var(--vie-stroke)}.vie-flow-tree .is-split:after{content:\"\";position:absolute;top:-24px;left:50%;height:24px;border-left:1px solid var(--vie-stroke)}.vie-flow-tree .is-split>.vie-flow-tree-node:before{content:\"\";position:absolute;left:50%;top:-18px;height:18px;border-left:1px solid var(--vie-stroke)}.vie-flow-tree .vie-flow-tree-children.is-stack{position:relative;display:flex;flex-direction:column;gap:10px;margin:12px 0 0 13px;padding-left:15px;border-left:1px solid var(--vie-stroke)}.vie-flow-tree .is-stack>.vie-flow-tree-node:before{content:\"\";position:absolute;left:-15px;top:27px;width:15px;border-top:1px solid var(--vie-stroke)}.vie-flow-tree .is-root:not(.has-split)>.vie-flow-tree-card{max-width:none;text-align:left;align-items:flex-start}.vie-flow-tree-card:focus-visible{outline:2px solid var(--vie-primary,#4b71ed);outline-offset:3px}\n@container(max-width:550px){.vie-flow-tree .vie-flow-tree-children.is-split{display:flex;flex-direction:column;gap:16px;margin:12px 0 0 13px;padding:0 0 0 15px;border-left:1px solid var(--vie-stroke)}.vie-flow-tree .is-split:before,.vie-flow-tree .is-split:after{display:none}.vie-flow-tree .is-split>.vie-flow-tree-node:before{left:-15px;top:27px;width:15px;height:0;border-left:0;border-top:1px solid var(--vie-stroke)}.vie-flow-tree .is-root>.vie-flow-tree-card{max-width:none}.vie-flow-tree .vie-flow-tree-card{min-height:56px}.vie-flow-tree-card strong{font-size:12px}}\n/* These controls use the same sizing after a stylesheet refresh and a fresh activation. */\n.vie-flow-modes button,.vie-flow-footer button,.vie-flow-roots button{appearance:none;box-shadow:none;font-family:inherit;line-height:1.5;white-space:nowrap}.vie-flow-modes button{min-height:28px}.vie-flow-choices button{appearance:none;box-shadow:none;white-space:normal}.vie-flow-rail button{appearance:none;box-shadow:none;white-space:normal}\n\n/* VIE 0.18: focused conversational experiments. Every selector is scoped. */\n.vie-shell{font-family:ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif}\n:where([data-theme=dark],.dark) .vie-shell{--vie-ink:var(--dsw-alias-text-primary,#edf1f6);--vie-muted:var(--dsw-alias-text-secondary,#a9b4c4);--vie-stroke:var(--dsw-alias-border-l2,#394452);--vie-layer:var(--dsw-alias-background-secondary,#242c37);--vie-bg:var(--dsw-alias-background-primary,#1c232d)}\n[data-theme=light] .vie-shell{--vie-ink:var(--dsw-alias-text-primary,#222326);--vie-muted:var(--dsw-alias-text-secondary,#777980);--vie-stroke:var(--dsw-alias-border-l2,#e7e7e9);--vie-layer:var(--dsw-alias-background-secondary,#f6f6f7);--vie-bg:var(--dsw-alias-background-primary,#fff)}\n.vie-body:has(>.vie-experiment-host):not(.vie-body--article){border:0;padding:0;background:transparent}\n.vie-experiment-host{min-width:0;width:100%;container-type:inline-size}\n.vie-experiment{--scene-sun:#dc930e;--scene-planet:#009f96;--scene-ring:#5483ef;--scene-carrier:#9475c8;color:var(--vie-ink);font-size:13px;width:100%;min-width:0}\n.vie-experiment button,.vie-experiment select{font:inherit;color:inherit}\n.vie-case-tabs{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 9px}\n.vie-case-tabs button,.vie-scene-button{border:1px solid var(--vie-stroke);background:var(--vie-bg);border-radius:9px;padding:8px 11px;min-height:34px;cursor:pointer;font-size:12px;line-height:1.25}\n.vie-case-tabs button[aria-selected=true],.vie-scene-button.is-primary{border-color:#6f9bff;background:color-mix(in srgb,#5483ef 7%,var(--vie-bg));color:var(--vie-ink)}\n.vie-experiment button:focus-visible,.vie-experiment input:focus-visible,.vie-experiment select:focus-visible{outline:2px solid #4e8ef7;outline-offset:3px}\n.vie-experiment button:disabled{opacity:.45;cursor:default}\n.vie-scene-panel{border:1px solid var(--vie-stroke);border-radius:14px;background:color-mix(in srgb,var(--vie-layer) 48%,var(--vie-bg));padding:13px 15px 10px;min-width:0}\n.vie-scene-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}\n.vie-scene-heading h3{font-size:15px;line-height:1.45;font-weight:650;margin:0 0 4px;letter-spacing:-.02em}\n.vie-scene-subtitle{font-size:12px;line-height:1.55;color:var(--vie-muted);margin:0}\n.vie-scene-status{font-size:11px;white-space:nowrap;border:1px solid var(--vie-stroke);border-radius:7px;padding:5px 7px;background:var(--vie-bg);color:var(--vie-muted)}\n.vie-scene-stage{position:relative;min-width:0;display:flex;justify-content:center;align-items:center;padding:6px 0 0}\n.vie-scene-stage>svg{display:block;width:100%;height:auto;max-height:370px;overflow:visible}\n.vie-scene-stage .vie-visual-panel{width:100%;background:transparent;border:0;padding:0}\n.vie-scene-legend{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:11px;margin:3px 0 1px;color:var(--vie-muted)}\n.vie-scene-legend>span{display:inline-flex;align-items:center;gap:4px}\n.vie-scene-dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:currentColor}\n.vie-scene-note{text-align:center;color:var(--vie-muted);font-size:11px;line-height:1.5;margin:3px 0 7px}\n.vie-scene-toolbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:10px 0}\n.vie-scene-toolbar>button{flex-shrink:0}\n.vie-scene-speed{display:flex;align-items:center;gap:7px;min-width:130px;flex:1;color:var(--vie-muted);font-size:11px}\n.vie-scene-speed input{min-width:40px;width:100%;accent-color:#658ef4}\n.vie-scene-speed>span{white-space:nowrap}\n.vie-experiment input[data-scene-input]{appearance:none;-webkit-appearance:none;height:20px;background:transparent;cursor:pointer;margin:0}\n.vie-experiment input[data-scene-input]::-webkit-slider-runnable-track{height:6px;background:var(--vie-stroke);border-radius:99px}\n.vie-experiment input[data-scene-input]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:15px;height:15px;border:1px solid #ccd3dd;border-radius:50%;margin-top:-4.5px;background:var(--vie-bg);box-shadow:0 1px 3px #0002}\n.vie-experiment input[data-scene-input]::-moz-range-track{height:6px;background:var(--vie-stroke);border-radius:99px}\n.vie-experiment input[data-scene-input]::-moz-range-thumb{width:14px;height:14px;border:1px solid #ccd3dd;border-radius:50%;background:var(--vie-bg)}\n.vie-scene-speed output{min-width:30px;font-variant-numeric:tabular-nums}\n.vie-scene-readouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}\n.vie-scene-readout{border:1px solid var(--vie-stroke);border-radius:11px;padding:12px 8px 10px;text-align:center;min-width:0;background:var(--vie-bg)}\n.vie-scene-readout small{display:block;font-size:11px;color:var(--vie-muted);overflow-wrap:anywhere}\n.vie-scene-readout strong{display:block;font-size:21px;line-height:1.55;font-weight:650;font-variant-numeric:tabular-nums;color:var(--readout-color,var(--vie-ink));letter-spacing:-.02em}\n.vie-scene-readout span{display:block;font-size:10px;color:var(--vie-muted)}\n.vie-scene-insight{font-size:13px;line-height:1.75;margin:11px 1px 0;color:var(--vie-ink);overflow-wrap:anywhere}\n.vie-scene-details{margin:10px 1px 0;color:var(--vie-muted);font-size:12px;line-height:1.7}\n.vie-scene-details summary{cursor:pointer;width:max-content;max-width:100%}\n.vie-scene-details p{margin:6px 0}\n.vie-scene-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px;margin:12px 0 3px}\n.vie-scene-control{display:flex;flex-direction:column;gap:5px;min-width:0}\n.vie-scene-control span{display:flex;justify-content:space-between;gap:8px;color:var(--vie-muted);font-size:12px}\n.vie-scene-control input{width:100%;accent-color:#5483ef}\n.vie-scene-control output{color:var(--vie-ink);font-variant-numeric:tabular-nums}\n.vie-process-choices{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0}\n.vie-process-choices:empty{display:none}\n.vie-scene-progress{font-size:12px;color:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-runtime-diagnostics{font-size:12px;line-height:1.6;color:#a46d2f}\n.vie-body--article>.vie-experiment-host{padding:0;border:0;background:transparent}\n.vie-visual-selected{overflow-wrap:anywhere}\n.vie-visual-subtitle,.vie-figure-caption,.vie-tail-label{overflow-wrap:anywhere}\n.vie-visual-heading{gap:8px;flex-wrap:wrap}\n.vie-visual-accuracy{font-size:10px!important;white-space:normal}\n.vie-scene-svg-label{font-family:inherit;font-size:12px;fill:var(--vie-muted)}\n.vie-scene-vector .vie-lab-head,.vie-scene-vector .vie-vector-insights,.vie-scene-vector .vie-vector-explain{display:none}\n.vie-scene-vector .vie-vector-stage{grid-template-columns:minmax(0,1fr)}\n.vie-scene-vector .vie-vector-svg{max-height:290px;max-width:430px}\n.vie-experiment[data-scene-template=process] .vie-visual-heading,.vie-experiment[data-scene-template=process] .vie-visual-selected{display:none}\n.vie-experiment .vie-scene-stage text.vie-axis-label{font-size:11px;fill:var(--vie-muted)}\n@container(max-width:440px){.vie-scene-panel{padding:11px 10px 8px}.vie-scene-heading h3{font-size:13px}.vie-scene-subtitle{font-size:11px}.vie-case-tabs{gap:5px}.vie-case-tabs button{padding:8px;font-size:11px}.vie-scene-status{font-size:10px;padding:4px}.vie-scene-toolbar{gap:5px}.vie-scene-toolbar .vie-scene-button{padding:8px;font-size:11px}.vie-scene-speed{min-width:100%;order:2;padding:0 3px}.vie-scene-readouts{gap:6px}.vie-scene-readout{padding:10px 5px}.vie-scene-readout strong{font-size:19px}.vie-scene-readout small{font-size:10px}.vie-scene-legend{gap:8px}.vie-scene-insight{font-size:12px}.vie-scene-controls{gap:10px}.vie-scene-stage>svg{max-height:300px}}\n@media(prefers-reduced-motion:reduce){.vie-experiment *{transition:none!important;scroll-behavior:auto!important}}\n.vie-scene-parameters{margin:13px 1px 0;font-size:13px;color:var(--vie-muted)}\n.vie-scene-parameters>summary{cursor:pointer;width:max-content;max-width:100%}\n.vie-scene-parameters .vie-scene-controls{margin:10px 0 0}\n.vie-experiment[data-scene-template=geartrain] .vie-scene-stage>svg{max-height:330px}\n.vie-experiment[data-scene-template=geartrain] .vie-scene-panel{padding-bottom:13px}\n.vie-scene-readout small{font-size:12px;line-height:1.55}\n.vie-scene-readout span{font-size:11px;line-height:1.5}\n.vie-scene-legend{font-size:12px}\n.vie-scene-parameters .vie-scene-control span{font-size:13px}\n.vie-visual-zoom{display:flex;gap:6px;align-items:center;color:var(--vie-muted);font-size:12px}\n.vie-visual-zoom button{font:inherit;background:var(--vie-bg);color:var(--vie-ink);border:1px solid var(--vie-stroke);border-radius:7px;min-height:32px;padding:4px 10px;cursor:pointer}\n.vie-visual-zoom output{margin-left:auto;font-variant-numeric:tabular-nums}\n.vie-visual-panel:is([data-vie-visual=Diagram],[data-vie-visual=Animation]) .vie-visual-content{overflow:auto;max-height:520px;overscroll-behavior:contain}\n.vie-visual-zoom button:focus-visible{outline:2px solid #4e8ef7;outline-offset:2px}\n@container(max-width:440px){.vie-scene-readout small{font-size:12px}.vie-scene-readout span{font-size:11px}.vie-scene-legend{font-size:12px}.vie-scene-toolbar .vie-scene-button{font-size:12px}.vie-scene-subtitle{font-size:12px}.vie-scene-insight{font-size:13px}.vie-scene-panel{padding:12px 11px}.vie-scene-heading{gap:7px}.vie-scene-status{white-space:normal;text-align:right;font-size:11px;max-width:96px}.vie-visual-panel:is([data-vie-visual=Diagram],[data-vie-visual=Animation]) .vie-visual-content{max-height:360px}}\n.vie-generated-figure{min-width:0;max-width:100%;border:1px solid var(--vie-stroke);border-radius:13px;overflow:hidden;background:var(--vie-bg)}\n.vie-generated-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px 4px}\n.vie-generated-heading h3{font-size:15px;line-height:1.5;margin:0;color:var(--vie-ink)}\n.vie-generated-figure iframe{display:block;width:100%;max-width:100%;border:0;background:transparent}\n.vie-generated-error{margin:8px 14px 12px;color:#b84a38;font-size:12px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}\n.vie-body--article>.vie-generated-figure{padding:0}\n\n/* Shared visual vocabulary; scoped to the plugin and inherited by generic graphics. */\n.vie-shell{--vie-primary:#4d82d6;--vie-secondary:#149f91;--vie-accent:#d58b16;--vie-warning:#cf6854;--vie-radius:12px;--vie-gap:12px;--vie-blue:var(--vie-primary);--vie-green:var(--vie-secondary);--vie-amber:var(--vie-accent);font-size:14px;line-height:1.6}\n.vie-shell{--vie-muted:#626874}\n:where([data-theme=dark],.dark) .vie-shell{--vie-muted:#aeb8c8}\n.vie-figure-actions{display:flex;flex:0 0 auto;gap:8px;flex-wrap:wrap;justify-content:flex-start;align-items:center;width:100%;min-width:0}.vie-generated-heading{flex-direction:column;align-items:stretch;justify-content:flex-start;gap:12px;flex-wrap:nowrap;padding:16px 14px 10px}.vie-generated-heading h3{min-width:0;max-width:100%;overflow-wrap:anywhere}.vie-figure-actions button{position:static;float:none;flex:0 0 auto;margin:0;min-width:44px;min-height:32px;white-space:nowrap}\n/* Harness-owned windows/panes can expand without setting any VIE expansion class. */\n[data-windows-titlebar] .vie-generated-heading,[data-sidebar-right-panel='fullscreen'] .vie-generated-heading{padding-top:max(16px,var(--dsh-windows-titlebar-height,40px))}\n.vie-figure-viewport{width:100%;overflow:auto;scrollbar-width:none}.vie-figure-viewport::-webkit-scrollbar{display:none}.vie-figure-viewport:focus-visible{outline:2px solid var(--vie-primary)}\n.vie-figure-expanded{position:fixed;inset:max(96px,env(safe-area-inset-top,0px)) 12px 12px;z-index:1200;overflow:auto;background:var(--vie-bg,#fff);box-shadow:0 0 0 100vmax #0008;scrollbar-width:none}\n.vie-figure-expanded .vie-generated-heading{position:sticky;top:0;z-index:2;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:12px;background:var(--vie-bg,#fff);padding:16px}\n.vie-figure-expanded .vie-generated-heading h3{min-width:0;max-width:100%;margin:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}\n.vie-figure-expanded .vie-figure-actions{width:100%;min-width:0;justify-content:flex-start;align-items:center;gap:8px;flex-wrap:wrap}\n.vie-figure-expanded .vie-figure-actions button{position:static;float:none;flex:0 0 auto;max-width:100%;margin:0}\n.vie-figure-expanded::-webkit-scrollbar{display:none}.vie-figure-hint{color:var(--vie-muted);font-size:12px;margin:0 0 8px}\n.vie-native-frame{min-width:0;max-width:100%;border:1px solid var(--vie-stroke);border-radius:var(--vie-radius);background:var(--vie-bg)}\n.vie-native-frame>.vie-generated-heading{padding:10px 12px 4px}\n.vie-native-frame>.vie-visual-host{padding:12px;box-sizing:border-box}\n.vie-native-frame .vie-general-chart{border:0}\n[data-windows-titlebar] .vie-native-frame>.vie-generated-heading,[data-sidebar-right-panel='fullscreen'] .vie-native-frame>.vie-generated-heading{padding-top:max(16px,var(--dsh-windows-titlebar-height,40px))}\n.vie-native-frame.vie-figure-expanded>.vie-generated-heading{padding:16px}\n.vie-native-frame.vie-figure-expanded .vie-visual-svg,.vie-native-frame.vie-figure-expanded .vie-visual-content{max-height:none}\n:where([data-theme=dark],.dark) .vie-shell{--vie-primary:#83afff;--vie-secondary:#59cebb;--vie-accent:#efba62;--vie-warning:#f69b8c}\n.vie-body{gap:var(--vie-gap)}\n.vie-card,.vie-general-chart,.vie-generated-figure{border-radius:var(--vie-radius);min-width:0}\n.vie-control input[type=number]{width:100%;min-width:0;min-height:36px;padding:6px 10px;border:1px solid var(--vie-stroke);border-radius:8px;background:var(--vie-bg);color:var(--vie-ink);font:inherit;font-variant-numeric:tabular-nums}\n.vie-control input[type=checkbox]{width:20px;height:20px;accent-color:var(--vie-primary);cursor:pointer}\n.vie-segmented{display:flex;gap:5px;flex-wrap:wrap;min-width:0}\n.vie-segmented button{flex:1 1 auto;min-height:36px;border:1px solid var(--vie-stroke);border-radius:8px;background:var(--vie-bg);color:var(--vie-muted);font:inherit;font-size:12px;padding:6px 10px;cursor:pointer;overflow-wrap:anywhere}\n.vie-segmented button[aria-pressed=true]{border-color:var(--vie-primary);color:var(--vie-primary);background:color-mix(in srgb,var(--vie-primary) 10%,var(--vie-bg))}\n.vie-visual-svg text{fill:var(--vie-ink);font-family:inherit}\n.vie-general-chart-controls{gap:var(--vie-gap)}\n.vie-general-chart-legend{gap:8px 14px;flex-wrap:wrap}\n.vie-control-label{flex-wrap:wrap}.vie-control-label>span{overflow-wrap:anywhere}\n.vie-row>.vie-generated-figure,.vie-row>div{min-width:0}\n.vie-generated-figure iframe{border-radius:8px;background:var(--vie-bg)}\n.vie-mode-control{display:inline-flex;align-items:center;min-width:0;gap:5px;font-size:13px}\n.vie-mode-trigger{display:flex;align-items:center;gap:4px;min-width:0;max-width:220px;height:28px;padding:0 4px 0 8px;border:none;border-radius:var(--dsw-radius-sm,6px);outline:none;background:transparent;color:var(--dsw-alias-label-secondary,#606776);font:400 13px/20px system-ui,sans-serif;cursor:pointer}\n.vie-mode-trigger:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover,#f0f2f5)}\n.vie-mode-trigger:focus-visible{box-shadow:0 0 0 2px var(--dsw-focus-ring-color,var(--dsw-alias-state-business-primary,#5483ef))}\n.vie-mode-trigger:disabled{color:var(--dsw-alias-label-dimmed,#a3a8b2);cursor:default}\n.vie-mode-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n.vie-mode-chevron{flex:0 0 auto;color:var(--dsw-alias-label-caption,#8a919d);transition:transform 120ms ease}\n.vie-mode-trigger[aria-expanded=true] .vie-mode-chevron{transform:rotate(180deg)}\n.vie-mode-menu{z-index:1100;min-width:168px;padding:4px;border:0;border-radius:var(--dsw-radius-lg,12px);background:var(--dsw-menu-surface-fill,#fff);color:var(--dsw-alias-label-primary,#242933);box-shadow:var(--dsw-elevation-prominent,0 8px 28px #0002);backdrop-filter:var(--dsw-menu-backdrop-filter,none);font:13px/20px system-ui,sans-serif}\n.vie-mode-menu>button{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;min-height:34px;padding:6px 8px;background:transparent;color:inherit;border:0;border-radius:var(--dsw-radius-md,6px);font:inherit;text-align:left;cursor:pointer}\n.vie-mode-menu>button:hover,.vie-mode-menu>button:focus-visible{background:var(--dsw-alias-interactive-bg-hover,#f0f2f5);outline:none}\n.vie-mode-menu>button[aria-checked=true]>span:last-child{color:var(--dsw-alias-state-business-primary,#5483ef)}\n:where([data-theme=dark],.dark) .vie-mode-control{color-scheme:dark}\n:where([data-theme=dark],.dark) .vie-mode-menu{background:var(--dsw-menu-surface-fill,#262b34);color:var(--dsw-alias-label-primary,#e4eaf1)}\n.vie-mode-control [role=status]{max-width:240px;font-size:11px}\n:where([data-theme=dark],.dark) .vie-mode-trigger{color:var(--dsw-alias-label-secondary,#b4bfcc)}\n:where([data-theme=dark],.dark) .vie-mode-trigger:hover:not(:disabled),:where([data-theme=dark],.dark) .vie-mode-menu>button:hover,:where([data-theme=dark],.dark) .vie-mode-menu>button:focus-visible{background:var(--dsw-alias-interactive-bg-hover,#343d49)}\n.vie-visual-content{scrollbar-width:none}.vie-visual-content::-webkit-scrollbar{display:none}\n@container(max-width:520px){.vie-row{grid-template-columns:minmax(0,1fr)}}\n@media(max-width:520px){.vie-row{grid-template-columns:minmax(0,1fr)}.vie-body{padding:12px}.vie-general-chart-controls{grid-template-columns:minmax(0,1fr)}}\n@media(prefers-reduced-motion:reduce){.vie-shell *{transition:none!important;scroll-behavior:auto!important}}\n\n.vie-visual-panel[data-vie-visual=Flow] .vie-visual-svg{max-height:none}\n\n.vie-visual-panel[data-vie-visual=Flow] .vie-visual-svg{min-width:320px}\n.vie-visual-panel[data-vie-visual=Flow] .vie-visual-content{overflow:auto}\n";
+ const VIE_CSS="/* VIE 0.5 • content-first inline teaching widgets.\n   All rules are scoped to .vie-shell so DSH native chat stays untouched. */\n.vie-shell {\n  --vie-ink:var(--dsw-alias-text-primary,#222326);\n  --vie-muted:var(--dsw-alias-text-secondary,#777980);\n  --vie-stroke:var(--dsw-alias-border-l2,#e7e7e9);\n  --vie-layer:var(--dsw-alias-background-secondary,#f6f6f7);\n  --vie-bg:var(--dsw-alias-background-primary,#fff);\n  --vie-blue:#4088d0; --vie-green:#419d7d; --vie-amber:#c99f45;\n  --vie-color:#4088d0;\n  box-sizing:border-box; width:100%; min-width:0; max-width:100%; margin:6px 0 12px;\n  font-family:ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",sans-serif;\n  font-size:14px; line-height:1.55; color:var(--vie-ink); background:transparent;\n}\n.vie-shell *, .vie-shell *::before, .vie-shell *::after {box-sizing:border-box}\n.vie-body {display:flex;flex-direction:column;gap:14px;padding:17px 19px;border:1px solid var(--vie-stroke);border-radius:17px;background:var(--vie-bg)}\n.vie-body > [data-id],.vie-body > section {min-width:0}\n.vie-text h3 {font-weight:620;font-size:16px;line-height:1.4;margin:0 0 3px;letter-spacing:-.025em}\n.vie-text p {margin:0;color:var(--vie-muted);font-size:13px;line-height:1.6}\n.vie-row {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}\n.vie-column {display:flex;flex-direction:column;gap:9px;min-width:0}\n.vie-card {min-width:0;display:flex;flex-direction:column;gap:10px}\n.vie-card-title {font-size:12px;font-weight:600}\n.vie-divider {border:none;border-top:1px solid var(--vie-stroke);margin:1px 0}\n.vie-control {display:flex;flex-direction:column;gap:6px;min-width:0}\n.vie-control-label {display:flex;align-items:center;justify-content:space-between;gap:9px;font-size:13px;color:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-control-label b {font-size:13px;color:var(--vie-ink);font-weight:620;white-space:nowrap}\n.vie-metric {display:flex;flex-direction:row;justify-content:space-between;gap:12px;align-items:baseline;min-width:0}\n.vie-metric small {color:var(--vie-muted);font-size:12px}\n.vie-metric strong {font-weight:680;font-size:20px;letter-spacing:-.03em;font-variant-numeric:tabular-nums}\n.vie-badge {font-size:11px;padding:2px 7px;border:1px solid var(--vie-stroke);border-radius:999px;color:var(--vie-muted);width:max-content}\n.vie-shell button.vie-button,.vie-shell button.vie-pill {border:1px solid var(--vie-stroke);border-radius:999px;padding:5px 11px;min-height:32px;display:inline-flex;align-items:center;justify-content:center;gap:5px;background:transparent;color:var(--vie-ink);font:inherit;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background .12s,border-color .12s,transform .1s}\n.vie-shell button.vie-button:hover,.vie-shell button.vie-pill:hover{background:var(--vie-layer);border-color:#d8d8db}\n.vie-shell button.vie-button:active,.vie-shell button.vie-pill:active{transform:scale(.985)}\n.vie-shell button:focus-visible,.vie-shell input:focus-visible,.vie-shell summary:focus-visible {outline:2px solid var(--vie-blue);outline-offset:3px}\n.vie-chart {min-width:0;display:flex;flex-direction:column;gap:5px}\n.vie-chart-title {font-weight:580;font-size:13px;color:var(--vie-muted)}\n.vie-chart svg {display:block;width:100%;height:auto;max-height:184px}\n.vie-chart text,.vie-motion text{font:10.5px ui-sans-serif,system-ui;fill:var(--vie-muted)}\n.vie-motion {min-width:0}\n.vie-motion-header {display:flex;justify-content:space-between;gap:10px;align-items:center;margin:0;color:var(--vie-muted);font-size:12px}\n.vie-motion-header strong{color:var(--vie-ink);font-weight:620}\n.vie-motion svg{display:block;width:100%;height:auto;max-height:156px}\n.vie-motion .vie-car{transition:transform .2s ease-out}\n.vie-progress{display:flex;flex-direction:column;gap:7px}\n.vie-track{height:5px;border-radius:999px;overflow:hidden;background:var(--vie-layer)}\n.vie-track-fill{height:100%;background:var(--vie-color);border-radius:999px;transition:width .15s}\n.vie-empty{font-size:12px;color:var(--vie-muted);padding:14px;text-align:center}\n.vie-diagnostics{font-size:11px;color:#9d6c36}.vie-diagnostics pre{overflow-wrap:anywhere;white-space:pre-wrap}\n/* Knowledge component: readable, one visual focus, quiet controls. */\n.vie-canlab{color:var(--vie-ink);min-width:0;width:100%;font-variant-numeric:tabular-nums}\n.vie-can-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 15px}\n.vie-can-head h3{font-size:16px;line-height:1.4;font-weight:610;letter-spacing:-.018em;margin:0}\n.vie-can-head .vie-can-reset{height:32px;min-height:32px;padding:3px 12px}\n.vie-can-tabs{display:grid;grid-template-columns:1fr 1fr;gap:3px;background:var(--vie-layer);border-radius:999px;padding:3px;margin:0 0 17px}\n.vie-shell .vie-can-tabs button.vie-can-tab{appearance:none;background:transparent;border:0;border-radius:999px;padding:6px 9px;min-width:0;min-height:30px;font:inherit;font-size:13px;line-height:1.3;cursor:pointer;color:var(--vie-muted);transition:background .16s,box-shadow .16s,color .16s}\n.vie-shell .vie-can-tabs button.vie-can-tab.active{color:var(--vie-ink);font-weight:610;background:var(--vie-bg);box-shadow:0 1px 3px #00000010}\n.vie-shell .vie-can-tabs button.vie-can-tab:hover:not(.active){background:color-mix(in srgb,var(--vie-bg) 45%,transparent)}\n.vie-can-segments{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:0 0 13px}\n.vie-can-segments>div{min-width:0;display:flex;flex-direction:column;gap:2px}\n.vie-can-segments span{font-size:12px;color:var(--vie-muted)}\n.vie-can-segments strong{font-size:18px;font-weight:660;line-height:1.35;letter-spacing:-.025em}\n.vie-can-timeline{position:relative;margin:0 0 17px}\n.vie-can-track{display:flex;overflow:hidden;width:100%;height:42px;border-radius:6px;user-select:none}\n.vie-can-seg{display:flex;align-items:center;justify-content:center;min-width:0;color:white;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;border-right:2px solid var(--vie-bg);transition:flex-grow .17s ease}\n.vie-can-seg.sync{background:#528ac4}.vie-can-seg.before{background:#3da080}.vie-can-seg.after{background:#c9a047;border-right:0}\n.vie-can-sp-indicator{position:absolute;top:41px;left:83.33%;transform:translateX(-50%);font-size:17px;line-height:17px;width:22px;text-align:center;color:#3984da;transition:left .17s;pointer-events:none}\n.vie-can-grab{position:absolute;top:3px;height:42px;width:26px;left:83.33%;transform:translateX(-50%);cursor:ew-resize;touch-action:none;z-index:2;outline-offset:4px;border-radius:8px}\n.vie-can-grab::before{content:'';display:block;position:absolute;top:-1px;left:50%;height:44px;width:2px;transform:translateX(-50%);background:#ffffffbb;box-shadow:0 0 0 1px #00000006;opacity:.85}\n.vie-can-grab:hover::after,.vie-can-grab:focus-visible::after{content:'';display:block;position:absolute;top:15px;left:50%;height:13px;width:7px;transform:translateX(-50%);border-radius:4px;background:#fff;box-shadow:0 1px 5px #0003}\n.vie-can-axis{display:flex;align-items:center;justify-content:space-between;position:relative;height:28px;padding-top:9px;color:var(--vie-muted);font-size:11.5px}\n.vie-can-axis strong{font-size:12px;color:#3984da;font-weight:570}\n.vie-can-metrics{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:0 0 13px}\n.vie-can-metrics>div{min-width:0}.vie-can-metrics span{display:block;color:var(--vie-muted);font-size:12px;margin-bottom:1px}\n.vie-can-metrics strong{display:block;font-size:23px;font-weight:660;letter-spacing:-.028em;line-height:1.4}\n.vie-can-guidance{font-size:13px;line-height:1.62;color:var(--vie-ink);margin:5px 0 8px}\n.vie-can-message{font-size:12px;line-height:1.5;color:#9a6b26;margin:4px 0}.vie-can-message:empty{display:none}\n.vie-can-footer{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:1px solid var(--vie-stroke);padding-top:9px}\n.vie-can-more{min-width:0;flex:1}.vie-can-more summary{width:max-content;list-style:none;display:inline-flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;color:var(--vie-muted);padding:4px 2px}\n.vie-can-more summary::-webkit-details-marker{display:none}.vie-can-more[open] summary span{transform:rotate(180deg)}\n.vie-can-more summary span{font-size:12px;display:inline-block;transition:transform .14s}\n.vie-can-extra-body{display:flex;flex-direction:column;gap:13px;padding:13px 0 4px}\n.vie-can-inputs{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:0 0 3px}\n.vie-can-inputs label{display:flex;flex-direction:column;gap:8px;min-width:0}\n.vie-can-inputs label>span{display:flex;justify-content:space-between;gap:6px;font-size:13px;color:var(--vie-muted)}\n.vie-can-inputs b{color:var(--vie-ink);font-weight:610}\n.vie-can-lock{font-size:12px;display:flex;align-items:center;gap:7px;color:var(--vie-muted)}\n.vie-can-lock input{width:15px;height:15px;margin:0;accent-color:var(--vie-blue)}\n.vie-can-advanced{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}\n.vie-can-advanced label{display:flex;flex-direction:column;min-width:0;gap:5px;font-size:12px;color:var(--vie-muted)}\n.vie-can-advanced input{width:100%;min-width:0;border:1px solid var(--vie-stroke);border-radius:9px;height:34px;padding:4px 9px;background:var(--vie-bg);color:var(--vie-ink);font:inherit;font-size:13px}\n.vie-can-presets{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.vie-can-presets>span{font-size:12px;color:var(--vie-muted);margin-right:5px}\n.vie-can-extra-values{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;color:var(--vie-muted)}.vie-can-extra-values strong{color:var(--vie-ink);font-weight:600}\n.vie-can-compare{border-top:1px solid var(--vie-stroke);padding-top:11px}.vie-can-compare>strong{font-size:13px;font-weight:610}\n.vie-can-compare-lines{display:grid;gap:8px;margin:10px 0}.vie-can-compare-lines>div{display:grid;grid-template-columns:16px 1fr 70px;gap:9px;align-items:center;color:var(--vie-muted);font-size:12px}\n.vie-can-compare-lines b{text-align:right;color:var(--vie-ink);font-weight:600}.vie-can-mini{height:5px;border-radius:99px;background:var(--vie-layer);overflow:hidden}\n.vie-can-mini i{display:block;height:100%;background:var(--vie-blue)}.vie-can-compare-lines>div:nth-child(2) i{background:var(--vie-green)}\n.vie-can-compare p,.vie-can-formula{font-size:12px;color:var(--vie-muted);line-height:1.6;margin:6px 0}\n.vie-can-explanation{margin-top:11px;padding:10px 12px;background:var(--vie-layer);border-radius:9px;line-height:1.65;color:var(--vie-ink);font-size:13px}.vie-can-explanation[hidden]{display:none}\n.vie-shell .vie-can-why{display:inline-flex;gap:6px}\n@media(max-width:580px){.vie-body{padding:14px 14px;gap:12px}.vie-can-head{margin-bottom:12px}.vie-can-segments{gap:8px}.vie-can-segments strong{font-size:16px}.vie-can-tabs{margin-bottom:13px}.vie-can-track{height:38px}.vie-can-grab{height:39px}.vie-can-sp-indicator{top:37px}.vie-can-metrics strong{font-size:21px}.vie-can-inputs{gap:12px}.vie-can-advanced{gap:6px}.vie-can-advanced label{font-size:11px}.vie-can-guidance{font-size:12.5px}}\n@media(prefers-color-scheme:dark){.vie-shell{--vie-ink:#f2f2f3;--vie-muted:#b5b5bc;--vie-stroke:#454549;--vie-layer:#313134;--vie-bg:#242426;--vie-blue:#78aaec;--vie-green:#479c80;--vie-amber:#b79045}.vie-can-seg{color:#fff}.vie-can-tab.active{background:#444448}}\n@media(prefers-reduced-motion:reduce){.vie-shell *, .vie-shell *::before,.vie-shell *::after{transition:none!important;animation:none!important}}\n\n/* VIE 0.8: legible coordinate plots and evidence-bearing data charts. */\n.vie-chart {gap:4px}\n.vie-chart-title{font-size:13px;font-weight:600;color:var(--vie-ink)}\n.vie-chart-drawing{width:100%;min-width:0}\n.vie-chart-drawing svg{display:block;width:100%;height:auto;max-height:245px;overflow:visible}\n.vie-chart-drawing svg text{font:11px ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",sans-serif;fill:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-chart-drawing svg .vie-axis-name{font-size:12px;font-weight:600;fill:var(--vie-ink)}\n.vie-grid-line{stroke:var(--vie-stroke);stroke-width:1;stroke-dasharray:3 4}\n.vie-data-axis{stroke:var(--vie-muted);stroke-width:1.1;opacity:.6}\n.vie-bar-item{cursor:pointer;outline:none}\n.vie-bar-item:focus .vie-data-bar{stroke:var(--vie-ink);stroke-width:2.5}\n.vie-data-bar{fill:#9cbfe5;transition:fill .12s ease,opacity .12s ease}\n.vie-data-bar.is-active{fill:var(--vie-blue)}\n.vie-bar-item:hover .vie-data-bar{fill:#6ba2dc}\n.vie-chart-drawing svg .vie-bar-value{font-weight:600;font-size:11px;fill:var(--vie-ink)}\n.vie-chart-note{font-size:12.5px;line-height:1.5;color:var(--vie-ink);min-height:20px}\n.vie-chart-footer{display:flex;gap:8px;flex-wrap:wrap;justify-content:space-between;color:var(--vie-muted);font-size:11px}\n.vie-raw-data{border-top:1px solid var(--vie-stroke);margin-top:5px;padding-top:7px;font-size:12px;color:var(--vie-muted)}\n.vie-raw-data summary{cursor:pointer;list-style:none;width:max-content}\n.vie-raw-data summary::before{content:'＋';margin-right:6px}\n.vie-raw-data[open] summary::before{content:'－'}\n.vie-data-table{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding-top:12px}\n.vie-data-table>div{display:flex;flex-direction:column;gap:2px;padding:7px 9px;background:var(--vie-layer);border-radius:9px}\n.vie-data-table strong{font-size:13px;color:var(--vie-ink);font-weight:610}\n@media(max-width:450px){.vie-chart-drawing svg{max-height:225px}.vie-chart-note{font-size:12px}.vie-data-table{grid-template-columns:repeat(2,minmax(0,1fr))}}\n\n/* Context handoff remains invisible until a value changes; no extra default UI. */\n.vie-context-row{display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap;margin-top:2px;font-size:11px;color:var(--vie-muted)}\n.vie-context-button{font:500 12px system-ui,sans-serif;color:var(--vie-muted);border:1px solid var(--vie-stroke);background:transparent;border-radius:999px;padding:5px 10px;cursor:pointer}\n.vie-context-button:hover{color:var(--vie-ink);background:var(--vie-layer)}\n.vie-context-button:focus-visible{outline:2px solid var(--vie-blue);outline-offset:2px}\n\n.vie-error{padding:9px 12px;border:1px solid var(--vie-stroke);border-radius:10px;font:13px system-ui,sans-serif;color:var(--vie-muted)}\n\n/* VIE 0.13: generic semantics-first visual grammar */\n.vie-visual-host{min-width:0;width:100%}\n.vie-visual-panel{display:flex;flex-direction:column;gap:9px;min-width:0;color:var(--vie-ink);font:inherit}\n.vie-visual-heading{display:flex;align-items:center;gap:9px;justify-content:space-between;font-size:14px;line-height:1.45}\n.vie-visual-heading strong{font-weight:660}\n.vie-visual-subtitle{font-size:12.5px;line-height:1.5;color:var(--vie-muted);margin:0}\n.vie-visual-content{background:var(--vie-bg);min-width:0;border-radius:12px;overflow:hidden}\n.vie-visual-svg{width:100%;height:auto;max-height:440px;display:block;overflow:visible}\n.vie-visual-svg text{font-family:ui-sans-serif,system-ui,-apple-system,'Segoe UI',sans-serif;paint-order:stroke}\n.vie-visual-hint{font-size:11.5px;color:var(--vie-muted);line-height:1.5}\n.vie-visual-selected{padding:10px 12px;border-radius:10px;background:var(--vie-layer);display:flex;gap:10px;flex-wrap:wrap;align-items:center;font-size:12.5px}\n.vie-visual-selected strong{font-size:13px;color:var(--vie-ink)}.vie-visual-selected span{color:var(--vie-muted)}\n.vie-visual-accuracy{font-size:11px;color:var(--vie-muted)}\n.vie-svg-item{outline:none;cursor:pointer}.vie-svg-item:focus-visible>rect,.vie-svg-item:hover>rect{stroke:#5285be;stroke-width:2.6}\n.vie-svg-item:focus-visible>circle,.vie-svg-item:hover>circle{stroke:#5285be;stroke-width:3}\n.vie-visual-mobile-list{display:none;flex-wrap:wrap;gap:7px}\n.vie-visual-mobile-list button{border:1px solid var(--vie-stroke);border-radius:999px;background:transparent;padding:6px 10px;color:var(--vie-ink);font:inherit;font-size:12px;cursor:pointer}\n.vie-visual-mobile-list button.is-active{border-color:var(--vie-blue);background:var(--vie-layer)}\n.vie-timeline-list{display:flex;gap:9px;overflow-x:auto;padding:4px 0 10px;scroll-snap-type:x proximity}\n.vie-timeline-item{position:relative;flex:1;min-width:94px;min-height:98px;border:1px solid var(--vie-stroke);border-radius:12px;background:var(--vie-bg);display:flex;flex-direction:column;gap:7px;align-items:flex-start;padding:12px 10px;text-align:left;color:var(--vie-ink);font:inherit;cursor:pointer;scroll-snap-align:start}\n.vie-timeline-item.is-active{border-color:var(--vie-blue);background:var(--vie-layer)}\n.vie-timeline-step{width:23px;height:23px;display:grid;place-items:center;border-radius:50%;background:var(--vie-layer);color:var(--vie-ink);font-size:11px;font-weight:600}\n.vie-timeline-when{font-size:11px;color:var(--vie-muted)}.vie-timeline-item strong{font-size:12px;line-height:1.4;font-weight:600}\n@media(max-width:550px){.vie-visual-svg{max-height:290px}.vie-visual-panel[data-vie-visual='RelationGraph'] .vie-visual-svg{max-height:230px}.vie-visual-mobile-list{display:flex}.vie-timeline-list{gap:7px}.vie-timeline-item{min-width:110px;flex:0 0 44%}}\n@media(prefers-reduced-motion:reduce){.vie-visual-panel *, .vie-visual-panel *::after,.vie-visual-panel *::before{animation:none!important;transition:none!important}}\n\n.vie-visual-legend{display:flex;flex-wrap:wrap;gap:6px}.vie-visual-legend button{font:inherit;font-size:11.5px;border:1px solid var(--vie-stroke);background:var(--vie-bg);color:var(--vie-ink);border-radius:999px;padding:5px 10px;cursor:pointer}.vie-visual-legend button.is-active{background:var(--vie-layer);border-color:var(--vie-blue)}\n\n.vie-visual-mobile-svg{display:none}\n@media(max-width:550px){.vie-visual-desktop-svg{display:none}.vie-visual-mobile-svg{display:block;max-height:none}.vie-visual-panel[data-vie-visual=\"Diagram\"] .vie-visual-content{overflow-x:auto}.vie-visual-panel[data-vie-visual=\"Diagram\"] .vie-visual-svg{min-width:450px;max-height:300px}}\n\n/* 0.14.1 runtime diagnostics and compact accessibility. */\n.vie-runtime-diagnostics{border:1px solid var(--vie-stroke);background:var(--vie-layer);border-radius:9px;padding:7px 10px;color:var(--vie-muted);font-size:12px;line-height:1.5}.vie-runtime-diagnostics p{margin:2px 0}.vie-error pre{white-space:pre-wrap;word-break:break-word;font-size:11px}.vie-error details{margin-top:7px}.vie-error summary{cursor:pointer}.vie-row{grid-template-columns:repeat(2,minmax(0,1fr))}@media(max-width:370px){.vie-row{grid-template-columns:minmax(0,1fr)}}\n\n/* Empty diagnostic holders must not reserve card space. */\n.vie-runtime-diagnostics:empty,.vie-diagnostics:empty{display:none}\n\n/* VIE 0.15.2: quiet, readable captions beneath optional single-scene visuals. */\n.vie-figure-caption{font-size:12px;line-height:1.65;color:var(--vie-muted,#64748b);margin:6px 0 2px;overflow-wrap:anywhere}\n.vie-annotated-surface{min-width:0;max-width:100%}\n@media (max-width:390px){.vie-figure-caption{font-size:11px}}\n\n/* 0.16 declarative responsive split; no untrusted freeform CSS. */\n.vie-split{display:grid;grid-template-columns:minmax(0,var(--vie-split-ratio,50%)) minmax(0,1fr);gap:12px;align-items:start}\n.vie-split>*{min-width:0}\n@media(max-width:600px){.vie-split{grid-template-columns:minmax(0,1fr)}}\n@media(prefers-reduced-motion:reduce){.vie-split *{scroll-behavior:auto}}\n\n/* Chat-scale visual experiments: one primary visual, one light control row, one takeaway. */\n.vie-semantic-host{width:100%;min-width:0}\n.vie-semantic-lab{min-width:0;color:var(--vie-ink)}\n.vie-lab-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:12px}\n.vie-lab-head h3{font-size:16px;letter-spacing:-.025em;line-height:1.35;margin:0 0 3px;font-weight:650}\n.vie-lab-head p{margin:0;color:var(--vie-muted);font-size:12.5px;line-height:1.5}\n.vie-lab-head button{flex-shrink:0}\n.vie-lab-visual{min-width:0;margin:1px 0 12px}\n.vie-lab-svg{display:block;width:100%;max-height:175px;height:auto;overflow:visible}\n.vie-lab-explain{font-size:12.5px;line-height:1.6;color:var(--vie-ink);margin:11px 0 0}\n.vie-lab-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px}\n.vie-lab-controls:empty{display:none}\n.vie-lab-slider{display:flex;flex-direction:column;min-width:0;gap:4px}\n.vie-lab-slider>span{font-size:12px;display:flex;justify-content:space-between;gap:8px;color:var(--vie-muted)}\n.vie-lab-slider b{color:var(--vie-ink);font-weight:650;font-variant-numeric:tabular-nums}\n.vie-lab-slider input{width:100%;margin:3px 0 0;accent-color:var(--vie-blue);cursor:pointer;min-height:22px}\n.vie-lab-pills{display:flex;align-items:center;gap:7px;flex-wrap:wrap}\n.vie-lab-pills .selected{background:var(--vie-layer)!important;border-color:#d6dbe1!important}\n.vie-bit-panel{padding:8px 0}\n.vie-bit-row{display:grid;grid-template-columns:28px minmax(0,1fr) 34px;gap:7px;align-items:center;margin:6px 0}\n.vie-bit-row>span{color:var(--vie-muted);font-size:12px;font-weight:650}\n.vie-bit-row>small{text-align:right;color:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-bit-cells{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px}\n.vie-bit{min-width:0;height:34px;padding:0!important;border:1px solid var(--vie-stroke)!important;border-radius:7px!important;background:var(--vie-layer)!important;font:600 14px ui-monospace,monospace!important;color:var(--vie-ink)!important;cursor:pointer}\n.vie-bit:hover{border-color:var(--vie-blue)!important}\n.vie-bit-result{display:flex;align-items:center;justify-content:center;height:34px;background:var(--vie-layer);border-radius:7px;font:650 14px ui-monospace,monospace}\n.vie-bit-result.on{background:#e7f2ff;color:#237ac3}\n.vie-bit-separator{height:1px;background:var(--vie-stroke);margin:9px 37px 9px 35px}\n.vie-outcomes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin:13px 0 15px}\n.vie-outcome{min-width:0;border-radius:10px!important;background:var(--vie-layer)!important;border:1px solid var(--vie-stroke)!important;min-height:53px;color:var(--vie-ink)!important;font:650 18px ui-sans-serif,system-ui!important;cursor:pointer}\n.vie-outcome.chosen{background:#e9f3ff!important;border-color:#83b5e8!important;color:#1767ac!important}\n.vie-prob-bar{height:12px;background:var(--vie-layer);border-radius:50px;overflow:hidden}\n.vie-prob-bar>div{background:#4a8bd1;height:100%;border-radius:50px;transition:width .12s}\n.vie-prob-label{display:flex;justify-content:space-between;font-size:12px;color:var(--vie-muted);margin-top:7px}\n.vie-prob-label strong{color:var(--vie-blue);font-weight:650}\n@media(max-width:440px){.vie-lab-controls{gap:13px;grid-template-columns:1fr}.vie-outcomes{gap:4px}.vie-outcome{min-height:45px}.vie-bit-cells{gap:2px}.vie-bit{height:32px}.vie-lab-head p{font-size:12px}}\n/* Shared native-like range controls: neutral track, quiet round thumb. */\n\n/* Intelligent-UI-style vector explorer: the diagram is the lesson, not a mini dashboard. */\n.vie-lab-vector {\n  --vie-vector-main:#367eea;\n  --vie-vector-x:#2e9c7c;\n  --vie-vector-y:#d6a04b;\n  --vie-vector-axis:#9ba5b3;\n  --vie-vector-grid:rgba(145,159,175,.18);\n  --vie-vector-angle:#718399;\n  --vie-vector-tip-ring:#fff;\n}\n.vie-lab-vector .vie-lab-head{margin-bottom:5px}\n.vie-vector-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(142px,172px);align-items:center;gap:7px 12px;min-width:0}\n.vie-vector-canvas{position:relative;min-width:0;display:flex;align-items:center;justify-content:center}\n.vie-vector-svg{width:100%;height:auto;max-width:410px;max-height:242px;display:block;overflow:visible;touch-action:pan-y}\n.vie-vector-svg [data-vector-handle]{cursor:grab;outline:none;touch-action:none}\n.vie-vector-svg [data-vector-handle].dragging{cursor:grabbing}\n.vie-vector-svg [data-vector-handle]:focus-visible{stroke:var(--vie-vector-main);stroke-width:2;stroke-dasharray:3 3}\n.vie-vector-tick{font-size:10.5px;fill:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-vector-axis-label{font-size:12px;fill:var(--vie-muted);font-weight:550}\n.vie-vector-arc-label{font-size:11px;fill:var(--vie-vector-angle);text-anchor:middle;font-variant-numeric:tabular-nums}\n.vie-vector-coordinate{font-size:10.5px;fill:var(--vie-ink);font-variant-numeric:tabular-nums;font-weight:550}\n.vie-vector-hint{display:inline-flex;align-items:center;gap:4px;position:absolute;left:11px;bottom:8px;color:var(--vie-muted);font-size:11px;pointer-events:none}\n.vie-vector-insights{min-width:0;display:flex;flex-direction:column;gap:13px;padding:2px 0 2px 13px;border-left:1px solid var(--vie-stroke)}\n.vie-vector-meta span{color:var(--vie-muted);font-size:11.5px;display:block;margin-bottom:3px}\n.vie-vector-meta strong{display:block;font-size:15px;font-weight:660;letter-spacing:-.018em;font-variant-numeric:tabular-nums}\n.vie-vector-metric-label{display:flex;align-items:center;gap:7px;color:var(--vie-muted);font-size:11.5px;white-space:nowrap}\n.vie-vector-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--vie-vector-x);flex-shrink:0}\n.vie-vector-metric.y .vie-vector-dot{background:var(--vie-vector-y)}\n.vie-vector-metric>strong{font-size:23px;line-height:1.2;letter-spacing:-.035em;display:block;font-weight:650;font-variant-numeric:tabular-nums;color:var(--vie-ink);margin-top:3px}\n.vie-vector-metric>small{font-size:10.5px;color:var(--vie-muted)}\n.vie-lab-vector .vie-vector-controls{margin:2px 0 0;gap:8px 19px}\n.vie-lab-vector .vie-vector-explain{margin:7px 0 0;color:var(--vie-muted);font-size:12px}\n@media(max-width:560px){\n .vie-vector-stage{grid-template-columns:minmax(0,1fr);gap:0}\n .vie-vector-svg{max-height:205px;max-width:325px}\n .vie-vector-insights{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:3px 0 9px;border:0;border-bottom:1px solid var(--vie-stroke)}\n .vie-vector-meta{align-self:center}\n .vie-vector-meta strong{font-size:13px}\n .vie-vector-metric-label{font-size:10px;gap:3px;white-space:normal}\n .vie-vector-metric>strong{font-size:18px;margin-top:2px}\n .vie-vector-metric>small{display:none}\n .vie-vector-hint{bottom:2px;left:0}\n .vie-lab-vector .vie-vector-controls{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px}\n .vie-lab-vector .vie-vector-explain{font-size:11.5px}\n}\n\n/* Stable completed-Turn surface; keeps the visual aid outside folded work steps. */\n.vie-tail{display:grid;gap:12px;margin:9px 0 16px;max-width:100%;min-width:0}\n.vie-tail-item{min-width:0}\n.vie-tail-label{font-size:12px;font-weight:600;color:var(--vie-text,#293342);margin:0 0 6px 2px}\n.vie-published-marker{display:inline-block;font-size:11px;color:var(--vie-muted,#64748b);padding:5px 1px}\n\n/* VIE 0.14: semantic multi-panel answers and motion controls */\n.vie-animation-controls{display:flex;gap:9px;align-items:center;margin:9px 0 3px;padding:7px 2px;min-width:0}\n.vie-animation-controls>button{border:1px solid var(--vie-border,#e5e9ef);background:var(--vie-layer,#f8f9fb);border-radius:999px;padding:5px 12px;color:inherit;white-space:nowrap;cursor:pointer;font:inherit;font-size:12px}\n.vie-animation-controls>button:focus-visible{outline:2px solid #4789db;outline-offset:2px}\n.vie-animation-controls>input{flex:1;min-width:36px;accent-color:#4c82c9;cursor:pointer;touch-action:pan-y}\n.vie-animation-controls>span{min-width:38px;font-size:11px;font-variant-numeric:tabular-nums;color:var(--vie-muted,#6c7987);text-align:right}\n.vie-visual-content svg [data-vie-shape]{transform-box:view-box}\n.vie-visual-host .vie-visual-panel{margin-bottom:5px}\n@media(max-width:380px){.vie-animation-controls{gap:5px}.vie-animation-controls>button{padding:5px 9px;font-size:11px}}\n\n/* VIE 0.16.1 article-flow for multi-panel stories inside the persistent turn tail. */\n.vie-body--article { border:0; border-radius:0; background:transparent; padding:4px 0; gap:18px }\n.vie-body--article > .vie-text {padding:2px 1px; max-width:72ch}\n.vie-body--article > .vie-text p {font-size:15px;line-height:1.8;color:var(--vie-ink);white-space:pre-line;overflow-wrap:anywhere}\n.vie-body--article > .vie-visual-host {border:1px solid var(--vie-stroke);background:var(--vie-bg);border-radius:14px;padding:12px}\n.vie-visual-warning{font-size:12px;color:#a46d2f;margin:4px 0}\n@media(max-width:420px){.vie-body--article > .vie-text p {font-size:14px;line-height:1.75}.vie-body--article > .vie-visual-host{padding:7px}}\n@media(prefers-reduced-motion:reduce){.vie-body--article *{scroll-behavior:auto!important;transition:none!important}}\n\n.vie-answer{min-width:0;margin:10px 0 18px}.vie-answer:empty{display:none}.vie-generation-status{font-size:12px;color:var(--vie-muted,#718096);margin:6px 0}.vie-general-chart{border:1px solid var(--vie-stroke,#dde3eb);border-radius:14px;padding:14px;min-width:0}.vie-general-chart header{display:flex;align-items:center;justify-content:space-between;gap:12px}.vie-general-chart h3{font-size:15px;margin:0}.vie-general-chart button{font:inherit;border:1px solid var(--vie-stroke,#dde3eb);border-radius:8px;background:transparent;color:inherit;padding:5px 10px;cursor:pointer}.vie-general-chart svg{display:block;width:100%;height:auto;overflow:visible}.vie-general-chart text{font:11px system-ui;fill:var(--vie-muted,#718096)}.vie-general-chart-grid{stroke:var(--vie-stroke,#dde3eb);stroke-width:.7;fill:none}.vie-general-chart-axis{stroke:var(--vie-muted,#718096);fill:none}.vie-general-chart-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px}.vie-general-chart-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.vie-general-chart-controls{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px}.vie-general-chart-controls label{display:flex;flex-direction:column;flex:1 1 160px;gap:5px;font-size:12px}.vie-general-chart-controls input{width:100%;accent-color:#4d82d6}.vie-general-chart-note,.vie-general-chart [data-chart-error]{font-size:12px;color:var(--vie-muted,#718096);line-height:1.6}.vie-general-chart [data-chart-error]:empty{display:none}\n/* 0.30.5: topology overview and topic-independent guided navigation. */\n.vie-flow-panel{gap:12px}.vie-flow-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap}.vie-flow-heading strong{font-size:15px;line-height:1.5;font-weight:650}.vie-flow-heading p{font-size:12px;color:var(--vie-muted);margin:5px 0 0;line-height:1.7}.vie-flow-modes{display:flex;padding:3px;border:1px solid var(--vie-stroke);border-radius:20px;flex-shrink:0;gap:2px}.vie-flow-modes button{border:0;background:transparent;border-radius:16px;color:var(--vie-muted);padding:5px 11px;font:inherit;font-size:11px;cursor:pointer}.vie-flow-modes button[aria-pressed=true]{background:var(--vie-layer);color:var(--vie-ink);font-weight:600}.vie-flow-scroll{overflow-x:auto;scrollbar-width:none;container-type:inline-size;outline:none}.vie-flow-scroll::-webkit-scrollbar{display:none}.vie-flow-panel .vie-flow-svg{max-height:none!important;min-height:0;overflow:visible}.vie-flow-detail{border:1px solid var(--vie-stroke);background:var(--vie-layer);border-radius:11px;padding:13px 15px;display:flex;flex-direction:column;gap:5px;font-size:12px;line-height:1.8;overflow-wrap:anywhere}.vie-flow-detail strong{font-weight:600;color:var(--vie-ink)}.vie-flow-detail span{color:var(--vie-muted)}.vie-flow-guided{display:grid;grid-template-columns:minmax(100px,30%) minmax(0,1fr);gap:26px;padding:12px 0 6px;align-items:start;min-width:0}.vie-flow-rail{display:flex;flex-direction:column;max-height:420px;overflow:auto;scrollbar-width:none}.vie-flow-rail::-webkit-scrollbar{display:none}.vie-flow-rail button{position:relative;display:flex;gap:10px;align-items:flex-start;text-align:left;border:0;padding:8px 3px 20px;background:transparent;color:var(--vie-muted);font:inherit;font-size:11px;cursor:pointer;line-height:1.7;overflow-wrap:anywhere}.vie-flow-rail button>span:first-child{display:grid;place-items:center;border-radius:50%;width:25px;height:25px;flex-shrink:0;background:var(--vie-layer);border:1px solid var(--vie-stroke);font-size:10px;z-index:1}.vie-flow-rail button:not(:last-child):after{content:\"\";position:absolute;left:15px;top:32px;bottom:0;border-left:1px solid var(--vie-stroke)}.vie-flow-rail button[aria-current=step]{color:var(--vie-ink);font-weight:600}.vie-flow-rail button[aria-current=step]>span:first-child{background:var(--vie-primary,#4b71ed);color:var(--vie-bg,#fff);border-color:transparent}.vie-flow-work{min-width:0}.vie-flow-work h3{font-size:17px;font-weight:650;line-height:1.6;margin:3px 0 10px;overflow-wrap:anywhere}.vie-flow-description{font-size:12px;line-height:1.9;color:var(--vie-muted);margin:0 0 18px;overflow-wrap:anywhere}.vie-flow-choices{display:flex;flex-direction:column;gap:8px}.vie-flow-choices button{display:flex;align-items:center;justify-content:space-between;gap:12px;border:1px solid var(--vie-stroke);background:var(--vie-bg);color:var(--vie-ink);border-radius:11px;padding:12px 14px;cursor:pointer;font:inherit;text-align:left;line-height:1.65;min-height:48px}.vie-flow-choices strong{font-size:12px;font-weight:550;overflow-wrap:anywhere}.vie-flow-choices small{display:block;color:var(--vie-muted);font-size:11px;margin-top:3px;overflow-wrap:anywhere}.vie-flow-choices button[aria-pressed=true]{border-color:var(--vie-primary,#4b71ed);background:color-mix(in srgb,var(--vie-primary,#4b71ed) 7%,var(--vie-bg,#fff))}.vie-flow-choice-mark{width:20px;height:20px;display:grid;place-items:center;border:1px solid var(--vie-stroke);border-radius:50%;font-size:10px;flex-shrink:0}.vie-flow-choices button[aria-pressed=true] .vie-flow-choice-mark{background:var(--vie-primary,#4b71ed);color:#fff;border-color:transparent}.vie-flow-result{padding:3px 0 3px 12px;border-left:2px solid var(--vie-primary,#4b71ed);margin-top:18px;font-size:12px;color:var(--vie-muted);line-height:1.8;overflow-wrap:anywhere}.vie-flow-result strong{color:var(--vie-ink);font-weight:550}.vie-flow-result p{margin:5px 0 0}.vie-flow-footer{margin-top:24px;display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}.vie-flow-footer>span{font-size:11px;color:var(--vie-muted)}.vie-flow-footer>div{display:flex;gap:7px}.vie-flow-footer button,.vie-flow-roots button{border:1px solid var(--vie-stroke);background:var(--vie-bg);color:var(--vie-ink);font:inherit;font-size:12px;padding:6px 12px;border-radius:20px;cursor:pointer}.vie-flow-footer button.vie-flow-next{background:var(--vie-ink);color:var(--vie-bg);border-color:var(--vie-ink)}.vie-flow-footer button:disabled{opacity:.4;cursor:default}.vie-flow-terminal{background:var(--vie-layer);padding:14px;border-radius:10px;font-size:12px;color:var(--vie-muted);line-height:1.8}.vie-flow-roots{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}.vie-flow-roots button[aria-pressed=true]{border-color:var(--vie-primary,#4b71ed)}.vie-flow-panel button:focus-visible,.vie-flow-scroll:focus-visible,.vie-flow-work h3:focus-visible{outline:2px solid var(--vie-primary,#4b71ed);outline-offset:3px}\n@container(max-width:550px){.vie-flow-scroll>.vie-visual-desktop-svg{display:none}.vie-flow-scroll>.vie-visual-mobile-svg{display:block}}\n@container(min-width:551px){.vie-flow-scroll>.vie-visual-desktop-svg{display:block}.vie-flow-scroll>.vie-visual-mobile-svg{display:none}}\n@media(max-width:550px){.vie-flow-guided{grid-template-columns:1fr;gap:14px}.vie-flow-rail{flex-direction:row;gap:6px;max-height:120px}.vie-flow-rail button{flex:0 0 94px;flex-direction:column;align-items:center;text-align:center;padding:4px 2px 9px;font-size:10px}.vie-flow-rail button:not(:last-child):after{display:none}.vie-flow-work h3{font-size:16px}.vie-flow-heading{gap:10px}.vie-flow-modes button{font-size:11px;padding:5px 9px}}\n/* Wide trees retain the declared parent groups instead of one oversized leaf rank. */\n.vie-flow-tree{width:100%;min-width:0;container-type:inline-size;color:var(--vie-ink);padding:12px 4px 4px;box-sizing:border-box}.vie-flow-tree ul{list-style:none;margin:0;padding:0;min-width:0}.vie-flow-tree-roots{display:flex;flex-direction:column;gap:22px}.vie-flow-tree-node{position:relative;min-width:0;box-sizing:border-box}.vie-flow-tree .vie-flow-tree-card{display:flex;flex-direction:column;gap:4px;text-align:left;width:100%;min-width:0;min-height:60px;box-sizing:border-box;padding:11px 13px;border:1px solid var(--vie-stroke);border-radius:11px;background:var(--vie-bg);color:var(--vie-ink);font:inherit;line-height:1.65;cursor:pointer;overflow-wrap:anywhere;box-shadow:none;appearance:none}.vie-flow-tree-card strong{font-size:13px;font-weight:600}.vie-flow-tree-condition{display:block;font-size:11px;color:var(--vie-muted);line-height:1.7;overflow-wrap:anywhere}.vie-flow-tree .vie-flow-tree-card:hover{border-color:var(--vie-flow-branch)}.vie-flow-tree .vie-flow-tree-card[aria-pressed=true]{border-color:var(--vie-flow-branch);background:color-mix(in srgb,var(--vie-flow-branch) 7%,var(--vie-bg));box-shadow:0 0 0 1px var(--vie-flow-branch)}.vie-flow-tree .is-root>.vie-flow-tree-card{max-width:280px;margin:0 auto;text-align:center;align-items:center;background:var(--vie-layer)}.vie-flow-tree .vie-flow-tree-children.is-split{position:relative;display:grid;grid-template-columns:repeat(var(--vie-flow-columns),minmax(0,1fr));gap:20px;margin:24px 0 0;padding-top:18px}.vie-flow-tree .is-split:before{content:\"\";position:absolute;top:0;left:calc(50% / var(--vie-flow-columns));right:calc(50% / var(--vie-flow-columns));height:0;border-top:1px solid var(--vie-stroke)}.vie-flow-tree .is-split:after{content:\"\";position:absolute;top:-24px;left:50%;height:24px;border-left:1px solid var(--vie-stroke)}.vie-flow-tree .is-split>.vie-flow-tree-node:before{content:\"\";position:absolute;left:50%;top:-18px;height:18px;border-left:1px solid var(--vie-stroke)}.vie-flow-tree .vie-flow-tree-children.is-stack{position:relative;display:flex;flex-direction:column;gap:10px;margin:12px 0 0 13px;padding-left:15px;border-left:1px solid var(--vie-stroke)}.vie-flow-tree .is-stack>.vie-flow-tree-node:before{content:\"\";position:absolute;left:-15px;top:27px;width:15px;border-top:1px solid var(--vie-stroke)}.vie-flow-tree .is-root:not(.has-split)>.vie-flow-tree-card{max-width:none;text-align:left;align-items:flex-start}.vie-flow-tree-card:focus-visible{outline:2px solid var(--vie-primary,#4b71ed);outline-offset:3px}\n@container(max-width:550px){.vie-flow-tree .vie-flow-tree-children.is-split{display:flex;flex-direction:column;gap:16px;margin:12px 0 0 13px;padding:0 0 0 15px;border-left:1px solid var(--vie-stroke)}.vie-flow-tree .is-split:before,.vie-flow-tree .is-split:after{display:none}.vie-flow-tree .is-split>.vie-flow-tree-node:before{left:-15px;top:27px;width:15px;height:0;border-left:0;border-top:1px solid var(--vie-stroke)}.vie-flow-tree .is-root>.vie-flow-tree-card{max-width:none}.vie-flow-tree .vie-flow-tree-card{min-height:56px}.vie-flow-tree-card strong{font-size:12px}}\n/* These controls use the same sizing after a stylesheet refresh and a fresh activation. */\n.vie-flow-modes button,.vie-flow-footer button,.vie-flow-roots button{appearance:none;box-shadow:none;font-family:inherit;line-height:1.5;white-space:nowrap}.vie-flow-modes button{min-height:28px}.vie-flow-choices button{appearance:none;box-shadow:none;white-space:normal}.vie-flow-rail button{appearance:none;box-shadow:none;white-space:normal}\n\n/* VIE 0.18: focused conversational experiments. Every selector is scoped. */\n.vie-shell{font-family:ui-sans-serif,system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif}\n:where([data-theme=dark],.dark) .vie-shell{--vie-ink:var(--dsw-alias-text-primary,#edf1f6);--vie-muted:var(--dsw-alias-text-secondary,#a9b4c4);--vie-stroke:var(--dsw-alias-border-l2,#394452);--vie-layer:var(--dsw-alias-background-secondary,#242c37);--vie-bg:var(--dsw-alias-background-primary,#1c232d)}\n[data-theme=light] .vie-shell{--vie-ink:var(--dsw-alias-text-primary,#222326);--vie-muted:var(--dsw-alias-text-secondary,#777980);--vie-stroke:var(--dsw-alias-border-l2,#e7e7e9);--vie-layer:var(--dsw-alias-background-secondary,#f6f6f7);--vie-bg:var(--dsw-alias-background-primary,#fff)}\n.vie-body:has(>.vie-experiment-host):not(.vie-body--article){border:0;padding:0;background:transparent}\n.vie-experiment-host{min-width:0;width:100%;container-type:inline-size}\n.vie-experiment{--scene-sun:#dc930e;--scene-planet:#009f96;--scene-ring:#5483ef;--scene-carrier:#9475c8;color:var(--vie-ink);font-size:13px;width:100%;min-width:0}\n.vie-experiment button,.vie-experiment select{font:inherit;color:inherit}\n.vie-case-tabs{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 9px}\n.vie-case-tabs button,.vie-scene-button{border:1px solid var(--vie-stroke);background:var(--vie-bg);border-radius:9px;padding:8px 11px;min-height:34px;cursor:pointer;font-size:12px;line-height:1.25}\n.vie-case-tabs button[aria-selected=true],.vie-scene-button.is-primary{border-color:#6f9bff;background:color-mix(in srgb,#5483ef 7%,var(--vie-bg));color:var(--vie-ink)}\n.vie-experiment button:focus-visible,.vie-experiment input:focus-visible,.vie-experiment select:focus-visible{outline:2px solid #4e8ef7;outline-offset:3px}\n.vie-experiment button:disabled{opacity:.45;cursor:default}\n.vie-scene-panel{border:1px solid var(--vie-stroke);border-radius:14px;background:color-mix(in srgb,var(--vie-layer) 48%,var(--vie-bg));padding:13px 15px 10px;min-width:0}\n.vie-scene-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}\n.vie-scene-heading h3{font-size:15px;line-height:1.45;font-weight:650;margin:0 0 4px;letter-spacing:-.02em}\n.vie-scene-subtitle{font-size:12px;line-height:1.55;color:var(--vie-muted);margin:0}\n.vie-scene-status{font-size:11px;white-space:nowrap;border:1px solid var(--vie-stroke);border-radius:7px;padding:5px 7px;background:var(--vie-bg);color:var(--vie-muted)}\n.vie-scene-stage{position:relative;min-width:0;display:flex;justify-content:center;align-items:center;padding:6px 0 0}\n.vie-scene-stage>svg{display:block;width:100%;height:auto;max-height:370px;overflow:visible}\n.vie-scene-stage .vie-visual-panel{width:100%;background:transparent;border:0;padding:0}\n.vie-scene-legend{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:11px;margin:3px 0 1px;color:var(--vie-muted)}\n.vie-scene-legend>span{display:inline-flex;align-items:center;gap:4px}\n.vie-scene-dot{width:7px;height:7px;border-radius:50%;display:inline-block;background:currentColor}\n.vie-scene-note{text-align:center;color:var(--vie-muted);font-size:11px;line-height:1.5;margin:3px 0 7px}\n.vie-scene-toolbar{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:10px 0}\n.vie-scene-toolbar>button{flex-shrink:0}\n.vie-scene-speed{display:flex;align-items:center;gap:7px;min-width:130px;flex:1;color:var(--vie-muted);font-size:11px}\n.vie-scene-speed input{min-width:40px;width:100%;accent-color:#658ef4}\n.vie-scene-speed>span{white-space:nowrap}\n.vie-experiment input[data-scene-input]{appearance:none;-webkit-appearance:none;height:20px;background:transparent;cursor:pointer;margin:0}\n.vie-experiment input[data-scene-input]::-webkit-slider-runnable-track{height:6px;background:var(--vie-stroke);border-radius:99px}\n.vie-experiment input[data-scene-input]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:15px;height:15px;border:1px solid #ccd3dd;border-radius:50%;margin-top:-4.5px;background:var(--vie-bg);box-shadow:0 1px 3px #0002}\n.vie-experiment input[data-scene-input]::-moz-range-track{height:6px;background:var(--vie-stroke);border-radius:99px}\n.vie-experiment input[data-scene-input]::-moz-range-thumb{width:14px;height:14px;border:1px solid #ccd3dd;border-radius:50%;background:var(--vie-bg)}\n.vie-scene-speed output{min-width:30px;font-variant-numeric:tabular-nums}\n.vie-scene-readouts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}\n.vie-scene-readout{border:1px solid var(--vie-stroke);border-radius:11px;padding:12px 8px 10px;text-align:center;min-width:0;background:var(--vie-bg)}\n.vie-scene-readout small{display:block;font-size:11px;color:var(--vie-muted);overflow-wrap:anywhere}\n.vie-scene-readout strong{display:block;font-size:21px;line-height:1.55;font-weight:650;font-variant-numeric:tabular-nums;color:var(--readout-color,var(--vie-ink));letter-spacing:-.02em}\n.vie-scene-readout span{display:block;font-size:10px;color:var(--vie-muted)}\n.vie-scene-insight{font-size:13px;line-height:1.75;margin:11px 1px 0;color:var(--vie-ink);overflow-wrap:anywhere}\n.vie-scene-details{margin:10px 1px 0;color:var(--vie-muted);font-size:12px;line-height:1.7}\n.vie-scene-details summary{cursor:pointer;width:max-content;max-width:100%}\n.vie-scene-details p{margin:6px 0}\n.vie-scene-controls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 18px;margin:12px 0 3px}\n.vie-scene-control{display:flex;flex-direction:column;gap:5px;min-width:0}\n.vie-scene-control span{display:flex;justify-content:space-between;gap:8px;color:var(--vie-muted);font-size:12px}\n.vie-scene-control input{width:100%;accent-color:#5483ef}\n.vie-scene-control output{color:var(--vie-ink);font-variant-numeric:tabular-nums}\n.vie-process-choices{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 0}\n.vie-process-choices:empty{display:none}\n.vie-scene-progress{font-size:12px;color:var(--vie-muted);font-variant-numeric:tabular-nums}\n.vie-runtime-diagnostics{font-size:12px;line-height:1.6;color:#a46d2f}\n.vie-body--article>.vie-experiment-host{padding:0;border:0;background:transparent}\n.vie-visual-selected{overflow-wrap:anywhere}\n.vie-visual-subtitle,.vie-figure-caption,.vie-tail-label{overflow-wrap:anywhere}\n.vie-visual-heading{gap:8px;flex-wrap:wrap}\n.vie-visual-accuracy{font-size:10px!important;white-space:normal}\n.vie-scene-svg-label{font-family:inherit;font-size:12px;fill:var(--vie-muted)}\n.vie-scene-vector .vie-lab-head,.vie-scene-vector .vie-vector-insights,.vie-scene-vector .vie-vector-explain{display:none}\n.vie-scene-vector .vie-vector-stage{grid-template-columns:minmax(0,1fr)}\n.vie-scene-vector .vie-vector-svg{max-height:290px;max-width:430px}\n.vie-experiment[data-scene-template=process] .vie-visual-heading,.vie-experiment[data-scene-template=process] .vie-visual-selected{display:none}\n.vie-experiment .vie-scene-stage text.vie-axis-label{font-size:11px;fill:var(--vie-muted)}\n@container(max-width:440px){.vie-scene-panel{padding:11px 10px 8px}.vie-scene-heading h3{font-size:13px}.vie-scene-subtitle{font-size:11px}.vie-case-tabs{gap:5px}.vie-case-tabs button{padding:8px;font-size:11px}.vie-scene-status{font-size:10px;padding:4px}.vie-scene-toolbar{gap:5px}.vie-scene-toolbar .vie-scene-button{padding:8px;font-size:11px}.vie-scene-speed{min-width:100%;order:2;padding:0 3px}.vie-scene-readouts{gap:6px}.vie-scene-readout{padding:10px 5px}.vie-scene-readout strong{font-size:19px}.vie-scene-readout small{font-size:10px}.vie-scene-legend{gap:8px}.vie-scene-insight{font-size:12px}.vie-scene-controls{gap:10px}.vie-scene-stage>svg{max-height:300px}}\n@media(prefers-reduced-motion:reduce){.vie-experiment *{transition:none!important;scroll-behavior:auto!important}}\n.vie-scene-parameters{margin:13px 1px 0;font-size:13px;color:var(--vie-muted)}\n.vie-scene-parameters>summary{cursor:pointer;width:max-content;max-width:100%}\n.vie-scene-parameters .vie-scene-controls{margin:10px 0 0}\n.vie-experiment[data-scene-template=geartrain] .vie-scene-stage>svg{max-height:330px}\n.vie-experiment[data-scene-template=geartrain] .vie-scene-panel{padding-bottom:13px}\n.vie-scene-readout small{font-size:12px;line-height:1.55}\n.vie-scene-readout span{font-size:11px;line-height:1.5}\n.vie-scene-legend{font-size:12px}\n.vie-scene-parameters .vie-scene-control span{font-size:13px}\n.vie-visual-zoom{display:flex;gap:6px;align-items:center;color:var(--vie-muted);font-size:12px}\n.vie-visual-zoom button{font:inherit;background:var(--vie-bg);color:var(--vie-ink);border:1px solid var(--vie-stroke);border-radius:7px;min-height:32px;padding:4px 10px;cursor:pointer}\n.vie-visual-zoom output{margin-left:auto;font-variant-numeric:tabular-nums}\n.vie-visual-panel:is([data-vie-visual=Diagram],[data-vie-visual=Animation]) .vie-visual-content{overflow:auto;max-height:520px;overscroll-behavior:contain}\n.vie-visual-zoom button:focus-visible{outline:2px solid #4e8ef7;outline-offset:2px}\n@container(max-width:440px){.vie-scene-readout small{font-size:12px}.vie-scene-readout span{font-size:11px}.vie-scene-legend{font-size:12px}.vie-scene-toolbar .vie-scene-button{font-size:12px}.vie-scene-subtitle{font-size:12px}.vie-scene-insight{font-size:13px}.vie-scene-panel{padding:12px 11px}.vie-scene-heading{gap:7px}.vie-scene-status{white-space:normal;text-align:right;font-size:11px;max-width:96px}.vie-visual-panel:is([data-vie-visual=Diagram],[data-vie-visual=Animation]) .vie-visual-content{max-height:360px}}\n.vie-generated-figure{min-width:0;max-width:100%;border:1px solid var(--vie-stroke);border-radius:13px;overflow:hidden;background:var(--vie-bg)}\n.vie-generated-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px 4px}\n.vie-generated-heading h3{font-size:15px;line-height:1.5;margin:0;color:var(--vie-ink)}\n.vie-generated-figure iframe{display:block;width:100%;max-width:100%;border:0;background:transparent}\n.vie-generated-error{margin:8px 14px 12px;color:#b84a38;font-size:12px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}\n.vie-body--article>.vie-generated-figure{padding:0}\n\n/* Shared visual vocabulary; scoped to the plugin and inherited by generic graphics. */\n.vie-shell{--vie-primary:#4d82d6;--vie-secondary:#149f91;--vie-accent:#d58b16;--vie-warning:#cf6854;--vie-radius:12px;--vie-gap:12px;--vie-blue:var(--vie-primary);--vie-green:var(--vie-secondary);--vie-amber:var(--vie-accent);font-size:14px;line-height:1.6}\n.vie-shell{--vie-muted:#626874}\n:where([data-theme=dark],.dark) .vie-shell{--vie-muted:#aeb8c8}\n.vie-figure-actions{display:flex;flex:0 0 auto;gap:8px;flex-wrap:wrap;justify-content:flex-start;align-items:center;width:100%;min-width:0}.vie-generated-heading{flex-direction:column;align-items:stretch;justify-content:flex-start;gap:12px;flex-wrap:nowrap;padding:16px 14px 10px}.vie-generated-heading h3{min-width:0;max-width:100%;overflow-wrap:anywhere}.vie-figure-actions button{position:static;float:none;flex:0 0 auto;margin:0;min-width:44px;min-height:32px;white-space:nowrap}\n/* Harness-owned windows/panes can expand without setting any VIE expansion class. */\n[data-windows-titlebar] .vie-generated-heading,[data-sidebar-right-panel='fullscreen'] .vie-generated-heading{padding-top:max(16px,var(--dsh-windows-titlebar-height,40px))}\n.vie-figure-viewport{width:100%;overflow:auto;scrollbar-width:none}.vie-figure-viewport::-webkit-scrollbar{display:none}.vie-figure-viewport:focus-visible{outline:2px solid var(--vie-primary)}\n.vie-figure-expanded{position:fixed;inset:max(96px,env(safe-area-inset-top,0px)) 12px 12px;z-index:1200;overflow:auto;background:var(--vie-bg,#fff);box-shadow:0 0 0 100vmax #0008;scrollbar-width:none}\n.vie-figure-expanded .vie-generated-heading{position:sticky;top:0;z-index:2;display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:12px;background:var(--vie-bg,#fff);padding:16px}\n.vie-figure-expanded .vie-generated-heading h3{min-width:0;max-width:100%;margin:0;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}\n.vie-figure-expanded .vie-figure-actions{width:100%;min-width:0;justify-content:flex-start;align-items:center;gap:8px;flex-wrap:wrap}\n.vie-figure-expanded .vie-figure-actions button{position:static;float:none;flex:0 0 auto;max-width:100%;margin:0}\n.vie-figure-expanded::-webkit-scrollbar{display:none}.vie-figure-hint{color:var(--vie-muted);font-size:12px;margin:0 0 8px}\n.vie-native-frame{min-width:0;max-width:100%;border:1px solid var(--vie-stroke);border-radius:var(--vie-radius);background:var(--vie-bg)}\n.vie-native-frame>.vie-generated-heading{padding:10px 12px 4px}\n.vie-native-frame>.vie-visual-host{padding:12px;box-sizing:border-box}\n.vie-native-frame .vie-general-chart{border:0}\n[data-windows-titlebar] .vie-native-frame>.vie-generated-heading,[data-sidebar-right-panel='fullscreen'] .vie-native-frame>.vie-generated-heading{padding-top:max(16px,var(--dsh-windows-titlebar-height,40px))}\n.vie-native-frame.vie-figure-expanded>.vie-generated-heading{padding:16px}\n.vie-native-frame.vie-figure-expanded .vie-visual-svg,.vie-native-frame.vie-figure-expanded .vie-visual-content{max-height:none}\n:where([data-theme=dark],.dark) .vie-shell{--vie-primary:#83afff;--vie-secondary:#59cebb;--vie-accent:#efba62;--vie-warning:#f69b8c}\n.vie-body{gap:var(--vie-gap)}\n.vie-card,.vie-general-chart,.vie-generated-figure{border-radius:var(--vie-radius);min-width:0}\n.vie-control input[type=number]{width:100%;min-width:0;min-height:36px;padding:6px 10px;border:1px solid var(--vie-stroke);border-radius:8px;background:var(--vie-bg);color:var(--vie-ink);font:inherit;font-variant-numeric:tabular-nums}\n.vie-control input[type=checkbox]{width:20px;height:20px;accent-color:var(--vie-primary);cursor:pointer}\n.vie-segmented{display:flex;gap:5px;flex-wrap:wrap;min-width:0}\n.vie-segmented button{flex:1 1 auto;min-height:36px;border:1px solid var(--vie-stroke);border-radius:8px;background:var(--vie-bg);color:var(--vie-muted);font:inherit;font-size:12px;padding:6px 10px;cursor:pointer;overflow-wrap:anywhere}\n.vie-segmented button[aria-pressed=true]{border-color:var(--vie-primary);color:var(--vie-primary);background:color-mix(in srgb,var(--vie-primary) 10%,var(--vie-bg))}\n.vie-visual-svg text{fill:var(--vie-ink);font-family:inherit}\n.vie-general-chart-controls{gap:var(--vie-gap)}\n.vie-general-chart-legend{gap:8px 14px;flex-wrap:wrap}\n.vie-control-label{flex-wrap:wrap}.vie-control-label>span{overflow-wrap:anywhere}\n.vie-row>.vie-generated-figure,.vie-row>div{min-width:0}\n.vie-generated-figure iframe{border-radius:8px;background:var(--vie-bg)}\n.vie-mode-control{display:inline-flex;align-items:center;min-width:0;gap:5px;font-size:13px}\n.vie-mode-trigger{display:flex;align-items:center;gap:4px;min-width:0;max-width:220px;height:28px;padding:0 4px 0 8px;border:none;border-radius:var(--dsw-radius-sm,6px);outline:none;background:transparent;color:var(--dsw-alias-label-secondary,#606776);font:400 13px/20px system-ui,sans-serif;cursor:pointer}\n.vie-mode-trigger:hover:not(:disabled){background:var(--dsw-alias-interactive-bg-hover,#f0f2f5)}\n.vie-mode-trigger:focus-visible{box-shadow:0 0 0 2px var(--dsw-focus-ring-color,var(--dsw-alias-state-business-primary,#5483ef))}\n.vie-mode-trigger:disabled{color:var(--dsw-alias-label-dimmed,#a3a8b2);cursor:default}\n.vie-mode-label{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n.vie-mode-chevron{flex:0 0 auto;color:var(--dsw-alias-label-caption,#8a919d);transition:transform 120ms ease}\n.vie-mode-trigger[aria-expanded=true] .vie-mode-chevron{transform:rotate(180deg)}\n.vie-mode-menu{z-index:1100;min-width:168px;padding:4px;border:0;border-radius:var(--dsw-radius-lg,12px);background:var(--dsw-menu-surface-fill,#fff);color:var(--dsw-alias-label-primary,#242933);box-shadow:var(--dsw-elevation-prominent,0 8px 28px #0002);backdrop-filter:var(--dsw-menu-backdrop-filter,none);font:13px/20px system-ui,sans-serif}\n.vie-mode-menu>button{display:flex;align-items:center;justify-content:space-between;gap:6px;width:100%;min-height:34px;padding:6px 8px;background:transparent;color:inherit;border:0;border-radius:var(--dsw-radius-md,6px);font:inherit;text-align:left;cursor:pointer}\n.vie-mode-menu>button:hover,.vie-mode-menu>button:focus-visible{background:var(--dsw-alias-interactive-bg-hover,#f0f2f5);outline:none}\n.vie-mode-menu>button[aria-checked=true]>span:last-child{color:var(--dsw-alias-state-business-primary,#5483ef)}\n:where([data-theme=dark],.dark) .vie-mode-control{color-scheme:dark}\n:where([data-theme=dark],.dark) .vie-mode-menu{background:var(--dsw-menu-surface-fill,#262b34);color:var(--dsw-alias-label-primary,#e4eaf1)}\n.vie-mode-control [role=status]{max-width:240px;font-size:11px}\n:where([data-theme=dark],.dark) .vie-mode-trigger{color:var(--dsw-alias-label-secondary,#b4bfcc)}\n:where([data-theme=dark],.dark) .vie-mode-trigger:hover:not(:disabled),:where([data-theme=dark],.dark) .vie-mode-menu>button:hover,:where([data-theme=dark],.dark) .vie-mode-menu>button:focus-visible{background:var(--dsw-alias-interactive-bg-hover,#343d49)}\n.vie-visual-content{scrollbar-width:none}.vie-visual-content::-webkit-scrollbar{display:none}\n@container(max-width:520px){.vie-row{grid-template-columns:minmax(0,1fr)}}\n@media(max-width:520px){.vie-row{grid-template-columns:minmax(0,1fr)}.vie-body{padding:12px}.vie-general-chart-controls{grid-template-columns:minmax(0,1fr)}}\n@media(prefers-reduced-motion:reduce){.vie-shell *{transition:none!important;scroll-behavior:auto!important}}\n\n.vie-visual-panel[data-vie-visual=Flow] .vie-visual-svg{max-height:none}\n\n.vie-visual-panel[data-vie-visual=Flow] .vie-visual-svg{min-width:320px}\n.vie-visual-panel[data-vie-visual=Flow] .vie-visual-content{overflow:auto}\n\n/* A / neutral controls. Native views and opaque figures share this vocabulary.\n   Control colors are separate from semantic graph/data colors. */\n.vie-shell,[data-vie-runtime]{--vie-control-radius:10px;--vie-control-height:38px;--vie-control-compact:32px;--vie-control-gap:8px;--vie-control-primary:var(--vie-ink,#272c33);--vie-control-on-primary:var(--vie-bg,#fff);--vie-control-stroke:var(--vie-stroke,#e4e8ed);--vie-control-layer:color-mix(in srgb,var(--vie-ink,#272c33) 5%,var(--vie-bg,#fff));--vie-control-track:color-mix(in srgb,var(--vie-ink,#272c33) 12%,var(--vie-bg,#fff));--vie-control-focus:color-mix(in srgb,var(--vie-ink,#272c33) 65%,var(--vie-bg,#fff));--vie-control-thumb:#fff}\n.vie-shell :where(button),[data-vie-runtime] :where(button){box-sizing:border-box;font:inherit;min-height:var(--vie-control-height);border-radius:var(--vie-control-radius);padding:7px 12px;cursor:pointer;touch-action:manipulation}\n.vie-shell :is(button.vie-button,button.vie-pill,button.vie-context-button,button.vie-can-tab,button.vie-scene-button),.vie-shell :is(.vie-visual-zoom,.vie-case-tabs,.vie-animation-controls,.vie-flow-footer,.vie-flow-roots,.vie-general-chart>header)>button,[data-vie-runtime] button{appearance:none;font:500 12px/1.5 system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;min-height:var(--vie-control-height);border:1px solid var(--vie-control-stroke);border-radius:var(--vie-control-radius);background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);padding:7px 12px;box-shadow:none;transition:background-color .12s,border-color .12s}\n.vie-shell :where(button):disabled,[data-vie-runtime] :where(button):disabled{cursor:default;opacity:.45}\n.vie-shell button:hover:not(:disabled),[data-vie-runtime] button:hover:not(:disabled){background:var(--vie-control-layer)}\n.vie-shell :is(button,input,select):focus-visible,[data-vie-runtime] :is(button,input,select):focus-visible{outline:2px solid var(--vie-control-focus);outline-offset:3px}\n.vie-shell :is(.vie-pill,.vie-button,.vie-context-button,.vie-flow-footer button,.vie-case-tabs button,.vie-scene-button):focus-visible{outline:2px solid var(--vie-control-focus);outline-offset:3px}\n.vie-shell :is([data-vie-play],.vie-scene-button.is-primary,.vie-flow-footer button.vie-flow-next),.vie-sdk-transport button:first-child,[data-vie-runtime] :is(button.primary,button[data-vie-button=primary],button.vie-question-next){background:var(--vie-control-primary);border-color:var(--vie-control-primary);color:var(--vie-control-on-primary)}\n.vie-shell :is([data-vie-play],.vie-scene-button.is-primary,.vie-flow-footer button.vie-flow-next):hover:not(:disabled),.vie-sdk-transport button:first-child:hover:not(:disabled),[data-vie-runtime] :is(button.primary,button[data-vie-button=primary],button.vie-question-next):hover:not(:disabled){background:color-mix(in srgb,var(--vie-control-primary) 88%,var(--vie-control-on-primary));border-color:transparent}\n[data-vie-runtime] button[data-vie-button=ghost]{background:transparent;border-color:transparent;color:var(--vie-muted,#7d8794)}\n[data-vie-runtime] button[data-vie-button=ghost]:hover:not(:disabled){background:var(--vie-control-layer);color:var(--vie-ink)}\n.vie-shell .vie-figure-actions button,.vie-shell .vie-context-row button{min-height:var(--vie-control-compact);font-size:12px;border-radius:var(--vie-control-radius);padding:5px 10px;color:var(--vie-muted)}\n.vie-shell .vie-segmented,.vie-shell .vie-flow-modes,[data-vie-runtime] .vie-learn-tabs{padding:3px;gap:3px;border-radius:10px;background:var(--vie-control-layer)}\n.vie-shell .vie-segmented button,.vie-shell .vie-flow-modes button,[data-vie-runtime] .vie-learn-tabs button{min-height:var(--vie-control-compact);padding:5px 10px;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--vie-muted,#7d8794);font:500 12px/1.5 system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;box-shadow:none}\n.vie-shell .vie-segmented button[aria-pressed=true],.vie-shell .vie-flow-modes button[aria-pressed=true],[data-vie-runtime] .vie-learn-tabs button[aria-selected=true]{background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);border-color:var(--vie-control-stroke);box-shadow:0 1px 3px #1420330a}\n.vie-shell .vie-case-tabs button[aria-selected=true],.vie-shell button.vie-can-tab.active,.vie-shell button.vie-pill.selected,[data-vie-runtime] .vie-sdk-toolbar button[aria-pressed=true]{background:var(--vie-control-layer);border-color:var(--vie-control-primary);color:var(--vie-ink,#272c33)}\n.vie-shell :is(select,input[type=number]),[data-vie-runtime] :is(select,input[type=number]){box-sizing:border-box;max-width:100%;min-width:0;min-height:var(--vie-control-height);border:1px solid var(--vie-control-stroke);border-radius:var(--vie-control-radius);background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);font:400 13px/1.5 system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;padding:7px 10px;font-variant-numeric:tabular-nums}\n.vie-shell input[type=number],[data-vie-runtime] input[type=number]{appearance:textfield;-moz-appearance:textfield}\n.vie-shell input[type=number]::-webkit-inner-spin-button,.vie-shell input[type=number]::-webkit-outer-spin-button,[data-vie-runtime] input[type=number]::-webkit-inner-spin-button,[data-vie-runtime] input[type=number]::-webkit-outer-spin-button{appearance:none;margin:0}\n.vie-shell input[type=range],[data-vie-runtime] input[type=range]{appearance:none;-webkit-appearance:none;box-sizing:border-box;display:block;width:100%;max-width:100%;height:24px;min-height:24px;padding:0;margin:0;background:transparent;cursor:pointer;touch-action:pan-y;accent-color:var(--vie-control-primary)}\n.vie-shell input[type=range]::-webkit-slider-runnable-track,[data-vie-runtime] input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:999px;background:linear-gradient(to right,var(--vie-control-primary) var(--vie-range-fill,0%),var(--vie-control-track) var(--vie-range-fill,0%))}\n.vie-shell input[type=range]::-moz-range-track,[data-vie-runtime] input[type=range]::-moz-range-track{height:4px;border-radius:999px;background:var(--vie-control-track)}\n.vie-shell input[type=range]::-moz-range-progress,[data-vie-runtime] input[type=range]::-moz-range-progress{height:4px;border-radius:999px;background:var(--vie-control-primary)}\n.vie-shell input[type=range]::-webkit-slider-thumb,[data-vie-runtime] input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:14px;height:14px;margin-top:-5px;border-radius:50%;border:1px solid var(--vie-control-stroke);background:var(--vie-control-thumb);box-shadow:0 1px 4px #10182826}\n.vie-shell input[type=range]::-moz-range-thumb,[data-vie-runtime] input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;border:1px solid var(--vie-control-stroke);background:var(--vie-control-thumb);box-shadow:0 1px 4px #10182826}\n.vie-shell :is(input[type=range],input[type=number],select):disabled,[data-vie-runtime] :is(input[type=range],input[type=number],select):disabled{opacity:.45;cursor:default}\n.vie-shell :is(input[type=checkbox],input[type=radio]),[data-vie-runtime] :is(input[type=checkbox],input[type=radio]){accent-color:var(--vie-control-primary)}\n.vie-shell input[type=checkbox][role=switch],[data-vie-runtime] input[type=checkbox][role=switch]{appearance:none;-webkit-appearance:none;position:relative;display:inline-block;width:34px;height:20px;min-width:34px;min-height:20px;padding:0;margin:0;border:0;border-radius:999px;background:var(--vie-control-track);cursor:pointer;vertical-align:middle}\n.vie-shell input[type=checkbox][role=switch]::before,[data-vie-runtime] input[type=checkbox][role=switch]::before{content:\"\";position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:var(--vie-control-thumb);box-shadow:0 1px 3px #10182820;transition:transform .14s}\n.vie-shell input[type=checkbox][role=switch]:checked,[data-vie-runtime] input[type=checkbox][role=switch]:checked{background:var(--vie-control-primary)}\n.vie-shell input[type=checkbox][role=switch]:checked::before,[data-vie-runtime] input[type=checkbox][role=switch]:checked::before{transform:translateX(14px);background:var(--vie-control-on-primary)}\n.vie-shell input[type=checkbox][role=switch]:disabled,[data-vie-runtime] input[type=checkbox][role=switch]:disabled{opacity:.45;cursor:default}\n.vie-sdk-viewport{max-width:100%;overflow:auto;overscroll-behavior:contain;border-radius:12px}\n.vie-sdk-viewport[data-vie-pannable=true]::after{content:'左右滑动查看完整图形';display:block;position:sticky;left:0;width:100%;font-size:12px;color:var(--vie-muted,#718096);padding:4px 0;text-align:center}\n.vie-sdk-transport{display:flex;flex-wrap:wrap;align-items:center;gap:var(--vie-control-gap);margin-top:12px}\n.vie-sdk-transport input[type=range]{flex:1 1 140px;min-width:80px;max-width:100%}\n.vie-sdk-canvas{display:block;max-width:100%}\n.vie-sdk-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--vie-control-gap);margin-block:10px}\n.vie-sdk-readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr));gap:8px;margin:10px 0}\n.vie-sdk-readouts>div{min-width:0;border:1px solid var(--vie-stroke);border-radius:var(--vie-control-radius);padding:10px 12px;background:var(--vie-bg,#fff)}\n.vie-sdk-readouts dt{font-size:12px;color:var(--vie-muted,#718096);overflow-wrap:anywhere}\n.vie-sdk-readouts dd{margin:4px 0 0;font-variant-numeric:tabular-nums;font-weight:600;overflow-wrap:anywhere}\n[data-vie-runtime] .vie-question-option{min-height:44px;padding:10px 12px;border-radius:var(--vie-control-radius);font-size:14px;text-align:left}\n[data-vie-runtime] .vie-question-option:disabled{opacity:1}\n[data-vie-runtime] .vie-question-option.is-correct{border-color:var(--vie-secondary);background:color-mix(in srgb,var(--vie-secondary) 12%,var(--vie-bg))}\n[data-vie-runtime] .vie-question-option.is-wrong{border-color:var(--vie-warning);background:color-mix(in srgb,var(--vie-warning) 12%,var(--vie-bg))}\n[data-vie-runtime] .vie-question-progress{accent-color:var(--vie-control-primary)}\n.vie-sdk-3d{position:relative;width:100%;max-width:100%;overflow:hidden;border-radius:12px;background:var(--vie-layer,#f4f6fa)}.vie-sdk-3d canvas{display:block;width:100%;height:100%;max-width:100%}\n@media(pointer:coarse){.vie-shell,[data-vie-runtime]{--vie-control-height:44px;--vie-control-compact:44px}}\n@media(max-width:440px){.vie-sdk-transport{gap:6px}.vie-sdk-transport button{flex:1}.vie-sdk-transport input[type=range]{flex-basis:100%}}\n@media(prefers-reduced-motion:reduce){.vie-shell input[role=switch]::before,[data-vie-runtime] input[role=switch]::before{transition:none}}\n\n/* Narrow to command rows carrying VIE's own internal marker. No log rewriting. */\n[data-chat-node-key][data-vie-internal-command]{display:none!important;margin:0!important}\n.vie-command-view{font:inherit;color:inherit;padding:6px 0;min-width:0}\n.vie-command-line{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px}\n.vie-command-line code{font-family:inherit;color:inherit;opacity:.65}\n.vie-command-view details{margin-top:6px;font-size:13px}\n.vie-command-view pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.65 ui-monospace,monospace}\n";
 const VIE_STUDY_POLICY="学习模式：顺序与判断流程优先原生visual{kind:Flow,spec:{title,nodes,edges}}，默认由引擎逐步引导，可切回总览；无需手写步骤控件或把每个节点做成learning阶段。出题、练习或测验请求优先直接交付题组，不先安排概念图或长篇讲课；使用learning.questions数组，一张卡片逐题作答，进度、计分、点击后解析、下一题、结果与重做由引擎提供；不得在正文、图注或表格提前给出答案。面向任意知识主题，按用户水平先给一句直观定义和因果链，再用一张主图解释。简单问题不强制应用图、第二张图或测验；确有教学价值再追加。每图正文先解释新增关系，默认3–5句，深入推导按用户要求展开；结尾只保留一条记忆链，不重复全文。优先document.blocks中的type:\"learning\"，由引擎统一生成按钮、阶段说明、测验、主题和状态恢复；模型只填写当前主题的SVG/HTML和数据，不重写控制逻辑。示例：{type:\"learning\",title:\"过程\",stages:[{label:\"前\",html:\"<svg viewBox=\\\"0 0 320 180\\\">...</svg>\"},{label:\"后\",html:\"...\"}]}。测验可单独提交{type:\"learning\",title:\"理解测试\",quiz:{question:\"问题\",options:[{label:\"A\",feedback:\"原因\"},{label:\"B\",feedback:\"原因\"}],correct:1}}，correct必填且从0开始，不能根据反馈猜答案。图注、正文及总结不得提前泄露该题答案或等价结论，答案原因只在选择后反馈。复杂动画仍可用figure及VIE.mountLearning，自由绘制内容，不限领域模板。阶段必须改变对象、数量、位置、连接或高亮，不能只换文字；线段真正连接对应部件，符号与标题分行，不用绝对定位把文字压进标题；窄屏重排且留白不过量。主图外壳已有标题，内部不重复；通用样式优先使用主题色。简化模型注明假设，动态平衡不是粒子停止，不臆测课本章节。正文由Harness渲染，纯文字与调试请求优先。";
 /** Shared authoring policy and document contracts consumed by validation and reference generation. */
-const VIE_POLICY='流程图优先原生Flow数据；默认全景分支布局按连线分层，学习模式默认逐步引导。模型只给nodes/edges和必要detail，不手写导航按钮。每条边必须表达实际关系，不因列表顺序添加连线。 每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。VIE只画当前段落的图、交互、图例和短标注；完整解释/公式/表格由Harness正文渲染。任意主题均可。出题优先使用learning.questions题组，一张卡片逐题作答并计分，答案解析只在作答后展示；阶段演示与测验优先使用learning数据块，由引擎提供通用控件，无需手写JS；其他图形继续自由绘制。复杂主题按图→正文解释→下一图→正文解释展开，每张图聚焦一个概念；勿把各章节拼成一张SVG的编号小面板或多图海报。需同时比较或共享交互才并列。默认flow按调用位置显示，补图/修图无需more:true，通常1张、必要时2–3张。visualId仅供修改，不是图片URL；不必先加载技能或写脚本。';
+const VIE_POLICY='三维讲解用内置VIE.scene3d（本地Three.js、相机/光照/旋转缩放与通用几何），不为知识问题搭建外部项目、安装依赖或调用其他开发技能。数据图优先chart；自由SVG用g.coordinates统一映射坐标、标注与读数，不把原始像素与数据值分开硬编码。 自绘二维图优先内置VIE.svg与VIE.animate，参数用document.controls与bindings；不要重复编写箭头、播放栏和状态订阅。控件沿用A式中性UI；参数用document.controls，操作用VIE.ui.toolbar（item.variant为primary/secondary/ghost），不重绘默认按钮、滑轨和开关。图形内容自由配色。SDK坐标用像素数组，标签由引擎尝试避让，密集图仍需减少标注。 流程图优先原生Flow数据；默认全景分支布局按连线分层，学习模式默认逐步引导。模型只给nodes/edges和必要detail，不手写导航按钮。每条边必须表达实际关系，不因列表顺序添加连线。 每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。VIE只画当前段落的图、交互、图例和短标注；完整解释/公式/表格由Harness正文渲染。同图内的曲线、端点、标签、箭头和读数必须来自同一组坐标或数据，不能互换左右端点、让方向与标签冲突；无法核实的数值省略或明确标为示意。任意主题均可。出题优先使用learning.questions题组，一张卡片逐题作答并计分，答案解析只在作答后展示；阶段演示与测验优先使用learning数据块，由引擎提供通用控件，无需手写JS；其他图形继续自由绘制。复杂主题按图→正文解释→下一图→正文解释展开，每张图聚焦一个概念；勿把各章节拼成一张SVG的编号小面板或多图海报。需同时比较或共享交互才并列。默认flow按调用位置显示，补图/修图无需more:true，通常1张、必要时2–3张。visualId仅供修改，不是图片URL；不必先加载技能或写脚本。';
+const VIE_ENTRY_POLICY='VIE是通用图文交互引擎。讲解直接调用vie_explain，图与交互由VIE显示，完整解释由Harness正文呈现；按图→文→图→文编排，每图聚焦一个概念。优先原生数据图与Flow；自由绘制可用SVG/Canvas或离线VIE.scene3d，无需安装依赖或搭建项目。复用引擎A式中性控件与状态，坐标、标注和读数共用数据；注明假设与数值来源。纯文字、文件任务和开发调试遵循用户意图。只使用真实工具调用，预算结束后正常正文收尾。';
 const VIE_VISUAL_POLICY='Use actual tool calls only; never print DSML/DSEL tags or visualization source in prose. When tools are unavailable, finish with normal prose. One focused concept per graphic; write the full explanation in normal Harness prose, then call the next graphic if needed. No multi-section SVG collages. Side-by-side only for comparisons/shared interaction. Any topic; prefer vie_explain, default flow. more is optional; visualId is not an image URL.';
-const DOCUMENT_PROPERTIES=Object.freeze({caption:{type:'string',description:'Compatibility alias for top-level caption (max 140 characters). Prefer the tool-level caption; explicit tool-level value takes precedence.'},title:{type:'string',description:'Short title; if omitted, inferred from the first block title.'},controls:{type:'array',items:{type:'json'}},derive:{type:'json',description:'Optional unique derived keys mapped to numeric expressions.'},layout:{type:'string',enum:['stack','grid']},blocks:{type:'array',required:true,description:'One focused graphic per call. Flow example: [{type:"visual",kind:"Flow",spec:{title:"Process",nodes:[{id:"a",label:"Start"},{id:"b",label:"End"}],edges:[{from:"a",to:"b"}]}}]. For visual blocks put title inside spec.',items:{type:'json'}}});
+const DOCUMENT_PROPERTIES=Object.freeze({caption:{type:'string',description:'Compatibility alias for top-level caption (max 140 characters). Prefer the tool-level caption; explicit tool-level value takes precedence.'},type:{type:'string',enum:['learning'],description:'Compatibility shorthand. When blocks are stage objects with html, the engine wraps them into one learning block. In canonical documents, put type on each block, not at the document root.'},title:{type:'string',description:'Short title; if omitted, inferred from the first block title.'},controls:{type:'array',items:{type:'json'}},derive:{type:'json',description:'Optional unique derived keys mapped to numeric expressions.'},layout:{type:'string',enum:['stack','grid']},blocks:{type:'array',required:true,description:'One focused graphic per call. Flow example: [{type:"visual",kind:"Flow",spec:{title:"Process",nodes:[{id:"a",label:"Start"},{id:"b",label:"End"}],edges:[{from:"a",to:"b"}]}}]. For visual blocks put title inside spec.',items:{type:'json'}}});
 const DOCUMENT_CONTRACT=Object.freeze({
   fields:Object.keys(DOCUMENT_PROPERTIES),
   blocks:{
@@ -14,7 +15,7 @@ const DOCUMENT_CONTRACT=Object.freeze({
     graphic:{fields:['type','kind','title','items','unit'],help:'Engine-rendered bars/donut/vectors. items:[{label,value}] or vectors [{label,x,y}], optional tone. No HTML/CSS/JS required.'},
     chart:{fields:['type','title','x','y','series','regions','controls','inputs','bindings','note'],help:'Formula or data curves, region fills; bindings map variable names to shared control/derived keys.'},
     visual:{fields:['type','kind','spec'],help:'Flow {title,nodes:[{id,label,detail?}],edges:[{from,to,label?}],presentation?:overview|guided} uses topology-based overview or guided navigation, defaults by session mode; controls are reusable across subjects. RelationGraph, Timeline, Diagram and Animation also supported. Diagram coordinates may bind /shared/key or /derived/key.'},
-    figure:{fields:['type','title','html','css','js','state','height','bindings'],help:'Learning UI: VIE.mountLearning({root:"#lesson",key:"lesson",title,legend?,note?,stages:[{label,title,caption,html,mobileHtml?}],quiz?:{question,options:[{label,feedback}],correct:0}}) supplies generic stages, local quiz feedback and state. One focused diagram in an isolated HTML/CSS/JS sandbox; do not pack independent chapters into numbered SVG mini-panels. Put each chapter graphic in its own call, separated by native prose. bindings map state keys to shared controls/derived keys.'},
+    figure:{fields:['type','title','html','css','js','state','height','bindings'],help:'Built-in SDK: VIE.scene3d({root,height}) provides offline Three.js, camera/light/orbit/zoom and box/sphere/cylinder/torus/helix/mesh/group; use VIE.animate for motion, no CDN/npm/project setup. VIE.svg({root,width,height}) -> line/arrow/circle/rect/path/curve/angle/dimension/axes/label/group; geometry uses [x,y] points (x/y and cx/cy/r aliases accepted); strokeWidth is stroke thickness, rect.width is geometry. g.coordinates({x:[min,max],y:[min,max],bounds:[left,top,width,height]}) maps data with point/line/series/marker. Returned handles have set(next). VIE.onState(callback), VIE.canvas({root,draw}), VIE.animate({root,duration,stateKey,render}) reuse state, resize and transport controls. SDK details are in the skill. Learning UI: VIE.mountLearning({root:"#lesson",key:"lesson",title,legend?,note?,stages:[{label,title,caption,html,mobileHtml?}],quiz?:{question,options:[{label,feedback}],correct:0}}) supplies generic stages, local quiz feedback and state. One focused diagram in an isolated HTML/CSS/JS sandbox; do not pack independent chapters into numbered SVG mini-panels. Put each chapter graphic in its own call, separated by native prose. bindings map state keys to shared controls/derived keys.'},
     experiment:{fields:['type','template','parameters','title'],help:'Optional existing experiment shortcut, never a topic restriction.'},
     text:{fields:['type','title','body'],help:'Legacy compatibility only; new explanations belong in Harness prose.'}
   }
@@ -42,6 +43,10 @@ function validateControlSpec(c){
 function documentReference(){
   return '# VIE component reference (generated)\n\n'+VIE_STUDY_POLICY+'\n\n'+VIE_POLICY+'\n\nDocument fields: '+DOCUMENT_CONTRACT.fields.join(', ')+'\n\n'+Object.entries(DOCUMENT_CONTRACT.blocks).map(([type,c])=>'## '+type+'\n\nFields: '+c.fields.join(', ')+'\n\n'+c.help+'\n').join('\n')+'\n## Controls\n\n'+Object.entries(CONTROL_TYPES).map(([kind,type])=>'- '+kind+' → '+type).join('\n')+'\n\nControls are numeric. toggle uses 0/1; select uses options [{label,value}]. derive maps unique keys to bounded numeric expressions. layout is stack (default) or grid.\n';
 }
+
+
+/** Stable scene identity for small, session-scoped runtime acknowledgements. */
+function vieSourceIdentity(source){let hash=2166136261;for(let i=0;i<source.length;i++)hash=Math.imul(hash^source.charCodeAt(i),16777619);return source.length.toString(36)+'-'+(hash>>>0).toString(36);}
 
 /** Trusted, deterministic experiment models shared by DSH Host and browser.
  * Model input is bounded data. It cannot provide JavaScript, HTML or a solver.
@@ -308,6 +313,6342 @@ function semanticGraphic(input){
   return validateFigureDefinition({title,html:'<div class="graphic">'+graphic+'</div>',height:360,css:'.graphic{font-size:14px;line-height:1.6}.graphic-split{display:grid;grid-template-columns:minmax(180px,1fr) minmax(180px,1.2fr);gap:24px;align-items:center}.graphic-list,.graphic-bars{display:grid;gap:14px}.graphic-line{display:flex;gap:12px;justify-content:space-between;align-items:baseline;flex-wrap:wrap}.graphic-line>span{overflow-wrap:anywhere}.graphic-line strong{font-variant-numeric:tabular-nums}.graphic-line i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px}.graphic-line small{color:var(--vie-muted);margin-left:8px}.graphic-track{height:12px;border-radius:6px;background:var(--vie-layer);overflow:hidden;margin-top:5px}.graphic-track>div{height:100%;border-radius:6px}.graphic-donut{width:220px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;justify-self:center}.graphic-donut>div{width:65%;height:65%;border-radius:50%;background:var(--vie-bg);display:flex;flex-direction:column;justify-content:center;align-items:center}.graphic-donut strong{font-size:25px}.graphic svg{width:100%}@media(max-width:520px){.graphic-split{grid-template-columns:minmax(0,1fr);gap:18px}.graphic-donut{width:min(220px,90%)}}'});
 }
 
+/** Shared, deterministic SVG argument contract. No DOM or authored-code execution. */
+const SVG_SDK_KINDS=['line','arrow','label','circle','rect','path','curve','angle','dimension'];
+const SVG_SDK_KEYS={
+ line:['from','to','x1','y1','x2','y2','label','width'],arrow:['from','to','x1','y1','x2','y2','label','width'],dimension:['from','to','x1','y1','x2','y2','offset','label','width'],
+ label:['at','x','y','text','anchor','textAnchor','text-anchor','align','bold','fontSize','size','fontWeight'],circle:['at','x','y','cx','cy','radius','r','label','width'],rect:['at','x','y','width','height','w','h','radius','rx','ry','label'],path:['d','width'],curve:['points','width'],angle:['at','x','y','radius','r','from','to','label','width']
+};
+function svgSDKError(kind,key,message){const error=Error('VIE_SDK_ARGUMENT '+kind+'.'+key+': '+message);error.code='VIE_SDK_ARGUMENT';error.field=kind+'.'+key;throw error;}
+function svgSDKNumber(value,kind,key,min=-1e7,max=1e7){if(typeof value!=='number'||!Number.isFinite(value)||value<min||value>max)svgSDKError(kind,key,'expected a finite number in '+min+'..'+max);return value;}
+function svgSDKColor(value){
+ const themes=['primary','secondary','accent','muted','warning','ink','bg','stroke','layer'];if(themes.includes(value))return 'var(--vie-'+value+')';
+ if(typeof value!=='string'||value.length>160||!(/^(?:#(?:[\da-f]{3}|[\da-f]{4}|[\da-f]{6}|[\da-f]{8})|[a-z]+|var\(--vie-[a-z-]+\)|(?:rgb|rgba|hsl|hsla)\([\d\s.,%+\-/deg]+\))$/i.test(value)))svgSDKError('color','value','use a theme name or a CSS color');return value;
+}
+function normalizeSVGPrimitive(kind,input,base={}){
+ if(!SVG_SDK_KINDS.includes(kind))svgSDKError(kind,'method','unknown drawing method');
+ if(!input||typeof input!=='object'||Array.isArray(input))svgSDKError(kind,'options','expected an object');
+ const common=['tone','color','stroke','strokeWidth','stroke-width','fill','opacity','strokeOpacity','fillOpacity','dash','strokeDasharray'];
+ for(const k of Object.keys(input))if(![...common,...SVG_SDK_KEYS[kind]].includes(k))svgSDKError(kind,k,'unknown field');
+ const own=k=>Object.hasOwn(input,k),pick=(key,aliases=[],fallback)=>own(key)?input[key]:(aliases.find(own)!==undefined?input[aliases.find(own)]:base[key]??fallback);
+ const n=(key,aliases,fallback,min=-1e7,max=1e7)=>svgSDKNumber(pick(key,aliases,fallback),kind,key,min,max);
+ const p=(key,x,y)=>{let at=pick(key);const ax=Array.isArray(x)?x.find(own):own(x)?x:undefined,ay=Array.isArray(y)?y.find(own):own(y)?y:undefined;
+  if(ax!==undefined||ay!==undefined){const alias=[ax===undefined?base[key]?.[0]:input[ax],ay===undefined?base[key]?.[1]:input[ay]];if(own(key)&&(!Array.isArray(at)||alias.some((v,i)=>v!==undefined&&v!==at[i])))svgSDKError(kind,key,'conflicting coordinate aliases');at=own(key)?at:alias;}
+  if(!Array.isArray(at)||at.length!==2)svgSDKError(kind,key,'expected [x,y] (x/y aliases also accepted)');return at.map(v=>svgSDKNumber(v,kind,key));};
+ const tone=pick('tone'),stroke=svgSDKColor(own('stroke')?input.stroke:own('tone')?input.tone:own('color')?input.color:base.stroke??'primary'),fill=pick('fill',[],false);
+ const out={stroke,labelColor:svgSDKColor(pick('color',[],tone??base.labelColor??'ink')),strokeWidth:n('strokeWidth',['stroke-width',...(kind==='rect'?[]:['width'])],2,0,100),fill:fill===true||!own('fill')&&base.fillFollowsStroke?stroke:fill===false||fill===undefined?'none':svgSDKColor(fill),fillFollowsStroke:fill===true||!own('fill')&&!!base.fillFollowsStroke,opacity:n('opacity',[],1,0,1),strokeOpacity:n('strokeOpacity',[],1,0,1),fillOpacity:n('fillOpacity',[],1,0,1)};
+ const dash=pick('dash',['strokeDasharray']);if(dash!==undefined){const values=Array.isArray(dash)?dash:typeof dash==='string'?dash.trim().split(/[ ,]+/).map(Number):null;if(!values||values.length>16)svgSDKError(kind,'dash','expected at most 16 numeric lengths');out.dash=values.map(v=>svgSDKNumber(v,kind,'dash',0,1000)).join(' ');}
+ if(['line','arrow','dimension'].includes(kind)){out.from=p('from','x1','y1');out.to=p('to','x2','y2');if(kind==='dimension')out.offset=n('offset',[],24);}
+ if(['label','rect','circle','angle'].includes(kind))out.at=p('at',kind==='circle'?['cx','x']:'x',kind==='circle'?['cy','y']:'y');
+ if(['circle','angle'].includes(kind))out.radius=n('radius',['r'],kind==='angle'?32:undefined,0,1e7);
+ if(kind==='rect'){out.width=n('width',['w'],undefined,0,1e7);out.height=n('height',['h'],undefined,0,1e7);out.radius=n('radius',['rx'],10,0,1e7);out.ry=n('ry',[],out.radius,0,1e7);}
+ if(kind==='label'){out.text=String(pick('text',[],'' )).slice(0,160);out.color=svgSDKColor(pick('color',[],own('fill')?input.fill:tone??base.color??'ink'));out.fontSize=n('fontSize',['size'],14,1,96);out.fontSize=Math.max(12,out.fontSize);const anchor=pick('anchor',['textAnchor','text-anchor','align'],'middle');out.anchor=({center:'middle',left:'start',right:'end'})[anchor]??anchor;if(!['middle','start','end'].includes(out.anchor))svgSDKError(kind,'anchor','use start, middle or end');out.bold=!!pick('bold',[],false)||Number(pick('fontWeight',[],400))>=600;}
+ if(kind==='angle'){out.from=n('from',[],0);out.to=n('to',[],45);if(out.radius<=0||Math.abs(out.to-out.from)>=360)svgSDKError(kind,'angle','use radius > 0 and span < 360 degrees');}
+ if(kind==='path'){out.d=pick('d',[],'');if(typeof out.d!=='string'||out.d.length>32768)svgSDKError(kind,'d','expected path text of at most 32768 characters');}
+ if(kind==='curve'){const points=pick('points');if(!Array.isArray(points)||points.length<2||points.length>2000)svgSDKError(kind,'points','expected 2..2000 points');out.points=points.map(point=>{if(!Array.isArray(point)||point.length!==2)svgSDKError(kind,'points','expected [x,y]');return point.map(v=>svgSDKNumber(v,kind,'points'));});}
+ if(kind!=='label'&&pick('label')!==undefined)out.label=String(pick('label')).slice(0,160);
+ return out;
+}
+/** Affine data-to-pixel mapping; no guessed phase boundaries or domain values. */
+function createSVGCoordinateMap(options={},width=520,height=280){
+ const range=(value,key)=>{if(!Array.isArray(value)||value.length!==2||!value.every(Number.isFinite)||value[0]>=value[1])svgSDKError('coordinates',key,'expected [min,max] with min < max');return [...value];};
+ const x=range(options.x??[0,1],'x'),y=range(options.y??[0,1],'y'),bounds=options.bounds??[48,24,width-72,height-60];
+ if(!Array.isArray(bounds)||bounds.length!==4||!bounds.every(Number.isFinite)||bounds[2]<=0||bounds[3]<=0)svgSDKError('coordinates','bounds','expected [left,top,width,height]');
+ return {x,y,bounds:[...bounds],point(value,second){const p=Array.isArray(value)?value:[value,second];if(p.length!==2||!p.every(Number.isFinite))svgSDKError('coordinates','point','expected finite [x,y] data');return [bounds[0]+(p[0]-x[0])/(x[1]-x[0])*bounds[2],bounds[1]+bounds[3]-(p[1]-y[0])/(y[1]-y[0])*bounds[3]];}};
+}
+
+/** Parse only: reject provable SDK mistakes without evaluating authored code. */
+const VIEAcorn=(()=>{const exports={},module={exports};
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+  typeof define === 'function' && define.amd ? define(['exports'], factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.acorn = {}));
+})(this, (function (exports) { 'use strict';
+
+  // This file was generated. Do not modify manually!
+  var astralIdentifierCodes = [509, 0, 227, 0, 150, 4, 294, 9, 1368, 2, 2, 1, 6, 3, 41, 2, 5, 0, 166, 1, 574, 3, 9, 9, 7, 9, 32, 4, 318, 1, 80, 3, 71, 10, 50, 3, 123, 2, 54, 14, 32, 10, 3, 1, 11, 3, 46, 10, 8, 0, 46, 9, 7, 2, 37, 13, 2, 9, 6, 1, 45, 0, 13, 2, 49, 13, 9, 3, 2, 11, 83, 11, 7, 0, 3, 0, 158, 11, 6, 9, 7, 3, 56, 1, 2, 6, 3, 1, 3, 2, 10, 0, 11, 1, 3, 6, 4, 4, 68, 8, 2, 0, 3, 0, 2, 3, 2, 4, 2, 0, 15, 1, 83, 17, 10, 9, 5, 0, 82, 19, 13, 9, 214, 6, 3, 8, 28, 1, 83, 16, 16, 9, 82, 12, 9, 9, 7, 19, 58, 14, 5, 9, 243, 14, 166, 9, 71, 5, 2, 1, 3, 3, 2, 0, 2, 1, 13, 9, 120, 6, 3, 6, 4, 0, 29, 9, 41, 6, 2, 3, 9, 0, 10, 10, 47, 15, 343, 9, 54, 7, 2, 7, 17, 9, 57, 21, 2, 13, 123, 5, 4, 0, 2, 1, 2, 6, 2, 0, 9, 9, 49, 4, 2, 1, 2, 4, 9, 9, 330, 3, 10, 1, 2, 0, 49, 6, 4, 4, 14, 10, 5350, 0, 7, 14, 11465, 27, 2343, 9, 87, 9, 39, 4, 60, 6, 26, 9, 535, 9, 470, 0, 2, 54, 8, 3, 82, 0, 12, 1, 19628, 1, 4178, 9, 519, 45, 3, 22, 543, 4, 4, 5, 9, 7, 3, 6, 31, 3, 149, 2, 1418, 49, 513, 54, 5, 49, 9, 0, 15, 0, 23, 4, 2, 14, 1361, 6, 2, 16, 3, 6, 2, 1, 2, 4, 101, 0, 161, 6, 10, 9, 357, 0, 62, 13, 499, 13, 245, 1, 2, 9, 726, 6, 110, 6, 6, 9, 4759, 9, 787719, 239];
+
+  // This file was generated. Do not modify manually!
+  var astralIdentifierStartCodes = [0, 11, 2, 25, 2, 18, 2, 1, 2, 14, 3, 13, 35, 122, 70, 52, 268, 28, 4, 48, 48, 31, 14, 29, 6, 37, 11, 29, 3, 35, 5, 7, 2, 4, 43, 157, 19, 35, 5, 35, 5, 39, 9, 51, 13, 10, 2, 14, 2, 6, 2, 1, 2, 10, 2, 14, 2, 6, 2, 1, 4, 51, 13, 310, 10, 21, 11, 7, 25, 5, 2, 41, 2, 8, 70, 5, 3, 0, 2, 43, 2, 1, 4, 0, 3, 22, 11, 22, 10, 30, 66, 18, 2, 1, 11, 21, 11, 25, 71, 55, 7, 1, 65, 0, 16, 3, 2, 2, 2, 28, 43, 28, 4, 28, 36, 7, 2, 27, 28, 53, 11, 21, 11, 18, 14, 17, 111, 72, 56, 50, 14, 50, 14, 35, 39, 27, 10, 22, 251, 41, 7, 1, 17, 2, 60, 28, 11, 0, 9, 21, 43, 17, 47, 20, 28, 22, 13, 52, 58, 1, 3, 0, 14, 44, 33, 24, 27, 35, 30, 0, 3, 0, 9, 34, 4, 0, 13, 47, 15, 3, 22, 0, 2, 0, 36, 17, 2, 24, 20, 1, 64, 6, 2, 0, 2, 3, 2, 14, 2, 9, 8, 46, 39, 7, 3, 1, 3, 21, 2, 6, 2, 1, 2, 4, 4, 0, 19, 0, 13, 4, 31, 9, 2, 0, 3, 0, 2, 37, 2, 0, 26, 0, 2, 0, 45, 52, 19, 3, 21, 2, 31, 47, 21, 1, 2, 0, 185, 46, 42, 3, 37, 47, 21, 0, 60, 42, 14, 0, 72, 26, 38, 6, 186, 43, 117, 63, 32, 7, 3, 0, 3, 7, 2, 1, 2, 23, 16, 0, 2, 0, 95, 7, 3, 38, 17, 0, 2, 0, 29, 0, 11, 39, 8, 0, 22, 0, 12, 45, 20, 0, 19, 72, 200, 32, 32, 8, 2, 36, 18, 0, 50, 29, 113, 6, 2, 1, 2, 37, 22, 0, 26, 5, 2, 1, 2, 31, 15, 0, 328, 18, 16, 0, 2, 12, 2, 33, 125, 0, 80, 921, 103, 110, 18, 195, 2637, 96, 16, 1071, 18, 5, 26, 3994, 6, 582, 6842, 29, 1763, 568, 8, 30, 18, 78, 18, 29, 19, 47, 17, 3, 32, 20, 6, 18, 433, 44, 212, 63, 129, 74, 6, 0, 67, 12, 65, 1, 2, 0, 29, 6135, 9, 1237, 42, 9, 8936, 3, 2, 6, 2, 1, 2, 290, 16, 0, 30, 2, 3, 0, 15, 3, 9, 395, 2309, 106, 6, 12, 4, 8, 8, 9, 5991, 84, 2, 70, 2, 1, 3, 0, 3, 1, 3, 3, 2, 11, 2, 0, 2, 6, 2, 64, 2, 3, 3, 7, 2, 6, 2, 27, 2, 3, 2, 4, 2, 0, 4, 6, 2, 339, 3, 24, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 7, 1845, 30, 7, 5, 262, 61, 147, 44, 11, 6, 17, 0, 322, 29, 19, 43, 485, 27, 229, 29, 3, 0, 496, 6, 2, 3, 2, 1, 2, 14, 2, 196, 60, 67, 8, 0, 1205, 3, 2, 26, 2, 1, 2, 0, 3, 0, 2, 9, 2, 3, 2, 0, 2, 0, 7, 0, 5, 0, 2, 0, 2, 0, 2, 2, 2, 1, 2, 0, 3, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 3, 3, 2, 6, 2, 3, 2, 3, 2, 0, 2, 9, 2, 16, 6, 2, 2, 4, 2, 16, 4421, 42719, 33, 4153, 7, 221, 3, 5761, 15, 7472, 16, 621, 2467, 541, 1507, 4938, 6, 4191];
+
+  // This file was generated. Do not modify manually!
+  var nonASCIIidentifierChars = "\u200c\u200d\xb7\u0300-\u036f\u0387\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u07fd\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u0897-\u089f\u08ca-\u08e1\u08e3-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u09fe\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0afa-\u0aff\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b55-\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c00-\u0c04\u0c3c\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c81-\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0cf3\u0d00-\u0d03\u0d3b\u0d3c\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d81-\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0ebc\u0ec8-\u0ece\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1369-\u1371\u1712-\u1715\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u180f-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19d0-\u19da\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1ab0-\u1abd\u1abf-\u1ace\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf4\u1cf7-\u1cf9\u1dc0-\u1dff\u200c\u200d\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\u30fb\ua620-\ua629\ua66f\ua674-\ua67d\ua69e\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua82c\ua880\ua881\ua8b4-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f1\ua8ff-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\ua9e5\ua9f0-\ua9f9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b-\uaa7d\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe2f\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f\uff65";
+
+  // This file was generated. Do not modify manually!
+  var nonASCIIidentifierStartChars = "\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u0870-\u0887\u0889-\u088e\u08a0-\u08c9\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u09fc\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0af9\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c5d\u0c60\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cdd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d04-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u1711\u171f-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4c\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c8a\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31bf\u31f0-\u31ff\u3400-\u4dbf\u4e00-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7cd\ua7d0\ua7d1\ua7d3\ua7d5-\ua7dc\ua7f2-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab69\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc";
+
+  // These are a run-length and offset encoded representation of the
+  // >0xffff code points that are a valid part of identifiers. The
+  // offset starts at 0x10000, and each pair of numbers represents an
+  // offset to the next range, and then a size of the range.
+
+  // Reserved word lists for various dialects of the language
+
+  var reservedWords = {
+    3: "abstract boolean byte char class double enum export extends final float goto implements import int interface long native package private protected public short static super synchronized throws transient volatile",
+    5: "class enum extends super const export import",
+    6: "enum",
+    strict: "implements interface let package private protected public static yield",
+    strictBind: "eval arguments"
+  };
+
+  // And the keywords
+
+  var ecma5AndLessKeywords = "break case catch continue debugger default do else finally for function if return switch throw try var while with null true false instanceof typeof void delete new in this";
+
+  var keywords$1 = {
+    5: ecma5AndLessKeywords,
+    "5module": ecma5AndLessKeywords + " export import",
+    6: ecma5AndLessKeywords + " const class extends export import super"
+  };
+
+  var keywordRelationalOperator = /^in(stanceof)?$/;
+
+  // ## Character categories
+
+  var nonASCIIidentifierStart = new RegExp("[" + nonASCIIidentifierStartChars + "]");
+  var nonASCIIidentifier = new RegExp("[" + nonASCIIidentifierStartChars + nonASCIIidentifierChars + "]");
+
+  // This has a complexity linear to the value of the code. The
+  // assumption is that looking up astral identifier characters is
+  // rare.
+  function isInAstralSet(code, set) {
+    var pos = 0x10000;
+    for (var i = 0; i < set.length; i += 2) {
+      pos += set[i];
+      if (pos > code) { return false }
+      pos += set[i + 1];
+      if (pos >= code) { return true }
+    }
+    return false
+  }
+
+  // Test whether a given character code starts an identifier.
+
+  function isIdentifierStart(code, astral) {
+    if (code < 65) { return code === 36 }
+    if (code < 91) { return true }
+    if (code < 97) { return code === 95 }
+    if (code < 123) { return true }
+    if (code <= 0xffff) { return code >= 0xaa && nonASCIIidentifierStart.test(String.fromCharCode(code)) }
+    if (astral === false) { return false }
+    return isInAstralSet(code, astralIdentifierStartCodes)
+  }
+
+  // Test whether a given character is part of an identifier.
+
+  function isIdentifierChar(code, astral) {
+    if (code < 48) { return code === 36 }
+    if (code < 58) { return true }
+    if (code < 65) { return false }
+    if (code < 91) { return true }
+    if (code < 97) { return code === 95 }
+    if (code < 123) { return true }
+    if (code <= 0xffff) { return code >= 0xaa && nonASCIIidentifier.test(String.fromCharCode(code)) }
+    if (astral === false) { return false }
+    return isInAstralSet(code, astralIdentifierStartCodes) || isInAstralSet(code, astralIdentifierCodes)
+  }
+
+  // ## Token types
+
+  // The assignment of fine-grained, information-carrying type objects
+  // allows the tokenizer to store the information it has about a
+  // token in a way that is very cheap for the parser to look up.
+
+  // All token type variables start with an underscore, to make them
+  // easy to recognize.
+
+  // The `beforeExpr` property is used to disambiguate between regular
+  // expressions and divisions. It is set on all token types that can
+  // be followed by an expression (thus, a slash after them would be a
+  // regular expression).
+  //
+  // The `startsExpr` property is used to check if the token ends a
+  // `yield` expression. It is set on all token types that either can
+  // directly start an expression (like a quotation mark) or can
+  // continue an expression (like the body of a string).
+  //
+  // `isLoop` marks a keyword as starting a loop, which is important
+  // to know when parsing a label, in order to allow or disallow
+  // continue jumps to that label.
+
+  var TokenType = function TokenType(label, conf) {
+    if ( conf === void 0 ) conf = {};
+
+    this.label = label;
+    this.keyword = conf.keyword;
+    this.beforeExpr = !!conf.beforeExpr;
+    this.startsExpr = !!conf.startsExpr;
+    this.isLoop = !!conf.isLoop;
+    this.isAssign = !!conf.isAssign;
+    this.prefix = !!conf.prefix;
+    this.postfix = !!conf.postfix;
+    this.binop = conf.binop || null;
+    this.updateContext = null;
+  };
+
+  function binop(name, prec) {
+    return new TokenType(name, {beforeExpr: true, binop: prec})
+  }
+  var beforeExpr = {beforeExpr: true}, startsExpr = {startsExpr: true};
+
+  // Map keyword names to token types.
+
+  var keywords = {};
+
+  // Succinct definitions of keyword token types
+  function kw(name, options) {
+    if ( options === void 0 ) options = {};
+
+    options.keyword = name;
+    return keywords[name] = new TokenType(name, options)
+  }
+
+  var types$1 = {
+    num: new TokenType("num", startsExpr),
+    regexp: new TokenType("regexp", startsExpr),
+    string: new TokenType("string", startsExpr),
+    name: new TokenType("name", startsExpr),
+    privateId: new TokenType("privateId", startsExpr),
+    eof: new TokenType("eof"),
+
+    // Punctuation token types.
+    bracketL: new TokenType("[", {beforeExpr: true, startsExpr: true}),
+    bracketR: new TokenType("]"),
+    braceL: new TokenType("{", {beforeExpr: true, startsExpr: true}),
+    braceR: new TokenType("}"),
+    parenL: new TokenType("(", {beforeExpr: true, startsExpr: true}),
+    parenR: new TokenType(")"),
+    comma: new TokenType(",", beforeExpr),
+    semi: new TokenType(";", beforeExpr),
+    colon: new TokenType(":", beforeExpr),
+    dot: new TokenType("."),
+    question: new TokenType("?", beforeExpr),
+    questionDot: new TokenType("?."),
+    arrow: new TokenType("=>", beforeExpr),
+    template: new TokenType("template"),
+    invalidTemplate: new TokenType("invalidTemplate"),
+    ellipsis: new TokenType("...", beforeExpr),
+    backQuote: new TokenType("`", startsExpr),
+    dollarBraceL: new TokenType("${", {beforeExpr: true, startsExpr: true}),
+
+    // Operators. These carry several kinds of properties to help the
+    // parser use them properly (the presence of these properties is
+    // what categorizes them as operators).
+    //
+    // `binop`, when present, specifies that this operator is a binary
+    // operator, and will refer to its precedence.
+    //
+    // `prefix` and `postfix` mark the operator as a prefix or postfix
+    // unary operator.
+    //
+    // `isAssign` marks all of `=`, `+=`, `-=` etcetera, which act as
+    // binary operators with a very low precedence, that should result
+    // in AssignmentExpression nodes.
+
+    eq: new TokenType("=", {beforeExpr: true, isAssign: true}),
+    assign: new TokenType("_=", {beforeExpr: true, isAssign: true}),
+    incDec: new TokenType("++/--", {prefix: true, postfix: true, startsExpr: true}),
+    prefix: new TokenType("!/~", {beforeExpr: true, prefix: true, startsExpr: true}),
+    logicalOR: binop("||", 1),
+    logicalAND: binop("&&", 2),
+    bitwiseOR: binop("|", 3),
+    bitwiseXOR: binop("^", 4),
+    bitwiseAND: binop("&", 5),
+    equality: binop("==/!=/===/!==", 6),
+    relational: binop("</>/<=/>=", 7),
+    bitShift: binop("<</>>/>>>", 8),
+    plusMin: new TokenType("+/-", {beforeExpr: true, binop: 9, prefix: true, startsExpr: true}),
+    modulo: binop("%", 10),
+    star: binop("*", 10),
+    slash: binop("/", 10),
+    starstar: new TokenType("**", {beforeExpr: true}),
+    coalesce: binop("??", 1),
+
+    // Keyword token types.
+    _break: kw("break"),
+    _case: kw("case", beforeExpr),
+    _catch: kw("catch"),
+    _continue: kw("continue"),
+    _debugger: kw("debugger"),
+    _default: kw("default", beforeExpr),
+    _do: kw("do", {isLoop: true, beforeExpr: true}),
+    _else: kw("else", beforeExpr),
+    _finally: kw("finally"),
+    _for: kw("for", {isLoop: true}),
+    _function: kw("function", startsExpr),
+    _if: kw("if"),
+    _return: kw("return", beforeExpr),
+    _switch: kw("switch"),
+    _throw: kw("throw", beforeExpr),
+    _try: kw("try"),
+    _var: kw("var"),
+    _const: kw("const"),
+    _while: kw("while", {isLoop: true}),
+    _with: kw("with"),
+    _new: kw("new", {beforeExpr: true, startsExpr: true}),
+    _this: kw("this", startsExpr),
+    _super: kw("super", startsExpr),
+    _class: kw("class", startsExpr),
+    _extends: kw("extends", beforeExpr),
+    _export: kw("export"),
+    _import: kw("import", startsExpr),
+    _null: kw("null", startsExpr),
+    _true: kw("true", startsExpr),
+    _false: kw("false", startsExpr),
+    _in: kw("in", {beforeExpr: true, binop: 7}),
+    _instanceof: kw("instanceof", {beforeExpr: true, binop: 7}),
+    _typeof: kw("typeof", {beforeExpr: true, prefix: true, startsExpr: true}),
+    _void: kw("void", {beforeExpr: true, prefix: true, startsExpr: true}),
+    _delete: kw("delete", {beforeExpr: true, prefix: true, startsExpr: true})
+  };
+
+  // Matches a whole line break (where CRLF is considered a single
+  // line break). Used to count lines.
+
+  var lineBreak = /\r\n?|\n|\u2028|\u2029/;
+  var lineBreakG = new RegExp(lineBreak.source, "g");
+
+  function isNewLine(code) {
+    return code === 10 || code === 13 || code === 0x2028 || code === 0x2029
+  }
+
+  function nextLineBreak(code, from, end) {
+    if ( end === void 0 ) end = code.length;
+
+    for (var i = from; i < end; i++) {
+      var next = code.charCodeAt(i);
+      if (isNewLine(next))
+        { return i < end - 1 && next === 13 && code.charCodeAt(i + 1) === 10 ? i + 2 : i + 1 }
+    }
+    return -1
+  }
+
+  var nonASCIIwhitespace = /[\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]/;
+
+  var skipWhiteSpace = /(?:\s|\/\/.*|\/\*[^]*?\*\/)*/g;
+
+  var ref = Object.prototype;
+  var hasOwnProperty = ref.hasOwnProperty;
+  var toString = ref.toString;
+
+  var hasOwn = Object.hasOwn || (function (obj, propName) { return (
+    hasOwnProperty.call(obj, propName)
+  ); });
+
+  var isArray = Array.isArray || (function (obj) { return (
+    toString.call(obj) === "[object Array]"
+  ); });
+
+  var regexpCache = Object.create(null);
+
+  function wordsRegexp(words) {
+    return regexpCache[words] || (regexpCache[words] = new RegExp("^(?:" + words.replace(/ /g, "|") + ")$"))
+  }
+
+  function codePointToString(code) {
+    // UTF-16 Decoding
+    if (code <= 0xFFFF) { return String.fromCharCode(code) }
+    code -= 0x10000;
+    return String.fromCharCode((code >> 10) + 0xD800, (code & 1023) + 0xDC00)
+  }
+
+  var loneSurrogate = /(?:[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])/;
+
+  // These are used when `options.locations` is on, for the
+  // `startLoc` and `endLoc` properties.
+
+  var Position = function Position(line, col) {
+    this.line = line;
+    this.column = col;
+  };
+
+  Position.prototype.offset = function offset (n) {
+    return new Position(this.line, this.column + n)
+  };
+
+  var SourceLocation = function SourceLocation(p, start, end) {
+    this.start = start;
+    this.end = end;
+    if (p.sourceFile !== null) { this.source = p.sourceFile; }
+  };
+
+  // The `getLineInfo` function is mostly useful when the
+  // `locations` option is off (for performance reasons) and you
+  // want to find the line/column position for a given character
+  // offset. `input` should be the code string that the offset refers
+  // into.
+
+  function getLineInfo(input, offset) {
+    for (var line = 1, cur = 0;;) {
+      var nextBreak = nextLineBreak(input, cur, offset);
+      if (nextBreak < 0) { return new Position(line, offset - cur) }
+      ++line;
+      cur = nextBreak;
+    }
+  }
+
+  // A second argument must be given to configure the parser process.
+  // These options are recognized (only `ecmaVersion` is required):
+
+  var defaultOptions = {
+    // `ecmaVersion` indicates the ECMAScript version to parse. Must be
+    // either 3, 5, 6 (or 2015), 7 (2016), 8 (2017), 9 (2018), 10
+    // (2019), 11 (2020), 12 (2021), 13 (2022), 14 (2023), or `"latest"`
+    // (the latest version the library supports). This influences
+    // support for strict mode, the set of reserved words, and support
+    // for new syntax features.
+    ecmaVersion: null,
+    // `sourceType` indicates the mode the code should be parsed in.
+    // Can be either `"script"` or `"module"`. This influences global
+    // strict mode and parsing of `import` and `export` declarations.
+    sourceType: "script",
+    // `onInsertedSemicolon` can be a callback that will be called when
+    // a semicolon is automatically inserted. It will be passed the
+    // position of the inserted semicolon as an offset, and if
+    // `locations` is enabled, it is given the location as a `{line,
+    // column}` object as second argument.
+    onInsertedSemicolon: null,
+    // `onTrailingComma` is similar to `onInsertedSemicolon`, but for
+    // trailing commas.
+    onTrailingComma: null,
+    // By default, reserved words are only enforced if ecmaVersion >= 5.
+    // Set `allowReserved` to a boolean value to explicitly turn this on
+    // an off. When this option has the value "never", reserved words
+    // and keywords can also not be used as property names.
+    allowReserved: null,
+    // When enabled, a return at the top level is not considered an
+    // error.
+    allowReturnOutsideFunction: false,
+    // When enabled, import/export statements are not constrained to
+    // appearing at the top of the program, and an import.meta expression
+    // in a script isn't considered an error.
+    allowImportExportEverywhere: false,
+    // By default, await identifiers are allowed to appear at the top-level scope only if ecmaVersion >= 2022.
+    // When enabled, await identifiers are allowed to appear at the top-level scope,
+    // but they are still not allowed in non-async functions.
+    allowAwaitOutsideFunction: null,
+    // When enabled, super identifiers are not constrained to
+    // appearing in methods and do not raise an error when they appear elsewhere.
+    allowSuperOutsideMethod: null,
+    // When enabled, hashbang directive in the beginning of file is
+    // allowed and treated as a line comment. Enabled by default when
+    // `ecmaVersion` >= 2023.
+    allowHashBang: false,
+    // By default, the parser will verify that private properties are
+    // only used in places where they are valid and have been declared.
+    // Set this to false to turn such checks off.
+    checkPrivateFields: true,
+    // When `locations` is on, `loc` properties holding objects with
+    // `start` and `end` properties in `{line, column}` form (with
+    // line being 1-based and column 0-based) will be attached to the
+    // nodes.
+    locations: false,
+    // A function can be passed as `onToken` option, which will
+    // cause Acorn to call that function with object in the same
+    // format as tokens returned from `tokenizer().getToken()`. Note
+    // that you are not allowed to call the parser from the
+    // callback—that will corrupt its internal state.
+    onToken: null,
+    // A function can be passed as `onComment` option, which will
+    // cause Acorn to call that function with `(block, text, start,
+    // end)` parameters whenever a comment is skipped. `block` is a
+    // boolean indicating whether this is a block (`/* */`) comment,
+    // `text` is the content of the comment, and `start` and `end` are
+    // character offsets that denote the start and end of the comment.
+    // When the `locations` option is on, two more parameters are
+    // passed, the full `{line, column}` locations of the start and
+    // end of the comments. Note that you are not allowed to call the
+    // parser from the callback—that will corrupt its internal state.
+    // When this option has an array as value, objects representing the
+    // comments are pushed to it.
+    onComment: null,
+    // Nodes have their start and end characters offsets recorded in
+    // `start` and `end` properties (directly on the node, rather than
+    // the `loc` object, which holds line/column data. To also add a
+    // [semi-standardized][range] `range` property holding a `[start,
+    // end]` array with the same numbers, set the `ranges` option to
+    // `true`.
+    //
+    // [range]: https://bugzilla.mozilla.org/show_bug.cgi?id=745678
+    ranges: false,
+    // It is possible to parse multiple files into a single AST by
+    // passing the tree produced by parsing the first file as
+    // `program` option in subsequent parses. This will add the
+    // toplevel forms of the parsed file to the `Program` (top) node
+    // of an existing parse tree.
+    program: null,
+    // When `locations` is on, you can pass this to record the source
+    // file in every node's `loc` object.
+    sourceFile: null,
+    // This value, if given, is stored in every node, whether
+    // `locations` is on or off.
+    directSourceFile: null,
+    // When enabled, parenthesized expressions are represented by
+    // (non-standard) ParenthesizedExpression nodes
+    preserveParens: false
+  };
+
+  // Interpret and default an options object
+
+  var warnedAboutEcmaVersion = false;
+
+  function getOptions(opts) {
+    var options = {};
+
+    for (var opt in defaultOptions)
+      { options[opt] = opts && hasOwn(opts, opt) ? opts[opt] : defaultOptions[opt]; }
+
+    if (options.ecmaVersion === "latest") {
+      options.ecmaVersion = 1e8;
+    } else if (options.ecmaVersion == null) {
+      if (!warnedAboutEcmaVersion && typeof console === "object" && console.warn) {
+        warnedAboutEcmaVersion = true;
+        console.warn("Since Acorn 8.0.0, options.ecmaVersion is required.\nDefaulting to 2020, but this will stop working in the future.");
+      }
+      options.ecmaVersion = 11;
+    } else if (options.ecmaVersion >= 2015) {
+      options.ecmaVersion -= 2009;
+    }
+
+    if (options.allowReserved == null)
+      { options.allowReserved = options.ecmaVersion < 5; }
+
+    if (!opts || opts.allowHashBang == null)
+      { options.allowHashBang = options.ecmaVersion >= 14; }
+
+    if (isArray(options.onToken)) {
+      var tokens = options.onToken;
+      options.onToken = function (token) { return tokens.push(token); };
+    }
+    if (isArray(options.onComment))
+      { options.onComment = pushComment(options, options.onComment); }
+
+    return options
+  }
+
+  function pushComment(options, array) {
+    return function(block, text, start, end, startLoc, endLoc) {
+      var comment = {
+        type: block ? "Block" : "Line",
+        value: text,
+        start: start,
+        end: end
+      };
+      if (options.locations)
+        { comment.loc = new SourceLocation(this, startLoc, endLoc); }
+      if (options.ranges)
+        { comment.range = [start, end]; }
+      array.push(comment);
+    }
+  }
+
+  // Each scope gets a bitset that may contain these flags
+  var
+      SCOPE_TOP = 1,
+      SCOPE_FUNCTION = 2,
+      SCOPE_ASYNC = 4,
+      SCOPE_GENERATOR = 8,
+      SCOPE_ARROW = 16,
+      SCOPE_SIMPLE_CATCH = 32,
+      SCOPE_SUPER = 64,
+      SCOPE_DIRECT_SUPER = 128,
+      SCOPE_CLASS_STATIC_BLOCK = 256,
+      SCOPE_CLASS_FIELD_INIT = 512,
+      SCOPE_VAR = SCOPE_TOP | SCOPE_FUNCTION | SCOPE_CLASS_STATIC_BLOCK;
+
+  function functionFlags(async, generator) {
+    return SCOPE_FUNCTION | (async ? SCOPE_ASYNC : 0) | (generator ? SCOPE_GENERATOR : 0)
+  }
+
+  // Used in checkLVal* and declareName to determine the type of a binding
+  var
+      BIND_NONE = 0, // Not a binding
+      BIND_VAR = 1, // Var-style binding
+      BIND_LEXICAL = 2, // Let- or const-style binding
+      BIND_FUNCTION = 3, // Function declaration
+      BIND_SIMPLE_CATCH = 4, // Simple (identifier pattern) catch binding
+      BIND_OUTSIDE = 5; // Special case for function names as bound inside the function
+
+  var Parser = function Parser(options, input, startPos) {
+    this.options = options = getOptions(options);
+    this.sourceFile = options.sourceFile;
+    this.keywords = wordsRegexp(keywords$1[options.ecmaVersion >= 6 ? 6 : options.sourceType === "module" ? "5module" : 5]);
+    var reserved = "";
+    if (options.allowReserved !== true) {
+      reserved = reservedWords[options.ecmaVersion >= 6 ? 6 : options.ecmaVersion === 5 ? 5 : 3];
+      if (options.sourceType === "module") { reserved += " await"; }
+    }
+    this.reservedWords = wordsRegexp(reserved);
+    var reservedStrict = (reserved ? reserved + " " : "") + reservedWords.strict;
+    this.reservedWordsStrict = wordsRegexp(reservedStrict);
+    this.reservedWordsStrictBind = wordsRegexp(reservedStrict + " " + reservedWords.strictBind);
+    this.input = String(input);
+
+    // Used to signal to callers of `readWord1` whether the word
+    // contained any escape sequences. This is needed because words with
+    // escape sequences must not be interpreted as keywords.
+    this.containsEsc = false;
+
+    // Set up token state
+
+    // The current position of the tokenizer in the input.
+    if (startPos) {
+      this.pos = startPos;
+      this.lineStart = this.input.lastIndexOf("\n", startPos - 1) + 1;
+      this.curLine = this.input.slice(0, this.lineStart).split(lineBreak).length;
+    } else {
+      this.pos = this.lineStart = 0;
+      this.curLine = 1;
+    }
+
+    // Properties of the current token:
+    // Its type
+    this.type = types$1.eof;
+    // For tokens that include more information than their type, the value
+    this.value = null;
+    // Its start and end offset
+    this.start = this.end = this.pos;
+    // And, if locations are used, the {line, column} object
+    // corresponding to those offsets
+    this.startLoc = this.endLoc = this.curPosition();
+
+    // Position information for the previous token
+    this.lastTokEndLoc = this.lastTokStartLoc = null;
+    this.lastTokStart = this.lastTokEnd = this.pos;
+
+    // The context stack is used to superficially track syntactic
+    // context to predict whether a regular expression is allowed in a
+    // given position.
+    this.context = this.initialContext();
+    this.exprAllowed = true;
+
+    // Figure out if it's a module code.
+    this.inModule = options.sourceType === "module";
+    this.strict = this.inModule || this.strictDirective(this.pos);
+
+    // Used to signify the start of a potential arrow function
+    this.potentialArrowAt = -1;
+    this.potentialArrowInForAwait = false;
+
+    // Positions to delayed-check that yield/await does not exist in default parameters.
+    this.yieldPos = this.awaitPos = this.awaitIdentPos = 0;
+    // Labels in scope.
+    this.labels = [];
+    // Thus-far undefined exports.
+    this.undefinedExports = Object.create(null);
+
+    // If enabled, skip leading hashbang line.
+    if (this.pos === 0 && options.allowHashBang && this.input.slice(0, 2) === "#!")
+      { this.skipLineComment(2); }
+
+    // Scope tracking for duplicate variable names (see scope.js)
+    this.scopeStack = [];
+    this.enterScope(SCOPE_TOP);
+
+    // For RegExp validation
+    this.regexpState = null;
+
+    // The stack of private names.
+    // Each element has two properties: 'declared' and 'used'.
+    // When it exited from the outermost class definition, all used private names must be declared.
+    this.privateNameStack = [];
+  };
+
+  var prototypeAccessors = { inFunction: { configurable: true },inGenerator: { configurable: true },inAsync: { configurable: true },canAwait: { configurable: true },allowSuper: { configurable: true },allowDirectSuper: { configurable: true },treatFunctionsAsVar: { configurable: true },allowNewDotTarget: { configurable: true },inClassStaticBlock: { configurable: true } };
+
+  Parser.prototype.parse = function parse () {
+    var node = this.options.program || this.startNode();
+    this.nextToken();
+    return this.parseTopLevel(node)
+  };
+
+  prototypeAccessors.inFunction.get = function () { return (this.currentVarScope().flags & SCOPE_FUNCTION) > 0 };
+
+  prototypeAccessors.inGenerator.get = function () { return (this.currentVarScope().flags & SCOPE_GENERATOR) > 0 };
+
+  prototypeAccessors.inAsync.get = function () { return (this.currentVarScope().flags & SCOPE_ASYNC) > 0 };
+
+  prototypeAccessors.canAwait.get = function () {
+    for (var i = this.scopeStack.length - 1; i >= 0; i--) {
+      var ref = this.scopeStack[i];
+        var flags = ref.flags;
+      if (flags & (SCOPE_CLASS_STATIC_BLOCK | SCOPE_CLASS_FIELD_INIT)) { return false }
+      if (flags & SCOPE_FUNCTION) { return (flags & SCOPE_ASYNC) > 0 }
+    }
+    return (this.inModule && this.options.ecmaVersion >= 13) || this.options.allowAwaitOutsideFunction
+  };
+
+  prototypeAccessors.allowSuper.get = function () {
+    var ref = this.currentThisScope();
+      var flags = ref.flags;
+    return (flags & SCOPE_SUPER) > 0 || this.options.allowSuperOutsideMethod
+  };
+
+  prototypeAccessors.allowDirectSuper.get = function () { return (this.currentThisScope().flags & SCOPE_DIRECT_SUPER) > 0 };
+
+  prototypeAccessors.treatFunctionsAsVar.get = function () { return this.treatFunctionsAsVarInScope(this.currentScope()) };
+
+  prototypeAccessors.allowNewDotTarget.get = function () {
+    for (var i = this.scopeStack.length - 1; i >= 0; i--) {
+      var ref = this.scopeStack[i];
+        var flags = ref.flags;
+      if (flags & (SCOPE_CLASS_STATIC_BLOCK | SCOPE_CLASS_FIELD_INIT) ||
+          ((flags & SCOPE_FUNCTION) && !(flags & SCOPE_ARROW))) { return true }
+    }
+    return false
+  };
+
+  prototypeAccessors.inClassStaticBlock.get = function () {
+    return (this.currentVarScope().flags & SCOPE_CLASS_STATIC_BLOCK) > 0
+  };
+
+  Parser.extend = function extend () {
+      var plugins = [], len = arguments.length;
+      while ( len-- ) plugins[ len ] = arguments[ len ];
+
+    var cls = this;
+    for (var i = 0; i < plugins.length; i++) { cls = plugins[i](cls); }
+    return cls
+  };
+
+  Parser.parse = function parse (input, options) {
+    return new this(options, input).parse()
+  };
+
+  Parser.parseExpressionAt = function parseExpressionAt (input, pos, options) {
+    var parser = new this(options, input, pos);
+    parser.nextToken();
+    return parser.parseExpression()
+  };
+
+  Parser.tokenizer = function tokenizer (input, options) {
+    return new this(options, input)
+  };
+
+  Object.defineProperties( Parser.prototype, prototypeAccessors );
+
+  var pp$9 = Parser.prototype;
+
+  // ## Parser utilities
+
+  var literal = /^(?:'((?:\\[^]|[^'\\])*?)'|"((?:\\[^]|[^"\\])*?)")/;
+  pp$9.strictDirective = function(start) {
+    if (this.options.ecmaVersion < 5) { return false }
+    for (;;) {
+      // Try to find string literal.
+      skipWhiteSpace.lastIndex = start;
+      start += skipWhiteSpace.exec(this.input)[0].length;
+      var match = literal.exec(this.input.slice(start));
+      if (!match) { return false }
+      if ((match[1] || match[2]) === "use strict") {
+        skipWhiteSpace.lastIndex = start + match[0].length;
+        var spaceAfter = skipWhiteSpace.exec(this.input), end = spaceAfter.index + spaceAfter[0].length;
+        var next = this.input.charAt(end);
+        return next === ";" || next === "}" ||
+          (lineBreak.test(spaceAfter[0]) &&
+           !(/[(`.[+\-/*%<>=,?^&]/.test(next) || next === "!" && this.input.charAt(end + 1) === "="))
+      }
+      start += match[0].length;
+
+      // Skip semicolon, if any.
+      skipWhiteSpace.lastIndex = start;
+      start += skipWhiteSpace.exec(this.input)[0].length;
+      if (this.input[start] === ";")
+        { start++; }
+    }
+  };
+
+  // Predicate that tests whether the next token is of the given
+  // type, and if yes, consumes it as a side effect.
+
+  pp$9.eat = function(type) {
+    if (this.type === type) {
+      this.next();
+      return true
+    } else {
+      return false
+    }
+  };
+
+  // Tests whether parsed token is a contextual keyword.
+
+  pp$9.isContextual = function(name) {
+    return this.type === types$1.name && this.value === name && !this.containsEsc
+  };
+
+  // Consumes contextual keyword if possible.
+
+  pp$9.eatContextual = function(name) {
+    if (!this.isContextual(name)) { return false }
+    this.next();
+    return true
+  };
+
+  // Asserts that following token is given contextual keyword.
+
+  pp$9.expectContextual = function(name) {
+    if (!this.eatContextual(name)) { this.unexpected(); }
+  };
+
+  // Test whether a semicolon can be inserted at the current position.
+
+  pp$9.canInsertSemicolon = function() {
+    return this.type === types$1.eof ||
+      this.type === types$1.braceR ||
+      lineBreak.test(this.input.slice(this.lastTokEnd, this.start))
+  };
+
+  pp$9.insertSemicolon = function() {
+    if (this.canInsertSemicolon()) {
+      if (this.options.onInsertedSemicolon)
+        { this.options.onInsertedSemicolon(this.lastTokEnd, this.lastTokEndLoc); }
+      return true
+    }
+  };
+
+  // Consume a semicolon, or, failing that, see if we are allowed to
+  // pretend that there is a semicolon at this position.
+
+  pp$9.semicolon = function() {
+    if (!this.eat(types$1.semi) && !this.insertSemicolon()) { this.unexpected(); }
+  };
+
+  pp$9.afterTrailingComma = function(tokType, notNext) {
+    if (this.type === tokType) {
+      if (this.options.onTrailingComma)
+        { this.options.onTrailingComma(this.lastTokStart, this.lastTokStartLoc); }
+      if (!notNext)
+        { this.next(); }
+      return true
+    }
+  };
+
+  // Expect a token of a given type. If found, consume it, otherwise,
+  // raise an unexpected token error.
+
+  pp$9.expect = function(type) {
+    this.eat(type) || this.unexpected();
+  };
+
+  // Raise an unexpected token error.
+
+  pp$9.unexpected = function(pos) {
+    this.raise(pos != null ? pos : this.start, "Unexpected token");
+  };
+
+  var DestructuringErrors = function DestructuringErrors() {
+    this.shorthandAssign =
+    this.trailingComma =
+    this.parenthesizedAssign =
+    this.parenthesizedBind =
+    this.doubleProto =
+      -1;
+  };
+
+  pp$9.checkPatternErrors = function(refDestructuringErrors, isAssign) {
+    if (!refDestructuringErrors) { return }
+    if (refDestructuringErrors.trailingComma > -1)
+      { this.raiseRecoverable(refDestructuringErrors.trailingComma, "Comma is not permitted after the rest element"); }
+    var parens = isAssign ? refDestructuringErrors.parenthesizedAssign : refDestructuringErrors.parenthesizedBind;
+    if (parens > -1) { this.raiseRecoverable(parens, isAssign ? "Assigning to rvalue" : "Parenthesized pattern"); }
+  };
+
+  pp$9.checkExpressionErrors = function(refDestructuringErrors, andThrow) {
+    if (!refDestructuringErrors) { return false }
+    var shorthandAssign = refDestructuringErrors.shorthandAssign;
+    var doubleProto = refDestructuringErrors.doubleProto;
+    if (!andThrow) { return shorthandAssign >= 0 || doubleProto >= 0 }
+    if (shorthandAssign >= 0)
+      { this.raise(shorthandAssign, "Shorthand property assignments are valid only in destructuring patterns"); }
+    if (doubleProto >= 0)
+      { this.raiseRecoverable(doubleProto, "Redefinition of __proto__ property"); }
+  };
+
+  pp$9.checkYieldAwaitInDefaultParams = function() {
+    if (this.yieldPos && (!this.awaitPos || this.yieldPos < this.awaitPos))
+      { this.raise(this.yieldPos, "Yield expression cannot be a default value"); }
+    if (this.awaitPos)
+      { this.raise(this.awaitPos, "Await expression cannot be a default value"); }
+  };
+
+  pp$9.isSimpleAssignTarget = function(expr) {
+    if (expr.type === "ParenthesizedExpression")
+      { return this.isSimpleAssignTarget(expr.expression) }
+    return expr.type === "Identifier" || expr.type === "MemberExpression"
+  };
+
+  var pp$8 = Parser.prototype;
+
+  // ### Statement parsing
+
+  // Parse a program. Initializes the parser, reads any number of
+  // statements, and wraps them in a Program node.  Optionally takes a
+  // `program` argument.  If present, the statements will be appended
+  // to its body instead of creating a new node.
+
+  pp$8.parseTopLevel = function(node) {
+    var exports = Object.create(null);
+    if (!node.body) { node.body = []; }
+    while (this.type !== types$1.eof) {
+      var stmt = this.parseStatement(null, true, exports);
+      node.body.push(stmt);
+    }
+    if (this.inModule)
+      { for (var i = 0, list = Object.keys(this.undefinedExports); i < list.length; i += 1)
+        {
+          var name = list[i];
+
+          this.raiseRecoverable(this.undefinedExports[name].start, ("Export '" + name + "' is not defined"));
+        } }
+    this.adaptDirectivePrologue(node.body);
+    this.next();
+    node.sourceType = this.options.sourceType;
+    return this.finishNode(node, "Program")
+  };
+
+  var loopLabel = {kind: "loop"}, switchLabel = {kind: "switch"};
+
+  pp$8.isLet = function(context) {
+    if (this.options.ecmaVersion < 6 || !this.isContextual("let")) { return false }
+    skipWhiteSpace.lastIndex = this.pos;
+    var skip = skipWhiteSpace.exec(this.input);
+    var next = this.pos + skip[0].length, nextCh = this.input.charCodeAt(next);
+    // For ambiguous cases, determine if a LexicalDeclaration (or only a
+    // Statement) is allowed here. If context is not empty then only a Statement
+    // is allowed. However, `let [` is an explicit negative lookahead for
+    // ExpressionStatement, so special-case it first.
+    if (nextCh === 91 || nextCh === 92) { return true } // '[', '\'
+    if (context) { return false }
+
+    if (nextCh === 123 || nextCh > 0xd7ff && nextCh < 0xdc00) { return true } // '{', astral
+    if (isIdentifierStart(nextCh, true)) {
+      var pos = next + 1;
+      while (isIdentifierChar(nextCh = this.input.charCodeAt(pos), true)) { ++pos; }
+      if (nextCh === 92 || nextCh > 0xd7ff && nextCh < 0xdc00) { return true }
+      var ident = this.input.slice(next, pos);
+      if (!keywordRelationalOperator.test(ident)) { return true }
+    }
+    return false
+  };
+
+  // check 'async [no LineTerminator here] function'
+  // - 'async /*foo*/ function' is OK.
+  // - 'async /*\n*/ function' is invalid.
+  pp$8.isAsyncFunction = function() {
+    if (this.options.ecmaVersion < 8 || !this.isContextual("async"))
+      { return false }
+
+    skipWhiteSpace.lastIndex = this.pos;
+    var skip = skipWhiteSpace.exec(this.input);
+    var next = this.pos + skip[0].length, after;
+    return !lineBreak.test(this.input.slice(this.pos, next)) &&
+      this.input.slice(next, next + 8) === "function" &&
+      (next + 8 === this.input.length ||
+       !(isIdentifierChar(after = this.input.charCodeAt(next + 8)) || after > 0xd7ff && after < 0xdc00))
+  };
+
+  pp$8.isUsingKeyword = function(isAwaitUsing, isFor) {
+    if (this.options.ecmaVersion < 17 || !this.isContextual(isAwaitUsing ? "await" : "using"))
+      { return false }
+
+    skipWhiteSpace.lastIndex = this.pos;
+    var skip = skipWhiteSpace.exec(this.input);
+    var next = this.pos + skip[0].length;
+
+    if (lineBreak.test(this.input.slice(this.pos, next))) { return false }
+
+    if (isAwaitUsing) {
+      var awaitEndPos = next + 5 /* await */, after;
+      if (this.input.slice(next, awaitEndPos) !== "using" ||
+        awaitEndPos === this.input.length ||
+        isIdentifierChar(after = this.input.charCodeAt(awaitEndPos)) ||
+        (after > 0xd7ff && after < 0xdc00)
+      ) { return false }
+
+      skipWhiteSpace.lastIndex = awaitEndPos;
+      var skipAfterUsing = skipWhiteSpace.exec(this.input);
+      if (skipAfterUsing && lineBreak.test(this.input.slice(awaitEndPos, awaitEndPos + skipAfterUsing[0].length))) { return false }
+    }
+
+    if (isFor) {
+      var ofEndPos = next + 2 /* of */, after$1;
+      if (this.input.slice(next, ofEndPos) === "of") {
+        if (ofEndPos === this.input.length ||
+          (!isIdentifierChar(after$1 = this.input.charCodeAt(ofEndPos)) && !(after$1 > 0xd7ff && after$1 < 0xdc00))) { return false }
+      }
+    }
+
+    var ch = this.input.charCodeAt(next);
+    return isIdentifierStart(ch, true) || ch === 92 // '\'
+  };
+
+  pp$8.isAwaitUsing = function(isFor) {
+    return this.isUsingKeyword(true, isFor)
+  };
+
+  pp$8.isUsing = function(isFor) {
+    return this.isUsingKeyword(false, isFor)
+  };
+
+  // Parse a single statement.
+  //
+  // If expecting a statement and finding a slash operator, parse a
+  // regular expression literal. This is to handle cases like
+  // `if (foo) /blah/.exec(foo)`, where looking at the previous token
+  // does not help.
+
+  pp$8.parseStatement = function(context, topLevel, exports) {
+    var starttype = this.type, node = this.startNode(), kind;
+
+    if (this.isLet(context)) {
+      starttype = types$1._var;
+      kind = "let";
+    }
+
+    // Most types of statements are recognized by the keyword they
+    // start with. Many are trivial to parse, some require a bit of
+    // complexity.
+
+    switch (starttype) {
+    case types$1._break: case types$1._continue: return this.parseBreakContinueStatement(node, starttype.keyword)
+    case types$1._debugger: return this.parseDebuggerStatement(node)
+    case types$1._do: return this.parseDoStatement(node)
+    case types$1._for: return this.parseForStatement(node)
+    case types$1._function:
+      // Function as sole body of either an if statement or a labeled statement
+      // works, but not when it is part of a labeled statement that is the sole
+      // body of an if statement.
+      if ((context && (this.strict || context !== "if" && context !== "label")) && this.options.ecmaVersion >= 6) { this.unexpected(); }
+      return this.parseFunctionStatement(node, false, !context)
+    case types$1._class:
+      if (context) { this.unexpected(); }
+      return this.parseClass(node, true)
+    case types$1._if: return this.parseIfStatement(node)
+    case types$1._return: return this.parseReturnStatement(node)
+    case types$1._switch: return this.parseSwitchStatement(node)
+    case types$1._throw: return this.parseThrowStatement(node)
+    case types$1._try: return this.parseTryStatement(node)
+    case types$1._const: case types$1._var:
+      kind = kind || this.value;
+      if (context && kind !== "var") { this.unexpected(); }
+      return this.parseVarStatement(node, kind)
+    case types$1._while: return this.parseWhileStatement(node)
+    case types$1._with: return this.parseWithStatement(node)
+    case types$1.braceL: return this.parseBlock(true, node)
+    case types$1.semi: return this.parseEmptyStatement(node)
+    case types$1._export:
+    case types$1._import:
+      if (this.options.ecmaVersion > 10 && starttype === types$1._import) {
+        skipWhiteSpace.lastIndex = this.pos;
+        var skip = skipWhiteSpace.exec(this.input);
+        var next = this.pos + skip[0].length, nextCh = this.input.charCodeAt(next);
+        if (nextCh === 40 || nextCh === 46) // '(' or '.'
+          { return this.parseExpressionStatement(node, this.parseExpression()) }
+      }
+
+      if (!this.options.allowImportExportEverywhere) {
+        if (!topLevel)
+          { this.raise(this.start, "'import' and 'export' may only appear at the top level"); }
+        if (!this.inModule)
+          { this.raise(this.start, "'import' and 'export' may appear only with 'sourceType: module'"); }
+      }
+      return starttype === types$1._import ? this.parseImport(node) : this.parseExport(node, exports)
+
+      // If the statement does not start with a statement keyword or a
+      // brace, it's an ExpressionStatement or LabeledStatement. We
+      // simply start parsing an expression, and afterwards, if the
+      // next token is a colon and the expression was a simple
+      // Identifier node, we switch to interpreting it as a label.
+    default:
+      if (this.isAsyncFunction()) {
+        if (context) { this.unexpected(); }
+        this.next();
+        return this.parseFunctionStatement(node, true, !context)
+      }
+
+      var usingKind = this.isAwaitUsing(false) ? "await using" : this.isUsing(false) ? "using" : null;
+      if (usingKind) {
+        if (topLevel && this.options.sourceType === "script") {
+          this.raise(this.start, "Using declaration cannot appear in the top level when source type is `script`");
+        }
+        if (usingKind === "await using") {
+          if (!this.canAwait) {
+            this.raise(this.start, "Await using cannot appear outside of async function");
+          }
+          this.next();
+        }
+        this.next();
+        this.parseVar(node, false, usingKind);
+        this.semicolon();
+        return this.finishNode(node, "VariableDeclaration")
+      }
+
+      var maybeName = this.value, expr = this.parseExpression();
+      if (starttype === types$1.name && expr.type === "Identifier" && this.eat(types$1.colon))
+        { return this.parseLabeledStatement(node, maybeName, expr, context) }
+      else { return this.parseExpressionStatement(node, expr) }
+    }
+  };
+
+  pp$8.parseBreakContinueStatement = function(node, keyword) {
+    var isBreak = keyword === "break";
+    this.next();
+    if (this.eat(types$1.semi) || this.insertSemicolon()) { node.label = null; }
+    else if (this.type !== types$1.name) { this.unexpected(); }
+    else {
+      node.label = this.parseIdent();
+      this.semicolon();
+    }
+
+    // Verify that there is an actual destination to break or
+    // continue to.
+    var i = 0;
+    for (; i < this.labels.length; ++i) {
+      var lab = this.labels[i];
+      if (node.label == null || lab.name === node.label.name) {
+        if (lab.kind != null && (isBreak || lab.kind === "loop")) { break }
+        if (node.label && isBreak) { break }
+      }
+    }
+    if (i === this.labels.length) { this.raise(node.start, "Unsyntactic " + keyword); }
+    return this.finishNode(node, isBreak ? "BreakStatement" : "ContinueStatement")
+  };
+
+  pp$8.parseDebuggerStatement = function(node) {
+    this.next();
+    this.semicolon();
+    return this.finishNode(node, "DebuggerStatement")
+  };
+
+  pp$8.parseDoStatement = function(node) {
+    this.next();
+    this.labels.push(loopLabel);
+    node.body = this.parseStatement("do");
+    this.labels.pop();
+    this.expect(types$1._while);
+    node.test = this.parseParenExpression();
+    if (this.options.ecmaVersion >= 6)
+      { this.eat(types$1.semi); }
+    else
+      { this.semicolon(); }
+    return this.finishNode(node, "DoWhileStatement")
+  };
+
+  // Disambiguating between a `for` and a `for`/`in` or `for`/`of`
+  // loop is non-trivial. Basically, we have to parse the init `var`
+  // statement or expression, disallowing the `in` operator (see
+  // the second parameter to `parseExpression`), and then check
+  // whether the next token is `in` or `of`. When there is no init
+  // part (semicolon immediately after the opening parenthesis), it
+  // is a regular `for` loop.
+
+  pp$8.parseForStatement = function(node) {
+    this.next();
+    var awaitAt = (this.options.ecmaVersion >= 9 && this.canAwait && this.eatContextual("await")) ? this.lastTokStart : -1;
+    this.labels.push(loopLabel);
+    this.enterScope(0);
+    this.expect(types$1.parenL);
+    if (this.type === types$1.semi) {
+      if (awaitAt > -1) { this.unexpected(awaitAt); }
+      return this.parseFor(node, null)
+    }
+    var isLet = this.isLet();
+    if (this.type === types$1._var || this.type === types$1._const || isLet) {
+      var init$1 = this.startNode(), kind = isLet ? "let" : this.value;
+      this.next();
+      this.parseVar(init$1, true, kind);
+      this.finishNode(init$1, "VariableDeclaration");
+      return this.parseForAfterInit(node, init$1, awaitAt)
+    }
+    var startsWithLet = this.isContextual("let"), isForOf = false;
+
+    var usingKind = this.isUsing(true) ? "using" : this.isAwaitUsing(true) ? "await using" : null;
+    if (usingKind) {
+      var init$2 = this.startNode();
+      this.next();
+      if (usingKind === "await using") { this.next(); }
+      this.parseVar(init$2, true, usingKind);
+      this.finishNode(init$2, "VariableDeclaration");
+      return this.parseForAfterInit(node, init$2, awaitAt)
+    }
+    var containsEsc = this.containsEsc;
+    var refDestructuringErrors = new DestructuringErrors;
+    var initPos = this.start;
+    var init = awaitAt > -1
+      ? this.parseExprSubscripts(refDestructuringErrors, "await")
+      : this.parseExpression(true, refDestructuringErrors);
+    if (this.type === types$1._in || (isForOf = this.options.ecmaVersion >= 6 && this.isContextual("of"))) {
+      if (awaitAt > -1) { // implies `ecmaVersion >= 9` (see declaration of awaitAt)
+        if (this.type === types$1._in) { this.unexpected(awaitAt); }
+        node.await = true;
+      } else if (isForOf && this.options.ecmaVersion >= 8) {
+        if (init.start === initPos && !containsEsc && init.type === "Identifier" && init.name === "async") { this.unexpected(); }
+        else if (this.options.ecmaVersion >= 9) { node.await = false; }
+      }
+      if (startsWithLet && isForOf) { this.raise(init.start, "The left-hand side of a for-of loop may not start with 'let'."); }
+      this.toAssignable(init, false, refDestructuringErrors);
+      this.checkLValPattern(init);
+      return this.parseForIn(node, init)
+    } else {
+      this.checkExpressionErrors(refDestructuringErrors, true);
+    }
+    if (awaitAt > -1) { this.unexpected(awaitAt); }
+    return this.parseFor(node, init)
+  };
+
+  // Helper method to parse for loop after variable initialization
+  pp$8.parseForAfterInit = function(node, init, awaitAt) {
+    if ((this.type === types$1._in || (this.options.ecmaVersion >= 6 && this.isContextual("of"))) && init.declarations.length === 1) {
+      if (this.options.ecmaVersion >= 9) {
+        if (this.type === types$1._in) {
+          if (awaitAt > -1) { this.unexpected(awaitAt); }
+        } else { node.await = awaitAt > -1; }
+      }
+      return this.parseForIn(node, init)
+    }
+    if (awaitAt > -1) { this.unexpected(awaitAt); }
+    return this.parseFor(node, init)
+  };
+
+  pp$8.parseFunctionStatement = function(node, isAsync, declarationPosition) {
+    this.next();
+    return this.parseFunction(node, FUNC_STATEMENT | (declarationPosition ? 0 : FUNC_HANGING_STATEMENT), false, isAsync)
+  };
+
+  pp$8.parseIfStatement = function(node) {
+    this.next();
+    node.test = this.parseParenExpression();
+    // allow function declarations in branches, but only in non-strict mode
+    node.consequent = this.parseStatement("if");
+    node.alternate = this.eat(types$1._else) ? this.parseStatement("if") : null;
+    return this.finishNode(node, "IfStatement")
+  };
+
+  pp$8.parseReturnStatement = function(node) {
+    if (!this.inFunction && !this.options.allowReturnOutsideFunction)
+      { this.raise(this.start, "'return' outside of function"); }
+    this.next();
+
+    // In `return` (and `break`/`continue`), the keywords with
+    // optional arguments, we eagerly look for a semicolon or the
+    // possibility to insert one.
+
+    if (this.eat(types$1.semi) || this.insertSemicolon()) { node.argument = null; }
+    else { node.argument = this.parseExpression(); this.semicolon(); }
+    return this.finishNode(node, "ReturnStatement")
+  };
+
+  pp$8.parseSwitchStatement = function(node) {
+    this.next();
+    node.discriminant = this.parseParenExpression();
+    node.cases = [];
+    this.expect(types$1.braceL);
+    this.labels.push(switchLabel);
+    this.enterScope(0);
+
+    // Statements under must be grouped (by label) in SwitchCase
+    // nodes. `cur` is used to keep the node that we are currently
+    // adding statements to.
+
+    var cur;
+    for (var sawDefault = false; this.type !== types$1.braceR;) {
+      if (this.type === types$1._case || this.type === types$1._default) {
+        var isCase = this.type === types$1._case;
+        if (cur) { this.finishNode(cur, "SwitchCase"); }
+        node.cases.push(cur = this.startNode());
+        cur.consequent = [];
+        this.next();
+        if (isCase) {
+          cur.test = this.parseExpression();
+        } else {
+          if (sawDefault) { this.raiseRecoverable(this.lastTokStart, "Multiple default clauses"); }
+          sawDefault = true;
+          cur.test = null;
+        }
+        this.expect(types$1.colon);
+      } else {
+        if (!cur) { this.unexpected(); }
+        cur.consequent.push(this.parseStatement(null));
+      }
+    }
+    this.exitScope();
+    if (cur) { this.finishNode(cur, "SwitchCase"); }
+    this.next(); // Closing brace
+    this.labels.pop();
+    return this.finishNode(node, "SwitchStatement")
+  };
+
+  pp$8.parseThrowStatement = function(node) {
+    this.next();
+    if (lineBreak.test(this.input.slice(this.lastTokEnd, this.start)))
+      { this.raise(this.lastTokEnd, "Illegal newline after throw"); }
+    node.argument = this.parseExpression();
+    this.semicolon();
+    return this.finishNode(node, "ThrowStatement")
+  };
+
+  // Reused empty array added for node fields that are always empty.
+
+  var empty$1 = [];
+
+  pp$8.parseCatchClauseParam = function() {
+    var param = this.parseBindingAtom();
+    var simple = param.type === "Identifier";
+    this.enterScope(simple ? SCOPE_SIMPLE_CATCH : 0);
+    this.checkLValPattern(param, simple ? BIND_SIMPLE_CATCH : BIND_LEXICAL);
+    this.expect(types$1.parenR);
+
+    return param
+  };
+
+  pp$8.parseTryStatement = function(node) {
+    this.next();
+    node.block = this.parseBlock();
+    node.handler = null;
+    if (this.type === types$1._catch) {
+      var clause = this.startNode();
+      this.next();
+      if (this.eat(types$1.parenL)) {
+        clause.param = this.parseCatchClauseParam();
+      } else {
+        if (this.options.ecmaVersion < 10) { this.unexpected(); }
+        clause.param = null;
+        this.enterScope(0);
+      }
+      clause.body = this.parseBlock(false);
+      this.exitScope();
+      node.handler = this.finishNode(clause, "CatchClause");
+    }
+    node.finalizer = this.eat(types$1._finally) ? this.parseBlock() : null;
+    if (!node.handler && !node.finalizer)
+      { this.raise(node.start, "Missing catch or finally clause"); }
+    return this.finishNode(node, "TryStatement")
+  };
+
+  pp$8.parseVarStatement = function(node, kind, allowMissingInitializer) {
+    this.next();
+    this.parseVar(node, false, kind, allowMissingInitializer);
+    this.semicolon();
+    return this.finishNode(node, "VariableDeclaration")
+  };
+
+  pp$8.parseWhileStatement = function(node) {
+    this.next();
+    node.test = this.parseParenExpression();
+    this.labels.push(loopLabel);
+    node.body = this.parseStatement("while");
+    this.labels.pop();
+    return this.finishNode(node, "WhileStatement")
+  };
+
+  pp$8.parseWithStatement = function(node) {
+    if (this.strict) { this.raise(this.start, "'with' in strict mode"); }
+    this.next();
+    node.object = this.parseParenExpression();
+    node.body = this.parseStatement("with");
+    return this.finishNode(node, "WithStatement")
+  };
+
+  pp$8.parseEmptyStatement = function(node) {
+    this.next();
+    return this.finishNode(node, "EmptyStatement")
+  };
+
+  pp$8.parseLabeledStatement = function(node, maybeName, expr, context) {
+    for (var i$1 = 0, list = this.labels; i$1 < list.length; i$1 += 1)
+      {
+      var label = list[i$1];
+
+      if (label.name === maybeName)
+        { this.raise(expr.start, "Label '" + maybeName + "' is already declared");
+    } }
+    var kind = this.type.isLoop ? "loop" : this.type === types$1._switch ? "switch" : null;
+    for (var i = this.labels.length - 1; i >= 0; i--) {
+      var label$1 = this.labels[i];
+      if (label$1.statementStart === node.start) {
+        // Update information about previous labels on this node
+        label$1.statementStart = this.start;
+        label$1.kind = kind;
+      } else { break }
+    }
+    this.labels.push({name: maybeName, kind: kind, statementStart: this.start});
+    node.body = this.parseStatement(context ? context.indexOf("label") === -1 ? context + "label" : context : "label");
+    this.labels.pop();
+    node.label = expr;
+    return this.finishNode(node, "LabeledStatement")
+  };
+
+  pp$8.parseExpressionStatement = function(node, expr) {
+    node.expression = expr;
+    this.semicolon();
+    return this.finishNode(node, "ExpressionStatement")
+  };
+
+  // Parse a semicolon-enclosed block of statements, handling `"use
+  // strict"` declarations when `allowStrict` is true (used for
+  // function bodies).
+
+  pp$8.parseBlock = function(createNewLexicalScope, node, exitStrict) {
+    if ( createNewLexicalScope === void 0 ) createNewLexicalScope = true;
+    if ( node === void 0 ) node = this.startNode();
+
+    node.body = [];
+    this.expect(types$1.braceL);
+    if (createNewLexicalScope) { this.enterScope(0); }
+    while (this.type !== types$1.braceR) {
+      var stmt = this.parseStatement(null);
+      node.body.push(stmt);
+    }
+    if (exitStrict) { this.strict = false; }
+    this.next();
+    if (createNewLexicalScope) { this.exitScope(); }
+    return this.finishNode(node, "BlockStatement")
+  };
+
+  // Parse a regular `for` loop. The disambiguation code in
+  // `parseStatement` will already have parsed the init statement or
+  // expression.
+
+  pp$8.parseFor = function(node, init) {
+    node.init = init;
+    this.expect(types$1.semi);
+    node.test = this.type === types$1.semi ? null : this.parseExpression();
+    this.expect(types$1.semi);
+    node.update = this.type === types$1.parenR ? null : this.parseExpression();
+    this.expect(types$1.parenR);
+    node.body = this.parseStatement("for");
+    this.exitScope();
+    this.labels.pop();
+    return this.finishNode(node, "ForStatement")
+  };
+
+  // Parse a `for`/`in` and `for`/`of` loop, which are almost
+  // same from parser's perspective.
+
+  pp$8.parseForIn = function(node, init) {
+    var isForIn = this.type === types$1._in;
+    this.next();
+
+    if (
+      init.type === "VariableDeclaration" &&
+      init.declarations[0].init != null &&
+      (
+        !isForIn ||
+        this.options.ecmaVersion < 8 ||
+        this.strict ||
+        init.kind !== "var" ||
+        init.declarations[0].id.type !== "Identifier"
+      )
+    ) {
+      this.raise(
+        init.start,
+        ((isForIn ? "for-in" : "for-of") + " loop variable declaration may not have an initializer")
+      );
+    }
+    node.left = init;
+    node.right = isForIn ? this.parseExpression() : this.parseMaybeAssign();
+    this.expect(types$1.parenR);
+    node.body = this.parseStatement("for");
+    this.exitScope();
+    this.labels.pop();
+    return this.finishNode(node, isForIn ? "ForInStatement" : "ForOfStatement")
+  };
+
+  // Parse a list of variable declarations.
+
+  pp$8.parseVar = function(node, isFor, kind, allowMissingInitializer) {
+    node.declarations = [];
+    node.kind = kind;
+    for (;;) {
+      var decl = this.startNode();
+      this.parseVarId(decl, kind);
+      if (this.eat(types$1.eq)) {
+        decl.init = this.parseMaybeAssign(isFor);
+      } else if (!allowMissingInitializer && kind === "const" && !(this.type === types$1._in || (this.options.ecmaVersion >= 6 && this.isContextual("of")))) {
+        this.unexpected();
+      } else if (!allowMissingInitializer && (kind === "using" || kind === "await using") && this.options.ecmaVersion >= 17 && this.type !== types$1._in && !this.isContextual("of")) {
+        this.raise(this.lastTokEnd, ("Missing initializer in " + kind + " declaration"));
+      } else if (!allowMissingInitializer && decl.id.type !== "Identifier" && !(isFor && (this.type === types$1._in || this.isContextual("of")))) {
+        this.raise(this.lastTokEnd, "Complex binding patterns require an initialization value");
+      } else {
+        decl.init = null;
+      }
+      node.declarations.push(this.finishNode(decl, "VariableDeclarator"));
+      if (!this.eat(types$1.comma)) { break }
+    }
+    return node
+  };
+
+  pp$8.parseVarId = function(decl, kind) {
+    decl.id = kind === "using" || kind === "await using"
+      ? this.parseIdent()
+      : this.parseBindingAtom();
+
+    this.checkLValPattern(decl.id, kind === "var" ? BIND_VAR : BIND_LEXICAL, false);
+  };
+
+  var FUNC_STATEMENT = 1, FUNC_HANGING_STATEMENT = 2, FUNC_NULLABLE_ID = 4;
+
+  // Parse a function declaration or literal (depending on the
+  // `statement & FUNC_STATEMENT`).
+
+  // Remove `allowExpressionBody` for 7.0.0, as it is only called with false
+  pp$8.parseFunction = function(node, statement, allowExpressionBody, isAsync, forInit) {
+    this.initFunction(node);
+    if (this.options.ecmaVersion >= 9 || this.options.ecmaVersion >= 6 && !isAsync) {
+      if (this.type === types$1.star && (statement & FUNC_HANGING_STATEMENT))
+        { this.unexpected(); }
+      node.generator = this.eat(types$1.star);
+    }
+    if (this.options.ecmaVersion >= 8)
+      { node.async = !!isAsync; }
+
+    if (statement & FUNC_STATEMENT) {
+      node.id = (statement & FUNC_NULLABLE_ID) && this.type !== types$1.name ? null : this.parseIdent();
+      if (node.id && !(statement & FUNC_HANGING_STATEMENT))
+        // If it is a regular function declaration in sloppy mode, then it is
+        // subject to Annex B semantics (BIND_FUNCTION). Otherwise, the binding
+        // mode depends on properties of the current scope (see
+        // treatFunctionsAsVar).
+        { this.checkLValSimple(node.id, (this.strict || node.generator || node.async) ? this.treatFunctionsAsVar ? BIND_VAR : BIND_LEXICAL : BIND_FUNCTION); }
+    }
+
+    var oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, oldAwaitIdentPos = this.awaitIdentPos;
+    this.yieldPos = 0;
+    this.awaitPos = 0;
+    this.awaitIdentPos = 0;
+    this.enterScope(functionFlags(node.async, node.generator));
+
+    if (!(statement & FUNC_STATEMENT))
+      { node.id = this.type === types$1.name ? this.parseIdent() : null; }
+
+    this.parseFunctionParams(node);
+    this.parseFunctionBody(node, allowExpressionBody, false, forInit);
+
+    this.yieldPos = oldYieldPos;
+    this.awaitPos = oldAwaitPos;
+    this.awaitIdentPos = oldAwaitIdentPos;
+    return this.finishNode(node, (statement & FUNC_STATEMENT) ? "FunctionDeclaration" : "FunctionExpression")
+  };
+
+  pp$8.parseFunctionParams = function(node) {
+    this.expect(types$1.parenL);
+    node.params = this.parseBindingList(types$1.parenR, false, this.options.ecmaVersion >= 8);
+    this.checkYieldAwaitInDefaultParams();
+  };
+
+  // Parse a class declaration or literal (depending on the
+  // `isStatement` parameter).
+
+  pp$8.parseClass = function(node, isStatement) {
+    this.next();
+
+    // ecma-262 14.6 Class Definitions
+    // A class definition is always strict mode code.
+    var oldStrict = this.strict;
+    this.strict = true;
+
+    this.parseClassId(node, isStatement);
+    this.parseClassSuper(node);
+    var privateNameMap = this.enterClassBody();
+    var classBody = this.startNode();
+    var hadConstructor = false;
+    classBody.body = [];
+    this.expect(types$1.braceL);
+    while (this.type !== types$1.braceR) {
+      var element = this.parseClassElement(node.superClass !== null);
+      if (element) {
+        classBody.body.push(element);
+        if (element.type === "MethodDefinition" && element.kind === "constructor") {
+          if (hadConstructor) { this.raiseRecoverable(element.start, "Duplicate constructor in the same class"); }
+          hadConstructor = true;
+        } else if (element.key && element.key.type === "PrivateIdentifier" && isPrivateNameConflicted(privateNameMap, element)) {
+          this.raiseRecoverable(element.key.start, ("Identifier '#" + (element.key.name) + "' has already been declared"));
+        }
+      }
+    }
+    this.strict = oldStrict;
+    this.next();
+    node.body = this.finishNode(classBody, "ClassBody");
+    this.exitClassBody();
+    return this.finishNode(node, isStatement ? "ClassDeclaration" : "ClassExpression")
+  };
+
+  pp$8.parseClassElement = function(constructorAllowsSuper) {
+    if (this.eat(types$1.semi)) { return null }
+
+    var ecmaVersion = this.options.ecmaVersion;
+    var node = this.startNode();
+    var keyName = "";
+    var isGenerator = false;
+    var isAsync = false;
+    var kind = "method";
+    var isStatic = false;
+
+    if (this.eatContextual("static")) {
+      // Parse static init block
+      if (ecmaVersion >= 13 && this.eat(types$1.braceL)) {
+        this.parseClassStaticBlock(node);
+        return node
+      }
+      if (this.isClassElementNameStart() || this.type === types$1.star) {
+        isStatic = true;
+      } else {
+        keyName = "static";
+      }
+    }
+    node.static = isStatic;
+    if (!keyName && ecmaVersion >= 8 && this.eatContextual("async")) {
+      if ((this.isClassElementNameStart() || this.type === types$1.star) && !this.canInsertSemicolon()) {
+        isAsync = true;
+      } else {
+        keyName = "async";
+      }
+    }
+    if (!keyName && (ecmaVersion >= 9 || !isAsync) && this.eat(types$1.star)) {
+      isGenerator = true;
+    }
+    if (!keyName && !isAsync && !isGenerator) {
+      var lastValue = this.value;
+      if (this.eatContextual("get") || this.eatContextual("set")) {
+        if (this.isClassElementNameStart()) {
+          kind = lastValue;
+        } else {
+          keyName = lastValue;
+        }
+      }
+    }
+
+    // Parse element name
+    if (keyName) {
+      // 'async', 'get', 'set', or 'static' were not a keyword contextually.
+      // The last token is any of those. Make it the element name.
+      node.computed = false;
+      node.key = this.startNodeAt(this.lastTokStart, this.lastTokStartLoc);
+      node.key.name = keyName;
+      this.finishNode(node.key, "Identifier");
+    } else {
+      this.parseClassElementName(node);
+    }
+
+    // Parse element value
+    if (ecmaVersion < 13 || this.type === types$1.parenL || kind !== "method" || isGenerator || isAsync) {
+      var isConstructor = !node.static && checkKeyName(node, "constructor");
+      var allowsDirectSuper = isConstructor && constructorAllowsSuper;
+      // Couldn't move this check into the 'parseClassMethod' method for backward compatibility.
+      if (isConstructor && kind !== "method") { this.raise(node.key.start, "Constructor can't have get/set modifier"); }
+      node.kind = isConstructor ? "constructor" : kind;
+      this.parseClassMethod(node, isGenerator, isAsync, allowsDirectSuper);
+    } else {
+      this.parseClassField(node);
+    }
+
+    return node
+  };
+
+  pp$8.isClassElementNameStart = function() {
+    return (
+      this.type === types$1.name ||
+      this.type === types$1.privateId ||
+      this.type === types$1.num ||
+      this.type === types$1.string ||
+      this.type === types$1.bracketL ||
+      this.type.keyword
+    )
+  };
+
+  pp$8.parseClassElementName = function(element) {
+    if (this.type === types$1.privateId) {
+      if (this.value === "constructor") {
+        this.raise(this.start, "Classes can't have an element named '#constructor'");
+      }
+      element.computed = false;
+      element.key = this.parsePrivateIdent();
+    } else {
+      this.parsePropertyName(element);
+    }
+  };
+
+  pp$8.parseClassMethod = function(method, isGenerator, isAsync, allowsDirectSuper) {
+    // Check key and flags
+    var key = method.key;
+    if (method.kind === "constructor") {
+      if (isGenerator) { this.raise(key.start, "Constructor can't be a generator"); }
+      if (isAsync) { this.raise(key.start, "Constructor can't be an async method"); }
+    } else if (method.static && checkKeyName(method, "prototype")) {
+      this.raise(key.start, "Classes may not have a static property named prototype");
+    }
+
+    // Parse value
+    var value = method.value = this.parseMethod(isGenerator, isAsync, allowsDirectSuper);
+
+    // Check value
+    if (method.kind === "get" && value.params.length !== 0)
+      { this.raiseRecoverable(value.start, "getter should have no params"); }
+    if (method.kind === "set" && value.params.length !== 1)
+      { this.raiseRecoverable(value.start, "setter should have exactly one param"); }
+    if (method.kind === "set" && value.params[0].type === "RestElement")
+      { this.raiseRecoverable(value.params[0].start, "Setter cannot use rest params"); }
+
+    return this.finishNode(method, "MethodDefinition")
+  };
+
+  pp$8.parseClassField = function(field) {
+    if (checkKeyName(field, "constructor")) {
+      this.raise(field.key.start, "Classes can't have a field named 'constructor'");
+    } else if (field.static && checkKeyName(field, "prototype")) {
+      this.raise(field.key.start, "Classes can't have a static field named 'prototype'");
+    }
+
+    if (this.eat(types$1.eq)) {
+      // To raise SyntaxError if 'arguments' exists in the initializer.
+      this.enterScope(SCOPE_CLASS_FIELD_INIT | SCOPE_SUPER);
+      field.value = this.parseMaybeAssign();
+      this.exitScope();
+    } else {
+      field.value = null;
+    }
+    this.semicolon();
+
+    return this.finishNode(field, "PropertyDefinition")
+  };
+
+  pp$8.parseClassStaticBlock = function(node) {
+    node.body = [];
+
+    var oldLabels = this.labels;
+    this.labels = [];
+    this.enterScope(SCOPE_CLASS_STATIC_BLOCK | SCOPE_SUPER);
+    while (this.type !== types$1.braceR) {
+      var stmt = this.parseStatement(null);
+      node.body.push(stmt);
+    }
+    this.next();
+    this.exitScope();
+    this.labels = oldLabels;
+
+    return this.finishNode(node, "StaticBlock")
+  };
+
+  pp$8.parseClassId = function(node, isStatement) {
+    if (this.type === types$1.name) {
+      node.id = this.parseIdent();
+      if (isStatement)
+        { this.checkLValSimple(node.id, BIND_LEXICAL, false); }
+    } else {
+      if (isStatement === true)
+        { this.unexpected(); }
+      node.id = null;
+    }
+  };
+
+  pp$8.parseClassSuper = function(node) {
+    node.superClass = this.eat(types$1._extends) ? this.parseExprSubscripts(null, false) : null;
+  };
+
+  pp$8.enterClassBody = function() {
+    var element = {declared: Object.create(null), used: []};
+    this.privateNameStack.push(element);
+    return element.declared
+  };
+
+  pp$8.exitClassBody = function() {
+    var ref = this.privateNameStack.pop();
+    var declared = ref.declared;
+    var used = ref.used;
+    if (!this.options.checkPrivateFields) { return }
+    var len = this.privateNameStack.length;
+    var parent = len === 0 ? null : this.privateNameStack[len - 1];
+    for (var i = 0; i < used.length; ++i) {
+      var id = used[i];
+      if (!hasOwn(declared, id.name)) {
+        if (parent) {
+          parent.used.push(id);
+        } else {
+          this.raiseRecoverable(id.start, ("Private field '#" + (id.name) + "' must be declared in an enclosing class"));
+        }
+      }
+    }
+  };
+
+  function isPrivateNameConflicted(privateNameMap, element) {
+    var name = element.key.name;
+    var curr = privateNameMap[name];
+
+    var next = "true";
+    if (element.type === "MethodDefinition" && (element.kind === "get" || element.kind === "set")) {
+      next = (element.static ? "s" : "i") + element.kind;
+    }
+
+    // `class { get #a(){}; static set #a(_){} }` is also conflict.
+    if (
+      curr === "iget" && next === "iset" ||
+      curr === "iset" && next === "iget" ||
+      curr === "sget" && next === "sset" ||
+      curr === "sset" && next === "sget"
+    ) {
+      privateNameMap[name] = "true";
+      return false
+    } else if (!curr) {
+      privateNameMap[name] = next;
+      return false
+    } else {
+      return true
+    }
+  }
+
+  function checkKeyName(node, name) {
+    var computed = node.computed;
+    var key = node.key;
+    return !computed && (
+      key.type === "Identifier" && key.name === name ||
+      key.type === "Literal" && key.value === name
+    )
+  }
+
+  // Parses module export declaration.
+
+  pp$8.parseExportAllDeclaration = function(node, exports) {
+    if (this.options.ecmaVersion >= 11) {
+      if (this.eatContextual("as")) {
+        node.exported = this.parseModuleExportName();
+        this.checkExport(exports, node.exported, this.lastTokStart);
+      } else {
+        node.exported = null;
+      }
+    }
+    this.expectContextual("from");
+    if (this.type !== types$1.string) { this.unexpected(); }
+    node.source = this.parseExprAtom();
+    if (this.options.ecmaVersion >= 16)
+      { node.attributes = this.parseWithClause(); }
+    this.semicolon();
+    return this.finishNode(node, "ExportAllDeclaration")
+  };
+
+  pp$8.parseExport = function(node, exports) {
+    this.next();
+    // export * from '...'
+    if (this.eat(types$1.star)) {
+      return this.parseExportAllDeclaration(node, exports)
+    }
+    if (this.eat(types$1._default)) { // export default ...
+      this.checkExport(exports, "default", this.lastTokStart);
+      node.declaration = this.parseExportDefaultDeclaration();
+      return this.finishNode(node, "ExportDefaultDeclaration")
+    }
+    // export var|const|let|function|class ...
+    if (this.shouldParseExportStatement()) {
+      node.declaration = this.parseExportDeclaration(node);
+      if (node.declaration.type === "VariableDeclaration")
+        { this.checkVariableExport(exports, node.declaration.declarations); }
+      else
+        { this.checkExport(exports, node.declaration.id, node.declaration.id.start); }
+      node.specifiers = [];
+      node.source = null;
+      if (this.options.ecmaVersion >= 16)
+        { node.attributes = []; }
+    } else { // export { x, y as z } [from '...']
+      node.declaration = null;
+      node.specifiers = this.parseExportSpecifiers(exports);
+      if (this.eatContextual("from")) {
+        if (this.type !== types$1.string) { this.unexpected(); }
+        node.source = this.parseExprAtom();
+        if (this.options.ecmaVersion >= 16)
+          { node.attributes = this.parseWithClause(); }
+      } else {
+        for (var i = 0, list = node.specifiers; i < list.length; i += 1) {
+          // check for keywords used as local names
+          var spec = list[i];
+
+          this.checkUnreserved(spec.local);
+          // check if export is defined
+          this.checkLocalExport(spec.local);
+
+          if (spec.local.type === "Literal") {
+            this.raise(spec.local.start, "A string literal cannot be used as an exported binding without `from`.");
+          }
+        }
+
+        node.source = null;
+        if (this.options.ecmaVersion >= 16)
+          { node.attributes = []; }
+      }
+      this.semicolon();
+    }
+    return this.finishNode(node, "ExportNamedDeclaration")
+  };
+
+  pp$8.parseExportDeclaration = function(node) {
+    return this.parseStatement(null)
+  };
+
+  pp$8.parseExportDefaultDeclaration = function() {
+    var isAsync;
+    if (this.type === types$1._function || (isAsync = this.isAsyncFunction())) {
+      var fNode = this.startNode();
+      this.next();
+      if (isAsync) { this.next(); }
+      return this.parseFunction(fNode, FUNC_STATEMENT | FUNC_NULLABLE_ID, false, isAsync)
+    } else if (this.type === types$1._class) {
+      var cNode = this.startNode();
+      return this.parseClass(cNode, "nullableID")
+    } else {
+      var declaration = this.parseMaybeAssign();
+      this.semicolon();
+      return declaration
+    }
+  };
+
+  pp$8.checkExport = function(exports, name, pos) {
+    if (!exports) { return }
+    if (typeof name !== "string")
+      { name = name.type === "Identifier" ? name.name : name.value; }
+    if (hasOwn(exports, name))
+      { this.raiseRecoverable(pos, "Duplicate export '" + name + "'"); }
+    exports[name] = true;
+  };
+
+  pp$8.checkPatternExport = function(exports, pat) {
+    var type = pat.type;
+    if (type === "Identifier")
+      { this.checkExport(exports, pat, pat.start); }
+    else if (type === "ObjectPattern")
+      { for (var i = 0, list = pat.properties; i < list.length; i += 1)
+        {
+          var prop = list[i];
+
+          this.checkPatternExport(exports, prop);
+        } }
+    else if (type === "ArrayPattern")
+      { for (var i$1 = 0, list$1 = pat.elements; i$1 < list$1.length; i$1 += 1) {
+        var elt = list$1[i$1];
+
+          if (elt) { this.checkPatternExport(exports, elt); }
+      } }
+    else if (type === "Property")
+      { this.checkPatternExport(exports, pat.value); }
+    else if (type === "AssignmentPattern")
+      { this.checkPatternExport(exports, pat.left); }
+    else if (type === "RestElement")
+      { this.checkPatternExport(exports, pat.argument); }
+  };
+
+  pp$8.checkVariableExport = function(exports, decls) {
+    if (!exports) { return }
+    for (var i = 0, list = decls; i < list.length; i += 1)
+      {
+      var decl = list[i];
+
+      this.checkPatternExport(exports, decl.id);
+    }
+  };
+
+  pp$8.shouldParseExportStatement = function() {
+    return this.type.keyword === "var" ||
+      this.type.keyword === "const" ||
+      this.type.keyword === "class" ||
+      this.type.keyword === "function" ||
+      this.isLet() ||
+      this.isAsyncFunction()
+  };
+
+  // Parses a comma-separated list of module exports.
+
+  pp$8.parseExportSpecifier = function(exports) {
+    var node = this.startNode();
+    node.local = this.parseModuleExportName();
+
+    node.exported = this.eatContextual("as") ? this.parseModuleExportName() : node.local;
+    this.checkExport(
+      exports,
+      node.exported,
+      node.exported.start
+    );
+
+    return this.finishNode(node, "ExportSpecifier")
+  };
+
+  pp$8.parseExportSpecifiers = function(exports) {
+    var nodes = [], first = true;
+    // export { x, y as z } [from '...']
+    this.expect(types$1.braceL);
+    while (!this.eat(types$1.braceR)) {
+      if (!first) {
+        this.expect(types$1.comma);
+        if (this.afterTrailingComma(types$1.braceR)) { break }
+      } else { first = false; }
+
+      nodes.push(this.parseExportSpecifier(exports));
+    }
+    return nodes
+  };
+
+  // Parses import declaration.
+
+  pp$8.parseImport = function(node) {
+    this.next();
+
+    // import '...'
+    if (this.type === types$1.string) {
+      node.specifiers = empty$1;
+      node.source = this.parseExprAtom();
+    } else {
+      node.specifiers = this.parseImportSpecifiers();
+      this.expectContextual("from");
+      node.source = this.type === types$1.string ? this.parseExprAtom() : this.unexpected();
+    }
+    if (this.options.ecmaVersion >= 16)
+      { node.attributes = this.parseWithClause(); }
+    this.semicolon();
+    return this.finishNode(node, "ImportDeclaration")
+  };
+
+  // Parses a comma-separated list of module imports.
+
+  pp$8.parseImportSpecifier = function() {
+    var node = this.startNode();
+    node.imported = this.parseModuleExportName();
+
+    if (this.eatContextual("as")) {
+      node.local = this.parseIdent();
+    } else {
+      this.checkUnreserved(node.imported);
+      node.local = node.imported;
+    }
+    this.checkLValSimple(node.local, BIND_LEXICAL);
+
+    return this.finishNode(node, "ImportSpecifier")
+  };
+
+  pp$8.parseImportDefaultSpecifier = function() {
+    // import defaultObj, { x, y as z } from '...'
+    var node = this.startNode();
+    node.local = this.parseIdent();
+    this.checkLValSimple(node.local, BIND_LEXICAL);
+    return this.finishNode(node, "ImportDefaultSpecifier")
+  };
+
+  pp$8.parseImportNamespaceSpecifier = function() {
+    var node = this.startNode();
+    this.next();
+    this.expectContextual("as");
+    node.local = this.parseIdent();
+    this.checkLValSimple(node.local, BIND_LEXICAL);
+    return this.finishNode(node, "ImportNamespaceSpecifier")
+  };
+
+  pp$8.parseImportSpecifiers = function() {
+    var nodes = [], first = true;
+    if (this.type === types$1.name) {
+      nodes.push(this.parseImportDefaultSpecifier());
+      if (!this.eat(types$1.comma)) { return nodes }
+    }
+    if (this.type === types$1.star) {
+      nodes.push(this.parseImportNamespaceSpecifier());
+      return nodes
+    }
+    this.expect(types$1.braceL);
+    while (!this.eat(types$1.braceR)) {
+      if (!first) {
+        this.expect(types$1.comma);
+        if (this.afterTrailingComma(types$1.braceR)) { break }
+      } else { first = false; }
+
+      nodes.push(this.parseImportSpecifier());
+    }
+    return nodes
+  };
+
+  pp$8.parseWithClause = function() {
+    var nodes = [];
+    if (!this.eat(types$1._with)) {
+      return nodes
+    }
+    this.expect(types$1.braceL);
+    var attributeKeys = {};
+    var first = true;
+    while (!this.eat(types$1.braceR)) {
+      if (!first) {
+        this.expect(types$1.comma);
+        if (this.afterTrailingComma(types$1.braceR)) { break }
+      } else { first = false; }
+
+      var attr = this.parseImportAttribute();
+      var keyName = attr.key.type === "Identifier" ? attr.key.name : attr.key.value;
+      if (hasOwn(attributeKeys, keyName))
+        { this.raiseRecoverable(attr.key.start, "Duplicate attribute key '" + keyName + "'"); }
+      attributeKeys[keyName] = true;
+      nodes.push(attr);
+    }
+    return nodes
+  };
+
+  pp$8.parseImportAttribute = function() {
+    var node = this.startNode();
+    node.key = this.type === types$1.string ? this.parseExprAtom() : this.parseIdent(this.options.allowReserved !== "never");
+    this.expect(types$1.colon);
+    if (this.type !== types$1.string) {
+      this.unexpected();
+    }
+    node.value = this.parseExprAtom();
+    return this.finishNode(node, "ImportAttribute")
+  };
+
+  pp$8.parseModuleExportName = function() {
+    if (this.options.ecmaVersion >= 13 && this.type === types$1.string) {
+      var stringLiteral = this.parseLiteral(this.value);
+      if (loneSurrogate.test(stringLiteral.value)) {
+        this.raise(stringLiteral.start, "An export name cannot include a lone surrogate.");
+      }
+      return stringLiteral
+    }
+    return this.parseIdent(true)
+  };
+
+  // Set `ExpressionStatement#directive` property for directive prologues.
+  pp$8.adaptDirectivePrologue = function(statements) {
+    for (var i = 0; i < statements.length && this.isDirectiveCandidate(statements[i]); ++i) {
+      statements[i].directive = statements[i].expression.raw.slice(1, -1);
+    }
+  };
+  pp$8.isDirectiveCandidate = function(statement) {
+    return (
+      this.options.ecmaVersion >= 5 &&
+      statement.type === "ExpressionStatement" &&
+      statement.expression.type === "Literal" &&
+      typeof statement.expression.value === "string" &&
+      // Reject parenthesized strings.
+      (this.input[statement.start] === "\"" || this.input[statement.start] === "'")
+    )
+  };
+
+  var pp$7 = Parser.prototype;
+
+  // Convert existing expression atom to assignable pattern
+  // if possible.
+
+  pp$7.toAssignable = function(node, isBinding, refDestructuringErrors) {
+    if (this.options.ecmaVersion >= 6 && node) {
+      switch (node.type) {
+      case "Identifier":
+        if (this.inAsync && node.name === "await")
+          { this.raise(node.start, "Cannot use 'await' as identifier inside an async function"); }
+        break
+
+      case "ObjectPattern":
+      case "ArrayPattern":
+      case "AssignmentPattern":
+      case "RestElement":
+        break
+
+      case "ObjectExpression":
+        node.type = "ObjectPattern";
+        if (refDestructuringErrors) { this.checkPatternErrors(refDestructuringErrors, true); }
+        for (var i = 0, list = node.properties; i < list.length; i += 1) {
+          var prop = list[i];
+
+        this.toAssignable(prop, isBinding);
+          // Early error:
+          //   AssignmentRestProperty[Yield, Await] :
+          //     `...` DestructuringAssignmentTarget[Yield, Await]
+          //
+          //   It is a Syntax Error if |DestructuringAssignmentTarget| is an |ArrayLiteral| or an |ObjectLiteral|.
+          if (
+            prop.type === "RestElement" &&
+            (prop.argument.type === "ArrayPattern" || prop.argument.type === "ObjectPattern")
+          ) {
+            this.raise(prop.argument.start, "Unexpected token");
+          }
+        }
+        break
+
+      case "Property":
+        // AssignmentProperty has type === "Property"
+        if (node.kind !== "init") { this.raise(node.key.start, "Object pattern can't contain getter or setter"); }
+        this.toAssignable(node.value, isBinding);
+        break
+
+      case "ArrayExpression":
+        node.type = "ArrayPattern";
+        if (refDestructuringErrors) { this.checkPatternErrors(refDestructuringErrors, true); }
+        this.toAssignableList(node.elements, isBinding);
+        break
+
+      case "SpreadElement":
+        node.type = "RestElement";
+        this.toAssignable(node.argument, isBinding);
+        if (node.argument.type === "AssignmentPattern")
+          { this.raise(node.argument.start, "Rest elements cannot have a default value"); }
+        break
+
+      case "AssignmentExpression":
+        if (node.operator !== "=") { this.raise(node.left.end, "Only '=' operator can be used for specifying default value."); }
+        node.type = "AssignmentPattern";
+        delete node.operator;
+        this.toAssignable(node.left, isBinding);
+        break
+
+      case "ParenthesizedExpression":
+        this.toAssignable(node.expression, isBinding, refDestructuringErrors);
+        break
+
+      case "ChainExpression":
+        this.raiseRecoverable(node.start, "Optional chaining cannot appear in left-hand side");
+        break
+
+      case "MemberExpression":
+        if (!isBinding) { break }
+
+      default:
+        this.raise(node.start, "Assigning to rvalue");
+      }
+    } else if (refDestructuringErrors) { this.checkPatternErrors(refDestructuringErrors, true); }
+    return node
+  };
+
+  // Convert list of expression atoms to binding list.
+
+  pp$7.toAssignableList = function(exprList, isBinding) {
+    var end = exprList.length;
+    for (var i = 0; i < end; i++) {
+      var elt = exprList[i];
+      if (elt) { this.toAssignable(elt, isBinding); }
+    }
+    if (end) {
+      var last = exprList[end - 1];
+      if (this.options.ecmaVersion === 6 && isBinding && last && last.type === "RestElement" && last.argument.type !== "Identifier")
+        { this.unexpected(last.argument.start); }
+    }
+    return exprList
+  };
+
+  // Parses spread element.
+
+  pp$7.parseSpread = function(refDestructuringErrors) {
+    var node = this.startNode();
+    this.next();
+    node.argument = this.parseMaybeAssign(false, refDestructuringErrors);
+    return this.finishNode(node, "SpreadElement")
+  };
+
+  pp$7.parseRestBinding = function() {
+    var node = this.startNode();
+    this.next();
+
+    // RestElement inside of a function parameter must be an identifier
+    if (this.options.ecmaVersion === 6 && this.type !== types$1.name)
+      { this.unexpected(); }
+
+    node.argument = this.parseBindingAtom();
+
+    return this.finishNode(node, "RestElement")
+  };
+
+  // Parses lvalue (assignable) atom.
+
+  pp$7.parseBindingAtom = function() {
+    if (this.options.ecmaVersion >= 6) {
+      switch (this.type) {
+      case types$1.bracketL:
+        var node = this.startNode();
+        this.next();
+        node.elements = this.parseBindingList(types$1.bracketR, true, true);
+        return this.finishNode(node, "ArrayPattern")
+
+      case types$1.braceL:
+        return this.parseObj(true)
+      }
+    }
+    return this.parseIdent()
+  };
+
+  pp$7.parseBindingList = function(close, allowEmpty, allowTrailingComma, allowModifiers) {
+    var elts = [], first = true;
+    while (!this.eat(close)) {
+      if (first) { first = false; }
+      else { this.expect(types$1.comma); }
+      if (allowEmpty && this.type === types$1.comma) {
+        elts.push(null);
+      } else if (allowTrailingComma && this.afterTrailingComma(close)) {
+        break
+      } else if (this.type === types$1.ellipsis) {
+        var rest = this.parseRestBinding();
+        this.parseBindingListItem(rest);
+        elts.push(rest);
+        if (this.type === types$1.comma) { this.raiseRecoverable(this.start, "Comma is not permitted after the rest element"); }
+        this.expect(close);
+        break
+      } else {
+        elts.push(this.parseAssignableListItem(allowModifiers));
+      }
+    }
+    return elts
+  };
+
+  pp$7.parseAssignableListItem = function(allowModifiers) {
+    var elem = this.parseMaybeDefault(this.start, this.startLoc);
+    this.parseBindingListItem(elem);
+    return elem
+  };
+
+  pp$7.parseBindingListItem = function(param) {
+    return param
+  };
+
+  // Parses assignment pattern around given atom if possible.
+
+  pp$7.parseMaybeDefault = function(startPos, startLoc, left) {
+    left = left || this.parseBindingAtom();
+    if (this.options.ecmaVersion < 6 || !this.eat(types$1.eq)) { return left }
+    var node = this.startNodeAt(startPos, startLoc);
+    node.left = left;
+    node.right = this.parseMaybeAssign();
+    return this.finishNode(node, "AssignmentPattern")
+  };
+
+  // The following three functions all verify that a node is an lvalue —
+  // something that can be bound, or assigned to. In order to do so, they perform
+  // a variety of checks:
+  //
+  // - Check that none of the bound/assigned-to identifiers are reserved words.
+  // - Record name declarations for bindings in the appropriate scope.
+  // - Check duplicate argument names, if checkClashes is set.
+  //
+  // If a complex binding pattern is encountered (e.g., object and array
+  // destructuring), the entire pattern is recursively checked.
+  //
+  // There are three versions of checkLVal*() appropriate for different
+  // circumstances:
+  //
+  // - checkLValSimple() shall be used if the syntactic construct supports
+  //   nothing other than identifiers and member expressions. Parenthesized
+  //   expressions are also correctly handled. This is generally appropriate for
+  //   constructs for which the spec says
+  //
+  //   > It is a Syntax Error if AssignmentTargetType of [the production] is not
+  //   > simple.
+  //
+  //   It is also appropriate for checking if an identifier is valid and not
+  //   defined elsewhere, like import declarations or function/class identifiers.
+  //
+  //   Examples where this is used include:
+  //     a += …;
+  //     import a from '…';
+  //   where a is the node to be checked.
+  //
+  // - checkLValPattern() shall be used if the syntactic construct supports
+  //   anything checkLValSimple() supports, as well as object and array
+  //   destructuring patterns. This is generally appropriate for constructs for
+  //   which the spec says
+  //
+  //   > It is a Syntax Error if [the production] is neither an ObjectLiteral nor
+  //   > an ArrayLiteral and AssignmentTargetType of [the production] is not
+  //   > simple.
+  //
+  //   Examples where this is used include:
+  //     (a = …);
+  //     const a = …;
+  //     try { … } catch (a) { … }
+  //   where a is the node to be checked.
+  //
+  // - checkLValInnerPattern() shall be used if the syntactic construct supports
+  //   anything checkLValPattern() supports, as well as default assignment
+  //   patterns, rest elements, and other constructs that may appear within an
+  //   object or array destructuring pattern.
+  //
+  //   As a special case, function parameters also use checkLValInnerPattern(),
+  //   as they also support defaults and rest constructs.
+  //
+  // These functions deliberately support both assignment and binding constructs,
+  // as the logic for both is exceedingly similar. If the node is the target of
+  // an assignment, then bindingType should be set to BIND_NONE. Otherwise, it
+  // should be set to the appropriate BIND_* constant, like BIND_VAR or
+  // BIND_LEXICAL.
+  //
+  // If the function is called with a non-BIND_NONE bindingType, then
+  // additionally a checkClashes object may be specified to allow checking for
+  // duplicate argument names. checkClashes is ignored if the provided construct
+  // is an assignment (i.e., bindingType is BIND_NONE).
+
+  pp$7.checkLValSimple = function(expr, bindingType, checkClashes) {
+    if ( bindingType === void 0 ) bindingType = BIND_NONE;
+
+    var isBind = bindingType !== BIND_NONE;
+
+    switch (expr.type) {
+    case "Identifier":
+      if (this.strict && this.reservedWordsStrictBind.test(expr.name))
+        { this.raiseRecoverable(expr.start, (isBind ? "Binding " : "Assigning to ") + expr.name + " in strict mode"); }
+      if (isBind) {
+        if (bindingType === BIND_LEXICAL && expr.name === "let")
+          { this.raiseRecoverable(expr.start, "let is disallowed as a lexically bound name"); }
+        if (checkClashes) {
+          if (hasOwn(checkClashes, expr.name))
+            { this.raiseRecoverable(expr.start, "Argument name clash"); }
+          checkClashes[expr.name] = true;
+        }
+        if (bindingType !== BIND_OUTSIDE) { this.declareName(expr.name, bindingType, expr.start); }
+      }
+      break
+
+    case "ChainExpression":
+      this.raiseRecoverable(expr.start, "Optional chaining cannot appear in left-hand side");
+      break
+
+    case "MemberExpression":
+      if (isBind) { this.raiseRecoverable(expr.start, "Binding member expression"); }
+      break
+
+    case "ParenthesizedExpression":
+      if (isBind) { this.raiseRecoverable(expr.start, "Binding parenthesized expression"); }
+      return this.checkLValSimple(expr.expression, bindingType, checkClashes)
+
+    default:
+      this.raise(expr.start, (isBind ? "Binding" : "Assigning to") + " rvalue");
+    }
+  };
+
+  pp$7.checkLValPattern = function(expr, bindingType, checkClashes) {
+    if ( bindingType === void 0 ) bindingType = BIND_NONE;
+
+    switch (expr.type) {
+    case "ObjectPattern":
+      for (var i = 0, list = expr.properties; i < list.length; i += 1) {
+        var prop = list[i];
+
+      this.checkLValInnerPattern(prop, bindingType, checkClashes);
+      }
+      break
+
+    case "ArrayPattern":
+      for (var i$1 = 0, list$1 = expr.elements; i$1 < list$1.length; i$1 += 1) {
+        var elem = list$1[i$1];
+
+      if (elem) { this.checkLValInnerPattern(elem, bindingType, checkClashes); }
+      }
+      break
+
+    default:
+      this.checkLValSimple(expr, bindingType, checkClashes);
+    }
+  };
+
+  pp$7.checkLValInnerPattern = function(expr, bindingType, checkClashes) {
+    if ( bindingType === void 0 ) bindingType = BIND_NONE;
+
+    switch (expr.type) {
+    case "Property":
+      // AssignmentProperty has type === "Property"
+      this.checkLValInnerPattern(expr.value, bindingType, checkClashes);
+      break
+
+    case "AssignmentPattern":
+      this.checkLValPattern(expr.left, bindingType, checkClashes);
+      break
+
+    case "RestElement":
+      this.checkLValPattern(expr.argument, bindingType, checkClashes);
+      break
+
+    default:
+      this.checkLValPattern(expr, bindingType, checkClashes);
+    }
+  };
+
+  // The algorithm used to determine whether a regexp can appear at a
+  // given point in the program is loosely based on sweet.js' approach.
+  // See https://github.com/mozilla/sweet.js/wiki/design
+
+
+  var TokContext = function TokContext(token, isExpr, preserveSpace, override, generator) {
+    this.token = token;
+    this.isExpr = !!isExpr;
+    this.preserveSpace = !!preserveSpace;
+    this.override = override;
+    this.generator = !!generator;
+  };
+
+  var types = {
+    b_stat: new TokContext("{", false),
+    b_expr: new TokContext("{", true),
+    b_tmpl: new TokContext("${", false),
+    p_stat: new TokContext("(", false),
+    p_expr: new TokContext("(", true),
+    q_tmpl: new TokContext("`", true, true, function (p) { return p.tryReadTemplateToken(); }),
+    f_stat: new TokContext("function", false),
+    f_expr: new TokContext("function", true),
+    f_expr_gen: new TokContext("function", true, false, null, true),
+    f_gen: new TokContext("function", false, false, null, true)
+  };
+
+  var pp$6 = Parser.prototype;
+
+  pp$6.initialContext = function() {
+    return [types.b_stat]
+  };
+
+  pp$6.curContext = function() {
+    return this.context[this.context.length - 1]
+  };
+
+  pp$6.braceIsBlock = function(prevType) {
+    var parent = this.curContext();
+    if (parent === types.f_expr || parent === types.f_stat)
+      { return true }
+    if (prevType === types$1.colon && (parent === types.b_stat || parent === types.b_expr))
+      { return !parent.isExpr }
+
+    // The check for `tt.name && exprAllowed` detects whether we are
+    // after a `yield` or `of` construct. See the `updateContext` for
+    // `tt.name`.
+    if (prevType === types$1._return || prevType === types$1.name && this.exprAllowed)
+      { return lineBreak.test(this.input.slice(this.lastTokEnd, this.start)) }
+    if (prevType === types$1._else || prevType === types$1.semi || prevType === types$1.eof || prevType === types$1.parenR || prevType === types$1.arrow)
+      { return true }
+    if (prevType === types$1.braceL)
+      { return parent === types.b_stat }
+    if (prevType === types$1._var || prevType === types$1._const || prevType === types$1.name)
+      { return false }
+    return !this.exprAllowed
+  };
+
+  pp$6.inGeneratorContext = function() {
+    for (var i = this.context.length - 1; i >= 1; i--) {
+      var context = this.context[i];
+      if (context.token === "function")
+        { return context.generator }
+    }
+    return false
+  };
+
+  pp$6.updateContext = function(prevType) {
+    var update, type = this.type;
+    if (type.keyword && prevType === types$1.dot)
+      { this.exprAllowed = false; }
+    else if (update = type.updateContext)
+      { update.call(this, prevType); }
+    else
+      { this.exprAllowed = type.beforeExpr; }
+  };
+
+  // Used to handle edge cases when token context could not be inferred correctly during tokenization phase
+
+  pp$6.overrideContext = function(tokenCtx) {
+    if (this.curContext() !== tokenCtx) {
+      this.context[this.context.length - 1] = tokenCtx;
+    }
+  };
+
+  // Token-specific context update code
+
+  types$1.parenR.updateContext = types$1.braceR.updateContext = function() {
+    if (this.context.length === 1) {
+      this.exprAllowed = true;
+      return
+    }
+    var out = this.context.pop();
+    if (out === types.b_stat && this.curContext().token === "function") {
+      out = this.context.pop();
+    }
+    this.exprAllowed = !out.isExpr;
+  };
+
+  types$1.braceL.updateContext = function(prevType) {
+    this.context.push(this.braceIsBlock(prevType) ? types.b_stat : types.b_expr);
+    this.exprAllowed = true;
+  };
+
+  types$1.dollarBraceL.updateContext = function() {
+    this.context.push(types.b_tmpl);
+    this.exprAllowed = true;
+  };
+
+  types$1.parenL.updateContext = function(prevType) {
+    var statementParens = prevType === types$1._if || prevType === types$1._for || prevType === types$1._with || prevType === types$1._while;
+    this.context.push(statementParens ? types.p_stat : types.p_expr);
+    this.exprAllowed = true;
+  };
+
+  types$1.incDec.updateContext = function() {
+    // tokExprAllowed stays unchanged
+  };
+
+  types$1._function.updateContext = types$1._class.updateContext = function(prevType) {
+    if (prevType.beforeExpr && prevType !== types$1._else &&
+        !(prevType === types$1.semi && this.curContext() !== types.p_stat) &&
+        !(prevType === types$1._return && lineBreak.test(this.input.slice(this.lastTokEnd, this.start))) &&
+        !((prevType === types$1.colon || prevType === types$1.braceL) && this.curContext() === types.b_stat))
+      { this.context.push(types.f_expr); }
+    else
+      { this.context.push(types.f_stat); }
+    this.exprAllowed = false;
+  };
+
+  types$1.colon.updateContext = function() {
+    if (this.curContext().token === "function") { this.context.pop(); }
+    this.exprAllowed = true;
+  };
+
+  types$1.backQuote.updateContext = function() {
+    if (this.curContext() === types.q_tmpl)
+      { this.context.pop(); }
+    else
+      { this.context.push(types.q_tmpl); }
+    this.exprAllowed = false;
+  };
+
+  types$1.star.updateContext = function(prevType) {
+    if (prevType === types$1._function) {
+      var index = this.context.length - 1;
+      if (this.context[index] === types.f_expr)
+        { this.context[index] = types.f_expr_gen; }
+      else
+        { this.context[index] = types.f_gen; }
+    }
+    this.exprAllowed = true;
+  };
+
+  types$1.name.updateContext = function(prevType) {
+    var allowed = false;
+    if (this.options.ecmaVersion >= 6 && prevType !== types$1.dot) {
+      if (this.value === "of" && !this.exprAllowed ||
+          this.value === "yield" && this.inGeneratorContext())
+        { allowed = true; }
+    }
+    this.exprAllowed = allowed;
+  };
+
+  // A recursive descent parser operates by defining functions for all
+  // syntactic elements, and recursively calling those, each function
+  // advancing the input stream and returning an AST node. Precedence
+  // of constructs (for example, the fact that `!x[1]` means `!(x[1])`
+  // instead of `(!x)[1]` is handled by the fact that the parser
+  // function that parses unary prefix operators is called first, and
+  // in turn calls the function that parses `[]` subscripts — that
+  // way, it'll receive the node for `x[1]` already parsed, and wraps
+  // *that* in the unary operator node.
+  //
+  // Acorn uses an [operator precedence parser][opp] to handle binary
+  // operator precedence, because it is much more compact than using
+  // the technique outlined above, which uses different, nesting
+  // functions to specify precedence, for all of the ten binary
+  // precedence levels that JavaScript defines.
+  //
+  // [opp]: http://en.wikipedia.org/wiki/Operator-precedence_parser
+
+
+  var pp$5 = Parser.prototype;
+
+  // Check if property name clashes with already added.
+  // Object/class getters and setters are not allowed to clash —
+  // either with each other or with an init property — and in
+  // strict mode, init properties are also not allowed to be repeated.
+
+  pp$5.checkPropClash = function(prop, propHash, refDestructuringErrors) {
+    if (this.options.ecmaVersion >= 9 && prop.type === "SpreadElement")
+      { return }
+    if (this.options.ecmaVersion >= 6 && (prop.computed || prop.method || prop.shorthand))
+      { return }
+    var key = prop.key;
+    var name;
+    switch (key.type) {
+    case "Identifier": name = key.name; break
+    case "Literal": name = String(key.value); break
+    default: return
+    }
+    var kind = prop.kind;
+    if (this.options.ecmaVersion >= 6) {
+      if (name === "__proto__" && kind === "init") {
+        if (propHash.proto) {
+          if (refDestructuringErrors) {
+            if (refDestructuringErrors.doubleProto < 0) {
+              refDestructuringErrors.doubleProto = key.start;
+            }
+          } else {
+            this.raiseRecoverable(key.start, "Redefinition of __proto__ property");
+          }
+        }
+        propHash.proto = true;
+      }
+      return
+    }
+    name = "$" + name;
+    var other = propHash[name];
+    if (other) {
+      var redefinition;
+      if (kind === "init") {
+        redefinition = this.strict && other.init || other.get || other.set;
+      } else {
+        redefinition = other.init || other[kind];
+      }
+      if (redefinition)
+        { this.raiseRecoverable(key.start, "Redefinition of property"); }
+    } else {
+      other = propHash[name] = {
+        init: false,
+        get: false,
+        set: false
+      };
+    }
+    other[kind] = true;
+  };
+
+  // ### Expression parsing
+
+  // These nest, from the most general expression type at the top to
+  // 'atomic', nondivisible expression types at the bottom. Most of
+  // the functions will simply let the function(s) below them parse,
+  // and, *if* the syntactic construct they handle is present, wrap
+  // the AST node that the inner parser gave them in another node.
+
+  // Parse a full expression. The optional arguments are used to
+  // forbid the `in` operator (in for loops initalization expressions)
+  // and provide reference for storing '=' operator inside shorthand
+  // property assignment in contexts where both object expression
+  // and object pattern might appear (so it's possible to raise
+  // delayed syntax error at correct position).
+
+  pp$5.parseExpression = function(forInit, refDestructuringErrors) {
+    var startPos = this.start, startLoc = this.startLoc;
+    var expr = this.parseMaybeAssign(forInit, refDestructuringErrors);
+    if (this.type === types$1.comma) {
+      var node = this.startNodeAt(startPos, startLoc);
+      node.expressions = [expr];
+      while (this.eat(types$1.comma)) { node.expressions.push(this.parseMaybeAssign(forInit, refDestructuringErrors)); }
+      return this.finishNode(node, "SequenceExpression")
+    }
+    return expr
+  };
+
+  // Parse an assignment expression. This includes applications of
+  // operators like `+=`.
+
+  pp$5.parseMaybeAssign = function(forInit, refDestructuringErrors, afterLeftParse) {
+    if (this.isContextual("yield")) {
+      if (this.inGenerator) { return this.parseYield(forInit) }
+      // The tokenizer will assume an expression is allowed after
+      // `yield`, but this isn't that kind of yield
+      else { this.exprAllowed = false; }
+    }
+
+    var ownDestructuringErrors = false, oldParenAssign = -1, oldTrailingComma = -1, oldDoubleProto = -1;
+    if (refDestructuringErrors) {
+      oldParenAssign = refDestructuringErrors.parenthesizedAssign;
+      oldTrailingComma = refDestructuringErrors.trailingComma;
+      oldDoubleProto = refDestructuringErrors.doubleProto;
+      refDestructuringErrors.parenthesizedAssign = refDestructuringErrors.trailingComma = -1;
+    } else {
+      refDestructuringErrors = new DestructuringErrors;
+      ownDestructuringErrors = true;
+    }
+
+    var startPos = this.start, startLoc = this.startLoc;
+    if (this.type === types$1.parenL || this.type === types$1.name) {
+      this.potentialArrowAt = this.start;
+      this.potentialArrowInForAwait = forInit === "await";
+    }
+    var left = this.parseMaybeConditional(forInit, refDestructuringErrors);
+    if (afterLeftParse) { left = afterLeftParse.call(this, left, startPos, startLoc); }
+    if (this.type.isAssign) {
+      var node = this.startNodeAt(startPos, startLoc);
+      node.operator = this.value;
+      if (this.type === types$1.eq)
+        { left = this.toAssignable(left, false, refDestructuringErrors); }
+      if (!ownDestructuringErrors) {
+        refDestructuringErrors.parenthesizedAssign = refDestructuringErrors.trailingComma = refDestructuringErrors.doubleProto = -1;
+      }
+      if (refDestructuringErrors.shorthandAssign >= left.start)
+        { refDestructuringErrors.shorthandAssign = -1; } // reset because shorthand default was used correctly
+      if (this.type === types$1.eq)
+        { this.checkLValPattern(left); }
+      else
+        { this.checkLValSimple(left); }
+      node.left = left;
+      this.next();
+      node.right = this.parseMaybeAssign(forInit);
+      if (oldDoubleProto > -1) { refDestructuringErrors.doubleProto = oldDoubleProto; }
+      return this.finishNode(node, "AssignmentExpression")
+    } else {
+      if (ownDestructuringErrors) { this.checkExpressionErrors(refDestructuringErrors, true); }
+    }
+    if (oldParenAssign > -1) { refDestructuringErrors.parenthesizedAssign = oldParenAssign; }
+    if (oldTrailingComma > -1) { refDestructuringErrors.trailingComma = oldTrailingComma; }
+    return left
+  };
+
+  // Parse a ternary conditional (`?:`) operator.
+
+  pp$5.parseMaybeConditional = function(forInit, refDestructuringErrors) {
+    var startPos = this.start, startLoc = this.startLoc;
+    var expr = this.parseExprOps(forInit, refDestructuringErrors);
+    if (this.checkExpressionErrors(refDestructuringErrors)) { return expr }
+    if (this.eat(types$1.question)) {
+      var node = this.startNodeAt(startPos, startLoc);
+      node.test = expr;
+      node.consequent = this.parseMaybeAssign();
+      this.expect(types$1.colon);
+      node.alternate = this.parseMaybeAssign(forInit);
+      return this.finishNode(node, "ConditionalExpression")
+    }
+    return expr
+  };
+
+  // Start the precedence parser.
+
+  pp$5.parseExprOps = function(forInit, refDestructuringErrors) {
+    var startPos = this.start, startLoc = this.startLoc;
+    var expr = this.parseMaybeUnary(refDestructuringErrors, false, false, forInit);
+    if (this.checkExpressionErrors(refDestructuringErrors)) { return expr }
+    return expr.start === startPos && expr.type === "ArrowFunctionExpression" ? expr : this.parseExprOp(expr, startPos, startLoc, -1, forInit)
+  };
+
+  // Parse binary operators with the operator precedence parsing
+  // algorithm. `left` is the left-hand side of the operator.
+  // `minPrec` provides context that allows the function to stop and
+  // defer further parser to one of its callers when it encounters an
+  // operator that has a lower precedence than the set it is parsing.
+
+  pp$5.parseExprOp = function(left, leftStartPos, leftStartLoc, minPrec, forInit) {
+    var prec = this.type.binop;
+    if (prec != null && (!forInit || this.type !== types$1._in)) {
+      if (prec > minPrec) {
+        var logical = this.type === types$1.logicalOR || this.type === types$1.logicalAND;
+        var coalesce = this.type === types$1.coalesce;
+        if (coalesce) {
+          // Handle the precedence of `tt.coalesce` as equal to the range of logical expressions.
+          // In other words, `node.right` shouldn't contain logical expressions in order to check the mixed error.
+          prec = types$1.logicalAND.binop;
+        }
+        var op = this.value;
+        this.next();
+        var startPos = this.start, startLoc = this.startLoc;
+        var right = this.parseExprOp(this.parseMaybeUnary(null, false, false, forInit), startPos, startLoc, prec, forInit);
+        var node = this.buildBinary(leftStartPos, leftStartLoc, left, right, op, logical || coalesce);
+        if ((logical && this.type === types$1.coalesce) || (coalesce && (this.type === types$1.logicalOR || this.type === types$1.logicalAND))) {
+          this.raiseRecoverable(this.start, "Logical expressions and coalesce expressions cannot be mixed. Wrap either by parentheses");
+        }
+        return this.parseExprOp(node, leftStartPos, leftStartLoc, minPrec, forInit)
+      }
+    }
+    return left
+  };
+
+  pp$5.buildBinary = function(startPos, startLoc, left, right, op, logical) {
+    if (right.type === "PrivateIdentifier") { this.raise(right.start, "Private identifier can only be left side of binary expression"); }
+    var node = this.startNodeAt(startPos, startLoc);
+    node.left = left;
+    node.operator = op;
+    node.right = right;
+    return this.finishNode(node, logical ? "LogicalExpression" : "BinaryExpression")
+  };
+
+  // Parse unary operators, both prefix and postfix.
+
+  pp$5.parseMaybeUnary = function(refDestructuringErrors, sawUnary, incDec, forInit) {
+    var startPos = this.start, startLoc = this.startLoc, expr;
+    if (this.isContextual("await") && this.canAwait) {
+      expr = this.parseAwait(forInit);
+      sawUnary = true;
+    } else if (this.type.prefix) {
+      var node = this.startNode(), update = this.type === types$1.incDec;
+      node.operator = this.value;
+      node.prefix = true;
+      this.next();
+      node.argument = this.parseMaybeUnary(null, true, update, forInit);
+      this.checkExpressionErrors(refDestructuringErrors, true);
+      if (update) { this.checkLValSimple(node.argument); }
+      else if (this.strict && node.operator === "delete" && isLocalVariableAccess(node.argument))
+        { this.raiseRecoverable(node.start, "Deleting local variable in strict mode"); }
+      else if (node.operator === "delete" && isPrivateFieldAccess(node.argument))
+        { this.raiseRecoverable(node.start, "Private fields can not be deleted"); }
+      else { sawUnary = true; }
+      expr = this.finishNode(node, update ? "UpdateExpression" : "UnaryExpression");
+    } else if (!sawUnary && this.type === types$1.privateId) {
+      if ((forInit || this.privateNameStack.length === 0) && this.options.checkPrivateFields) { this.unexpected(); }
+      expr = this.parsePrivateIdent();
+      // only could be private fields in 'in', such as #x in obj
+      if (this.type !== types$1._in) { this.unexpected(); }
+    } else {
+      expr = this.parseExprSubscripts(refDestructuringErrors, forInit);
+      if (this.checkExpressionErrors(refDestructuringErrors)) { return expr }
+      while (this.type.postfix && !this.canInsertSemicolon()) {
+        var node$1 = this.startNodeAt(startPos, startLoc);
+        node$1.operator = this.value;
+        node$1.prefix = false;
+        node$1.argument = expr;
+        this.checkLValSimple(expr);
+        this.next();
+        expr = this.finishNode(node$1, "UpdateExpression");
+      }
+    }
+
+    if (!incDec && this.eat(types$1.starstar)) {
+      if (sawUnary)
+        { this.unexpected(this.lastTokStart); }
+      else
+        { return this.buildBinary(startPos, startLoc, expr, this.parseMaybeUnary(null, false, false, forInit), "**", false) }
+    } else {
+      return expr
+    }
+  };
+
+  function isLocalVariableAccess(node) {
+    return (
+      node.type === "Identifier" ||
+      node.type === "ParenthesizedExpression" && isLocalVariableAccess(node.expression)
+    )
+  }
+
+  function isPrivateFieldAccess(node) {
+    return (
+      node.type === "MemberExpression" && node.property.type === "PrivateIdentifier" ||
+      node.type === "ChainExpression" && isPrivateFieldAccess(node.expression) ||
+      node.type === "ParenthesizedExpression" && isPrivateFieldAccess(node.expression)
+    )
+  }
+
+  // Parse call, dot, and `[]`-subscript expressions.
+
+  pp$5.parseExprSubscripts = function(refDestructuringErrors, forInit) {
+    var startPos = this.start, startLoc = this.startLoc;
+    var expr = this.parseExprAtom(refDestructuringErrors, forInit);
+    if (expr.type === "ArrowFunctionExpression" && this.input.slice(this.lastTokStart, this.lastTokEnd) !== ")")
+      { return expr }
+    var result = this.parseSubscripts(expr, startPos, startLoc, false, forInit);
+    if (refDestructuringErrors && result.type === "MemberExpression") {
+      if (refDestructuringErrors.parenthesizedAssign >= result.start) { refDestructuringErrors.parenthesizedAssign = -1; }
+      if (refDestructuringErrors.parenthesizedBind >= result.start) { refDestructuringErrors.parenthesizedBind = -1; }
+      if (refDestructuringErrors.trailingComma >= result.start) { refDestructuringErrors.trailingComma = -1; }
+    }
+    return result
+  };
+
+  pp$5.parseSubscripts = function(base, startPos, startLoc, noCalls, forInit) {
+    var maybeAsyncArrow = this.options.ecmaVersion >= 8 && base.type === "Identifier" && base.name === "async" &&
+        this.lastTokEnd === base.end && !this.canInsertSemicolon() && base.end - base.start === 5 &&
+        this.potentialArrowAt === base.start;
+    var optionalChained = false;
+
+    while (true) {
+      var element = this.parseSubscript(base, startPos, startLoc, noCalls, maybeAsyncArrow, optionalChained, forInit);
+
+      if (element.optional) { optionalChained = true; }
+      if (element === base || element.type === "ArrowFunctionExpression") {
+        if (optionalChained) {
+          var chainNode = this.startNodeAt(startPos, startLoc);
+          chainNode.expression = element;
+          element = this.finishNode(chainNode, "ChainExpression");
+        }
+        return element
+      }
+
+      base = element;
+    }
+  };
+
+  pp$5.shouldParseAsyncArrow = function() {
+    return !this.canInsertSemicolon() && this.eat(types$1.arrow)
+  };
+
+  pp$5.parseSubscriptAsyncArrow = function(startPos, startLoc, exprList, forInit) {
+    return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), exprList, true, forInit)
+  };
+
+  pp$5.parseSubscript = function(base, startPos, startLoc, noCalls, maybeAsyncArrow, optionalChained, forInit) {
+    var optionalSupported = this.options.ecmaVersion >= 11;
+    var optional = optionalSupported && this.eat(types$1.questionDot);
+    if (noCalls && optional) { this.raise(this.lastTokStart, "Optional chaining cannot appear in the callee of new expressions"); }
+
+    var computed = this.eat(types$1.bracketL);
+    if (computed || (optional && this.type !== types$1.parenL && this.type !== types$1.backQuote) || this.eat(types$1.dot)) {
+      var node = this.startNodeAt(startPos, startLoc);
+      node.object = base;
+      if (computed) {
+        node.property = this.parseExpression();
+        this.expect(types$1.bracketR);
+      } else if (this.type === types$1.privateId && base.type !== "Super") {
+        node.property = this.parsePrivateIdent();
+      } else {
+        node.property = this.parseIdent(this.options.allowReserved !== "never");
+      }
+      node.computed = !!computed;
+      if (optionalSupported) {
+        node.optional = optional;
+      }
+      base = this.finishNode(node, "MemberExpression");
+    } else if (!noCalls && this.eat(types$1.parenL)) {
+      var refDestructuringErrors = new DestructuringErrors, oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, oldAwaitIdentPos = this.awaitIdentPos;
+      this.yieldPos = 0;
+      this.awaitPos = 0;
+      this.awaitIdentPos = 0;
+      var exprList = this.parseExprList(types$1.parenR, this.options.ecmaVersion >= 8, false, refDestructuringErrors);
+      if (maybeAsyncArrow && !optional && this.shouldParseAsyncArrow()) {
+        this.checkPatternErrors(refDestructuringErrors, false);
+        this.checkYieldAwaitInDefaultParams();
+        if (this.awaitIdentPos > 0)
+          { this.raise(this.awaitIdentPos, "Cannot use 'await' as identifier inside an async function"); }
+        this.yieldPos = oldYieldPos;
+        this.awaitPos = oldAwaitPos;
+        this.awaitIdentPos = oldAwaitIdentPos;
+        return this.parseSubscriptAsyncArrow(startPos, startLoc, exprList, forInit)
+      }
+      this.checkExpressionErrors(refDestructuringErrors, true);
+      this.yieldPos = oldYieldPos || this.yieldPos;
+      this.awaitPos = oldAwaitPos || this.awaitPos;
+      this.awaitIdentPos = oldAwaitIdentPos || this.awaitIdentPos;
+      var node$1 = this.startNodeAt(startPos, startLoc);
+      node$1.callee = base;
+      node$1.arguments = exprList;
+      if (optionalSupported) {
+        node$1.optional = optional;
+      }
+      base = this.finishNode(node$1, "CallExpression");
+    } else if (this.type === types$1.backQuote) {
+      if (optional || optionalChained) {
+        this.raise(this.start, "Optional chaining cannot appear in the tag of tagged template expressions");
+      }
+      var node$2 = this.startNodeAt(startPos, startLoc);
+      node$2.tag = base;
+      node$2.quasi = this.parseTemplate({isTagged: true});
+      base = this.finishNode(node$2, "TaggedTemplateExpression");
+    }
+    return base
+  };
+
+  // Parse an atomic expression — either a single token that is an
+  // expression, an expression started by a keyword like `function` or
+  // `new`, or an expression wrapped in punctuation like `()`, `[]`,
+  // or `{}`.
+
+  pp$5.parseExprAtom = function(refDestructuringErrors, forInit, forNew) {
+    // If a division operator appears in an expression position, the
+    // tokenizer got confused, and we force it to read a regexp instead.
+    if (this.type === types$1.slash) { this.readRegexp(); }
+
+    var node, canBeArrow = this.potentialArrowAt === this.start;
+    switch (this.type) {
+    case types$1._super:
+      if (!this.allowSuper)
+        { this.raise(this.start, "'super' keyword outside a method"); }
+      node = this.startNode();
+      this.next();
+      if (this.type === types$1.parenL && !this.allowDirectSuper)
+        { this.raise(node.start, "super() call outside constructor of a subclass"); }
+      // The `super` keyword can appear at below:
+      // SuperProperty:
+      //     super [ Expression ]
+      //     super . IdentifierName
+      // SuperCall:
+      //     super ( Arguments )
+      if (this.type !== types$1.dot && this.type !== types$1.bracketL && this.type !== types$1.parenL)
+        { this.unexpected(); }
+      return this.finishNode(node, "Super")
+
+    case types$1._this:
+      node = this.startNode();
+      this.next();
+      return this.finishNode(node, "ThisExpression")
+
+    case types$1.name:
+      var startPos = this.start, startLoc = this.startLoc, containsEsc = this.containsEsc;
+      var id = this.parseIdent(false);
+      if (this.options.ecmaVersion >= 8 && !containsEsc && id.name === "async" && !this.canInsertSemicolon() && this.eat(types$1._function)) {
+        this.overrideContext(types.f_expr);
+        return this.parseFunction(this.startNodeAt(startPos, startLoc), 0, false, true, forInit)
+      }
+      if (canBeArrow && !this.canInsertSemicolon()) {
+        if (this.eat(types$1.arrow))
+          { return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), [id], false, forInit) }
+        if (this.options.ecmaVersion >= 8 && id.name === "async" && this.type === types$1.name && !containsEsc &&
+            (!this.potentialArrowInForAwait || this.value !== "of" || this.containsEsc)) {
+          id = this.parseIdent(false);
+          if (this.canInsertSemicolon() || !this.eat(types$1.arrow))
+            { this.unexpected(); }
+          return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), [id], true, forInit)
+        }
+      }
+      return id
+
+    case types$1.regexp:
+      var value = this.value;
+      node = this.parseLiteral(value.value);
+      node.regex = {pattern: value.pattern, flags: value.flags};
+      return node
+
+    case types$1.num: case types$1.string:
+      return this.parseLiteral(this.value)
+
+    case types$1._null: case types$1._true: case types$1._false:
+      node = this.startNode();
+      node.value = this.type === types$1._null ? null : this.type === types$1._true;
+      node.raw = this.type.keyword;
+      this.next();
+      return this.finishNode(node, "Literal")
+
+    case types$1.parenL:
+      var start = this.start, expr = this.parseParenAndDistinguishExpression(canBeArrow, forInit);
+      if (refDestructuringErrors) {
+        if (refDestructuringErrors.parenthesizedAssign < 0 && !this.isSimpleAssignTarget(expr))
+          { refDestructuringErrors.parenthesizedAssign = start; }
+        if (refDestructuringErrors.parenthesizedBind < 0)
+          { refDestructuringErrors.parenthesizedBind = start; }
+      }
+      return expr
+
+    case types$1.bracketL:
+      node = this.startNode();
+      this.next();
+      node.elements = this.parseExprList(types$1.bracketR, true, true, refDestructuringErrors);
+      return this.finishNode(node, "ArrayExpression")
+
+    case types$1.braceL:
+      this.overrideContext(types.b_expr);
+      return this.parseObj(false, refDestructuringErrors)
+
+    case types$1._function:
+      node = this.startNode();
+      this.next();
+      return this.parseFunction(node, 0)
+
+    case types$1._class:
+      return this.parseClass(this.startNode(), false)
+
+    case types$1._new:
+      return this.parseNew()
+
+    case types$1.backQuote:
+      return this.parseTemplate()
+
+    case types$1._import:
+      if (this.options.ecmaVersion >= 11) {
+        return this.parseExprImport(forNew)
+      } else {
+        return this.unexpected()
+      }
+
+    default:
+      return this.parseExprAtomDefault()
+    }
+  };
+
+  pp$5.parseExprAtomDefault = function() {
+    this.unexpected();
+  };
+
+  pp$5.parseExprImport = function(forNew) {
+    var node = this.startNode();
+
+    // Consume `import` as an identifier for `import.meta`.
+    // Because `this.parseIdent(true)` doesn't check escape sequences, it needs the check of `this.containsEsc`.
+    if (this.containsEsc) { this.raiseRecoverable(this.start, "Escape sequence in keyword import"); }
+    this.next();
+
+    if (this.type === types$1.parenL && !forNew) {
+      return this.parseDynamicImport(node)
+    } else if (this.type === types$1.dot) {
+      var meta = this.startNodeAt(node.start, node.loc && node.loc.start);
+      meta.name = "import";
+      node.meta = this.finishNode(meta, "Identifier");
+      return this.parseImportMeta(node)
+    } else {
+      this.unexpected();
+    }
+  };
+
+  pp$5.parseDynamicImport = function(node) {
+    this.next(); // skip `(`
+
+    // Parse node.source.
+    node.source = this.parseMaybeAssign();
+
+    if (this.options.ecmaVersion >= 16) {
+      if (!this.eat(types$1.parenR)) {
+        this.expect(types$1.comma);
+        if (!this.afterTrailingComma(types$1.parenR)) {
+          node.options = this.parseMaybeAssign();
+          if (!this.eat(types$1.parenR)) {
+            this.expect(types$1.comma);
+            if (!this.afterTrailingComma(types$1.parenR)) {
+              this.unexpected();
+            }
+          }
+        } else {
+          node.options = null;
+        }
+      } else {
+        node.options = null;
+      }
+    } else {
+      // Verify ending.
+      if (!this.eat(types$1.parenR)) {
+        var errorPos = this.start;
+        if (this.eat(types$1.comma) && this.eat(types$1.parenR)) {
+          this.raiseRecoverable(errorPos, "Trailing comma is not allowed in import()");
+        } else {
+          this.unexpected(errorPos);
+        }
+      }
+    }
+
+    return this.finishNode(node, "ImportExpression")
+  };
+
+  pp$5.parseImportMeta = function(node) {
+    this.next(); // skip `.`
+
+    var containsEsc = this.containsEsc;
+    node.property = this.parseIdent(true);
+
+    if (node.property.name !== "meta")
+      { this.raiseRecoverable(node.property.start, "The only valid meta property for import is 'import.meta'"); }
+    if (containsEsc)
+      { this.raiseRecoverable(node.start, "'import.meta' must not contain escaped characters"); }
+    if (this.options.sourceType !== "module" && !this.options.allowImportExportEverywhere)
+      { this.raiseRecoverable(node.start, "Cannot use 'import.meta' outside a module"); }
+
+    return this.finishNode(node, "MetaProperty")
+  };
+
+  pp$5.parseLiteral = function(value) {
+    var node = this.startNode();
+    node.value = value;
+    node.raw = this.input.slice(this.start, this.end);
+    if (node.raw.charCodeAt(node.raw.length - 1) === 110)
+      { node.bigint = node.value != null ? node.value.toString() : node.raw.slice(0, -1).replace(/_/g, ""); }
+    this.next();
+    return this.finishNode(node, "Literal")
+  };
+
+  pp$5.parseParenExpression = function() {
+    this.expect(types$1.parenL);
+    var val = this.parseExpression();
+    this.expect(types$1.parenR);
+    return val
+  };
+
+  pp$5.shouldParseArrow = function(exprList) {
+    return !this.canInsertSemicolon()
+  };
+
+  pp$5.parseParenAndDistinguishExpression = function(canBeArrow, forInit) {
+    var startPos = this.start, startLoc = this.startLoc, val, allowTrailingComma = this.options.ecmaVersion >= 8;
+    if (this.options.ecmaVersion >= 6) {
+      this.next();
+
+      var innerStartPos = this.start, innerStartLoc = this.startLoc;
+      var exprList = [], first = true, lastIsComma = false;
+      var refDestructuringErrors = new DestructuringErrors, oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, spreadStart;
+      this.yieldPos = 0;
+      this.awaitPos = 0;
+      // Do not save awaitIdentPos to allow checking awaits nested in parameters
+      while (this.type !== types$1.parenR) {
+        first ? first = false : this.expect(types$1.comma);
+        if (allowTrailingComma && this.afterTrailingComma(types$1.parenR, true)) {
+          lastIsComma = true;
+          break
+        } else if (this.type === types$1.ellipsis) {
+          spreadStart = this.start;
+          exprList.push(this.parseParenItem(this.parseRestBinding()));
+          if (this.type === types$1.comma) {
+            this.raiseRecoverable(
+              this.start,
+              "Comma is not permitted after the rest element"
+            );
+          }
+          break
+        } else {
+          exprList.push(this.parseMaybeAssign(false, refDestructuringErrors, this.parseParenItem));
+        }
+      }
+      var innerEndPos = this.lastTokEnd, innerEndLoc = this.lastTokEndLoc;
+      this.expect(types$1.parenR);
+
+      if (canBeArrow && this.shouldParseArrow(exprList) && this.eat(types$1.arrow)) {
+        this.checkPatternErrors(refDestructuringErrors, false);
+        this.checkYieldAwaitInDefaultParams();
+        this.yieldPos = oldYieldPos;
+        this.awaitPos = oldAwaitPos;
+        return this.parseParenArrowList(startPos, startLoc, exprList, forInit)
+      }
+
+      if (!exprList.length || lastIsComma) { this.unexpected(this.lastTokStart); }
+      if (spreadStart) { this.unexpected(spreadStart); }
+      this.checkExpressionErrors(refDestructuringErrors, true);
+      this.yieldPos = oldYieldPos || this.yieldPos;
+      this.awaitPos = oldAwaitPos || this.awaitPos;
+
+      if (exprList.length > 1) {
+        val = this.startNodeAt(innerStartPos, innerStartLoc);
+        val.expressions = exprList;
+        this.finishNodeAt(val, "SequenceExpression", innerEndPos, innerEndLoc);
+      } else {
+        val = exprList[0];
+      }
+    } else {
+      val = this.parseParenExpression();
+    }
+
+    if (this.options.preserveParens) {
+      var par = this.startNodeAt(startPos, startLoc);
+      par.expression = val;
+      return this.finishNode(par, "ParenthesizedExpression")
+    } else {
+      return val
+    }
+  };
+
+  pp$5.parseParenItem = function(item) {
+    return item
+  };
+
+  pp$5.parseParenArrowList = function(startPos, startLoc, exprList, forInit) {
+    return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), exprList, false, forInit)
+  };
+
+  // New's precedence is slightly tricky. It must allow its argument to
+  // be a `[]` or dot subscript expression, but not a call — at least,
+  // not without wrapping it in parentheses. Thus, it uses the noCalls
+  // argument to parseSubscripts to prevent it from consuming the
+  // argument list.
+
+  var empty = [];
+
+  pp$5.parseNew = function() {
+    if (this.containsEsc) { this.raiseRecoverable(this.start, "Escape sequence in keyword new"); }
+    var node = this.startNode();
+    this.next();
+    if (this.options.ecmaVersion >= 6 && this.type === types$1.dot) {
+      var meta = this.startNodeAt(node.start, node.loc && node.loc.start);
+      meta.name = "new";
+      node.meta = this.finishNode(meta, "Identifier");
+      this.next();
+      var containsEsc = this.containsEsc;
+      node.property = this.parseIdent(true);
+      if (node.property.name !== "target")
+        { this.raiseRecoverable(node.property.start, "The only valid meta property for new is 'new.target'"); }
+      if (containsEsc)
+        { this.raiseRecoverable(node.start, "'new.target' must not contain escaped characters"); }
+      if (!this.allowNewDotTarget)
+        { this.raiseRecoverable(node.start, "'new.target' can only be used in functions and class static block"); }
+      return this.finishNode(node, "MetaProperty")
+    }
+    var startPos = this.start, startLoc = this.startLoc;
+    node.callee = this.parseSubscripts(this.parseExprAtom(null, false, true), startPos, startLoc, true, false);
+    if (this.eat(types$1.parenL)) { node.arguments = this.parseExprList(types$1.parenR, this.options.ecmaVersion >= 8, false); }
+    else { node.arguments = empty; }
+    return this.finishNode(node, "NewExpression")
+  };
+
+  // Parse template expression.
+
+  pp$5.parseTemplateElement = function(ref) {
+    var isTagged = ref.isTagged;
+
+    var elem = this.startNode();
+    if (this.type === types$1.invalidTemplate) {
+      if (!isTagged) {
+        this.raiseRecoverable(this.start, "Bad escape sequence in untagged template literal");
+      }
+      elem.value = {
+        raw: this.value.replace(/\r\n?/g, "\n"),
+        cooked: null
+      };
+    } else {
+      elem.value = {
+        raw: this.input.slice(this.start, this.end).replace(/\r\n?/g, "\n"),
+        cooked: this.value
+      };
+    }
+    this.next();
+    elem.tail = this.type === types$1.backQuote;
+    return this.finishNode(elem, "TemplateElement")
+  };
+
+  pp$5.parseTemplate = function(ref) {
+    if ( ref === void 0 ) ref = {};
+    var isTagged = ref.isTagged; if ( isTagged === void 0 ) isTagged = false;
+
+    var node = this.startNode();
+    this.next();
+    node.expressions = [];
+    var curElt = this.parseTemplateElement({isTagged: isTagged});
+    node.quasis = [curElt];
+    while (!curElt.tail) {
+      if (this.type === types$1.eof) { this.raise(this.pos, "Unterminated template literal"); }
+      this.expect(types$1.dollarBraceL);
+      node.expressions.push(this.parseExpression());
+      this.expect(types$1.braceR);
+      node.quasis.push(curElt = this.parseTemplateElement({isTagged: isTagged}));
+    }
+    this.next();
+    return this.finishNode(node, "TemplateLiteral")
+  };
+
+  pp$5.isAsyncProp = function(prop) {
+    return !prop.computed && prop.key.type === "Identifier" && prop.key.name === "async" &&
+      (this.type === types$1.name || this.type === types$1.num || this.type === types$1.string || this.type === types$1.bracketL || this.type.keyword || (this.options.ecmaVersion >= 9 && this.type === types$1.star)) &&
+      !lineBreak.test(this.input.slice(this.lastTokEnd, this.start))
+  };
+
+  // Parse an object literal or binding pattern.
+
+  pp$5.parseObj = function(isPattern, refDestructuringErrors) {
+    var node = this.startNode(), first = true, propHash = {};
+    node.properties = [];
+    this.next();
+    while (!this.eat(types$1.braceR)) {
+      if (!first) {
+        this.expect(types$1.comma);
+        if (this.options.ecmaVersion >= 5 && this.afterTrailingComma(types$1.braceR)) { break }
+      } else { first = false; }
+
+      var prop = this.parseProperty(isPattern, refDestructuringErrors);
+      if (!isPattern) { this.checkPropClash(prop, propHash, refDestructuringErrors); }
+      node.properties.push(prop);
+    }
+    return this.finishNode(node, isPattern ? "ObjectPattern" : "ObjectExpression")
+  };
+
+  pp$5.parseProperty = function(isPattern, refDestructuringErrors) {
+    var prop = this.startNode(), isGenerator, isAsync, startPos, startLoc;
+    if (this.options.ecmaVersion >= 9 && this.eat(types$1.ellipsis)) {
+      if (isPattern) {
+        prop.argument = this.parseIdent(false);
+        if (this.type === types$1.comma) {
+          this.raiseRecoverable(this.start, "Comma is not permitted after the rest element");
+        }
+        return this.finishNode(prop, "RestElement")
+      }
+      // Parse argument.
+      prop.argument = this.parseMaybeAssign(false, refDestructuringErrors);
+      // To disallow trailing comma via `this.toAssignable()`.
+      if (this.type === types$1.comma && refDestructuringErrors && refDestructuringErrors.trailingComma < 0) {
+        refDestructuringErrors.trailingComma = this.start;
+      }
+      // Finish
+      return this.finishNode(prop, "SpreadElement")
+    }
+    if (this.options.ecmaVersion >= 6) {
+      prop.method = false;
+      prop.shorthand = false;
+      if (isPattern || refDestructuringErrors) {
+        startPos = this.start;
+        startLoc = this.startLoc;
+      }
+      if (!isPattern)
+        { isGenerator = this.eat(types$1.star); }
+    }
+    var containsEsc = this.containsEsc;
+    this.parsePropertyName(prop);
+    if (!isPattern && !containsEsc && this.options.ecmaVersion >= 8 && !isGenerator && this.isAsyncProp(prop)) {
+      isAsync = true;
+      isGenerator = this.options.ecmaVersion >= 9 && this.eat(types$1.star);
+      this.parsePropertyName(prop);
+    } else {
+      isAsync = false;
+    }
+    this.parsePropertyValue(prop, isPattern, isGenerator, isAsync, startPos, startLoc, refDestructuringErrors, containsEsc);
+    return this.finishNode(prop, "Property")
+  };
+
+  pp$5.parseGetterSetter = function(prop) {
+    var kind = prop.key.name;
+    this.parsePropertyName(prop);
+    prop.value = this.parseMethod(false);
+    prop.kind = kind;
+    var paramCount = prop.kind === "get" ? 0 : 1;
+    if (prop.value.params.length !== paramCount) {
+      var start = prop.value.start;
+      if (prop.kind === "get")
+        { this.raiseRecoverable(start, "getter should have no params"); }
+      else
+        { this.raiseRecoverable(start, "setter should have exactly one param"); }
+    } else {
+      if (prop.kind === "set" && prop.value.params[0].type === "RestElement")
+        { this.raiseRecoverable(prop.value.params[0].start, "Setter cannot use rest params"); }
+    }
+  };
+
+  pp$5.parsePropertyValue = function(prop, isPattern, isGenerator, isAsync, startPos, startLoc, refDestructuringErrors, containsEsc) {
+    if ((isGenerator || isAsync) && this.type === types$1.colon)
+      { this.unexpected(); }
+
+    if (this.eat(types$1.colon)) {
+      prop.value = isPattern ? this.parseMaybeDefault(this.start, this.startLoc) : this.parseMaybeAssign(false, refDestructuringErrors);
+      prop.kind = "init";
+    } else if (this.options.ecmaVersion >= 6 && this.type === types$1.parenL) {
+      if (isPattern) { this.unexpected(); }
+      prop.method = true;
+      prop.value = this.parseMethod(isGenerator, isAsync);
+      prop.kind = "init";
+    } else if (!isPattern && !containsEsc &&
+               this.options.ecmaVersion >= 5 && !prop.computed && prop.key.type === "Identifier" &&
+               (prop.key.name === "get" || prop.key.name === "set") &&
+               (this.type !== types$1.comma && this.type !== types$1.braceR && this.type !== types$1.eq)) {
+      if (isGenerator || isAsync) { this.unexpected(); }
+      this.parseGetterSetter(prop);
+    } else if (this.options.ecmaVersion >= 6 && !prop.computed && prop.key.type === "Identifier") {
+      if (isGenerator || isAsync) { this.unexpected(); }
+      this.checkUnreserved(prop.key);
+      if (prop.key.name === "await" && !this.awaitIdentPos)
+        { this.awaitIdentPos = startPos; }
+      if (isPattern) {
+        prop.value = this.parseMaybeDefault(startPos, startLoc, this.copyNode(prop.key));
+      } else if (this.type === types$1.eq && refDestructuringErrors) {
+        if (refDestructuringErrors.shorthandAssign < 0)
+          { refDestructuringErrors.shorthandAssign = this.start; }
+        prop.value = this.parseMaybeDefault(startPos, startLoc, this.copyNode(prop.key));
+      } else {
+        prop.value = this.copyNode(prop.key);
+      }
+      prop.kind = "init";
+      prop.shorthand = true;
+    } else { this.unexpected(); }
+  };
+
+  pp$5.parsePropertyName = function(prop) {
+    if (this.options.ecmaVersion >= 6) {
+      if (this.eat(types$1.bracketL)) {
+        prop.computed = true;
+        prop.key = this.parseMaybeAssign();
+        this.expect(types$1.bracketR);
+        return prop.key
+      } else {
+        prop.computed = false;
+      }
+    }
+    return prop.key = this.type === types$1.num || this.type === types$1.string ? this.parseExprAtom() : this.parseIdent(this.options.allowReserved !== "never")
+  };
+
+  // Initialize empty function node.
+
+  pp$5.initFunction = function(node) {
+    node.id = null;
+    if (this.options.ecmaVersion >= 6) { node.generator = node.expression = false; }
+    if (this.options.ecmaVersion >= 8) { node.async = false; }
+  };
+
+  // Parse object or class method.
+
+  pp$5.parseMethod = function(isGenerator, isAsync, allowDirectSuper) {
+    var node = this.startNode(), oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, oldAwaitIdentPos = this.awaitIdentPos;
+
+    this.initFunction(node);
+    if (this.options.ecmaVersion >= 6)
+      { node.generator = isGenerator; }
+    if (this.options.ecmaVersion >= 8)
+      { node.async = !!isAsync; }
+
+    this.yieldPos = 0;
+    this.awaitPos = 0;
+    this.awaitIdentPos = 0;
+    this.enterScope(functionFlags(isAsync, node.generator) | SCOPE_SUPER | (allowDirectSuper ? SCOPE_DIRECT_SUPER : 0));
+
+    this.expect(types$1.parenL);
+    node.params = this.parseBindingList(types$1.parenR, false, this.options.ecmaVersion >= 8);
+    this.checkYieldAwaitInDefaultParams();
+    this.parseFunctionBody(node, false, true, false);
+
+    this.yieldPos = oldYieldPos;
+    this.awaitPos = oldAwaitPos;
+    this.awaitIdentPos = oldAwaitIdentPos;
+    return this.finishNode(node, "FunctionExpression")
+  };
+
+  // Parse arrow function expression with given parameters.
+
+  pp$5.parseArrowExpression = function(node, params, isAsync, forInit) {
+    var oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, oldAwaitIdentPos = this.awaitIdentPos;
+
+    this.enterScope(functionFlags(isAsync, false) | SCOPE_ARROW);
+    this.initFunction(node);
+    if (this.options.ecmaVersion >= 8) { node.async = !!isAsync; }
+
+    this.yieldPos = 0;
+    this.awaitPos = 0;
+    this.awaitIdentPos = 0;
+
+    node.params = this.toAssignableList(params, true);
+    this.parseFunctionBody(node, true, false, forInit);
+
+    this.yieldPos = oldYieldPos;
+    this.awaitPos = oldAwaitPos;
+    this.awaitIdentPos = oldAwaitIdentPos;
+    return this.finishNode(node, "ArrowFunctionExpression")
+  };
+
+  // Parse function body and check parameters.
+
+  pp$5.parseFunctionBody = function(node, isArrowFunction, isMethod, forInit) {
+    var isExpression = isArrowFunction && this.type !== types$1.braceL;
+    var oldStrict = this.strict, useStrict = false;
+
+    if (isExpression) {
+      node.body = this.parseMaybeAssign(forInit);
+      node.expression = true;
+      this.checkParams(node, false);
+    } else {
+      var nonSimple = this.options.ecmaVersion >= 7 && !this.isSimpleParamList(node.params);
+      if (!oldStrict || nonSimple) {
+        useStrict = this.strictDirective(this.end);
+        // If this is a strict mode function, verify that argument names
+        // are not repeated, and it does not try to bind the words `eval`
+        // or `arguments`.
+        if (useStrict && nonSimple)
+          { this.raiseRecoverable(node.start, "Illegal 'use strict' directive in function with non-simple parameter list"); }
+      }
+      // Start a new scope with regard to labels and the `inFunction`
+      // flag (restore them to their old value afterwards).
+      var oldLabels = this.labels;
+      this.labels = [];
+      if (useStrict) { this.strict = true; }
+
+      // Add the params to varDeclaredNames to ensure that an error is thrown
+      // if a let/const declaration in the function clashes with one of the params.
+      this.checkParams(node, !oldStrict && !useStrict && !isArrowFunction && !isMethod && this.isSimpleParamList(node.params));
+      // Ensure the function name isn't a forbidden identifier in strict mode, e.g. 'eval'
+      if (this.strict && node.id) { this.checkLValSimple(node.id, BIND_OUTSIDE); }
+      node.body = this.parseBlock(false, undefined, useStrict && !oldStrict);
+      node.expression = false;
+      this.adaptDirectivePrologue(node.body.body);
+      this.labels = oldLabels;
+    }
+    this.exitScope();
+  };
+
+  pp$5.isSimpleParamList = function(params) {
+    for (var i = 0, list = params; i < list.length; i += 1)
+      {
+      var param = list[i];
+
+      if (param.type !== "Identifier") { return false
+    } }
+    return true
+  };
+
+  // Checks function params for various disallowed patterns such as using "eval"
+  // or "arguments" and duplicate parameters.
+
+  pp$5.checkParams = function(node, allowDuplicates) {
+    var nameHash = Object.create(null);
+    for (var i = 0, list = node.params; i < list.length; i += 1)
+      {
+      var param = list[i];
+
+      this.checkLValInnerPattern(param, BIND_VAR, allowDuplicates ? null : nameHash);
+    }
+  };
+
+  // Parses a comma-separated list of expressions, and returns them as
+  // an array. `close` is the token type that ends the list, and
+  // `allowEmpty` can be turned on to allow subsequent commas with
+  // nothing in between them to be parsed as `null` (which is needed
+  // for array literals).
+
+  pp$5.parseExprList = function(close, allowTrailingComma, allowEmpty, refDestructuringErrors) {
+    var elts = [], first = true;
+    while (!this.eat(close)) {
+      if (!first) {
+        this.expect(types$1.comma);
+        if (allowTrailingComma && this.afterTrailingComma(close)) { break }
+      } else { first = false; }
+
+      var elt = (void 0);
+      if (allowEmpty && this.type === types$1.comma)
+        { elt = null; }
+      else if (this.type === types$1.ellipsis) {
+        elt = this.parseSpread(refDestructuringErrors);
+        if (refDestructuringErrors && this.type === types$1.comma && refDestructuringErrors.trailingComma < 0)
+          { refDestructuringErrors.trailingComma = this.start; }
+      } else {
+        elt = this.parseMaybeAssign(false, refDestructuringErrors);
+      }
+      elts.push(elt);
+    }
+    return elts
+  };
+
+  pp$5.checkUnreserved = function(ref) {
+    var start = ref.start;
+    var end = ref.end;
+    var name = ref.name;
+
+    if (this.inGenerator && name === "yield")
+      { this.raiseRecoverable(start, "Cannot use 'yield' as identifier inside a generator"); }
+    if (this.inAsync && name === "await")
+      { this.raiseRecoverable(start, "Cannot use 'await' as identifier inside an async function"); }
+    if (!(this.currentThisScope().flags & SCOPE_VAR) && name === "arguments")
+      { this.raiseRecoverable(start, "Cannot use 'arguments' in class field initializer"); }
+    if (this.inClassStaticBlock && (name === "arguments" || name === "await"))
+      { this.raise(start, ("Cannot use " + name + " in class static initialization block")); }
+    if (this.keywords.test(name))
+      { this.raise(start, ("Unexpected keyword '" + name + "'")); }
+    if (this.options.ecmaVersion < 6 &&
+      this.input.slice(start, end).indexOf("\\") !== -1) { return }
+    var re = this.strict ? this.reservedWordsStrict : this.reservedWords;
+    if (re.test(name)) {
+      if (!this.inAsync && name === "await")
+        { this.raiseRecoverable(start, "Cannot use keyword 'await' outside an async function"); }
+      this.raiseRecoverable(start, ("The keyword '" + name + "' is reserved"));
+    }
+  };
+
+  // Parse the next token as an identifier. If `liberal` is true (used
+  // when parsing properties), it will also convert keywords into
+  // identifiers.
+
+  pp$5.parseIdent = function(liberal) {
+    var node = this.parseIdentNode();
+    this.next(!!liberal);
+    this.finishNode(node, "Identifier");
+    if (!liberal) {
+      this.checkUnreserved(node);
+      if (node.name === "await" && !this.awaitIdentPos)
+        { this.awaitIdentPos = node.start; }
+    }
+    return node
+  };
+
+  pp$5.parseIdentNode = function() {
+    var node = this.startNode();
+    if (this.type === types$1.name) {
+      node.name = this.value;
+    } else if (this.type.keyword) {
+      node.name = this.type.keyword;
+
+      // To fix https://github.com/acornjs/acorn/issues/575
+      // `class` and `function` keywords push new context into this.context.
+      // But there is no chance to pop the context if the keyword is consumed as an identifier such as a property name.
+      // If the previous token is a dot, this does not apply because the context-managing code already ignored the keyword
+      if ((node.name === "class" || node.name === "function") &&
+        (this.lastTokEnd !== this.lastTokStart + 1 || this.input.charCodeAt(this.lastTokStart) !== 46)) {
+        this.context.pop();
+      }
+      this.type = types$1.name;
+    } else {
+      this.unexpected();
+    }
+    return node
+  };
+
+  pp$5.parsePrivateIdent = function() {
+    var node = this.startNode();
+    if (this.type === types$1.privateId) {
+      node.name = this.value;
+    } else {
+      this.unexpected();
+    }
+    this.next();
+    this.finishNode(node, "PrivateIdentifier");
+
+    // For validating existence
+    if (this.options.checkPrivateFields) {
+      if (this.privateNameStack.length === 0) {
+        this.raise(node.start, ("Private field '#" + (node.name) + "' must be declared in an enclosing class"));
+      } else {
+        this.privateNameStack[this.privateNameStack.length - 1].used.push(node);
+      }
+    }
+
+    return node
+  };
+
+  // Parses yield expression inside generator.
+
+  pp$5.parseYield = function(forInit) {
+    if (!this.yieldPos) { this.yieldPos = this.start; }
+
+    var node = this.startNode();
+    this.next();
+    if (this.type === types$1.semi || this.canInsertSemicolon() || (this.type !== types$1.star && !this.type.startsExpr)) {
+      node.delegate = false;
+      node.argument = null;
+    } else {
+      node.delegate = this.eat(types$1.star);
+      node.argument = this.parseMaybeAssign(forInit);
+    }
+    return this.finishNode(node, "YieldExpression")
+  };
+
+  pp$5.parseAwait = function(forInit) {
+    if (!this.awaitPos) { this.awaitPos = this.start; }
+
+    var node = this.startNode();
+    this.next();
+    node.argument = this.parseMaybeUnary(null, true, false, forInit);
+    return this.finishNode(node, "AwaitExpression")
+  };
+
+  var pp$4 = Parser.prototype;
+
+  // This function is used to raise exceptions on parse errors. It
+  // takes an offset integer (into the current `input`) to indicate
+  // the location of the error, attaches the position to the end
+  // of the error message, and then raises a `SyntaxError` with that
+  // message.
+
+  pp$4.raise = function(pos, message) {
+    var loc = getLineInfo(this.input, pos);
+    message += " (" + loc.line + ":" + loc.column + ")";
+    if (this.sourceFile) {
+      message += " in " + this.sourceFile;
+    }
+    var err = new SyntaxError(message);
+    err.pos = pos; err.loc = loc; err.raisedAt = this.pos;
+    throw err
+  };
+
+  pp$4.raiseRecoverable = pp$4.raise;
+
+  pp$4.curPosition = function() {
+    if (this.options.locations) {
+      return new Position(this.curLine, this.pos - this.lineStart)
+    }
+  };
+
+  var pp$3 = Parser.prototype;
+
+  var Scope = function Scope(flags) {
+    this.flags = flags;
+    // A list of var-declared names in the current lexical scope
+    this.var = [];
+    // A list of lexically-declared names in the current lexical scope
+    this.lexical = [];
+    // A list of lexically-declared FunctionDeclaration names in the current lexical scope
+    this.functions = [];
+  };
+
+  // The functions in this module keep track of declared variables in the current scope in order to detect duplicate variable names.
+
+  pp$3.enterScope = function(flags) {
+    this.scopeStack.push(new Scope(flags));
+  };
+
+  pp$3.exitScope = function() {
+    this.scopeStack.pop();
+  };
+
+  // The spec says:
+  // > At the top level of a function, or script, function declarations are
+  // > treated like var declarations rather than like lexical declarations.
+  pp$3.treatFunctionsAsVarInScope = function(scope) {
+    return (scope.flags & SCOPE_FUNCTION) || !this.inModule && (scope.flags & SCOPE_TOP)
+  };
+
+  pp$3.declareName = function(name, bindingType, pos) {
+    var redeclared = false;
+    if (bindingType === BIND_LEXICAL) {
+      var scope = this.currentScope();
+      redeclared = scope.lexical.indexOf(name) > -1 || scope.functions.indexOf(name) > -1 || scope.var.indexOf(name) > -1;
+      scope.lexical.push(name);
+      if (this.inModule && (scope.flags & SCOPE_TOP))
+        { delete this.undefinedExports[name]; }
+    } else if (bindingType === BIND_SIMPLE_CATCH) {
+      var scope$1 = this.currentScope();
+      scope$1.lexical.push(name);
+    } else if (bindingType === BIND_FUNCTION) {
+      var scope$2 = this.currentScope();
+      if (this.treatFunctionsAsVar)
+        { redeclared = scope$2.lexical.indexOf(name) > -1; }
+      else
+        { redeclared = scope$2.lexical.indexOf(name) > -1 || scope$2.var.indexOf(name) > -1; }
+      scope$2.functions.push(name);
+    } else {
+      for (var i = this.scopeStack.length - 1; i >= 0; --i) {
+        var scope$3 = this.scopeStack[i];
+        if (scope$3.lexical.indexOf(name) > -1 && !((scope$3.flags & SCOPE_SIMPLE_CATCH) && scope$3.lexical[0] === name) ||
+            !this.treatFunctionsAsVarInScope(scope$3) && scope$3.functions.indexOf(name) > -1) {
+          redeclared = true;
+          break
+        }
+        scope$3.var.push(name);
+        if (this.inModule && (scope$3.flags & SCOPE_TOP))
+          { delete this.undefinedExports[name]; }
+        if (scope$3.flags & SCOPE_VAR) { break }
+      }
+    }
+    if (redeclared) { this.raiseRecoverable(pos, ("Identifier '" + name + "' has already been declared")); }
+  };
+
+  pp$3.checkLocalExport = function(id) {
+    // scope.functions must be empty as Module code is always strict.
+    if (this.scopeStack[0].lexical.indexOf(id.name) === -1 &&
+        this.scopeStack[0].var.indexOf(id.name) === -1) {
+      this.undefinedExports[id.name] = id;
+    }
+  };
+
+  pp$3.currentScope = function() {
+    return this.scopeStack[this.scopeStack.length - 1]
+  };
+
+  pp$3.currentVarScope = function() {
+    for (var i = this.scopeStack.length - 1;; i--) {
+      var scope = this.scopeStack[i];
+      if (scope.flags & (SCOPE_VAR | SCOPE_CLASS_FIELD_INIT | SCOPE_CLASS_STATIC_BLOCK)) { return scope }
+    }
+  };
+
+  // Could be useful for `this`, `new.target`, `super()`, `super.property`, and `super[property]`.
+  pp$3.currentThisScope = function() {
+    for (var i = this.scopeStack.length - 1;; i--) {
+      var scope = this.scopeStack[i];
+      if (scope.flags & (SCOPE_VAR | SCOPE_CLASS_FIELD_INIT | SCOPE_CLASS_STATIC_BLOCK) &&
+          !(scope.flags & SCOPE_ARROW)) { return scope }
+    }
+  };
+
+  var Node = function Node(parser, pos, loc) {
+    this.type = "";
+    this.start = pos;
+    this.end = 0;
+    if (parser.options.locations)
+      { this.loc = new SourceLocation(parser, loc); }
+    if (parser.options.directSourceFile)
+      { this.sourceFile = parser.options.directSourceFile; }
+    if (parser.options.ranges)
+      { this.range = [pos, 0]; }
+  };
+
+  // Start an AST node, attaching a start offset.
+
+  var pp$2 = Parser.prototype;
+
+  pp$2.startNode = function() {
+    return new Node(this, this.start, this.startLoc)
+  };
+
+  pp$2.startNodeAt = function(pos, loc) {
+    return new Node(this, pos, loc)
+  };
+
+  // Finish an AST node, adding `type` and `end` properties.
+
+  function finishNodeAt(node, type, pos, loc) {
+    node.type = type;
+    node.end = pos;
+    if (this.options.locations)
+      { node.loc.end = loc; }
+    if (this.options.ranges)
+      { node.range[1] = pos; }
+    return node
+  }
+
+  pp$2.finishNode = function(node, type) {
+    return finishNodeAt.call(this, node, type, this.lastTokEnd, this.lastTokEndLoc)
+  };
+
+  // Finish node at given position
+
+  pp$2.finishNodeAt = function(node, type, pos, loc) {
+    return finishNodeAt.call(this, node, type, pos, loc)
+  };
+
+  pp$2.copyNode = function(node) {
+    var newNode = new Node(this, node.start, this.startLoc);
+    for (var prop in node) { newNode[prop] = node[prop]; }
+    return newNode
+  };
+
+  // This file was generated by "bin/generate-unicode-script-values.js". Do not modify manually!
+  var scriptValuesAddedInUnicode = "Gara Garay Gukh Gurung_Khema Hrkt Katakana_Or_Hiragana Kawi Kirat_Rai Krai Nag_Mundari Nagm Ol_Onal Onao Sunu Sunuwar Todhri Todr Tulu_Tigalari Tutg Unknown Zzzz";
+
+  // This file contains Unicode properties extracted from the ECMAScript specification.
+  // The lists are extracted like so:
+  // $$('#table-binary-unicode-properties > figure > table > tbody > tr > td:nth-child(1) code').map(el => el.innerText)
+
+  // #table-binary-unicode-properties
+  var ecma9BinaryProperties = "ASCII ASCII_Hex_Digit AHex Alphabetic Alpha Any Assigned Bidi_Control Bidi_C Bidi_Mirrored Bidi_M Case_Ignorable CI Cased Changes_When_Casefolded CWCF Changes_When_Casemapped CWCM Changes_When_Lowercased CWL Changes_When_NFKC_Casefolded CWKCF Changes_When_Titlecased CWT Changes_When_Uppercased CWU Dash Default_Ignorable_Code_Point DI Deprecated Dep Diacritic Dia Emoji Emoji_Component Emoji_Modifier Emoji_Modifier_Base Emoji_Presentation Extender Ext Grapheme_Base Gr_Base Grapheme_Extend Gr_Ext Hex_Digit Hex IDS_Binary_Operator IDSB IDS_Trinary_Operator IDST ID_Continue IDC ID_Start IDS Ideographic Ideo Join_Control Join_C Logical_Order_Exception LOE Lowercase Lower Math Noncharacter_Code_Point NChar Pattern_Syntax Pat_Syn Pattern_White_Space Pat_WS Quotation_Mark QMark Radical Regional_Indicator RI Sentence_Terminal STerm Soft_Dotted SD Terminal_Punctuation Term Unified_Ideograph UIdeo Uppercase Upper Variation_Selector VS White_Space space XID_Continue XIDC XID_Start XIDS";
+  var ecma10BinaryProperties = ecma9BinaryProperties + " Extended_Pictographic";
+  var ecma11BinaryProperties = ecma10BinaryProperties;
+  var ecma12BinaryProperties = ecma11BinaryProperties + " EBase EComp EMod EPres ExtPict";
+  var ecma13BinaryProperties = ecma12BinaryProperties;
+  var ecma14BinaryProperties = ecma13BinaryProperties;
+
+  var unicodeBinaryProperties = {
+    9: ecma9BinaryProperties,
+    10: ecma10BinaryProperties,
+    11: ecma11BinaryProperties,
+    12: ecma12BinaryProperties,
+    13: ecma13BinaryProperties,
+    14: ecma14BinaryProperties
+  };
+
+  // #table-binary-unicode-properties-of-strings
+  var ecma14BinaryPropertiesOfStrings = "Basic_Emoji Emoji_Keycap_Sequence RGI_Emoji_Modifier_Sequence RGI_Emoji_Flag_Sequence RGI_Emoji_Tag_Sequence RGI_Emoji_ZWJ_Sequence RGI_Emoji";
+
+  var unicodeBinaryPropertiesOfStrings = {
+    9: "",
+    10: "",
+    11: "",
+    12: "",
+    13: "",
+    14: ecma14BinaryPropertiesOfStrings
+  };
+
+  // #table-unicode-general-category-values
+  var unicodeGeneralCategoryValues = "Cased_Letter LC Close_Punctuation Pe Connector_Punctuation Pc Control Cc cntrl Currency_Symbol Sc Dash_Punctuation Pd Decimal_Number Nd digit Enclosing_Mark Me Final_Punctuation Pf Format Cf Initial_Punctuation Pi Letter L Letter_Number Nl Line_Separator Zl Lowercase_Letter Ll Mark M Combining_Mark Math_Symbol Sm Modifier_Letter Lm Modifier_Symbol Sk Nonspacing_Mark Mn Number N Open_Punctuation Ps Other C Other_Letter Lo Other_Number No Other_Punctuation Po Other_Symbol So Paragraph_Separator Zp Private_Use Co Punctuation P punct Separator Z Space_Separator Zs Spacing_Mark Mc Surrogate Cs Symbol S Titlecase_Letter Lt Unassigned Cn Uppercase_Letter Lu";
+
+  // #table-unicode-script-values
+  var ecma9ScriptValues = "Adlam Adlm Ahom Anatolian_Hieroglyphs Hluw Arabic Arab Armenian Armn Avestan Avst Balinese Bali Bamum Bamu Bassa_Vah Bass Batak Batk Bengali Beng Bhaiksuki Bhks Bopomofo Bopo Brahmi Brah Braille Brai Buginese Bugi Buhid Buhd Canadian_Aboriginal Cans Carian Cari Caucasian_Albanian Aghb Chakma Cakm Cham Cham Cherokee Cher Common Zyyy Coptic Copt Qaac Cuneiform Xsux Cypriot Cprt Cyrillic Cyrl Deseret Dsrt Devanagari Deva Duployan Dupl Egyptian_Hieroglyphs Egyp Elbasan Elba Ethiopic Ethi Georgian Geor Glagolitic Glag Gothic Goth Grantha Gran Greek Grek Gujarati Gujr Gurmukhi Guru Han Hani Hangul Hang Hanunoo Hano Hatran Hatr Hebrew Hebr Hiragana Hira Imperial_Aramaic Armi Inherited Zinh Qaai Inscriptional_Pahlavi Phli Inscriptional_Parthian Prti Javanese Java Kaithi Kthi Kannada Knda Katakana Kana Kayah_Li Kali Kharoshthi Khar Khmer Khmr Khojki Khoj Khudawadi Sind Lao Laoo Latin Latn Lepcha Lepc Limbu Limb Linear_A Lina Linear_B Linb Lisu Lisu Lycian Lyci Lydian Lydi Mahajani Mahj Malayalam Mlym Mandaic Mand Manichaean Mani Marchen Marc Masaram_Gondi Gonm Meetei_Mayek Mtei Mende_Kikakui Mend Meroitic_Cursive Merc Meroitic_Hieroglyphs Mero Miao Plrd Modi Mongolian Mong Mro Mroo Multani Mult Myanmar Mymr Nabataean Nbat New_Tai_Lue Talu Newa Newa Nko Nkoo Nushu Nshu Ogham Ogam Ol_Chiki Olck Old_Hungarian Hung Old_Italic Ital Old_North_Arabian Narb Old_Permic Perm Old_Persian Xpeo Old_South_Arabian Sarb Old_Turkic Orkh Oriya Orya Osage Osge Osmanya Osma Pahawh_Hmong Hmng Palmyrene Palm Pau_Cin_Hau Pauc Phags_Pa Phag Phoenician Phnx Psalter_Pahlavi Phlp Rejang Rjng Runic Runr Samaritan Samr Saurashtra Saur Sharada Shrd Shavian Shaw Siddham Sidd SignWriting Sgnw Sinhala Sinh Sora_Sompeng Sora Soyombo Soyo Sundanese Sund Syloti_Nagri Sylo Syriac Syrc Tagalog Tglg Tagbanwa Tagb Tai_Le Tale Tai_Tham Lana Tai_Viet Tavt Takri Takr Tamil Taml Tangut Tang Telugu Telu Thaana Thaa Thai Thai Tibetan Tibt Tifinagh Tfng Tirhuta Tirh Ugaritic Ugar Vai Vaii Warang_Citi Wara Yi Yiii Zanabazar_Square Zanb";
+  var ecma10ScriptValues = ecma9ScriptValues + " Dogra Dogr Gunjala_Gondi Gong Hanifi_Rohingya Rohg Makasar Maka Medefaidrin Medf Old_Sogdian Sogo Sogdian Sogd";
+  var ecma11ScriptValues = ecma10ScriptValues + " Elymaic Elym Nandinagari Nand Nyiakeng_Puachue_Hmong Hmnp Wancho Wcho";
+  var ecma12ScriptValues = ecma11ScriptValues + " Chorasmian Chrs Diak Dives_Akuru Khitan_Small_Script Kits Yezi Yezidi";
+  var ecma13ScriptValues = ecma12ScriptValues + " Cypro_Minoan Cpmn Old_Uyghur Ougr Tangsa Tnsa Toto Vithkuqi Vith";
+  var ecma14ScriptValues = ecma13ScriptValues + " " + scriptValuesAddedInUnicode;
+
+  var unicodeScriptValues = {
+    9: ecma9ScriptValues,
+    10: ecma10ScriptValues,
+    11: ecma11ScriptValues,
+    12: ecma12ScriptValues,
+    13: ecma13ScriptValues,
+    14: ecma14ScriptValues
+  };
+
+  var data = {};
+  function buildUnicodeData(ecmaVersion) {
+    var d = data[ecmaVersion] = {
+      binary: wordsRegexp(unicodeBinaryProperties[ecmaVersion] + " " + unicodeGeneralCategoryValues),
+      binaryOfStrings: wordsRegexp(unicodeBinaryPropertiesOfStrings[ecmaVersion]),
+      nonBinary: {
+        General_Category: wordsRegexp(unicodeGeneralCategoryValues),
+        Script: wordsRegexp(unicodeScriptValues[ecmaVersion])
+      }
+    };
+    d.nonBinary.Script_Extensions = d.nonBinary.Script;
+
+    d.nonBinary.gc = d.nonBinary.General_Category;
+    d.nonBinary.sc = d.nonBinary.Script;
+    d.nonBinary.scx = d.nonBinary.Script_Extensions;
+  }
+
+  for (var i = 0, list = [9, 10, 11, 12, 13, 14]; i < list.length; i += 1) {
+    var ecmaVersion = list[i];
+
+    buildUnicodeData(ecmaVersion);
+  }
+
+  var pp$1 = Parser.prototype;
+
+  // Track disjunction structure to determine whether a duplicate
+  // capture group name is allowed because it is in a separate branch.
+  var BranchID = function BranchID(parent, base) {
+    // Parent disjunction branch
+    this.parent = parent;
+    // Identifies this set of sibling branches
+    this.base = base || this;
+  };
+
+  BranchID.prototype.separatedFrom = function separatedFrom (alt) {
+    // A branch is separate from another branch if they or any of
+    // their parents are siblings in a given disjunction
+    for (var self = this; self; self = self.parent) {
+      for (var other = alt; other; other = other.parent) {
+        if (self.base === other.base && self !== other) { return true }
+      }
+    }
+    return false
+  };
+
+  BranchID.prototype.sibling = function sibling () {
+    return new BranchID(this.parent, this.base)
+  };
+
+  var RegExpValidationState = function RegExpValidationState(parser) {
+    this.parser = parser;
+    this.validFlags = "gim" + (parser.options.ecmaVersion >= 6 ? "uy" : "") + (parser.options.ecmaVersion >= 9 ? "s" : "") + (parser.options.ecmaVersion >= 13 ? "d" : "") + (parser.options.ecmaVersion >= 15 ? "v" : "");
+    this.unicodeProperties = data[parser.options.ecmaVersion >= 14 ? 14 : parser.options.ecmaVersion];
+    this.source = "";
+    this.flags = "";
+    this.start = 0;
+    this.switchU = false;
+    this.switchV = false;
+    this.switchN = false;
+    this.pos = 0;
+    this.lastIntValue = 0;
+    this.lastStringValue = "";
+    this.lastAssertionIsQuantifiable = false;
+    this.numCapturingParens = 0;
+    this.maxBackReference = 0;
+    this.groupNames = Object.create(null);
+    this.backReferenceNames = [];
+    this.branchID = null;
+  };
+
+  RegExpValidationState.prototype.reset = function reset (start, pattern, flags) {
+    var unicodeSets = flags.indexOf("v") !== -1;
+    var unicode = flags.indexOf("u") !== -1;
+    this.start = start | 0;
+    this.source = pattern + "";
+    this.flags = flags;
+    if (unicodeSets && this.parser.options.ecmaVersion >= 15) {
+      this.switchU = true;
+      this.switchV = true;
+      this.switchN = true;
+    } else {
+      this.switchU = unicode && this.parser.options.ecmaVersion >= 6;
+      this.switchV = false;
+      this.switchN = unicode && this.parser.options.ecmaVersion >= 9;
+    }
+  };
+
+  RegExpValidationState.prototype.raise = function raise (message) {
+    this.parser.raiseRecoverable(this.start, ("Invalid regular expression: /" + (this.source) + "/: " + message));
+  };
+
+  // If u flag is given, this returns the code point at the index (it combines a surrogate pair).
+  // Otherwise, this returns the code unit of the index (can be a part of a surrogate pair).
+  RegExpValidationState.prototype.at = function at (i, forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    var s = this.source;
+    var l = s.length;
+    if (i >= l) {
+      return -1
+    }
+    var c = s.charCodeAt(i);
+    if (!(forceU || this.switchU) || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l) {
+      return c
+    }
+    var next = s.charCodeAt(i + 1);
+    return next >= 0xDC00 && next <= 0xDFFF ? (c << 10) + next - 0x35FDC00 : c
+  };
+
+  RegExpValidationState.prototype.nextIndex = function nextIndex (i, forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    var s = this.source;
+    var l = s.length;
+    if (i >= l) {
+      return l
+    }
+    var c = s.charCodeAt(i), next;
+    if (!(forceU || this.switchU) || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l ||
+        (next = s.charCodeAt(i + 1)) < 0xDC00 || next > 0xDFFF) {
+      return i + 1
+    }
+    return i + 2
+  };
+
+  RegExpValidationState.prototype.current = function current (forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    return this.at(this.pos, forceU)
+  };
+
+  RegExpValidationState.prototype.lookahead = function lookahead (forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    return this.at(this.nextIndex(this.pos, forceU), forceU)
+  };
+
+  RegExpValidationState.prototype.advance = function advance (forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    this.pos = this.nextIndex(this.pos, forceU);
+  };
+
+  RegExpValidationState.prototype.eat = function eat (ch, forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    if (this.current(forceU) === ch) {
+      this.advance(forceU);
+      return true
+    }
+    return false
+  };
+
+  RegExpValidationState.prototype.eatChars = function eatChars (chs, forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    var pos = this.pos;
+    for (var i = 0, list = chs; i < list.length; i += 1) {
+      var ch = list[i];
+
+        var current = this.at(pos, forceU);
+      if (current === -1 || current !== ch) {
+        return false
+      }
+      pos = this.nextIndex(pos, forceU);
+    }
+    this.pos = pos;
+    return true
+  };
+
+  /**
+   * Validate the flags part of a given RegExpLiteral.
+   *
+   * @param {RegExpValidationState} state The state to validate RegExp.
+   * @returns {void}
+   */
+  pp$1.validateRegExpFlags = function(state) {
+    var validFlags = state.validFlags;
+    var flags = state.flags;
+
+    var u = false;
+    var v = false;
+
+    for (var i = 0; i < flags.length; i++) {
+      var flag = flags.charAt(i);
+      if (validFlags.indexOf(flag) === -1) {
+        this.raise(state.start, "Invalid regular expression flag");
+      }
+      if (flags.indexOf(flag, i + 1) > -1) {
+        this.raise(state.start, "Duplicate regular expression flag");
+      }
+      if (flag === "u") { u = true; }
+      if (flag === "v") { v = true; }
+    }
+    if (this.options.ecmaVersion >= 15 && u && v) {
+      this.raise(state.start, "Invalid regular expression flag");
+    }
+  };
+
+  function hasProp(obj) {
+    for (var _ in obj) { return true }
+    return false
+  }
+
+  /**
+   * Validate the pattern part of a given RegExpLiteral.
+   *
+   * @param {RegExpValidationState} state The state to validate RegExp.
+   * @returns {void}
+   */
+  pp$1.validateRegExpPattern = function(state) {
+    this.regexp_pattern(state);
+
+    // The goal symbol for the parse is |Pattern[~U, ~N]|. If the result of
+    // parsing contains a |GroupName|, reparse with the goal symbol
+    // |Pattern[~U, +N]| and use this result instead. Throw a *SyntaxError*
+    // exception if _P_ did not conform to the grammar, if any elements of _P_
+    // were not matched by the parse, or if any Early Error conditions exist.
+    if (!state.switchN && this.options.ecmaVersion >= 9 && hasProp(state.groupNames)) {
+      state.switchN = true;
+      this.regexp_pattern(state);
+    }
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-Pattern
+  pp$1.regexp_pattern = function(state) {
+    state.pos = 0;
+    state.lastIntValue = 0;
+    state.lastStringValue = "";
+    state.lastAssertionIsQuantifiable = false;
+    state.numCapturingParens = 0;
+    state.maxBackReference = 0;
+    state.groupNames = Object.create(null);
+    state.backReferenceNames.length = 0;
+    state.branchID = null;
+
+    this.regexp_disjunction(state);
+
+    if (state.pos !== state.source.length) {
+      // Make the same messages as V8.
+      if (state.eat(0x29 /* ) */)) {
+        state.raise("Unmatched ')'");
+      }
+      if (state.eat(0x5D /* ] */) || state.eat(0x7D /* } */)) {
+        state.raise("Lone quantifier brackets");
+      }
+    }
+    if (state.maxBackReference > state.numCapturingParens) {
+      state.raise("Invalid escape");
+    }
+    for (var i = 0, list = state.backReferenceNames; i < list.length; i += 1) {
+      var name = list[i];
+
+      if (!state.groupNames[name]) {
+        state.raise("Invalid named capture referenced");
+      }
+    }
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-Disjunction
+  pp$1.regexp_disjunction = function(state) {
+    var trackDisjunction = this.options.ecmaVersion >= 16;
+    if (trackDisjunction) { state.branchID = new BranchID(state.branchID, null); }
+    this.regexp_alternative(state);
+    while (state.eat(0x7C /* | */)) {
+      if (trackDisjunction) { state.branchID = state.branchID.sibling(); }
+      this.regexp_alternative(state);
+    }
+    if (trackDisjunction) { state.branchID = state.branchID.parent; }
+
+    // Make the same message as V8.
+    if (this.regexp_eatQuantifier(state, true)) {
+      state.raise("Nothing to repeat");
+    }
+    if (state.eat(0x7B /* { */)) {
+      state.raise("Lone quantifier brackets");
+    }
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-Alternative
+  pp$1.regexp_alternative = function(state) {
+    while (state.pos < state.source.length && this.regexp_eatTerm(state)) {}
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-Term
+  pp$1.regexp_eatTerm = function(state) {
+    if (this.regexp_eatAssertion(state)) {
+      // Handle `QuantifiableAssertion Quantifier` alternative.
+      // `state.lastAssertionIsQuantifiable` is true if the last eaten Assertion
+      // is a QuantifiableAssertion.
+      if (state.lastAssertionIsQuantifiable && this.regexp_eatQuantifier(state)) {
+        // Make the same message as V8.
+        if (state.switchU) {
+          state.raise("Invalid quantifier");
+        }
+      }
+      return true
+    }
+
+    if (state.switchU ? this.regexp_eatAtom(state) : this.regexp_eatExtendedAtom(state)) {
+      this.regexp_eatQuantifier(state);
+      return true
+    }
+
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-Assertion
+  pp$1.regexp_eatAssertion = function(state) {
+    var start = state.pos;
+    state.lastAssertionIsQuantifiable = false;
+
+    // ^, $
+    if (state.eat(0x5E /* ^ */) || state.eat(0x24 /* $ */)) {
+      return true
+    }
+
+    // \b \B
+    if (state.eat(0x5C /* \ */)) {
+      if (state.eat(0x42 /* B */) || state.eat(0x62 /* b */)) {
+        return true
+      }
+      state.pos = start;
+    }
+
+    // Lookahead / Lookbehind
+    if (state.eat(0x28 /* ( */) && state.eat(0x3F /* ? */)) {
+      var lookbehind = false;
+      if (this.options.ecmaVersion >= 9) {
+        lookbehind = state.eat(0x3C /* < */);
+      }
+      if (state.eat(0x3D /* = */) || state.eat(0x21 /* ! */)) {
+        this.regexp_disjunction(state);
+        if (!state.eat(0x29 /* ) */)) {
+          state.raise("Unterminated group");
+        }
+        state.lastAssertionIsQuantifiable = !lookbehind;
+        return true
+      }
+    }
+
+    state.pos = start;
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-Quantifier
+  pp$1.regexp_eatQuantifier = function(state, noError) {
+    if ( noError === void 0 ) noError = false;
+
+    if (this.regexp_eatQuantifierPrefix(state, noError)) {
+      state.eat(0x3F /* ? */);
+      return true
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-QuantifierPrefix
+  pp$1.regexp_eatQuantifierPrefix = function(state, noError) {
+    return (
+      state.eat(0x2A /* * */) ||
+      state.eat(0x2B /* + */) ||
+      state.eat(0x3F /* ? */) ||
+      this.regexp_eatBracedQuantifier(state, noError)
+    )
+  };
+  pp$1.regexp_eatBracedQuantifier = function(state, noError) {
+    var start = state.pos;
+    if (state.eat(0x7B /* { */)) {
+      var min = 0, max = -1;
+      if (this.regexp_eatDecimalDigits(state)) {
+        min = state.lastIntValue;
+        if (state.eat(0x2C /* , */) && this.regexp_eatDecimalDigits(state)) {
+          max = state.lastIntValue;
+        }
+        if (state.eat(0x7D /* } */)) {
+          // SyntaxError in https://www.ecma-international.org/ecma-262/8.0/#sec-term
+          if (max !== -1 && max < min && !noError) {
+            state.raise("numbers out of order in {} quantifier");
+          }
+          return true
+        }
+      }
+      if (state.switchU && !noError) {
+        state.raise("Incomplete quantifier");
+      }
+      state.pos = start;
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-Atom
+  pp$1.regexp_eatAtom = function(state) {
+    return (
+      this.regexp_eatPatternCharacters(state) ||
+      state.eat(0x2E /* . */) ||
+      this.regexp_eatReverseSolidusAtomEscape(state) ||
+      this.regexp_eatCharacterClass(state) ||
+      this.regexp_eatUncapturingGroup(state) ||
+      this.regexp_eatCapturingGroup(state)
+    )
+  };
+  pp$1.regexp_eatReverseSolidusAtomEscape = function(state) {
+    var start = state.pos;
+    if (state.eat(0x5C /* \ */)) {
+      if (this.regexp_eatAtomEscape(state)) {
+        return true
+      }
+      state.pos = start;
+    }
+    return false
+  };
+  pp$1.regexp_eatUncapturingGroup = function(state) {
+    var start = state.pos;
+    if (state.eat(0x28 /* ( */)) {
+      if (state.eat(0x3F /* ? */)) {
+        if (this.options.ecmaVersion >= 16) {
+          var addModifiers = this.regexp_eatModifiers(state);
+          var hasHyphen = state.eat(0x2D /* - */);
+          if (addModifiers || hasHyphen) {
+            for (var i = 0; i < addModifiers.length; i++) {
+              var modifier = addModifiers.charAt(i);
+              if (addModifiers.indexOf(modifier, i + 1) > -1) {
+                state.raise("Duplicate regular expression modifiers");
+              }
+            }
+            if (hasHyphen) {
+              var removeModifiers = this.regexp_eatModifiers(state);
+              if (!addModifiers && !removeModifiers && state.current() === 0x3A /* : */) {
+                state.raise("Invalid regular expression modifiers");
+              }
+              for (var i$1 = 0; i$1 < removeModifiers.length; i$1++) {
+                var modifier$1 = removeModifiers.charAt(i$1);
+                if (
+                  removeModifiers.indexOf(modifier$1, i$1 + 1) > -1 ||
+                  addModifiers.indexOf(modifier$1) > -1
+                ) {
+                  state.raise("Duplicate regular expression modifiers");
+                }
+              }
+            }
+          }
+        }
+        if (state.eat(0x3A /* : */)) {
+          this.regexp_disjunction(state);
+          if (state.eat(0x29 /* ) */)) {
+            return true
+          }
+          state.raise("Unterminated group");
+        }
+      }
+      state.pos = start;
+    }
+    return false
+  };
+  pp$1.regexp_eatCapturingGroup = function(state) {
+    if (state.eat(0x28 /* ( */)) {
+      if (this.options.ecmaVersion >= 9) {
+        this.regexp_groupSpecifier(state);
+      } else if (state.current() === 0x3F /* ? */) {
+        state.raise("Invalid group");
+      }
+      this.regexp_disjunction(state);
+      if (state.eat(0x29 /* ) */)) {
+        state.numCapturingParens += 1;
+        return true
+      }
+      state.raise("Unterminated group");
+    }
+    return false
+  };
+  // RegularExpressionModifiers ::
+  //   [empty]
+  //   RegularExpressionModifiers RegularExpressionModifier
+  pp$1.regexp_eatModifiers = function(state) {
+    var modifiers = "";
+    var ch = 0;
+    while ((ch = state.current()) !== -1 && isRegularExpressionModifier(ch)) {
+      modifiers += codePointToString(ch);
+      state.advance();
+    }
+    return modifiers
+  };
+  // RegularExpressionModifier :: one of
+  //   `i` `m` `s`
+  function isRegularExpressionModifier(ch) {
+    return ch === 0x69 /* i */ || ch === 0x6d /* m */ || ch === 0x73 /* s */
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-ExtendedAtom
+  pp$1.regexp_eatExtendedAtom = function(state) {
+    return (
+      state.eat(0x2E /* . */) ||
+      this.regexp_eatReverseSolidusAtomEscape(state) ||
+      this.regexp_eatCharacterClass(state) ||
+      this.regexp_eatUncapturingGroup(state) ||
+      this.regexp_eatCapturingGroup(state) ||
+      this.regexp_eatInvalidBracedQuantifier(state) ||
+      this.regexp_eatExtendedPatternCharacter(state)
+    )
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-InvalidBracedQuantifier
+  pp$1.regexp_eatInvalidBracedQuantifier = function(state) {
+    if (this.regexp_eatBracedQuantifier(state, true)) {
+      state.raise("Nothing to repeat");
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-SyntaxCharacter
+  pp$1.regexp_eatSyntaxCharacter = function(state) {
+    var ch = state.current();
+    if (isSyntaxCharacter(ch)) {
+      state.lastIntValue = ch;
+      state.advance();
+      return true
+    }
+    return false
+  };
+  function isSyntaxCharacter(ch) {
+    return (
+      ch === 0x24 /* $ */ ||
+      ch >= 0x28 /* ( */ && ch <= 0x2B /* + */ ||
+      ch === 0x2E /* . */ ||
+      ch === 0x3F /* ? */ ||
+      ch >= 0x5B /* [ */ && ch <= 0x5E /* ^ */ ||
+      ch >= 0x7B /* { */ && ch <= 0x7D /* } */
+    )
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-PatternCharacter
+  // But eat eager.
+  pp$1.regexp_eatPatternCharacters = function(state) {
+    var start = state.pos;
+    var ch = 0;
+    while ((ch = state.current()) !== -1 && !isSyntaxCharacter(ch)) {
+      state.advance();
+    }
+    return state.pos !== start
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-ExtendedPatternCharacter
+  pp$1.regexp_eatExtendedPatternCharacter = function(state) {
+    var ch = state.current();
+    if (
+      ch !== -1 &&
+      ch !== 0x24 /* $ */ &&
+      !(ch >= 0x28 /* ( */ && ch <= 0x2B /* + */) &&
+      ch !== 0x2E /* . */ &&
+      ch !== 0x3F /* ? */ &&
+      ch !== 0x5B /* [ */ &&
+      ch !== 0x5E /* ^ */ &&
+      ch !== 0x7C /* | */
+    ) {
+      state.advance();
+      return true
+    }
+    return false
+  };
+
+  // GroupSpecifier ::
+  //   [empty]
+  //   `?` GroupName
+  pp$1.regexp_groupSpecifier = function(state) {
+    if (state.eat(0x3F /* ? */)) {
+      if (!this.regexp_eatGroupName(state)) { state.raise("Invalid group"); }
+      var trackDisjunction = this.options.ecmaVersion >= 16;
+      var known = state.groupNames[state.lastStringValue];
+      if (known) {
+        if (trackDisjunction) {
+          for (var i = 0, list = known; i < list.length; i += 1) {
+            var altID = list[i];
+
+            if (!altID.separatedFrom(state.branchID))
+              { state.raise("Duplicate capture group name"); }
+          }
+        } else {
+          state.raise("Duplicate capture group name");
+        }
+      }
+      if (trackDisjunction) {
+        (known || (state.groupNames[state.lastStringValue] = [])).push(state.branchID);
+      } else {
+        state.groupNames[state.lastStringValue] = true;
+      }
+    }
+  };
+
+  // GroupName ::
+  //   `<` RegExpIdentifierName `>`
+  // Note: this updates `state.lastStringValue` property with the eaten name.
+  pp$1.regexp_eatGroupName = function(state) {
+    state.lastStringValue = "";
+    if (state.eat(0x3C /* < */)) {
+      if (this.regexp_eatRegExpIdentifierName(state) && state.eat(0x3E /* > */)) {
+        return true
+      }
+      state.raise("Invalid capture group name");
+    }
+    return false
+  };
+
+  // RegExpIdentifierName ::
+  //   RegExpIdentifierStart
+  //   RegExpIdentifierName RegExpIdentifierPart
+  // Note: this updates `state.lastStringValue` property with the eaten name.
+  pp$1.regexp_eatRegExpIdentifierName = function(state) {
+    state.lastStringValue = "";
+    if (this.regexp_eatRegExpIdentifierStart(state)) {
+      state.lastStringValue += codePointToString(state.lastIntValue);
+      while (this.regexp_eatRegExpIdentifierPart(state)) {
+        state.lastStringValue += codePointToString(state.lastIntValue);
+      }
+      return true
+    }
+    return false
+  };
+
+  // RegExpIdentifierStart ::
+  //   UnicodeIDStart
+  //   `$`
+  //   `_`
+  //   `\` RegExpUnicodeEscapeSequence[+U]
+  pp$1.regexp_eatRegExpIdentifierStart = function(state) {
+    var start = state.pos;
+    var forceU = this.options.ecmaVersion >= 11;
+    var ch = state.current(forceU);
+    state.advance(forceU);
+
+    if (ch === 0x5C /* \ */ && this.regexp_eatRegExpUnicodeEscapeSequence(state, forceU)) {
+      ch = state.lastIntValue;
+    }
+    if (isRegExpIdentifierStart(ch)) {
+      state.lastIntValue = ch;
+      return true
+    }
+
+    state.pos = start;
+    return false
+  };
+  function isRegExpIdentifierStart(ch) {
+    return isIdentifierStart(ch, true) || ch === 0x24 /* $ */ || ch === 0x5F /* _ */
+  }
+
+  // RegExpIdentifierPart ::
+  //   UnicodeIDContinue
+  //   `$`
+  //   `_`
+  //   `\` RegExpUnicodeEscapeSequence[+U]
+  //   <ZWNJ>
+  //   <ZWJ>
+  pp$1.regexp_eatRegExpIdentifierPart = function(state) {
+    var start = state.pos;
+    var forceU = this.options.ecmaVersion >= 11;
+    var ch = state.current(forceU);
+    state.advance(forceU);
+
+    if (ch === 0x5C /* \ */ && this.regexp_eatRegExpUnicodeEscapeSequence(state, forceU)) {
+      ch = state.lastIntValue;
+    }
+    if (isRegExpIdentifierPart(ch)) {
+      state.lastIntValue = ch;
+      return true
+    }
+
+    state.pos = start;
+    return false
+  };
+  function isRegExpIdentifierPart(ch) {
+    return isIdentifierChar(ch, true) || ch === 0x24 /* $ */ || ch === 0x5F /* _ */ || ch === 0x200C /* <ZWNJ> */ || ch === 0x200D /* <ZWJ> */
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-AtomEscape
+  pp$1.regexp_eatAtomEscape = function(state) {
+    if (
+      this.regexp_eatBackReference(state) ||
+      this.regexp_eatCharacterClassEscape(state) ||
+      this.regexp_eatCharacterEscape(state) ||
+      (state.switchN && this.regexp_eatKGroupName(state))
+    ) {
+      return true
+    }
+    if (state.switchU) {
+      // Make the same message as V8.
+      if (state.current() === 0x63 /* c */) {
+        state.raise("Invalid unicode escape");
+      }
+      state.raise("Invalid escape");
+    }
+    return false
+  };
+  pp$1.regexp_eatBackReference = function(state) {
+    var start = state.pos;
+    if (this.regexp_eatDecimalEscape(state)) {
+      var n = state.lastIntValue;
+      if (state.switchU) {
+        // For SyntaxError in https://www.ecma-international.org/ecma-262/8.0/#sec-atomescape
+        if (n > state.maxBackReference) {
+          state.maxBackReference = n;
+        }
+        return true
+      }
+      if (n <= state.numCapturingParens) {
+        return true
+      }
+      state.pos = start;
+    }
+    return false
+  };
+  pp$1.regexp_eatKGroupName = function(state) {
+    if (state.eat(0x6B /* k */)) {
+      if (this.regexp_eatGroupName(state)) {
+        state.backReferenceNames.push(state.lastStringValue);
+        return true
+      }
+      state.raise("Invalid named reference");
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-CharacterEscape
+  pp$1.regexp_eatCharacterEscape = function(state) {
+    return (
+      this.regexp_eatControlEscape(state) ||
+      this.regexp_eatCControlLetter(state) ||
+      this.regexp_eatZero(state) ||
+      this.regexp_eatHexEscapeSequence(state) ||
+      this.regexp_eatRegExpUnicodeEscapeSequence(state, false) ||
+      (!state.switchU && this.regexp_eatLegacyOctalEscapeSequence(state)) ||
+      this.regexp_eatIdentityEscape(state)
+    )
+  };
+  pp$1.regexp_eatCControlLetter = function(state) {
+    var start = state.pos;
+    if (state.eat(0x63 /* c */)) {
+      if (this.regexp_eatControlLetter(state)) {
+        return true
+      }
+      state.pos = start;
+    }
+    return false
+  };
+  pp$1.regexp_eatZero = function(state) {
+    if (state.current() === 0x30 /* 0 */ && !isDecimalDigit(state.lookahead())) {
+      state.lastIntValue = 0;
+      state.advance();
+      return true
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-ControlEscape
+  pp$1.regexp_eatControlEscape = function(state) {
+    var ch = state.current();
+    if (ch === 0x74 /* t */) {
+      state.lastIntValue = 0x09; /* \t */
+      state.advance();
+      return true
+    }
+    if (ch === 0x6E /* n */) {
+      state.lastIntValue = 0x0A; /* \n */
+      state.advance();
+      return true
+    }
+    if (ch === 0x76 /* v */) {
+      state.lastIntValue = 0x0B; /* \v */
+      state.advance();
+      return true
+    }
+    if (ch === 0x66 /* f */) {
+      state.lastIntValue = 0x0C; /* \f */
+      state.advance();
+      return true
+    }
+    if (ch === 0x72 /* r */) {
+      state.lastIntValue = 0x0D; /* \r */
+      state.advance();
+      return true
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-ControlLetter
+  pp$1.regexp_eatControlLetter = function(state) {
+    var ch = state.current();
+    if (isControlLetter(ch)) {
+      state.lastIntValue = ch % 0x20;
+      state.advance();
+      return true
+    }
+    return false
+  };
+  function isControlLetter(ch) {
+    return (
+      (ch >= 0x41 /* A */ && ch <= 0x5A /* Z */) ||
+      (ch >= 0x61 /* a */ && ch <= 0x7A /* z */)
+    )
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-RegExpUnicodeEscapeSequence
+  pp$1.regexp_eatRegExpUnicodeEscapeSequence = function(state, forceU) {
+    if ( forceU === void 0 ) forceU = false;
+
+    var start = state.pos;
+    var switchU = forceU || state.switchU;
+
+    if (state.eat(0x75 /* u */)) {
+      if (this.regexp_eatFixedHexDigits(state, 4)) {
+        var lead = state.lastIntValue;
+        if (switchU && lead >= 0xD800 && lead <= 0xDBFF) {
+          var leadSurrogateEnd = state.pos;
+          if (state.eat(0x5C /* \ */) && state.eat(0x75 /* u */) && this.regexp_eatFixedHexDigits(state, 4)) {
+            var trail = state.lastIntValue;
+            if (trail >= 0xDC00 && trail <= 0xDFFF) {
+              state.lastIntValue = (lead - 0xD800) * 0x400 + (trail - 0xDC00) + 0x10000;
+              return true
+            }
+          }
+          state.pos = leadSurrogateEnd;
+          state.lastIntValue = lead;
+        }
+        return true
+      }
+      if (
+        switchU &&
+        state.eat(0x7B /* { */) &&
+        this.regexp_eatHexDigits(state) &&
+        state.eat(0x7D /* } */) &&
+        isValidUnicode(state.lastIntValue)
+      ) {
+        return true
+      }
+      if (switchU) {
+        state.raise("Invalid unicode escape");
+      }
+      state.pos = start;
+    }
+
+    return false
+  };
+  function isValidUnicode(ch) {
+    return ch >= 0 && ch <= 0x10FFFF
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-IdentityEscape
+  pp$1.regexp_eatIdentityEscape = function(state) {
+    if (state.switchU) {
+      if (this.regexp_eatSyntaxCharacter(state)) {
+        return true
+      }
+      if (state.eat(0x2F /* / */)) {
+        state.lastIntValue = 0x2F; /* / */
+        return true
+      }
+      return false
+    }
+
+    var ch = state.current();
+    if (ch !== 0x63 /* c */ && (!state.switchN || ch !== 0x6B /* k */)) {
+      state.lastIntValue = ch;
+      state.advance();
+      return true
+    }
+
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-DecimalEscape
+  pp$1.regexp_eatDecimalEscape = function(state) {
+    state.lastIntValue = 0;
+    var ch = state.current();
+    if (ch >= 0x31 /* 1 */ && ch <= 0x39 /* 9 */) {
+      do {
+        state.lastIntValue = 10 * state.lastIntValue + (ch - 0x30 /* 0 */);
+        state.advance();
+      } while ((ch = state.current()) >= 0x30 /* 0 */ && ch <= 0x39 /* 9 */)
+      return true
+    }
+    return false
+  };
+
+  // Return values used by character set parsing methods, needed to
+  // forbid negation of sets that can match strings.
+  var CharSetNone = 0; // Nothing parsed
+  var CharSetOk = 1; // Construct parsed, cannot contain strings
+  var CharSetString = 2; // Construct parsed, can contain strings
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-CharacterClassEscape
+  pp$1.regexp_eatCharacterClassEscape = function(state) {
+    var ch = state.current();
+
+    if (isCharacterClassEscape(ch)) {
+      state.lastIntValue = -1;
+      state.advance();
+      return CharSetOk
+    }
+
+    var negate = false;
+    if (
+      state.switchU &&
+      this.options.ecmaVersion >= 9 &&
+      ((negate = ch === 0x50 /* P */) || ch === 0x70 /* p */)
+    ) {
+      state.lastIntValue = -1;
+      state.advance();
+      var result;
+      if (
+        state.eat(0x7B /* { */) &&
+        (result = this.regexp_eatUnicodePropertyValueExpression(state)) &&
+        state.eat(0x7D /* } */)
+      ) {
+        if (negate && result === CharSetString) { state.raise("Invalid property name"); }
+        return result
+      }
+      state.raise("Invalid property name");
+    }
+
+    return CharSetNone
+  };
+
+  function isCharacterClassEscape(ch) {
+    return (
+      ch === 0x64 /* d */ ||
+      ch === 0x44 /* D */ ||
+      ch === 0x73 /* s */ ||
+      ch === 0x53 /* S */ ||
+      ch === 0x77 /* w */ ||
+      ch === 0x57 /* W */
+    )
+  }
+
+  // UnicodePropertyValueExpression ::
+  //   UnicodePropertyName `=` UnicodePropertyValue
+  //   LoneUnicodePropertyNameOrValue
+  pp$1.regexp_eatUnicodePropertyValueExpression = function(state) {
+    var start = state.pos;
+
+    // UnicodePropertyName `=` UnicodePropertyValue
+    if (this.regexp_eatUnicodePropertyName(state) && state.eat(0x3D /* = */)) {
+      var name = state.lastStringValue;
+      if (this.regexp_eatUnicodePropertyValue(state)) {
+        var value = state.lastStringValue;
+        this.regexp_validateUnicodePropertyNameAndValue(state, name, value);
+        return CharSetOk
+      }
+    }
+    state.pos = start;
+
+    // LoneUnicodePropertyNameOrValue
+    if (this.regexp_eatLoneUnicodePropertyNameOrValue(state)) {
+      var nameOrValue = state.lastStringValue;
+      return this.regexp_validateUnicodePropertyNameOrValue(state, nameOrValue)
+    }
+    return CharSetNone
+  };
+
+  pp$1.regexp_validateUnicodePropertyNameAndValue = function(state, name, value) {
+    if (!hasOwn(state.unicodeProperties.nonBinary, name))
+      { state.raise("Invalid property name"); }
+    if (!state.unicodeProperties.nonBinary[name].test(value))
+      { state.raise("Invalid property value"); }
+  };
+
+  pp$1.regexp_validateUnicodePropertyNameOrValue = function(state, nameOrValue) {
+    if (state.unicodeProperties.binary.test(nameOrValue)) { return CharSetOk }
+    if (state.switchV && state.unicodeProperties.binaryOfStrings.test(nameOrValue)) { return CharSetString }
+    state.raise("Invalid property name");
+  };
+
+  // UnicodePropertyName ::
+  //   UnicodePropertyNameCharacters
+  pp$1.regexp_eatUnicodePropertyName = function(state) {
+    var ch = 0;
+    state.lastStringValue = "";
+    while (isUnicodePropertyNameCharacter(ch = state.current())) {
+      state.lastStringValue += codePointToString(ch);
+      state.advance();
+    }
+    return state.lastStringValue !== ""
+  };
+
+  function isUnicodePropertyNameCharacter(ch) {
+    return isControlLetter(ch) || ch === 0x5F /* _ */
+  }
+
+  // UnicodePropertyValue ::
+  //   UnicodePropertyValueCharacters
+  pp$1.regexp_eatUnicodePropertyValue = function(state) {
+    var ch = 0;
+    state.lastStringValue = "";
+    while (isUnicodePropertyValueCharacter(ch = state.current())) {
+      state.lastStringValue += codePointToString(ch);
+      state.advance();
+    }
+    return state.lastStringValue !== ""
+  };
+  function isUnicodePropertyValueCharacter(ch) {
+    return isUnicodePropertyNameCharacter(ch) || isDecimalDigit(ch)
+  }
+
+  // LoneUnicodePropertyNameOrValue ::
+  //   UnicodePropertyValueCharacters
+  pp$1.regexp_eatLoneUnicodePropertyNameOrValue = function(state) {
+    return this.regexp_eatUnicodePropertyValue(state)
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-CharacterClass
+  pp$1.regexp_eatCharacterClass = function(state) {
+    if (state.eat(0x5B /* [ */)) {
+      var negate = state.eat(0x5E /* ^ */);
+      var result = this.regexp_classContents(state);
+      if (!state.eat(0x5D /* ] */))
+        { state.raise("Unterminated character class"); }
+      if (negate && result === CharSetString)
+        { state.raise("Negated character class may contain strings"); }
+      return true
+    }
+    return false
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassContents
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-ClassRanges
+  pp$1.regexp_classContents = function(state) {
+    if (state.current() === 0x5D /* ] */) { return CharSetOk }
+    if (state.switchV) { return this.regexp_classSetExpression(state) }
+    this.regexp_nonEmptyClassRanges(state);
+    return CharSetOk
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-NonemptyClassRanges
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-NonemptyClassRangesNoDash
+  pp$1.regexp_nonEmptyClassRanges = function(state) {
+    while (this.regexp_eatClassAtom(state)) {
+      var left = state.lastIntValue;
+      if (state.eat(0x2D /* - */) && this.regexp_eatClassAtom(state)) {
+        var right = state.lastIntValue;
+        if (state.switchU && (left === -1 || right === -1)) {
+          state.raise("Invalid character class");
+        }
+        if (left !== -1 && right !== -1 && left > right) {
+          state.raise("Range out of order in character class");
+        }
+      }
+    }
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-ClassAtom
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-ClassAtomNoDash
+  pp$1.regexp_eatClassAtom = function(state) {
+    var start = state.pos;
+
+    if (state.eat(0x5C /* \ */)) {
+      if (this.regexp_eatClassEscape(state)) {
+        return true
+      }
+      if (state.switchU) {
+        // Make the same message as V8.
+        var ch$1 = state.current();
+        if (ch$1 === 0x63 /* c */ || isOctalDigit(ch$1)) {
+          state.raise("Invalid class escape");
+        }
+        state.raise("Invalid escape");
+      }
+      state.pos = start;
+    }
+
+    var ch = state.current();
+    if (ch !== 0x5D /* ] */) {
+      state.lastIntValue = ch;
+      state.advance();
+      return true
+    }
+
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-ClassEscape
+  pp$1.regexp_eatClassEscape = function(state) {
+    var start = state.pos;
+
+    if (state.eat(0x62 /* b */)) {
+      state.lastIntValue = 0x08; /* <BS> */
+      return true
+    }
+
+    if (state.switchU && state.eat(0x2D /* - */)) {
+      state.lastIntValue = 0x2D; /* - */
+      return true
+    }
+
+    if (!state.switchU && state.eat(0x63 /* c */)) {
+      if (this.regexp_eatClassControlLetter(state)) {
+        return true
+      }
+      state.pos = start;
+    }
+
+    return (
+      this.regexp_eatCharacterClassEscape(state) ||
+      this.regexp_eatCharacterEscape(state)
+    )
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassSetExpression
+  // https://tc39.es/ecma262/#prod-ClassUnion
+  // https://tc39.es/ecma262/#prod-ClassIntersection
+  // https://tc39.es/ecma262/#prod-ClassSubtraction
+  pp$1.regexp_classSetExpression = function(state) {
+    var result = CharSetOk, subResult;
+    if (this.regexp_eatClassSetRange(state)) ; else if (subResult = this.regexp_eatClassSetOperand(state)) {
+      if (subResult === CharSetString) { result = CharSetString; }
+      // https://tc39.es/ecma262/#prod-ClassIntersection
+      var start = state.pos;
+      while (state.eatChars([0x26, 0x26] /* && */)) {
+        if (
+          state.current() !== 0x26 /* & */ &&
+          (subResult = this.regexp_eatClassSetOperand(state))
+        ) {
+          if (subResult !== CharSetString) { result = CharSetOk; }
+          continue
+        }
+        state.raise("Invalid character in character class");
+      }
+      if (start !== state.pos) { return result }
+      // https://tc39.es/ecma262/#prod-ClassSubtraction
+      while (state.eatChars([0x2D, 0x2D] /* -- */)) {
+        if (this.regexp_eatClassSetOperand(state)) { continue }
+        state.raise("Invalid character in character class");
+      }
+      if (start !== state.pos) { return result }
+    } else {
+      state.raise("Invalid character in character class");
+    }
+    // https://tc39.es/ecma262/#prod-ClassUnion
+    for (;;) {
+      if (this.regexp_eatClassSetRange(state)) { continue }
+      subResult = this.regexp_eatClassSetOperand(state);
+      if (!subResult) { return result }
+      if (subResult === CharSetString) { result = CharSetString; }
+    }
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassSetRange
+  pp$1.regexp_eatClassSetRange = function(state) {
+    var start = state.pos;
+    if (this.regexp_eatClassSetCharacter(state)) {
+      var left = state.lastIntValue;
+      if (state.eat(0x2D /* - */) && this.regexp_eatClassSetCharacter(state)) {
+        var right = state.lastIntValue;
+        if (left !== -1 && right !== -1 && left > right) {
+          state.raise("Range out of order in character class");
+        }
+        return true
+      }
+      state.pos = start;
+    }
+    return false
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassSetOperand
+  pp$1.regexp_eatClassSetOperand = function(state) {
+    if (this.regexp_eatClassSetCharacter(state)) { return CharSetOk }
+    return this.regexp_eatClassStringDisjunction(state) || this.regexp_eatNestedClass(state)
+  };
+
+  // https://tc39.es/ecma262/#prod-NestedClass
+  pp$1.regexp_eatNestedClass = function(state) {
+    var start = state.pos;
+    if (state.eat(0x5B /* [ */)) {
+      var negate = state.eat(0x5E /* ^ */);
+      var result = this.regexp_classContents(state);
+      if (state.eat(0x5D /* ] */)) {
+        if (negate && result === CharSetString) {
+          state.raise("Negated character class may contain strings");
+        }
+        return result
+      }
+      state.pos = start;
+    }
+    if (state.eat(0x5C /* \ */)) {
+      var result$1 = this.regexp_eatCharacterClassEscape(state);
+      if (result$1) {
+        return result$1
+      }
+      state.pos = start;
+    }
+    return null
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassStringDisjunction
+  pp$1.regexp_eatClassStringDisjunction = function(state) {
+    var start = state.pos;
+    if (state.eatChars([0x5C, 0x71] /* \q */)) {
+      if (state.eat(0x7B /* { */)) {
+        var result = this.regexp_classStringDisjunctionContents(state);
+        if (state.eat(0x7D /* } */)) {
+          return result
+        }
+      } else {
+        // Make the same message as V8.
+        state.raise("Invalid escape");
+      }
+      state.pos = start;
+    }
+    return null
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassStringDisjunctionContents
+  pp$1.regexp_classStringDisjunctionContents = function(state) {
+    var result = this.regexp_classString(state);
+    while (state.eat(0x7C /* | */)) {
+      if (this.regexp_classString(state) === CharSetString) { result = CharSetString; }
+    }
+    return result
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassString
+  // https://tc39.es/ecma262/#prod-NonEmptyClassString
+  pp$1.regexp_classString = function(state) {
+    var count = 0;
+    while (this.regexp_eatClassSetCharacter(state)) { count++; }
+    return count === 1 ? CharSetOk : CharSetString
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassSetCharacter
+  pp$1.regexp_eatClassSetCharacter = function(state) {
+    var start = state.pos;
+    if (state.eat(0x5C /* \ */)) {
+      if (
+        this.regexp_eatCharacterEscape(state) ||
+        this.regexp_eatClassSetReservedPunctuator(state)
+      ) {
+        return true
+      }
+      if (state.eat(0x62 /* b */)) {
+        state.lastIntValue = 0x08; /* <BS> */
+        return true
+      }
+      state.pos = start;
+      return false
+    }
+    var ch = state.current();
+    if (ch < 0 || ch === state.lookahead() && isClassSetReservedDoublePunctuatorCharacter(ch)) { return false }
+    if (isClassSetSyntaxCharacter(ch)) { return false }
+    state.advance();
+    state.lastIntValue = ch;
+    return true
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassSetReservedDoublePunctuator
+  function isClassSetReservedDoublePunctuatorCharacter(ch) {
+    return (
+      ch === 0x21 /* ! */ ||
+      ch >= 0x23 /* # */ && ch <= 0x26 /* & */ ||
+      ch >= 0x2A /* * */ && ch <= 0x2C /* , */ ||
+      ch === 0x2E /* . */ ||
+      ch >= 0x3A /* : */ && ch <= 0x40 /* @ */ ||
+      ch === 0x5E /* ^ */ ||
+      ch === 0x60 /* ` */ ||
+      ch === 0x7E /* ~ */
+    )
+  }
+
+  // https://tc39.es/ecma262/#prod-ClassSetSyntaxCharacter
+  function isClassSetSyntaxCharacter(ch) {
+    return (
+      ch === 0x28 /* ( */ ||
+      ch === 0x29 /* ) */ ||
+      ch === 0x2D /* - */ ||
+      ch === 0x2F /* / */ ||
+      ch >= 0x5B /* [ */ && ch <= 0x5D /* ] */ ||
+      ch >= 0x7B /* { */ && ch <= 0x7D /* } */
+    )
+  }
+
+  // https://tc39.es/ecma262/#prod-ClassSetReservedPunctuator
+  pp$1.regexp_eatClassSetReservedPunctuator = function(state) {
+    var ch = state.current();
+    if (isClassSetReservedPunctuator(ch)) {
+      state.lastIntValue = ch;
+      state.advance();
+      return true
+    }
+    return false
+  };
+
+  // https://tc39.es/ecma262/#prod-ClassSetReservedPunctuator
+  function isClassSetReservedPunctuator(ch) {
+    return (
+      ch === 0x21 /* ! */ ||
+      ch === 0x23 /* # */ ||
+      ch === 0x25 /* % */ ||
+      ch === 0x26 /* & */ ||
+      ch === 0x2C /* , */ ||
+      ch === 0x2D /* - */ ||
+      ch >= 0x3A /* : */ && ch <= 0x3E /* > */ ||
+      ch === 0x40 /* @ */ ||
+      ch === 0x60 /* ` */ ||
+      ch === 0x7E /* ~ */
+    )
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-ClassControlLetter
+  pp$1.regexp_eatClassControlLetter = function(state) {
+    var ch = state.current();
+    if (isDecimalDigit(ch) || ch === 0x5F /* _ */) {
+      state.lastIntValue = ch % 0x20;
+      state.advance();
+      return true
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-HexEscapeSequence
+  pp$1.regexp_eatHexEscapeSequence = function(state) {
+    var start = state.pos;
+    if (state.eat(0x78 /* x */)) {
+      if (this.regexp_eatFixedHexDigits(state, 2)) {
+        return true
+      }
+      if (state.switchU) {
+        state.raise("Invalid escape");
+      }
+      state.pos = start;
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-DecimalDigits
+  pp$1.regexp_eatDecimalDigits = function(state) {
+    var start = state.pos;
+    var ch = 0;
+    state.lastIntValue = 0;
+    while (isDecimalDigit(ch = state.current())) {
+      state.lastIntValue = 10 * state.lastIntValue + (ch - 0x30 /* 0 */);
+      state.advance();
+    }
+    return state.pos !== start
+  };
+  function isDecimalDigit(ch) {
+    return ch >= 0x30 /* 0 */ && ch <= 0x39 /* 9 */
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-HexDigits
+  pp$1.regexp_eatHexDigits = function(state) {
+    var start = state.pos;
+    var ch = 0;
+    state.lastIntValue = 0;
+    while (isHexDigit(ch = state.current())) {
+      state.lastIntValue = 16 * state.lastIntValue + hexToInt(ch);
+      state.advance();
+    }
+    return state.pos !== start
+  };
+  function isHexDigit(ch) {
+    return (
+      (ch >= 0x30 /* 0 */ && ch <= 0x39 /* 9 */) ||
+      (ch >= 0x41 /* A */ && ch <= 0x46 /* F */) ||
+      (ch >= 0x61 /* a */ && ch <= 0x66 /* f */)
+    )
+  }
+  function hexToInt(ch) {
+    if (ch >= 0x41 /* A */ && ch <= 0x46 /* F */) {
+      return 10 + (ch - 0x41 /* A */)
+    }
+    if (ch >= 0x61 /* a */ && ch <= 0x66 /* f */) {
+      return 10 + (ch - 0x61 /* a */)
+    }
+    return ch - 0x30 /* 0 */
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-LegacyOctalEscapeSequence
+  // Allows only 0-377(octal) i.e. 0-255(decimal).
+  pp$1.regexp_eatLegacyOctalEscapeSequence = function(state) {
+    if (this.regexp_eatOctalDigit(state)) {
+      var n1 = state.lastIntValue;
+      if (this.regexp_eatOctalDigit(state)) {
+        var n2 = state.lastIntValue;
+        if (n1 <= 3 && this.regexp_eatOctalDigit(state)) {
+          state.lastIntValue = n1 * 64 + n2 * 8 + state.lastIntValue;
+        } else {
+          state.lastIntValue = n1 * 8 + n2;
+        }
+      } else {
+        state.lastIntValue = n1;
+      }
+      return true
+    }
+    return false
+  };
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-OctalDigit
+  pp$1.regexp_eatOctalDigit = function(state) {
+    var ch = state.current();
+    if (isOctalDigit(ch)) {
+      state.lastIntValue = ch - 0x30; /* 0 */
+      state.advance();
+      return true
+    }
+    state.lastIntValue = 0;
+    return false
+  };
+  function isOctalDigit(ch) {
+    return ch >= 0x30 /* 0 */ && ch <= 0x37 /* 7 */
+  }
+
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-Hex4Digits
+  // https://www.ecma-international.org/ecma-262/8.0/#prod-HexDigit
+  // And HexDigit HexDigit in https://www.ecma-international.org/ecma-262/8.0/#prod-HexEscapeSequence
+  pp$1.regexp_eatFixedHexDigits = function(state, length) {
+    var start = state.pos;
+    state.lastIntValue = 0;
+    for (var i = 0; i < length; ++i) {
+      var ch = state.current();
+      if (!isHexDigit(ch)) {
+        state.pos = start;
+        return false
+      }
+      state.lastIntValue = 16 * state.lastIntValue + hexToInt(ch);
+      state.advance();
+    }
+    return true
+  };
+
+  // Object type used to represent tokens. Note that normally, tokens
+  // simply exist as properties on the parser object. This is only
+  // used for the onToken callback and the external tokenizer.
+
+  var Token = function Token(p) {
+    this.type = p.type;
+    this.value = p.value;
+    this.start = p.start;
+    this.end = p.end;
+    if (p.options.locations)
+      { this.loc = new SourceLocation(p, p.startLoc, p.endLoc); }
+    if (p.options.ranges)
+      { this.range = [p.start, p.end]; }
+  };
+
+  // ## Tokenizer
+
+  var pp = Parser.prototype;
+
+  // Move to the next token
+
+  pp.next = function(ignoreEscapeSequenceInKeyword) {
+    if (!ignoreEscapeSequenceInKeyword && this.type.keyword && this.containsEsc)
+      { this.raiseRecoverable(this.start, "Escape sequence in keyword " + this.type.keyword); }
+    if (this.options.onToken)
+      { this.options.onToken(new Token(this)); }
+
+    this.lastTokEnd = this.end;
+    this.lastTokStart = this.start;
+    this.lastTokEndLoc = this.endLoc;
+    this.lastTokStartLoc = this.startLoc;
+    this.nextToken();
+  };
+
+  pp.getToken = function() {
+    this.next();
+    return new Token(this)
+  };
+
+  // If we're in an ES6 environment, make parsers iterable
+  if (typeof Symbol !== "undefined")
+    { pp[Symbol.iterator] = function() {
+      var this$1$1 = this;
+
+      return {
+        next: function () {
+          var token = this$1$1.getToken();
+          return {
+            done: token.type === types$1.eof,
+            value: token
+          }
+        }
+      }
+    }; }
+
+  // Toggle strict mode. Re-reads the next number or string to please
+  // pedantic tests (`"use strict"; 010;` should fail).
+
+  // Read a single token, updating the parser object's token-related
+  // properties.
+
+  pp.nextToken = function() {
+    var curContext = this.curContext();
+    if (!curContext || !curContext.preserveSpace) { this.skipSpace(); }
+
+    this.start = this.pos;
+    if (this.options.locations) { this.startLoc = this.curPosition(); }
+    if (this.pos >= this.input.length) { return this.finishToken(types$1.eof) }
+
+    if (curContext.override) { return curContext.override(this) }
+    else { this.readToken(this.fullCharCodeAtPos()); }
+  };
+
+  pp.readToken = function(code) {
+    // Identifier or keyword. '\uXXXX' sequences are allowed in
+    // identifiers, so '\' also dispatches to that.
+    if (isIdentifierStart(code, this.options.ecmaVersion >= 6) || code === 92 /* '\' */)
+      { return this.readWord() }
+
+    return this.getTokenFromCode(code)
+  };
+
+  pp.fullCharCodeAtPos = function() {
+    var code = this.input.charCodeAt(this.pos);
+    if (code <= 0xd7ff || code >= 0xdc00) { return code }
+    var next = this.input.charCodeAt(this.pos + 1);
+    return next <= 0xdbff || next >= 0xe000 ? code : (code << 10) + next - 0x35fdc00
+  };
+
+  pp.skipBlockComment = function() {
+    var startLoc = this.options.onComment && this.curPosition();
+    var start = this.pos, end = this.input.indexOf("*/", this.pos += 2);
+    if (end === -1) { this.raise(this.pos - 2, "Unterminated comment"); }
+    this.pos = end + 2;
+    if (this.options.locations) {
+      for (var nextBreak = (void 0), pos = start; (nextBreak = nextLineBreak(this.input, pos, this.pos)) > -1;) {
+        ++this.curLine;
+        pos = this.lineStart = nextBreak;
+      }
+    }
+    if (this.options.onComment)
+      { this.options.onComment(true, this.input.slice(start + 2, end), start, this.pos,
+                             startLoc, this.curPosition()); }
+  };
+
+  pp.skipLineComment = function(startSkip) {
+    var start = this.pos;
+    var startLoc = this.options.onComment && this.curPosition();
+    var ch = this.input.charCodeAt(this.pos += startSkip);
+    while (this.pos < this.input.length && !isNewLine(ch)) {
+      ch = this.input.charCodeAt(++this.pos);
+    }
+    if (this.options.onComment)
+      { this.options.onComment(false, this.input.slice(start + startSkip, this.pos), start, this.pos,
+                             startLoc, this.curPosition()); }
+  };
+
+  // Called at the start of the parse and after every token. Skips
+  // whitespace and comments, and.
+
+  pp.skipSpace = function() {
+    loop: while (this.pos < this.input.length) {
+      var ch = this.input.charCodeAt(this.pos);
+      switch (ch) {
+      case 32: case 160: // ' '
+        ++this.pos;
+        break
+      case 13:
+        if (this.input.charCodeAt(this.pos + 1) === 10) {
+          ++this.pos;
+        }
+      case 10: case 8232: case 8233:
+        ++this.pos;
+        if (this.options.locations) {
+          ++this.curLine;
+          this.lineStart = this.pos;
+        }
+        break
+      case 47: // '/'
+        switch (this.input.charCodeAt(this.pos + 1)) {
+        case 42: // '*'
+          this.skipBlockComment();
+          break
+        case 47:
+          this.skipLineComment(2);
+          break
+        default:
+          break loop
+        }
+        break
+      default:
+        if (ch > 8 && ch < 14 || ch >= 5760 && nonASCIIwhitespace.test(String.fromCharCode(ch))) {
+          ++this.pos;
+        } else {
+          break loop
+        }
+      }
+    }
+  };
+
+  // Called at the end of every token. Sets `end`, `val`, and
+  // maintains `context` and `exprAllowed`, and skips the space after
+  // the token, so that the next one's `start` will point at the
+  // right position.
+
+  pp.finishToken = function(type, val) {
+    this.end = this.pos;
+    if (this.options.locations) { this.endLoc = this.curPosition(); }
+    var prevType = this.type;
+    this.type = type;
+    this.value = val;
+
+    this.updateContext(prevType);
+  };
+
+  // ### Token reading
+
+  // This is the function that is called to fetch the next token. It
+  // is somewhat obscure, because it works in character codes rather
+  // than characters, and because operator parsing has been inlined
+  // into it.
+  //
+  // All in the name of speed.
+  //
+  pp.readToken_dot = function() {
+    var next = this.input.charCodeAt(this.pos + 1);
+    if (next >= 48 && next <= 57) { return this.readNumber(true) }
+    var next2 = this.input.charCodeAt(this.pos + 2);
+    if (this.options.ecmaVersion >= 6 && next === 46 && next2 === 46) { // 46 = dot '.'
+      this.pos += 3;
+      return this.finishToken(types$1.ellipsis)
+    } else {
+      ++this.pos;
+      return this.finishToken(types$1.dot)
+    }
+  };
+
+  pp.readToken_slash = function() { // '/'
+    var next = this.input.charCodeAt(this.pos + 1);
+    if (this.exprAllowed) { ++this.pos; return this.readRegexp() }
+    if (next === 61) { return this.finishOp(types$1.assign, 2) }
+    return this.finishOp(types$1.slash, 1)
+  };
+
+  pp.readToken_mult_modulo_exp = function(code) { // '%*'
+    var next = this.input.charCodeAt(this.pos + 1);
+    var size = 1;
+    var tokentype = code === 42 ? types$1.star : types$1.modulo;
+
+    // exponentiation operator ** and **=
+    if (this.options.ecmaVersion >= 7 && code === 42 && next === 42) {
+      ++size;
+      tokentype = types$1.starstar;
+      next = this.input.charCodeAt(this.pos + 2);
+    }
+
+    if (next === 61) { return this.finishOp(types$1.assign, size + 1) }
+    return this.finishOp(tokentype, size)
+  };
+
+  pp.readToken_pipe_amp = function(code) { // '|&'
+    var next = this.input.charCodeAt(this.pos + 1);
+    if (next === code) {
+      if (this.options.ecmaVersion >= 12) {
+        var next2 = this.input.charCodeAt(this.pos + 2);
+        if (next2 === 61) { return this.finishOp(types$1.assign, 3) }
+      }
+      return this.finishOp(code === 124 ? types$1.logicalOR : types$1.logicalAND, 2)
+    }
+    if (next === 61) { return this.finishOp(types$1.assign, 2) }
+    return this.finishOp(code === 124 ? types$1.bitwiseOR : types$1.bitwiseAND, 1)
+  };
+
+  pp.readToken_caret = function() { // '^'
+    var next = this.input.charCodeAt(this.pos + 1);
+    if (next === 61) { return this.finishOp(types$1.assign, 2) }
+    return this.finishOp(types$1.bitwiseXOR, 1)
+  };
+
+  pp.readToken_plus_min = function(code) { // '+-'
+    var next = this.input.charCodeAt(this.pos + 1);
+    if (next === code) {
+      if (next === 45 && !this.inModule && this.input.charCodeAt(this.pos + 2) === 62 &&
+          (this.lastTokEnd === 0 || lineBreak.test(this.input.slice(this.lastTokEnd, this.pos)))) {
+        // A `-->` line comment
+        this.skipLineComment(3);
+        this.skipSpace();
+        return this.nextToken()
+      }
+      return this.finishOp(types$1.incDec, 2)
+    }
+    if (next === 61) { return this.finishOp(types$1.assign, 2) }
+    return this.finishOp(types$1.plusMin, 1)
+  };
+
+  pp.readToken_lt_gt = function(code) { // '<>'
+    var next = this.input.charCodeAt(this.pos + 1);
+    var size = 1;
+    if (next === code) {
+      size = code === 62 && this.input.charCodeAt(this.pos + 2) === 62 ? 3 : 2;
+      if (this.input.charCodeAt(this.pos + size) === 61) { return this.finishOp(types$1.assign, size + 1) }
+      return this.finishOp(types$1.bitShift, size)
+    }
+    if (next === 33 && code === 60 && !this.inModule && this.input.charCodeAt(this.pos + 2) === 45 &&
+        this.input.charCodeAt(this.pos + 3) === 45) {
+      // `<!--`, an XML-style comment that should be interpreted as a line comment
+      this.skipLineComment(4);
+      this.skipSpace();
+      return this.nextToken()
+    }
+    if (next === 61) { size = 2; }
+    return this.finishOp(types$1.relational, size)
+  };
+
+  pp.readToken_eq_excl = function(code) { // '=!'
+    var next = this.input.charCodeAt(this.pos + 1);
+    if (next === 61) { return this.finishOp(types$1.equality, this.input.charCodeAt(this.pos + 2) === 61 ? 3 : 2) }
+    if (code === 61 && next === 62 && this.options.ecmaVersion >= 6) { // '=>'
+      this.pos += 2;
+      return this.finishToken(types$1.arrow)
+    }
+    return this.finishOp(code === 61 ? types$1.eq : types$1.prefix, 1)
+  };
+
+  pp.readToken_question = function() { // '?'
+    var ecmaVersion = this.options.ecmaVersion;
+    if (ecmaVersion >= 11) {
+      var next = this.input.charCodeAt(this.pos + 1);
+      if (next === 46) {
+        var next2 = this.input.charCodeAt(this.pos + 2);
+        if (next2 < 48 || next2 > 57) { return this.finishOp(types$1.questionDot, 2) }
+      }
+      if (next === 63) {
+        if (ecmaVersion >= 12) {
+          var next2$1 = this.input.charCodeAt(this.pos + 2);
+          if (next2$1 === 61) { return this.finishOp(types$1.assign, 3) }
+        }
+        return this.finishOp(types$1.coalesce, 2)
+      }
+    }
+    return this.finishOp(types$1.question, 1)
+  };
+
+  pp.readToken_numberSign = function() { // '#'
+    var ecmaVersion = this.options.ecmaVersion;
+    var code = 35; // '#'
+    if (ecmaVersion >= 13) {
+      ++this.pos;
+      code = this.fullCharCodeAtPos();
+      if (isIdentifierStart(code, true) || code === 92 /* '\' */) {
+        return this.finishToken(types$1.privateId, this.readWord1())
+      }
+    }
+
+    this.raise(this.pos, "Unexpected character '" + codePointToString(code) + "'");
+  };
+
+  pp.getTokenFromCode = function(code) {
+    switch (code) {
+    // The interpretation of a dot depends on whether it is followed
+    // by a digit or another two dots.
+    case 46: // '.'
+      return this.readToken_dot()
+
+    // Punctuation tokens.
+    case 40: ++this.pos; return this.finishToken(types$1.parenL)
+    case 41: ++this.pos; return this.finishToken(types$1.parenR)
+    case 59: ++this.pos; return this.finishToken(types$1.semi)
+    case 44: ++this.pos; return this.finishToken(types$1.comma)
+    case 91: ++this.pos; return this.finishToken(types$1.bracketL)
+    case 93: ++this.pos; return this.finishToken(types$1.bracketR)
+    case 123: ++this.pos; return this.finishToken(types$1.braceL)
+    case 125: ++this.pos; return this.finishToken(types$1.braceR)
+    case 58: ++this.pos; return this.finishToken(types$1.colon)
+
+    case 96: // '`'
+      if (this.options.ecmaVersion < 6) { break }
+      ++this.pos;
+      return this.finishToken(types$1.backQuote)
+
+    case 48: // '0'
+      var next = this.input.charCodeAt(this.pos + 1);
+      if (next === 120 || next === 88) { return this.readRadixNumber(16) } // '0x', '0X' - hex number
+      if (this.options.ecmaVersion >= 6) {
+        if (next === 111 || next === 79) { return this.readRadixNumber(8) } // '0o', '0O' - octal number
+        if (next === 98 || next === 66) { return this.readRadixNumber(2) } // '0b', '0B' - binary number
+      }
+
+    // Anything else beginning with a digit is an integer, octal
+    // number, or float.
+    case 49: case 50: case 51: case 52: case 53: case 54: case 55: case 56: case 57: // 1-9
+      return this.readNumber(false)
+
+    // Quotes produce strings.
+    case 34: case 39: // '"', "'"
+      return this.readString(code)
+
+    // Operators are parsed inline in tiny state machines. '=' (61) is
+    // often referred to. `finishOp` simply skips the amount of
+    // characters it is given as second argument, and returns a token
+    // of the type given by its first argument.
+    case 47: // '/'
+      return this.readToken_slash()
+
+    case 37: case 42: // '%*'
+      return this.readToken_mult_modulo_exp(code)
+
+    case 124: case 38: // '|&'
+      return this.readToken_pipe_amp(code)
+
+    case 94: // '^'
+      return this.readToken_caret()
+
+    case 43: case 45: // '+-'
+      return this.readToken_plus_min(code)
+
+    case 60: case 62: // '<>'
+      return this.readToken_lt_gt(code)
+
+    case 61: case 33: // '=!'
+      return this.readToken_eq_excl(code)
+
+    case 63: // '?'
+      return this.readToken_question()
+
+    case 126: // '~'
+      return this.finishOp(types$1.prefix, 1)
+
+    case 35: // '#'
+      return this.readToken_numberSign()
+    }
+
+    this.raise(this.pos, "Unexpected character '" + codePointToString(code) + "'");
+  };
+
+  pp.finishOp = function(type, size) {
+    var str = this.input.slice(this.pos, this.pos + size);
+    this.pos += size;
+    return this.finishToken(type, str)
+  };
+
+  pp.readRegexp = function() {
+    var escaped, inClass, start = this.pos;
+    for (;;) {
+      if (this.pos >= this.input.length) { this.raise(start, "Unterminated regular expression"); }
+      var ch = this.input.charAt(this.pos);
+      if (lineBreak.test(ch)) { this.raise(start, "Unterminated regular expression"); }
+      if (!escaped) {
+        if (ch === "[") { inClass = true; }
+        else if (ch === "]" && inClass) { inClass = false; }
+        else if (ch === "/" && !inClass) { break }
+        escaped = ch === "\\";
+      } else { escaped = false; }
+      ++this.pos;
+    }
+    var pattern = this.input.slice(start, this.pos);
+    ++this.pos;
+    var flagsStart = this.pos;
+    var flags = this.readWord1();
+    if (this.containsEsc) { this.unexpected(flagsStart); }
+
+    // Validate pattern
+    var state = this.regexpState || (this.regexpState = new RegExpValidationState(this));
+    state.reset(start, pattern, flags);
+    this.validateRegExpFlags(state);
+    this.validateRegExpPattern(state);
+
+    // Create Literal#value property value.
+    var value = null;
+    try {
+      value = new RegExp(pattern, flags);
+    } catch (e) {
+      // ESTree requires null if it failed to instantiate RegExp object.
+      // https://github.com/estree/estree/blob/a27003adf4fd7bfad44de9cef372a2eacd527b1c/es5.md#regexpliteral
+    }
+
+    return this.finishToken(types$1.regexp, {pattern: pattern, flags: flags, value: value})
+  };
+
+  // Read an integer in the given radix. Return null if zero digits
+  // were read, the integer value otherwise. When `len` is given, this
+  // will return `null` unless the integer has exactly `len` digits.
+
+  pp.readInt = function(radix, len, maybeLegacyOctalNumericLiteral) {
+    // `len` is used for character escape sequences. In that case, disallow separators.
+    var allowSeparators = this.options.ecmaVersion >= 12 && len === undefined;
+
+    // `maybeLegacyOctalNumericLiteral` is true if it doesn't have prefix (0x,0o,0b)
+    // and isn't fraction part nor exponent part. In that case, if the first digit
+    // is zero then disallow separators.
+    var isLegacyOctalNumericLiteral = maybeLegacyOctalNumericLiteral && this.input.charCodeAt(this.pos) === 48;
+
+    var start = this.pos, total = 0, lastCode = 0;
+    for (var i = 0, e = len == null ? Infinity : len; i < e; ++i, ++this.pos) {
+      var code = this.input.charCodeAt(this.pos), val = (void 0);
+
+      if (allowSeparators && code === 95) {
+        if (isLegacyOctalNumericLiteral) { this.raiseRecoverable(this.pos, "Numeric separator is not allowed in legacy octal numeric literals"); }
+        if (lastCode === 95) { this.raiseRecoverable(this.pos, "Numeric separator must be exactly one underscore"); }
+        if (i === 0) { this.raiseRecoverable(this.pos, "Numeric separator is not allowed at the first of digits"); }
+        lastCode = code;
+        continue
+      }
+
+      if (code >= 97) { val = code - 97 + 10; } // a
+      else if (code >= 65) { val = code - 65 + 10; } // A
+      else if (code >= 48 && code <= 57) { val = code - 48; } // 0-9
+      else { val = Infinity; }
+      if (val >= radix) { break }
+      lastCode = code;
+      total = total * radix + val;
+    }
+
+    if (allowSeparators && lastCode === 95) { this.raiseRecoverable(this.pos - 1, "Numeric separator is not allowed at the last of digits"); }
+    if (this.pos === start || len != null && this.pos - start !== len) { return null }
+
+    return total
+  };
+
+  function stringToNumber(str, isLegacyOctalNumericLiteral) {
+    if (isLegacyOctalNumericLiteral) {
+      return parseInt(str, 8)
+    }
+
+    // `parseFloat(value)` stops parsing at the first numeric separator then returns a wrong value.
+    return parseFloat(str.replace(/_/g, ""))
+  }
+
+  function stringToBigInt(str) {
+    if (typeof BigInt !== "function") {
+      return null
+    }
+
+    // `BigInt(value)` throws syntax error if the string contains numeric separators.
+    return BigInt(str.replace(/_/g, ""))
+  }
+
+  pp.readRadixNumber = function(radix) {
+    var start = this.pos;
+    this.pos += 2; // 0x
+    var val = this.readInt(radix);
+    if (val == null) { this.raise(this.start + 2, "Expected number in radix " + radix); }
+    if (this.options.ecmaVersion >= 11 && this.input.charCodeAt(this.pos) === 110) {
+      val = stringToBigInt(this.input.slice(start, this.pos));
+      ++this.pos;
+    } else if (isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number"); }
+    return this.finishToken(types$1.num, val)
+  };
+
+  // Read an integer, octal integer, or floating-point number.
+
+  pp.readNumber = function(startsWithDot) {
+    var start = this.pos;
+    if (!startsWithDot && this.readInt(10, undefined, true) === null) { this.raise(start, "Invalid number"); }
+    var octal = this.pos - start >= 2 && this.input.charCodeAt(start) === 48;
+    if (octal && this.strict) { this.raise(start, "Invalid number"); }
+    var next = this.input.charCodeAt(this.pos);
+    if (!octal && !startsWithDot && this.options.ecmaVersion >= 11 && next === 110) {
+      var val$1 = stringToBigInt(this.input.slice(start, this.pos));
+      ++this.pos;
+      if (isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number"); }
+      return this.finishToken(types$1.num, val$1)
+    }
+    if (octal && /[89]/.test(this.input.slice(start, this.pos))) { octal = false; }
+    if (next === 46 && !octal) { // '.'
+      ++this.pos;
+      this.readInt(10);
+      next = this.input.charCodeAt(this.pos);
+    }
+    if ((next === 69 || next === 101) && !octal) { // 'eE'
+      next = this.input.charCodeAt(++this.pos);
+      if (next === 43 || next === 45) { ++this.pos; } // '+-'
+      if (this.readInt(10) === null) { this.raise(start, "Invalid number"); }
+    }
+    if (isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number"); }
+
+    var val = stringToNumber(this.input.slice(start, this.pos), octal);
+    return this.finishToken(types$1.num, val)
+  };
+
+  // Read a string value, interpreting backslash-escapes.
+
+  pp.readCodePoint = function() {
+    var ch = this.input.charCodeAt(this.pos), code;
+
+    if (ch === 123) { // '{'
+      if (this.options.ecmaVersion < 6) { this.unexpected(); }
+      var codePos = ++this.pos;
+      code = this.readHexChar(this.input.indexOf("}", this.pos) - this.pos);
+      ++this.pos;
+      if (code > 0x10FFFF) { this.invalidStringToken(codePos, "Code point out of bounds"); }
+    } else {
+      code = this.readHexChar(4);
+    }
+    return code
+  };
+
+  pp.readString = function(quote) {
+    var out = "", chunkStart = ++this.pos;
+    for (;;) {
+      if (this.pos >= this.input.length) { this.raise(this.start, "Unterminated string constant"); }
+      var ch = this.input.charCodeAt(this.pos);
+      if (ch === quote) { break }
+      if (ch === 92) { // '\'
+        out += this.input.slice(chunkStart, this.pos);
+        out += this.readEscapedChar(false);
+        chunkStart = this.pos;
+      } else if (ch === 0x2028 || ch === 0x2029) {
+        if (this.options.ecmaVersion < 10) { this.raise(this.start, "Unterminated string constant"); }
+        ++this.pos;
+        if (this.options.locations) {
+          this.curLine++;
+          this.lineStart = this.pos;
+        }
+      } else {
+        if (isNewLine(ch)) { this.raise(this.start, "Unterminated string constant"); }
+        ++this.pos;
+      }
+    }
+    out += this.input.slice(chunkStart, this.pos++);
+    return this.finishToken(types$1.string, out)
+  };
+
+  // Reads template string tokens.
+
+  var INVALID_TEMPLATE_ESCAPE_ERROR = {};
+
+  pp.tryReadTemplateToken = function() {
+    this.inTemplateElement = true;
+    try {
+      this.readTmplToken();
+    } catch (err) {
+      if (err === INVALID_TEMPLATE_ESCAPE_ERROR) {
+        this.readInvalidTemplateToken();
+      } else {
+        throw err
+      }
+    }
+
+    this.inTemplateElement = false;
+  };
+
+  pp.invalidStringToken = function(position, message) {
+    if (this.inTemplateElement && this.options.ecmaVersion >= 9) {
+      throw INVALID_TEMPLATE_ESCAPE_ERROR
+    } else {
+      this.raise(position, message);
+    }
+  };
+
+  pp.readTmplToken = function() {
+    var out = "", chunkStart = this.pos;
+    for (;;) {
+      if (this.pos >= this.input.length) { this.raise(this.start, "Unterminated template"); }
+      var ch = this.input.charCodeAt(this.pos);
+      if (ch === 96 || ch === 36 && this.input.charCodeAt(this.pos + 1) === 123) { // '`', '${'
+        if (this.pos === this.start && (this.type === types$1.template || this.type === types$1.invalidTemplate)) {
+          if (ch === 36) {
+            this.pos += 2;
+            return this.finishToken(types$1.dollarBraceL)
+          } else {
+            ++this.pos;
+            return this.finishToken(types$1.backQuote)
+          }
+        }
+        out += this.input.slice(chunkStart, this.pos);
+        return this.finishToken(types$1.template, out)
+      }
+      if (ch === 92) { // '\'
+        out += this.input.slice(chunkStart, this.pos);
+        out += this.readEscapedChar(true);
+        chunkStart = this.pos;
+      } else if (isNewLine(ch)) {
+        out += this.input.slice(chunkStart, this.pos);
+        ++this.pos;
+        switch (ch) {
+        case 13:
+          if (this.input.charCodeAt(this.pos) === 10) { ++this.pos; }
+        case 10:
+          out += "\n";
+          break
+        default:
+          out += String.fromCharCode(ch);
+          break
+        }
+        if (this.options.locations) {
+          ++this.curLine;
+          this.lineStart = this.pos;
+        }
+        chunkStart = this.pos;
+      } else {
+        ++this.pos;
+      }
+    }
+  };
+
+  // Reads a template token to search for the end, without validating any escape sequences
+  pp.readInvalidTemplateToken = function() {
+    for (; this.pos < this.input.length; this.pos++) {
+      switch (this.input[this.pos]) {
+      case "\\":
+        ++this.pos;
+        break
+
+      case "$":
+        if (this.input[this.pos + 1] !== "{") { break }
+        // fall through
+      case "`":
+        return this.finishToken(types$1.invalidTemplate, this.input.slice(this.start, this.pos))
+
+      case "\r":
+        if (this.input[this.pos + 1] === "\n") { ++this.pos; }
+        // fall through
+      case "\n": case "\u2028": case "\u2029":
+        ++this.curLine;
+        this.lineStart = this.pos + 1;
+        break
+      }
+    }
+    this.raise(this.start, "Unterminated template");
+  };
+
+  // Used to read escaped characters
+
+  pp.readEscapedChar = function(inTemplate) {
+    var ch = this.input.charCodeAt(++this.pos);
+    ++this.pos;
+    switch (ch) {
+    case 110: return "\n" // 'n' -> '\n'
+    case 114: return "\r" // 'r' -> '\r'
+    case 120: return String.fromCharCode(this.readHexChar(2)) // 'x'
+    case 117: return codePointToString(this.readCodePoint()) // 'u'
+    case 116: return "\t" // 't' -> '\t'
+    case 98: return "\b" // 'b' -> '\b'
+    case 118: return "\u000b" // 'v' -> '\u000b'
+    case 102: return "\f" // 'f' -> '\f'
+    case 13: if (this.input.charCodeAt(this.pos) === 10) { ++this.pos; } // '\r\n'
+    case 10: // ' \n'
+      if (this.options.locations) { this.lineStart = this.pos; ++this.curLine; }
+      return ""
+    case 56:
+    case 57:
+      if (this.strict) {
+        this.invalidStringToken(
+          this.pos - 1,
+          "Invalid escape sequence"
+        );
+      }
+      if (inTemplate) {
+        var codePos = this.pos - 1;
+
+        this.invalidStringToken(
+          codePos,
+          "Invalid escape sequence in template string"
+        );
+      }
+    default:
+      if (ch >= 48 && ch <= 55) {
+        var octalStr = this.input.substr(this.pos - 1, 3).match(/^[0-7]+/)[0];
+        var octal = parseInt(octalStr, 8);
+        if (octal > 255) {
+          octalStr = octalStr.slice(0, -1);
+          octal = parseInt(octalStr, 8);
+        }
+        this.pos += octalStr.length - 1;
+        ch = this.input.charCodeAt(this.pos);
+        if ((octalStr !== "0" || ch === 56 || ch === 57) && (this.strict || inTemplate)) {
+          this.invalidStringToken(
+            this.pos - 1 - octalStr.length,
+            inTemplate
+              ? "Octal literal in template string"
+              : "Octal literal in strict mode"
+          );
+        }
+        return String.fromCharCode(octal)
+      }
+      if (isNewLine(ch)) {
+        // Unicode new line characters after \ get removed from output in both
+        // template literals and strings
+        if (this.options.locations) { this.lineStart = this.pos; ++this.curLine; }
+        return ""
+      }
+      return String.fromCharCode(ch)
+    }
+  };
+
+  // Used to read character escape sequences ('\x', '\u', '\U').
+
+  pp.readHexChar = function(len) {
+    var codePos = this.pos;
+    var n = this.readInt(16, len);
+    if (n === null) { this.invalidStringToken(codePos, "Bad character escape sequence"); }
+    return n
+  };
+
+  // Read an identifier, and return it as a string. Sets `this.containsEsc`
+  // to whether the word contained a '\u' escape.
+  //
+  // Incrementally adds only escaped chars, adding other chunks as-is
+  // as a micro-optimization.
+
+  pp.readWord1 = function() {
+    this.containsEsc = false;
+    var word = "", first = true, chunkStart = this.pos;
+    var astral = this.options.ecmaVersion >= 6;
+    while (this.pos < this.input.length) {
+      var ch = this.fullCharCodeAtPos();
+      if (isIdentifierChar(ch, astral)) {
+        this.pos += ch <= 0xffff ? 1 : 2;
+      } else if (ch === 92) { // "\"
+        this.containsEsc = true;
+        word += this.input.slice(chunkStart, this.pos);
+        var escStart = this.pos;
+        if (this.input.charCodeAt(++this.pos) !== 117) // "u"
+          { this.invalidStringToken(this.pos, "Expecting Unicode escape sequence \\uXXXX"); }
+        ++this.pos;
+        var esc = this.readCodePoint();
+        if (!(first ? isIdentifierStart : isIdentifierChar)(esc, astral))
+          { this.invalidStringToken(escStart, "Invalid Unicode escape"); }
+        word += codePointToString(esc);
+        chunkStart = this.pos;
+      } else {
+        break
+      }
+      first = false;
+    }
+    return word + this.input.slice(chunkStart, this.pos)
+  };
+
+  // Read an identifier or keyword token. Will check for reserved
+  // words when necessary.
+
+  pp.readWord = function() {
+    var word = this.readWord1();
+    var type = types$1.name;
+    if (this.keywords.test(word)) {
+      type = keywords[word];
+    }
+    return this.finishToken(type, word)
+  };
+
+  // Acorn is a tiny, fast JavaScript parser written in JavaScript.
+  //
+  // Acorn was written by Marijn Haverbeke, Ingvar Stepanyan, and
+  // various contributors and released under an MIT license.
+  //
+  // Git repositories for Acorn are available at
+  //
+  //     http://marijnhaverbeke.nl/git/acorn
+  //     https://github.com/acornjs/acorn.git
+  //
+  // Please use the [github bug tracker][ghbt] to report issues.
+  //
+  // [ghbt]: https://github.com/acornjs/acorn/issues
+
+
+  var version = "8.15.0";
+
+  Parser.acorn = {
+    Parser: Parser,
+    version: version,
+    defaultOptions: defaultOptions,
+    Position: Position,
+    SourceLocation: SourceLocation,
+    getLineInfo: getLineInfo,
+    Node: Node,
+    TokenType: TokenType,
+    tokTypes: types$1,
+    keywordTypes: keywords,
+    TokContext: TokContext,
+    tokContexts: types,
+    isIdentifierChar: isIdentifierChar,
+    isIdentifierStart: isIdentifierStart,
+    Token: Token,
+    isNewLine: isNewLine,
+    lineBreak: lineBreak,
+    lineBreakG: lineBreakG,
+    nonASCIIwhitespace: nonASCIIwhitespace
+  };
+
+  // The main exported interface (under `self.acorn` when in the
+  // browser) is a `parse` function that takes a code string and returns
+  // an abstract syntax tree as specified by the [ESTree spec][estree].
+  //
+  // [estree]: https://github.com/estree/estree
+
+  function parse(input, options) {
+    return Parser.parse(input, options)
+  }
+
+  // This function tries to parse a single expression at a given
+  // offset in a string. Useful for parsing mixed-language formats
+  // that embed JavaScript expressions.
+
+  function parseExpressionAt(input, pos, options) {
+    return Parser.parseExpressionAt(input, pos, options)
+  }
+
+  // Acorn is organized as a tokenizer and a recursive-descent parser.
+  // The `tokenizer` export provides an interface to the tokenizer.
+
+  function tokenizer(input, options) {
+    return Parser.tokenizer(input, options)
+  }
+
+  exports.Node = Node;
+  exports.Parser = Parser;
+  exports.Position = Position;
+  exports.SourceLocation = SourceLocation;
+  exports.TokContext = TokContext;
+  exports.Token = Token;
+  exports.TokenType = TokenType;
+  exports.defaultOptions = defaultOptions;
+  exports.getLineInfo = getLineInfo;
+  exports.isIdentifierChar = isIdentifierChar;
+  exports.isIdentifierStart = isIdentifierStart;
+  exports.isNewLine = isNewLine;
+  exports.keywordTypes = keywords;
+  exports.lineBreak = lineBreak;
+  exports.lineBreakG = lineBreakG;
+  exports.nonASCIIwhitespace = nonASCIIwhitespace;
+  exports.parse = parse;
+  exports.parseExpressionAt = parseExpressionAt;
+  exports.tokContexts = types;
+  exports.tokTypes = types$1;
+  exports.tokenizer = tokenizer;
+  exports.version = version;
+
+}));
+
+return module.exports;})();
+function validateSDKCalls(js){
+ if(!/VIE\s*(?:\.|\[)/.test(js))return;
+ let tree;try{tree=VIEAcorn.parse(js,{ecmaVersion:'latest',sourceType:'script'});}catch{return;}// Native Script remains the syntax authority.
+ const member=n=>n?.type==='MemberExpression'?(n.computed?n.property.type==='Literal'?String(n.property.value):null:n.property.name):null;
+ const key=p=>p.type==='Property'&&!p.computed?(p.key.type==='Identifier'?p.key.name:p.key.type==='Literal'?String(p.key.value):null):null;
+ const unknown=Symbol('dynamic');
+ const literal=n=>{if(!n)return unknown;if(n.type==='Literal'&&!n.regex&&typeof n.value!=='bigint')return n.value;if(n.type==='UnaryExpression'&&['-','+'].includes(n.operator)){const v=literal(n.argument);return typeof v==='number'?(n.operator==='-'?-v:v):unknown;}if(n.type==='ArrayExpression'){const a=n.elements.map(literal);return a.includes(unknown)?unknown:a;}if(n.type==='ObjectExpression'){const a={};for(const p of n.properties){const k=key(p),v=literal(p.value);if(k===null||p.kind!=='init'||v===unknown||['__proto__','constructor','prototype'].includes(k))return unknown;a[k]=v;}return a;}return unknown;};
+ const bindNames=(n,names)=>{if(!n)return;if(n.type==='Identifier')names.push(n.name);else if(n.type==='RestElement')bindNames(n.argument,names);else if(n.type==='AssignmentPattern')bindNames(n.left,names);else if(n.type==='ArrayPattern')n.elements.forEach(e=>bindNames(e,names));else if(n.type==='ObjectPattern')n.properties.forEach(p=>bindNames(p.value??p.argument,names));};
+ const visit=(node,env)=>{if(!node||typeof node!=='object')return;
+  if(node.type==='Program'||node.type==='BlockStatement'){const scope=new Map(env);for(const s of node.body)visit(s,scope);return;}
+  if(/Function(?:Expression|Declaration)$/.test(node.type)||node.type==='ArrowFunctionExpression'){const scope=new Map(env),names=[];for(const p of node.params)bindNames(p,names);names.forEach(n=>scope.delete(n));visit(node.body,scope);return;}
+  if(node.type==='VariableDeclaration'){for(const d of node.declarations){const method=member(d.init?.callee),object=d.init?.callee?.object;if(d.id.type==='Identifier'){env.delete(d.id.name);if(d.init?.type==='CallExpression'&&(object?.name==='VIE'&&method==='svg'||env.get(object?.name)==='svg'&&method==='group'))env.set(d.id.name,'svg');}visit(d.init,env);}return;}
+  if(node.type==='CallExpression'&&env.get(node.callee?.object?.name)==='svg'){
+   const method=member(node.callee),arg=node.arguments[0];
+   if(method&&!SVG_SDK_KINDS.includes(method)&&!['group','axes','coordinates','anchor','connect','layoutLabels','dispose'].includes(method))svgSDKError(method,'method','unknown drawing method');
+   if(SVG_SDK_KINDS.includes(method)&&arg?.type==='ObjectExpression'){
+    const keys=new Map();let dynamic=false;
+    for(const p of arg.properties){const k=key(p);if(k===null||p.kind!=='init'){dynamic=true;keys.clear();continue;}if(keys.has(k)){const e=Error('VIE_SDK_DUPLICATE_FIELD '+method+'.'+k+': duplicate object key; use strokeWidth for stroke thickness, width for rectangle geometry');e.code='VIE_SDK_DUPLICATE_FIELD';e.field=method+'.'+k;throw e;}keys.set(k,p);}
+    if(!dynamic){const v=literal(arg);if(v!==unknown)normalizeSVGPrimitive(method,v);else{for(const k of keys.keys())if(![...SVG_SDK_KEYS[method],'tone','color','stroke','strokeWidth','stroke-width','fill','opacity','strokeOpacity','fillOpacity','dash','strokeDasharray'].includes(k))svgSDKError(method,k,'unknown field');if(['label','rect','circle','angle'].includes(method)&&!keys.has('at')&&!((keys.has('x')||method==='circle'&&keys.has('cx'))&&(keys.has('y')||method==='circle'&&keys.has('cy'))))svgSDKError(method,'at','expected at:[x,y] or complete coordinate aliases');}}
+   }
+  }
+  for(const [k,v]of Object.entries(node)){if(['start','end','loc'].includes(k))continue;if(Array.isArray(v))v.forEach(n=>{if(n?.type)visit(n,env);});else if(v?.type)visit(v,env);}
+ };
+ visit(tree,new Map());
+}
+
 /** Topic-independent document and generated-figure contract. No topic allowlist. */
 /** Topic-neutral learning data. Never execute authored JavaScript on the Host. */
 function validateLearningDefinition(input,withRoot=false){
@@ -353,6 +6694,11 @@ function validateLearningCalls(js){
 /** Multiple legacy quiz-only blocks are one exercise, not separate diagrams. */
 function isLearningQuestionGroup(blocks){return Array.isArray(blocks)&&blocks.length>1&&blocks.every(b=>b&&b.type==='learning'&&b.quiz&&Object.keys(b).every(k=>['type','title','key','quiz'].includes(k)));}
 
+function documentVisualUnits(document){
+  try{document=normalizeLearningDocumentAlias(document);}catch{}
+  if(!document||document.controls?.length||isLearningQuestionGroup(document.blocks))return 1;
+  return Math.max(1,(Array.isArray(document.blocks)?document.blocks:[]).filter(b=>b&&(['figure','learning','graphic','chart','visual','experiment'].includes(b.type)||b.kind||b.type===undefined&&typeof b.html==='string')).length);
+}
 function validateFigureState(input={}){
   const plain=x=>x!==null&&typeof x==='object'&&!Array.isArray(x)&&(Object.getPrototypeOf(x)===Object.prototype||Object.getPrototypeOf(x)===null);
   let nodes=0;
@@ -368,24 +6714,53 @@ function validateFigureState(input={}){
   if(new TextEncoder().encode(JSON.stringify(input)).length>8192)throw Error('Figure state exceeds 8KB');
   return JSON.parse(JSON.stringify(input));
 }
-function validateFigureDefinition(input){
+function validateFigureDefinition(input,internalPreview=false){
   if(!input||typeof input!=='object'||Array.isArray(input)||Object.getPrototypeOf(input)!==Object.prototype)throw Error('Figure requires an object');
-  for(const key of Object.keys(input))if(!DOCUMENT_CONTRACT.blocks.figure.fields.includes(key)&&key!=='type')throw Error('Unknown figure field: '+key);
+  for(const key of Object.keys(input))if(!DOCUMENT_CONTRACT.blocks.figure.fields.includes(key)&&key!=='type'&&!(internalPreview&&key==='preview'))throw Error('Unknown figure field: '+key);
   const bounded=(value,max,label)=>{if(typeof value!=='string'||new TextEncoder().encode(value).length>max)throw Error('Figure '+label+' exceeds limit or is not text');return value;};
   const result={title:bounded(input.title??'交互图解',300,'title'),html:bounded(input.html??'',16384,'html'),css:bounded(input.css??'',8192,'css'),js:bounded(input.js??'',32768,'js'),height:input.height??360,state:validateFigureState(input.state??{})};
+  if(internalPreview&&input.preview!==undefined){if(typeof input.preview!=='boolean'||input.preview&&result.js)throw Error('Invalid static preview');result.preview=input.preview;}
   if(input.bindings!==undefined){
     if(!input.bindings||typeof input.bindings!=='object'||Array.isArray(input.bindings)||Object.keys(input.bindings).length>8)throw Error('Invalid figure bindings');
     result.bindings={};for(const [key,ref]of Object.entries(input.bindings)){if(!/^[A-Za-z][A-Za-z0-9_]{0,19}$/.test(key)||['constructor','prototype','__proto__'].includes(key)||typeof ref!=='string'||!/^\/(shared|derived)\/[A-Za-z][A-Za-z0-9_]{0,19}$/.test(ref))throw Error('Invalid figure binding');result.bindings[key]=ref;}
   }
   if(!result.html.trim())throw Error('Figure html must not be empty');
   validateLearningCalls(result.js);
-  if(!Number.isInteger(result.height)||result.height<160||result.height>1000)throw Error('Figure height must be 160–1000');
+  if(!Number.isInteger(result.height)||result.height<80||result.height>1000)throw Error('Figure height must be 80–1000 (values below 160 display at 160)');result.height=Math.max(160,result.height);
   if(/<(?:iframe|frame|object|embed|base)\b|<meta\b[^>]*http-equiv\s*=\s*["']?refresh/i.test(result.html))throw Error('Figure must be self-contained; nested browsing contexts and refresh are not supported');
   if(new TextEncoder().encode(JSON.stringify(result)).length>60000)throw Error('Figure exceeds serialized 60KB limit');
   return result;
 }
+function normalizeLearningDocumentAlias(input){
+  if(!input||typeof input!=='object'||Array.isArray(input)||Object.getPrototypeOf(input)!==Object.prototype||input.type===undefined)return input;
+  if(input.type!=='learning')throw Error('Unknown document type: '+String(input.type));
+  const {type,...document}=input;
+  const blocks=document.blocks;
+  if(!Array.isArray(blocks)||blocks.every(block=>block?.type==='learning'))return document;
+  const stageFields=new Set(['label','title','caption','html','mobileHtml']);
+  // Preserve invalid required fields so validation and repair use the same block.
+  const stages=blocks.every(block=>block&&typeof block==='object'&&!Array.isArray(block)&&
+    Object.keys(block).every(key=>stageFields.has(key)));
+  if(!stages){
+    const error=Error('document.type:"learning" requires typed learning blocks or stage objects with html');
+    error.code='VIE_LEARNING_INVALID';
+    throw error;
+  }
+  return {...document,blocks:[{
+    type:'learning',
+    title:typeof document.title==='string'&&document.title.trim()?document.title:'交互演示',
+    stages:blocks.map((stage,index)=>({
+      label:stage.label??stage.title??String(index+1),
+      ...(stage.title===undefined?{}:{title:stage.title}),
+      ...(stage.caption===undefined?{}:{caption:stage.caption}),
+      html:stage.html,
+      ...(stage.mobileHtml===undefined?{}:{mobileHtml:stage.mobileHtml})
+    }))
+  }]};
+}
 function validateDocumentSpec(input){
   if(!input||typeof input!=='object'||Array.isArray(input)||Object.getPrototypeOf(input)!==Object.prototype)throw Error('Document requires an object');
+  input=normalizeLearningDocumentAlias(input);
   if(input.caption!==undefined){if(typeof input.caption!=='string'||input.caption.length>140)throw Error('document.caption must be text of at most 140 characters');const {caption,...rest}=input;input=rest;}
   if(input.title===undefined){const first=isLearningQuestionGroup(input.blocks)?'选择题练习':input.blocks?.[0]?.title;input={...input,title:typeof first==='string'&&first.trim()?first.trim().slice(0,100):'交互图解'};}
   for(const key of Object.keys(input))if(!DOCUMENT_CONTRACT.fields.includes(key))throw Error('Unknown document field: '+key);
@@ -702,7 +7077,7 @@ const LIMITS = Object.freeze({bytes: 262144, line: 65536, events: 300, nodes: 80
  * meaningful renderer/runtime consumer before it can be listed here. */
 const COMPONENT_CATALOG=Object.freeze({
   Chart:{props:['title','x','y','series','controls','inputs','regions','note'],description:'General formula/data chart with local controls and region fills; no generated code required'},
-  GenerativeFigure:{props:['title','html','css','js','height','state','bindings'],description:'Topic-independent generated HTML/CSS/JS, isolated iframe; SVG/Canvas/WebGL and custom interaction, not bound to experiment templates'},
+  GenerativeFigure:{props:['title','html','css','js','height','state','bindings','preview'],description:'Topic-independent generated HTML/CSS/JS, isolated iframe; SVG/Canvas/WebGL and custom interaction, not bound to experiment templates'},
   Column:{props:[],description:'Vertical layout'}, Row:{props:[],description:'Horizontal layout'},
   Split:{props:['ratio'],description:'Responsive text / visual split layout'},
   Card:{props:['title'],description:'Grouped content'}, Text:{props:['title','body'],description:'Explanatory text'},
@@ -789,7 +7164,7 @@ function validateEvent(event) {
   if(!ALLOWED.has(type)) error('Unsupported component: '+type);
   const props=shared(event.props??{});
   if(type==='Chart')return {v:1,op:'node.put',id:id(event.id),type,props:validateChartSpec(props),parent:event.parent===undefined?'root':id(event.parent),order:event.order===undefined?0:number(event.order,-10000,10000)};
-  if(type==='GenerativeFigure')return {v:1,op:'node.put',id:id(event.id),type,props:validateFigureDefinition(props),parent:event.parent===undefined?'root':id(event.parent),order:event.order===undefined?0:number(event.order,-10000,10000)};
+  if(type==='GenerativeFigure')return {v:1,op:'node.put',id:id(event.id),type,props:validateFigureDefinition(props,true),parent:event.parent===undefined?'root':id(event.parent),order:event.order===undefined?0:number(event.order,-10000,10000)};
   if(type==='InteractiveScene'){
     return {v:1,op:'node.put',id:id(event.id),type,props:validateExperimentSpec(props),parent:event.parent===undefined?'root':id(event.parent),order:event.order===undefined?0:number(event.order,-10000,10000)};
   }
@@ -1487,7 +7862,7 @@ function buildTemplateScene({templateId,parameters={},spec}={}){
 /** Decode only complete document blocks. Incomplete executable strings never run. */
 class DocumentPreview {
   constructor(){this.reset();}
-  reset(){this.raw='';this.cursor=0;this.depth=0;this.quoted=false;this.escape=false;this.begin=-1;this.blocks=[];this.array=false;this.closed=false;this.source='';}
+  reset(){this.raw='';this.cursor=0;this.depth=0;this.quoted=false;this.escape=false;this.begin=-1;this.blocks=[];this.array=false;this.closed=false;this.source='';this.pendingDecoder=null;this.pendingStart=-1;this.pendingSignature='';}
   update(raw){
     if(typeof raw!=='string'||new TextEncoder().encode(raw).length>245760)return '';
     if(!raw.startsWith(this.raw))this.reset();
@@ -1515,7 +7890,21 @@ class DocumentPreview {
         if(this.depth<2)this.closed=true;
       }
     }
-    if(changed){try{this.source=documentSceneSource({...this.header,blocks:this.blocks});}catch{this.source='';this.closed=true;}}
+    if(changed){try{this.source=documentSceneSource({...this.header,blocks:this.blocks});this.pendingSignature='';}catch{this.source='';this.closed=true;}}
+    // Preview a completed HTML field while its JavaScript is still being generated.
+    // The internal marker is never accepted on public document input.
+    if(!this.closed&&this.begin>=0){
+      if(this.pendingStart!==this.begin){this.pendingStart=this.begin;this.pendingDecoder=new IncrementalToolArguments({fields:['type','title','html','css','state','bindings'],maxRaw:65000,maxValue:32768});}
+      const decoder=this.pendingDecoder,fields=decoder.update(raw.slice(this.begin));
+      if(!decoder.invalid&&(!fields.type||fields.type==='figure')&&fields.html?.trim()&&!(decoder.inString&&decoder.currentField==='html')){
+        try{
+          const block={type:'figure',title:fields.title??this.title,html:fields.html,css:decoder.inString&&decoder.currentField==='css'?'':fields.css??'',js:''};
+          for(const key of ['state','bindings'])if(fields[key])try{block[key]=JSON.parse(fields[key]);}catch{}
+          const signature=JSON.stringify(block);
+          if(signature!==this.pendingSignature){const source=documentSceneSource({...this.header,blocks:[...this.blocks,block]}),lines=source.split('\n').filter(Boolean).map(s=>JSON.parse(s));const figures=lines.filter(e=>e.op==='node.put'&&e.type==='GenerativeFigure');figures.at(-1).props.preview=true;this.source=lines.map(e=>JSON.stringify(e)).join('\n')+'\n';this.pendingSignature=signature;}
+        }catch{}
+      }
+    }
     return this.source;
   }
 }
@@ -1535,8 +7924,70 @@ function sourceFromArguments(fields,documentPreview){
   return '';
 }
 
+/** Presentation only: never write control values or dispatch application events. */
+function updateRangePresentation(input){
+  if(input?.type!=='range')return;
+  const min=input.min===''?0:Number(input.min),max=input.max===''?100:Number(input.max),value=Number(input.value);
+  const percent=Number.isFinite(min)&&Number.isFinite(max)&&Number.isFinite(value)&&max>min?Math.max(0,Math.min(100,(value-min)/(max-min)*100)):0;
+  const fill=Number(percent.toFixed(4))+'%';
+  if(input.style.getPropertyValue('--vie-range-fill')!==fill)input.style.setProperty('--vie-range-fill',fill);
+}
+function installControlPresentation(root){
+  const win=root.ownerDocument.defaultView,inputs=new Set();let pending=0,disposed=false;
+  const add=node=>{if(node.nodeType!==1||node.namespaceURI!=='http://www.w3.org/1999/xhtml')return;
+    if(node.matches('input[type="range"]'))inputs.add(node);
+    for(const input of node.querySelectorAll('input[type="range"]'))inputs.add(input);
+  };
+  const refresh=()=>{if(disposed)return;for(const input of inputs){if(!root.contains(input)||input.type!=='range')inputs.delete(input);else updateRangePresentation(input);}};
+  const schedule=()=>{if(!pending&&!disposed)pending=win.requestAnimationFrame(()=>{pending=0;refresh();});};
+  const change=event=>updateRangePresentation(event.target);
+  const click=event=>{if(event.target.closest?.('button'))schedule();};
+  add(root);refresh();
+  const observer=new win.MutationObserver(records=>{let changed=false;for(const record of records){
+    if(record.type==='attributes'){add(record.target);updateRangePresentation(record.target);continue;}
+    for(const node of record.addedNodes){const before=inputs.size;add(node);if(inputs.size!==before)changed=true;}
+    if(record.removedNodes.length)changed=true;
+  }if(changed)schedule();});
+  observer.observe(root,{subtree:true,childList:true,attributes:true,attributeFilter:['type','value','min','max']});
+  root.addEventListener('input',change,true);root.addEventListener('change',change,true);
+  root.addEventListener('click',click,true);
+  win.addEventListener('vie:statechange',schedule);
+  return {refresh,dispose(){if(disposed)return;disposed=true;observer.disconnect();win.cancelAnimationFrame(pending);root.removeEventListener('input',change,true);root.removeEventListener('change',change,true);root.removeEventListener('click',click,true);win.removeEventListener('vie:statechange',schedule);inputs.clear();}};
+}
+
 /** Generated code runs only inside an opaque-origin iframe, never the host DOM. */
 function figureBootstrap(config){
+  /** Presentation only: never write control values or dispatch application events. */
+function updateRangePresentation(input){
+  if(input?.type!=='range')return;
+  const min=input.min===''?0:Number(input.min),max=input.max===''?100:Number(input.max),value=Number(input.value);
+  const percent=Number.isFinite(min)&&Number.isFinite(max)&&Number.isFinite(value)&&max>min?Math.max(0,Math.min(100,(value-min)/(max-min)*100)):0;
+  const fill=Number(percent.toFixed(4))+'%';
+  if(input.style.getPropertyValue('--vie-range-fill')!==fill)input.style.setProperty('--vie-range-fill',fill);
+}
+function installControlPresentation(root){
+  const win=root.ownerDocument.defaultView,inputs=new Set();let pending=0,disposed=false;
+  const add=node=>{if(node.nodeType!==1||node.namespaceURI!=='http://www.w3.org/1999/xhtml')return;
+    if(node.matches('input[type="range"]'))inputs.add(node);
+    for(const input of node.querySelectorAll('input[type="range"]'))inputs.add(input);
+  };
+  const refresh=()=>{if(disposed)return;for(const input of inputs){if(!root.contains(input)||input.type!=='range')inputs.delete(input);else updateRangePresentation(input);}};
+  const schedule=()=>{if(!pending&&!disposed)pending=win.requestAnimationFrame(()=>{pending=0;refresh();});};
+  const change=event=>updateRangePresentation(event.target);
+  const click=event=>{if(event.target.closest?.('button'))schedule();};
+  add(root);refresh();
+  const observer=new win.MutationObserver(records=>{let changed=false;for(const record of records){
+    if(record.type==='attributes'){add(record.target);updateRangePresentation(record.target);continue;}
+    for(const node of record.addedNodes){const before=inputs.size;add(node);if(inputs.size!==before)changed=true;}
+    if(record.removedNodes.length)changed=true;
+  }if(changed)schedule();});
+  observer.observe(root,{subtree:true,childList:true,attributes:true,attributeFilter:['type','value','min','max']});
+  root.addEventListener('input',change,true);root.addEventListener('change',change,true);
+  root.addEventListener('click',click,true);
+  win.addEventListener('vie:statechange',schedule);
+  return {refresh,dispose(){if(disposed)return;disposed=true;observer.disconnect();win.cancelAnimationFrame(pending);root.removeEventListener('input',change,true);root.removeEventListener('change',change,true);root.removeEventListener('click',click,true);win.removeEventListener('vie:statechange',schedule);inputs.clear();}};
+}
+
   /** Topic-neutral learning data. Never execute authored JavaScript on the Host. */
 function validateLearningDefinition(input,withRoot=false){
  const fail=message=>{throw Error('VIE_LEARNING_INVALID: '+message);};
@@ -1640,8 +8091,310 @@ function mountQuestionSet(root,options){
  const onState=()=>{const before=JSON.stringify([index,answers,done]);restore();if(JSON.stringify([index,answers,done])!==before)draw();};window.addEventListener('vie:statechange',onState);restore();draw();return {dispose(){window.removeEventListener('vie:statechange',onState);root.replaceChildren();}};
 }
 
-  let state=config.state,theme=config.theme,visible=true,failed=false;
+  /** Topic-independent drawing helpers. Runs only inside the figure sandbox. */
+function installGraphicsRuntime(api) {
+  /** Shared, deterministic SVG argument contract. No DOM or authored-code execution. */
+const SVG_SDK_KINDS=['line','arrow','label','circle','rect','path','curve','angle','dimension'];
+const SVG_SDK_KEYS={
+ line:['from','to','x1','y1','x2','y2','label','width'],arrow:['from','to','x1','y1','x2','y2','label','width'],dimension:['from','to','x1','y1','x2','y2','offset','label','width'],
+ label:['at','x','y','text','anchor','textAnchor','text-anchor','align','bold','fontSize','size','fontWeight'],circle:['at','x','y','cx','cy','radius','r','label','width'],rect:['at','x','y','width','height','w','h','radius','rx','ry','label'],path:['d','width'],curve:['points','width'],angle:['at','x','y','radius','r','from','to','label','width']
+};
+function svgSDKError(kind,key,message){const error=Error('VIE_SDK_ARGUMENT '+kind+'.'+key+': '+message);error.code='VIE_SDK_ARGUMENT';error.field=kind+'.'+key;throw error;}
+function svgSDKNumber(value,kind,key,min=-1e7,max=1e7){if(typeof value!=='number'||!Number.isFinite(value)||value<min||value>max)svgSDKError(kind,key,'expected a finite number in '+min+'..'+max);return value;}
+function svgSDKColor(value){
+ const themes=['primary','secondary','accent','muted','warning','ink','bg','stroke','layer'];if(themes.includes(value))return 'var(--vie-'+value+')';
+ if(typeof value!=='string'||value.length>160||!(/^(?:#(?:[\da-f]{3}|[\da-f]{4}|[\da-f]{6}|[\da-f]{8})|[a-z]+|var\(--vie-[a-z-]+\)|(?:rgb|rgba|hsl|hsla)\([\d\s.,%+\-/deg]+\))$/i.test(value)))svgSDKError('color','value','use a theme name or a CSS color');return value;
+}
+function normalizeSVGPrimitive(kind,input,base={}){
+ if(!SVG_SDK_KINDS.includes(kind))svgSDKError(kind,'method','unknown drawing method');
+ if(!input||typeof input!=='object'||Array.isArray(input))svgSDKError(kind,'options','expected an object');
+ const common=['tone','color','stroke','strokeWidth','stroke-width','fill','opacity','strokeOpacity','fillOpacity','dash','strokeDasharray'];
+ for(const k of Object.keys(input))if(![...common,...SVG_SDK_KEYS[kind]].includes(k))svgSDKError(kind,k,'unknown field');
+ const own=k=>Object.hasOwn(input,k),pick=(key,aliases=[],fallback)=>own(key)?input[key]:(aliases.find(own)!==undefined?input[aliases.find(own)]:base[key]??fallback);
+ const n=(key,aliases,fallback,min=-1e7,max=1e7)=>svgSDKNumber(pick(key,aliases,fallback),kind,key,min,max);
+ const p=(key,x,y)=>{let at=pick(key);const ax=Array.isArray(x)?x.find(own):own(x)?x:undefined,ay=Array.isArray(y)?y.find(own):own(y)?y:undefined;
+  if(ax!==undefined||ay!==undefined){const alias=[ax===undefined?base[key]?.[0]:input[ax],ay===undefined?base[key]?.[1]:input[ay]];if(own(key)&&(!Array.isArray(at)||alias.some((v,i)=>v!==undefined&&v!==at[i])))svgSDKError(kind,key,'conflicting coordinate aliases');at=own(key)?at:alias;}
+  if(!Array.isArray(at)||at.length!==2)svgSDKError(kind,key,'expected [x,y] (x/y aliases also accepted)');return at.map(v=>svgSDKNumber(v,kind,key));};
+ const tone=pick('tone'),stroke=svgSDKColor(own('stroke')?input.stroke:own('tone')?input.tone:own('color')?input.color:base.stroke??'primary'),fill=pick('fill',[],false);
+ const out={stroke,labelColor:svgSDKColor(pick('color',[],tone??base.labelColor??'ink')),strokeWidth:n('strokeWidth',['stroke-width',...(kind==='rect'?[]:['width'])],2,0,100),fill:fill===true||!own('fill')&&base.fillFollowsStroke?stroke:fill===false||fill===undefined?'none':svgSDKColor(fill),fillFollowsStroke:fill===true||!own('fill')&&!!base.fillFollowsStroke,opacity:n('opacity',[],1,0,1),strokeOpacity:n('strokeOpacity',[],1,0,1),fillOpacity:n('fillOpacity',[],1,0,1)};
+ const dash=pick('dash',['strokeDasharray']);if(dash!==undefined){const values=Array.isArray(dash)?dash:typeof dash==='string'?dash.trim().split(/[ ,]+/).map(Number):null;if(!values||values.length>16)svgSDKError(kind,'dash','expected at most 16 numeric lengths');out.dash=values.map(v=>svgSDKNumber(v,kind,'dash',0,1000)).join(' ');}
+ if(['line','arrow','dimension'].includes(kind)){out.from=p('from','x1','y1');out.to=p('to','x2','y2');if(kind==='dimension')out.offset=n('offset',[],24);}
+ if(['label','rect','circle','angle'].includes(kind))out.at=p('at',kind==='circle'?['cx','x']:'x',kind==='circle'?['cy','y']:'y');
+ if(['circle','angle'].includes(kind))out.radius=n('radius',['r'],kind==='angle'?32:undefined,0,1e7);
+ if(kind==='rect'){out.width=n('width',['w'],undefined,0,1e7);out.height=n('height',['h'],undefined,0,1e7);out.radius=n('radius',['rx'],10,0,1e7);out.ry=n('ry',[],out.radius,0,1e7);}
+ if(kind==='label'){out.text=String(pick('text',[],'' )).slice(0,160);out.color=svgSDKColor(pick('color',[],own('fill')?input.fill:tone??base.color??'ink'));out.fontSize=n('fontSize',['size'],14,1,96);out.fontSize=Math.max(12,out.fontSize);const anchor=pick('anchor',['textAnchor','text-anchor','align'],'middle');out.anchor=({center:'middle',left:'start',right:'end'})[anchor]??anchor;if(!['middle','start','end'].includes(out.anchor))svgSDKError(kind,'anchor','use start, middle or end');out.bold=!!pick('bold',[],false)||Number(pick('fontWeight',[],400))>=600;}
+ if(kind==='angle'){out.from=n('from',[],0);out.to=n('to',[],45);if(out.radius<=0||Math.abs(out.to-out.from)>=360)svgSDKError(kind,'angle','use radius > 0 and span < 360 degrees');}
+ if(kind==='path'){out.d=pick('d',[],'');if(typeof out.d!=='string'||out.d.length>32768)svgSDKError(kind,'d','expected path text of at most 32768 characters');}
+ if(kind==='curve'){const points=pick('points');if(!Array.isArray(points)||points.length<2||points.length>2000)svgSDKError(kind,'points','expected 2..2000 points');out.points=points.map(point=>{if(!Array.isArray(point)||point.length!==2)svgSDKError(kind,'points','expected [x,y]');return point.map(v=>svgSDKNumber(v,kind,'points'));});}
+ if(kind!=='label'&&pick('label')!==undefined)out.label=String(pick('label')).slice(0,160);
+ return out;
+}
+/** Affine data-to-pixel mapping; no guessed phase boundaries or domain values. */
+function createSVGCoordinateMap(options={},width=520,height=280){
+ const range=(value,key)=>{if(!Array.isArray(value)||value.length!==2||!value.every(Number.isFinite)||value[0]>=value[1])svgSDKError('coordinates',key,'expected [min,max] with min < max');return [...value];};
+ const x=range(options.x??[0,1],'x'),y=range(options.y??[0,1],'y'),bounds=options.bounds??[48,24,width-72,height-60];
+ if(!Array.isArray(bounds)||bounds.length!==4||!bounds.every(Number.isFinite)||bounds[2]<=0||bounds[3]<=0)svgSDKError('coordinates','bounds','expected [left,top,width,height]');
+ return {x,y,bounds:[...bounds],point(value,second){const p=Array.isArray(value)?value:[value,second];if(p.length!==2||!p.every(Number.isFinite))svgSDKError('coordinates','point','expected finite [x,y] data');return [bounds[0]+(p[0]-x[0])/(x[1]-x[0])*bounds[2],bounds[1]+bounds[3]-(p[1]-y[0])/(y[1]-y[0])*bounds[3]];}};
+}
+
+  const NS='http://www.w3.org/2000/svg', disposers=new Set();let sequence=0;
+  const number=(v,fallback=0)=>{const n=v===undefined?fallback:v;if(typeof n!=='number'||!Number.isFinite(n)||Math.abs(n)>1e7)throw Error('VIE graphics: expected a finite coordinate');return n;};
+  const point=v=>{if(!Array.isArray(v)||v.length!==2)throw Error('VIE graphics: expected [x,y]');return v.map(n=>number(n));};
+  const rootOf=value=>{const root=typeof value==='string'?document.querySelector(value):value??document.getElementById('vie-root');if(!root?.appendChild)throw Error('VIE graphics: root not found');return root;};
+  const tone=value=>{const color=svgSDKColor(value??'primary');if(typeof CSS!=='undefined'&&color!=='none'&&!CSS.supports('color',color))svgSDKError('color','value','invalid CSS color');return color;};
+  const ownDispose=fn=>{let disposed=false;const stop=()=>{if(disposed)return;disposed=true;disposers.delete(stop);fn();};disposers.add(stop);return stop;};
+  const listen=(name,fn)=>{window.addEventListener(name,fn);return ownDispose(()=>window.removeEventListener(name,fn));};
+  api.onDispose=fn=>{if(typeof fn!=='function')throw Error('VIE.onDispose expects a function');return ownDispose(fn);};
+  api.onState=(fn,options={})=>{if(typeof fn!=='function')throw Error('VIE.onState expects a function');const stop=listen('vie:statechange',()=>fn(api.state));if(options.immediate!==false)fn(api.state);return stop;};
+  api.onTheme=(fn,options={})=>{if(typeof fn!=='function')throw Error('VIE.onTheme expects a function');const stop=listen('vie:themechange',()=>fn(api.theme));if(options.immediate!==false)fn(api.theme);return stop;};
+  api.graphicsVersion=1;
+  api.svg=function(options={}) {
+    const root=rootOf(options.root),width=number(options.width,520),height=number(options.height,280);
+    if(width<120||height<80||width>2400||height>1600)throw Error('VIE.svg: width/height out of range');
+    const viewport=document.createElement('div');viewport.className='vie-sdk-viewport';viewport.tabIndex=0;viewport.setAttribute('aria-label',options.title??'交互示意图，可横向平移查看');root.append(viewport);
+    const el=(tag,attrs={},parent)=>{const node=document.createElementNS(NS,tag);for(const [k,v]of Object.entries(attrs))node.setAttribute(k,String(v));parent?.append(node);return node;};
+    const svg=el('svg',{viewBox:'0 0 '+width+' '+height,role:'img','aria-label':options.title??'交互示意图',class:'vie-sdk-svg'},viewport);
+    svg.style.width='100%';svg.style.display='block';svg.style.minWidth=Math.min(width,width*12/14)+'px';
+    const defs=el('defs',{},svg),markerId='vie-sdk-arrow-'+(++sequence);
+    el('path',{d:'M0 0L7 3.5L0 7Z',fill:'context-stroke'},el('marker',{id:markerId,viewBox:'0 0 7 7',refX:6.5,refY:3.5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'},defs));
+    const labels=[],connectors=new Set();let scheduled=0,disposed=false;
+    const overlap=(a,b)=>a.left<b.right+3&&a.right>b.left-3&&a.top<b.bottom+3&&a.bottom>b.top-3;
+    const layout=()=>{if(disposed)return;for(const connector of connectors)connector.refresh();viewport.dataset.viePannable=String(viewport.scrollWidth>viewport.clientWidth+2);const placed=[],box=svg.getBoundingClientRect();let conflicts=0;
+      for(const item of labels){if(!item.node.isConnected)continue;const {x,y}=item;let accepted=false;
+        for(const [dx,dy]of [[0,0],[0,-17],[0,17],[22,-17],[-22,-17],[22,17],[-22,17],[0,-34],[0,34]]){
+          item.node.setAttribute('x',x+dx);item.node.setAttribute('y',y+dy);const b=item.node.getBoundingClientRect();
+          if(b.left>=box.left+2&&b.right<=box.right-2&&b.top>=box.top+2&&b.bottom<=box.bottom-2&&!placed.some(p=>overlap(p,b))){accepted=true;placed.push(b);break;}
+        }
+        if(!accepted){item.node.setAttribute('x',x);item.node.setAttribute('y',y);placed.push(item.node.getBoundingClientRect());conflicts++;}
+      }
+      const minSize=Math.min(14,...labels.filter(l=>l.node.isConnected).map(l=>Number(l.node.getAttribute('font-size'))||14));svg.style.minWidth=Math.min(width,width*12/minSize)+'px';svg.dataset.vieLabelConflicts=String(conflicts);return conflicts;
+    };
+    const schedule=()=>{if(disposed||scheduled)return;scheduled=requestAnimationFrame(()=>{scheduled=0;layout();});};
+    const observer=new ResizeObserver(schedule);observer.observe(viewport);
+    const stopTheme=api.onTheme(schedule,{immediate:false});document.fonts?.ready.then(schedule);
+    const dispose=ownDispose(()=>{disposed=true;if(scheduled)cancelAnimationFrame(scheduled);observer.disconnect();stopTheme();viewport.remove();});
+    function scope(parent) {
+      function primitive(kind,raw={}) {
+        let value=normalizeSVGPrimitive(kind,raw);const group=el('g',{'data-vie-primitive':kind},parent),nodes=[],ownedLabels=[];
+        const clear=()=>{for(const l of ownedLabels){const i=labels.indexOf(l);if(i>=0)labels.splice(i,1);}ownedLabels.length=0;group.replaceChildren();nodes.length=0;};
+        const make=(tag,attrs)=>{const n=el(tag,attrs,group);nodes.push(n);return n;};
+        const label=(at,text,extra={})=>{const [x,y]=point(at),node=make('text',{x,y,fill:tone(value.color??value.labelColor??'ink'),'font-size':value.fontSize??14,'text-anchor':'middle','dominant-baseline':'middle',...extra});node.textContent=String(text??'').slice(0,160);const record={node,x,y};labels.push(record);ownedLabels.push(record);return node;};
+        const draw=()=>{clear();group.setAttribute('opacity',value.opacity);const stroke=tone(value.stroke),base={stroke,'stroke-width':value.strokeWidth,fill:tone(value.fill),'stroke-opacity':value.strokeOpacity,'fill-opacity':value.fillOpacity,...value.dash?{'stroke-dasharray':value.dash}:{},'stroke-linecap':'round','stroke-linejoin':'round'};
+          if(kind==='line'||kind==='arrow'||kind==='dimension'){
+            const [x1,y1]=point(value.from),[x2,y2]=point(value.to),length=Math.hypot(x2-x1,y2-y1),normal=length?[-(y2-y1)/length,(x2-x1)/length]:[0,-1];
+            const offset=kind==='dimension'?number(value.offset,24):0,ax=x1+normal[0]*offset,ay=y1+normal[1]*offset,bx=x2+normal[0]*offset,by=y2+normal[1]*offset;
+            if(kind==='dimension')for(const [x,y]of [[x1,y1],[x2,y2]])make('line',{...base,x1:x,y1:y,x2:x+normal[0]*(offset+6),y2:y+normal[1]*(offset+6),opacity:.5,'stroke-width':1});
+            make('line',{...base,x1:ax,y1:ay,x2:bx,y2:by,...kind!=='line'?{'marker-end':'url(#'+markerId+')'}:{},...kind==='dimension'?{'marker-start':'url(#'+markerId+')'}:{}});
+            if(value.label!==undefined)label([(ax+bx)/2+normal[0]*13,(ay+by)/2+normal[1]*13],value.label);
+          } else if(kind==='label')label(value.at,value.text,{'text-anchor':value.anchor??'middle','font-weight':value.bold?600:400});
+          else if(kind==='circle'){const [cx,cy]=point(value.at);make('circle',{...base,cx,cy,r:Math.max(0,number(value.radius)),fill:tone(value.fill)});if(value.label!==undefined)label([cx,cy],value.label);}
+          else if(kind==='rect'){const [x,y]=point(value.at),w=number(value.width),h=number(value.height);if(w<0||h<0)throw Error('VIE rect: negative size');make('rect',{...base,x,y,width:w,height:h,rx:value.radius,ry:value.ry,fill:tone(value.fill)});if(value.label!==undefined)label([x+w/2,y+h/2],value.label);}
+          else if(kind==='path')make('path',{...base,d:String(value.d??'')});
+          else if(kind==='curve'){if(!Array.isArray(value.points)||value.points.length<2||value.points.length>2000)throw Error('VIE curve: expected 2–2000 points');make('polyline',{...base,points:value.points.map(point).map(p=>p.join(',')).join(' ')});}
+          else if(kind==='angle'){
+            const [x,y]=point(value.at),r=number(value.radius,32),from=number(value.from,0),to=number(value.to,45),rad=d=>d*Math.PI/180;
+            if(r<=0||Math.abs(to-from)>=360)throw Error('VIE angle: expected radius > 0 and angle span < 360');
+            const a=[x+r*Math.cos(rad(from)),y-r*Math.sin(rad(from))],b=[x+r*Math.cos(rad(to)),y-r*Math.sin(rad(to))];
+            make('path',{...base,d:'M'+a.join(',')+' A'+r+','+r+' 0 '+(Math.abs(to-from)>180?1:0)+' '+(to<from?1:0)+' '+b.join(',')});
+            if(value.label!==undefined)label([x+(r+14)*Math.cos(rad((from+to)/2)),y-(r+14)*Math.sin(rad((from+to)/2))],value.label);
+          }
+          schedule();
+        };
+        draw();return {element:group,set(next){if(disposed)return;value=normalizeSVGPrimitive(kind,next,value);draw();},remove(){clear();group.remove();schedule();}};
+      }
+      const result={element:parent};for(const k of ['line','arrow','label','circle','rect','path','curve','angle','dimension'])result[k]=p=>primitive(k,p);
+      result.group=(initial={})=>{const node=el('g',{},parent),child=scope(node);child.element=node;let value={...initial};child.set=next=>{value={...value,...next};const [x,y]=point(value.translate??[0,0]);node.setAttribute('transform','translate('+x+' '+y+') rotate('+number(value.rotate)+') scale('+number(value.scale,1)+')');schedule();};child.set({});return child;};
+      result.axes=(p={})=>{const [x,y]=point(p.at??[48,height-45]),xLength=number(p.xLength,width-x-30),yLength=number(p.yLength,y-25);return {x:result.arrow({from:[x,y],to:[x+xLength,y],label:p.xLabel??'x',tone:p.tone??'muted'}),y:result.arrow({from:[x,y],to:[x,y-yLength],label:p.yLabel??'y',tone:p.tone??'muted'})};};
+      return result;
+    }
+    const drawing=scope(svg);
+    drawing.anchor=(target,side='center')=>{
+      const element=target?.element??target?.node??target;if(!element||!svg.contains(element))throw Error('VIE.svg.anchor: target must belong to this drawing');
+      const shape=element.querySelector?.('rect,circle,path,line,polyline,ellipse')??element,box=shape.getBBox(),sides={center:[.5,.5],left:[0,.5],right:[1,.5],top:[.5,0],bottom:[.5,1]};
+      if(!Object.hasOwn(sides,side))throw Error('VIE.svg.anchor: unknown side');const ratio=sides[side],p=svg.createSVGPoint();p.x=box.x+box.width*ratio[0];p.y=box.y+box.height*ratio[1];
+      const base=svg.getCTM(),matrix=shape.getCTM();if(!base||!matrix)throw Error('VIE.svg.anchor: drawing is not mounted');const result=p.matrixTransform(base.inverse().multiply(matrix));return [result.x,result.y];
+    };
+    drawing.connect=(from,to,options={})=>{
+      let config={fromAnchor:'right',toAnchor:'left',...options},signature='',removed=false,arrow;
+      const refresh=()=>{if(removed)return;const a=from?.element??from,b=to?.element??to;if(!svg.contains(a)||!svg.contains(b)){remove();return;}
+        const {fromAnchor,toAnchor,...style}=config,fromPoint=drawing.anchor(from,fromAnchor),toPoint=drawing.anchor(to,toAnchor),next=JSON.stringify([style,fromPoint,toPoint]);if(next===signature)return;signature=next;
+        const value={...style,from:fromPoint,to:toPoint};if(arrow)arrow.set(value);else arrow=drawing.arrow(value);
+      };
+      const remove=()=>{if(removed)return;removed=true;connectors.delete(controller);arrow?.remove();};
+      const controller={refresh,get element(){return arrow?.element;},set(next){config={...config,...next};refresh();},remove};refresh();connectors.add(controller);return controller;
+    };
+    drawing.coordinates=(options={})=>{const map=createSVGCoordinateMap(options,width,height),point=map.point;return {...map,line:options=>drawing.line({...options,from:point(options.from),to:point(options.to)}),series:(points,style={})=>drawing.curve({...style,points:points.map(p=>point(p))}),marker:options=>{let value={...options};const pixel=()=>point(value.at),text=()=>String(value.label??'')+' ('+value.at.map(n=>String(Number(n.toPrecision(8)))).join(', ')+')';const dot=drawing.circle({at:pixel(),radius:4,fill:true,tone:value.tone}),label=drawing.label({at:[pixel()[0],pixel()[1]-18],text:text(),tone:value.tone});return {set(next){value={...value,...next};dot.set({at:pixel(),tone:value.tone});label.set({at:[pixel()[0],pixel()[1]-18],text:text(),tone:value.tone});},remove(){dot.remove();label.remove();}};}};};
+    return Object.assign(drawing,{element:svg,viewport,layoutLabels:layout,dispose});
+  };
+  api.canvas=function(options={}) {
+    const root=rootOf(options.root),canvas=document.createElement('canvas');canvas.className='vie-sdk-canvas';canvas.setAttribute('aria-label',options.title??'交互画布');canvas.setAttribute('role','img');canvas.style.width='100%';canvas.style.height=number(options.height,280)+'px';root.append(canvas);
+    const ctx=canvas.getContext('2d');if(!ctx)throw Error('VIE.canvas: 2D canvas unavailable');let scheduled=0,disposed=false;
+    const draw=()=>{scheduled=0;if(disposed||!api.visible)return;const width=Math.max(1,canvas.getBoundingClientRect().width),height=Math.max(1,canvas.getBoundingClientRect().height),dpr=Math.min(2,Math.max(1,devicePixelRatio||1));canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);try{options.draw?.({ctx,width,height,state:api.state,theme:api.theme});}catch(e){api.reportError(e);}};
+    const redraw=()=>{if(!scheduled&&!disposed&&api.visible)scheduled=requestAnimationFrame(draw);};
+    const observer=new ResizeObserver(redraw);observer.observe(canvas);
+    const stops=[api.onState(redraw,{immediate:false}),api.onTheme(redraw,{immediate:false}),listen('vie:visibilitychange',redraw)];
+    const dispose=ownDispose(()=>{disposed=true;if(scheduled)cancelAnimationFrame(scheduled);observer.disconnect();stops.forEach(s=>s());canvas.remove();});redraw();
+    return {canvas,ctx,redraw,dispose};
+  };
+  api.animate=function(options={}) {
+    const duration=number(options.duration,4000);if(duration<100||duration>3600000)throw Error('VIE.animate: duration must be 100–3600000ms');
+    if(typeof options.render!=='function')throw Error('VIE.animate: render callback required');
+    const stateKey=options.stateKey;if(stateKey!==undefined&&(!/^[A-Za-z][A-Za-z0-9_]{0,19}$/.test(stateKey)||['constructor','prototype'].includes(stateKey)))throw Error('VIE.animate: invalid stateKey');
+    const saved=stateKey?api.state[stateKey]:null;
+    let elapsed=saved&&Number.isFinite(saved.elapsed)?Math.max(0,Math.min(1e7,saved.elapsed)):0,last=null,frame=0,wanted=!!options.autoplay&&!api.reducedMotion,disposed=false,transport,lastSave=-Infinity;
+    if(options.loop!==false)elapsed%=duration;else elapsed=Math.min(duration,elapsed);
+    const snapshot=()=>({elapsed,progress:options.loop===false?Math.min(1,elapsed/duration):(elapsed%duration)/duration,playing:wanted});
+    const persist=force=>{if(!stateKey||!force&&performance.now()-lastSave<250)return;lastSave=performance.now();api.setState({...api.state,[stateKey]:{elapsed,playing:wanted}});};
+    const render=delta=>{if(disposed)return;try{options.render({...snapshot(),delta});}catch(e){wanted=false;api.reportError(e);}sync();persist(delta===0);};
+    const sync=()=>{if(!transport)return;transport.play.textContent=wanted?'暂停':'播放';transport.play.setAttribute('aria-pressed',String(wanted));transport.range.value=String(snapshot().progress*100);updateRangePresentation(transport.range);};
+    const cancel=()=>{if(frame)cancelAnimationFrame(frame);frame=0;last=null;};
+    const request=()=>{if(!frame&&wanted&&!disposed&&api.visible)frame=requestAnimationFrame(tick);};
+    const tick=now=>{frame=0;if(disposed||!wanted||!api.visible){last=null;return;}const delta=last===null?0:Math.min(100,Math.max(0,now-last));last=now;elapsed+=delta;if(options.loop===false&&elapsed>=duration){elapsed=duration;wanted=false;}render(delta);request();};
+    const controller={play(){if(disposed)return;wanted=true;last=null;sync();persist(true);request();},pause(){wanted=false;cancel();sync();persist(true);},reset(){wanted=false;elapsed=0;cancel();render(0);},step(ms=duration/24){wanted=false;cancel();elapsed=Math.max(0,elapsed+number(ms));if(options.loop===false)elapsed=Math.min(duration,elapsed);render(0);},snapshot};
+    if(options.controls!==false){const host=rootOf(options.root),wrap=document.createElement('div');wrap.className='vie-sdk-transport';const button=(label,fn)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',fn);wrap.append(b);return b;};const play=button('播放',()=>wanted?controller.pause():controller.play());button('单步',()=>controller.step());button('复位',()=>controller.reset());const range=document.createElement('input');range.type='range';range.min='0';range.max='100';range.step='.1';range.value='0';range.setAttribute('aria-label','动画进度');range.addEventListener('input',()=>{wanted=false;cancel();elapsed=Number(range.value)*duration/100;render(0);});wrap.append(range);host.append(wrap);transport={wrap,play,range};}
+    const stop=listen('vie:visibilitychange',()=>{cancel();request();});
+    controller.dispose=ownDispose(()=>{disposed=true;wanted=false;cancel();stop();transport?.wrap.remove();});render(0);request();return controller;
+  };
+  window.addEventListener('pagehide',()=>{for(const stop of [...disposers])stop();},{once:true});
+}
+
+  /** Small local scene shell around the real, bundled Three.js implementation. */
+function installScene3DRuntime(api){
+ api.scene3d=function(options={}){
+  const T=window.THREE;if(!T?.WebGLRenderer)throw Error('VIE_3D_UNAVAILABLE: use VIE.scene3d in the figure script to load the bundled runtime');
+  const root=typeof options.root==='string'?document.querySelector(options.root):options.root??document.getElementById('vie-root');if(!root)throw Error('VIE.scene3d: root not found');
+  const num=(v,d,min=-1e5,max=1e5)=>{const n=v??d;if(typeof n!=='number'||!Number.isFinite(n)||n<min||n>max)throw Error('VIE.scene3d: invalid numeric parameter');return n;};
+  const vec=(v,d=[0,0,0])=>{const p=v??d;if(!Array.isArray(p)||p.length!==3)throw Error('VIE.scene3d: expected [x,y,z]');return p.map(n=>num(n,0));};
+  const wrap=document.createElement('div');wrap.className='vie-sdk-3d';wrap.style.height=num(options.height,300,160,800)+'px';root.append(wrap);
+  let renderer;try{renderer=new T.WebGLRenderer({antialias:true,alpha:true,powerPreference:'low-power',preserveDrawingBuffer:options.capture===true});}catch(error){wrap.remove();throw Error('VIE_3D_UNAVAILABLE: WebGL context could not be created: '+error.message);}renderer.setPixelRatio(Math.min(2,devicePixelRatio||1));renderer.outputColorSpace=T.SRGBColorSpace;renderer.domElement.tabIndex=0;renderer.domElement.setAttribute('aria-label',options.title??'三维场景，拖动旋转，滚轮缩放');wrap.append(renderer.domElement);
+  const scene=new T.Scene(),camera=new T.PerspectiveCamera(45,1,.05,1000),target=new T.Vector3(...vec(options.target)),initial=vec(options.camera,[5,3,6]);camera.position.set(...initial);camera.lookAt(target);
+  scene.add(new T.HemisphereLight(0xffffff,0x526070,2));const light=new T.DirectionalLight(0xffffff,2.5);light.position.set(5,8,6);scene.add(light);
+  const shapes=new Set(),materials=new Map();let disposed=false,frame=0,drag=null,count=0,lastWidth=0,lastHeight=0,vertices=0;const geometrySizes=new Map(),maxVertices=num(options.maxVertices,250000,1000,1000000);
+  const themeColor=(value='primary')=>{if(Object.hasOwn(api.theme.colors??{},value))return api.theme.colors[value];if(typeof value==='number')return num(value,0,0,0xffffff);const variable=typeof value==='string'&&value.match(/^var\(--vie-([a-z]+)\)$/);if(variable&&api.theme.colors?.[variable[1]])return api.theme.colors[variable[1]];if(typeof value!=='string'||!CSS.supports('color',value))throw Error('VIE.scene3d: invalid color');return value;};
+  const draw=()=>{frame=0;if(disposed||!api.visible)return;const w=Math.max(1,wrap.clientWidth),h=Math.max(1,wrap.clientHeight);if(w!==lastWidth||h!==lastHeight){lastWidth=w;lastHeight=h;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}camera.lookAt(target);renderer.render(scene,camera);renderer.domElement.dataset.vie3dRendered='true';renderer.domElement.dataset.vie3dObjects=String(count);renderer.domElement.dataset.vie3dCamera=camera.position.toArray().map(n=>n.toFixed(4)).join(',');};
+  const redraw=()=>{if(!frame&&!disposed&&api.visible)frame=requestAnimationFrame(()=>{try{draw();}catch(e){api.reportError(e);}});};
+  const free=object=>object.traverse(o=>{if(geometrySizes.has(o.geometry)){vertices-=geometrySizes.get(o.geometry);geometrySizes.delete(o.geometry);o.geometry.dispose();}if(o.material){for(const m of Array.isArray(o.material)?o.material:[o.material]){materials.delete(m);m.dispose();}}});
+  const place=(object,p)=>{if(p.at!==undefined||p.position!==undefined)object.position.set(...vec(p.at??p.position));if(p.rotation!==undefined)object.rotation.set(...vec(p.rotation));if(p.scale!==undefined){if(typeof p.scale==='number')object.scale.setScalar(num(p.scale,1));else object.scale.set(...vec(p.scale,[1,1,1]));}if(p.visible!==undefined)object.visible=!!p.visible;};
+  const makeScope=parent=>{
+   const api3={object:parent};
+   const shape=(kind,p={})=>{if(count>=512)throw Error('VIE.scene3d: at most 512 objects');let geometry,object;
+    if(kind==='box')geometry=new T.BoxGeometry(...vec(p.size,[1,1,1]).map(n=>num(n,1,.001,1000)));
+    if(kind==='sphere')geometry=new T.SphereGeometry(num(p.radius,1,.001,1000),32,20);
+    if(kind==='cylinder')geometry=new T.CylinderGeometry(num(p.radiusTop,p.radius??1,0,1000),num(p.radiusBottom,p.radius??1,0,1000),num(p.height,1,.001,1000),Math.round(num(p.segments,40,3,96)));
+    if(kind==='torus')geometry=new T.TorusGeometry(num(p.radius,1,.001,1000),num(p.tube,.15,.001,1000),12,64);
+    if(kind==='helix'){const radius=num(p.radius,1,.001,1000),height=num(p.height,3,.001,1000),turns=num(p.turns,4,-40,40);class Helix extends T.Curve{getPoint(t,out=new T.Vector3()){const a=t*Math.PI*2*turns;return out.set(radius*Math.cos(a),(t-.5)*height,radius*Math.sin(a));}}geometry=new T.TubeGeometry(new Helix(),Math.max(64,Math.ceil(Math.abs(turns)*40)),num(p.tube,.08,.001,100),8,false);}
+    if(kind==='mesh'){if(!Array.isArray(p.positions)||p.positions.length<9||p.positions.length>180000||p.positions.length%3)throw Error('VIE.scene3d mesh: expected bounded xyz positions');geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(p.positions.map(x=>num(x)),3));if(p.indices!==undefined){if(!Array.isArray(p.indices)||p.indices.length>360000||p.indices.length%3||p.indices.some(x=>!Number.isSafeInteger(x)||x<0||x>=p.positions.length/3))throw Error('VIE.scene3d mesh: invalid indices');geometry.setIndex(p.indices);}geometry.computeVertexNormals();}
+    if(kind==='line'){if(!Array.isArray(p.points)||p.points.length<2||p.points.length>4096)throw Error('VIE.scene3d line: expected 2..4096 points');geometry=new T.BufferGeometry().setFromPoints(p.points.map(v=>new T.Vector3(...vec(v))));}
+    const size=geometry.getAttribute('position')?.count??0;if(vertices+size>maxVertices){geometry.dispose();throw Error('VIE_3D_GEOMETRY_BUDGET: simplify the scene or raise maxVertices explicitly');}vertices+=size;geometrySizes.set(geometry,size);
+    const token=p.color??p.tone??'primary',opacity=num(p.opacity,1,0,1),material=kind==='line'?new T.LineBasicMaterial({color:themeColor(token),transparent:opacity<1,opacity}):new T.MeshStandardMaterial({color:themeColor(token),roughness:.5,metalness:.15,transparent:opacity<1,opacity,side:T.DoubleSide});materials.set(material,token);object=kind==='line'?new T.Line(geometry,material):new T.Mesh(geometry,material);place(object,p);parent.add(object);shapes.add(object);count++;redraw();
+    return {object,set(next={}){if(disposed)return;place(object,next);if(next.color!==undefined||next.tone!==undefined){const token=next.color??next.tone;material.color.set(themeColor(token));materials.set(material,token);}if(next.opacity!==undefined){material.opacity=num(next.opacity,1,0,1);material.transparent=material.opacity<1;}redraw();},remove(){if(!shapes.delete(object))return;object.removeFromParent();free(object);count--;redraw();}};
+   };
+   for(const kind of ['box','sphere','cylinder','torus','helix','mesh','line'])api3[kind]=p=>shape(kind,p);
+   api3.group=(p={})=>{const object=new T.Group();place(object,p);parent.add(object);const child=makeScope(object);return {...child,set(next){place(object,next);redraw();},remove(){for(const o of [...shapes]){let n=o;while(n&&n!==object)n=n.parent;if(n===object){shapes.delete(o);count--;}}object.removeFromParent();free(object);redraw();}};};return api3;
+  };
+  const orbit=(dx,dy)=>{dx=num(dx,0);dy=num(dy,0);const spherical=new T.Spherical().setFromVector3(camera.position.clone().sub(target));spherical.theta-=dx*.008;spherical.phi=Math.max(.1,Math.min(Math.PI-.1,spherical.phi+dy*.008));camera.position.copy(target).add(new T.Vector3().setFromSpherical(spherical));redraw();};
+  const zoom=factor=>{factor=num(factor,1,.1,10);const direction=camera.position.clone().sub(target),distance=Math.max(.5,Math.min(200,direction.length()*factor));camera.position.copy(target).add(direction.setLength(distance));redraw();};
+  const down=e=>{if(e.button!==0)return;drag={id:e.pointerId,x:e.clientX,y:e.clientY};renderer.domElement.setPointerCapture(e.pointerId);},move=e=>{if(!drag||drag.id!==e.pointerId)return;orbit(e.clientX-drag.x,e.clientY-drag.y);drag.x=e.clientX;drag.y=e.clientY;},up=()=>{drag=null;},wheel=e=>{e.preventDefault();zoom(Math.exp(Math.max(-1,Math.min(1,e.deltaY/600))));};
+  renderer.domElement.style.touchAction='none';renderer.domElement.addEventListener('pointerdown',down);renderer.domElement.addEventListener('pointermove',move);renderer.domElement.addEventListener('pointerup',up);renderer.domElement.addEventListener('pointercancel',up);renderer.domElement.addEventListener('wheel',wheel,{passive:false});
+  const key=e=>{const delta={ArrowLeft:[-12,0],ArrowRight:[12,0],ArrowUp:[0,-12],ArrowDown:[0,12]}[e.key];if(delta){e.preventDefault();orbit(...delta);}if(e.key==='+'||e.key==='='){e.preventDefault();zoom(.8);}if(e.key==='-'){e.preventDefault();zoom(1.25);}};renderer.domElement.addEventListener('keydown',key);
+  const actions=document.createElement('div');actions.className='vie-sdk-transport';const button=(label,callback)=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',callback);actions.append(b);};button('放大',()=>zoom(.8));button('缩小',()=>zoom(1.25));button('复位视角',()=>{camera.position.set(...initial);redraw();});root.append(actions);
+  const contextLost=event=>{if(disposed)return;event.preventDefault();if(frame){cancelAnimationFrame(frame);frame=0;}api.reportError(Error('VIE_3D_CONTEXT_LOST: WebGL上下文已丢失，可复位图形或查看已有静态内容。'));};renderer.domElement.addEventListener('webglcontextlost',contextLost);
+  const onVisibility=()=>{if(!api.visible&&frame){cancelAnimationFrame(frame);frame=0;}else redraw();};window.addEventListener('vie:visibilitychange',onVisibility);const observer=new ResizeObserver(redraw);observer.observe(wrap);const stopTheme=api.onTheme(()=>{for(const [material,token]of materials)material.color.set(themeColor(token));redraw();},{immediate:false});
+  const dispose=()=>{if(disposed)return;disposed=true;if(frame)cancelAnimationFrame(frame);observer.disconnect();stopTheme();window.removeEventListener('vie:visibilitychange',onVisibility);renderer.domElement.removeEventListener('pointerdown',down);renderer.domElement.removeEventListener('pointermove',move);renderer.domElement.removeEventListener('pointerup',up);renderer.domElement.removeEventListener('pointercancel',up);renderer.domElement.removeEventListener('wheel',wheel);renderer.domElement.removeEventListener('keydown',key);const pendingGeometry=new Set(geometrySizes.keys());scene.traverse(o=>{if(o.geometry)pendingGeometry.add(o.geometry);});for(const geometry of pendingGeometry)geometry.dispose();for(const m of materials.keys())m.dispose();materials.clear();shapes.clear();renderer.domElement.removeEventListener('webglcontextlost',contextLost);geometrySizes.clear();vertices=0;renderer.dispose();renderer.forceContextLoss();wrap.remove();actions.remove();};api.onDispose(dispose);redraw();
+  return {...makeScope(scene),THREE:T,scene,camera,renderer,redraw,orbit,zoom,dispose};
+ };
+}
+
+  /** Shared presentation controls; content remains authored by the model. */
+function installFigureUI(api){
+ const rootOf=value=>{const root=typeof value==='string'?document.querySelector(value):value??document.getElementById('vie-root');if(!root?.append)throw Error('VIE.ui: root not found');return root;};
+ const itemsOf=(items,max)=>{if(!Array.isArray(items)||!items.length||items.length>max)throw Error('VIE.ui: invalid item count');const ids=new Set();for(const item of items){if(!item||typeof item.id!=='string'||!item.id||item.id.length>80||ids.has(item.id))throw Error('VIE.ui: item IDs must be unique');ids.add(item.id);}return items;};
+ const text=value=>String(value??'').slice(0,160);
+ api.ui={
+  toolbar(options={}){
+   const items=itemsOf(options.items,16),root=rootOf(options.root),element=document.createElement('div'),buttons=new Map();let disposed=false;
+   element.className='vie-sdk-toolbar';element.setAttribute('role','group');element.setAttribute('aria-label',text(options.label??'图形操作'));
+   const set=(id,patch={})=>{const row=buttons.get(id);if(!row)throw Error('VIE.ui.toolbar: unknown item');if(patch.variant!==undefined){row.button.dataset.vieButton=['primary','secondary','ghost'].includes(patch.variant)?patch.variant:'secondary';}if(patch.label!==undefined)row.button.textContent=text(patch.label);if(patch.disabled!==undefined)row.button.disabled=!!patch.disabled;if(patch.pressed!==undefined)row.button.setAttribute('aria-pressed',String(!!patch.pressed));};
+   for(const item of items){if(typeof item.onClick!=='function')throw Error('VIE.ui.toolbar: onClick required');const button=document.createElement('button');button.type='button';button.dataset.vieAction=item.id;buttons.set(item.id,{button,item});set(item.id,{label:item.label??item.id,variant:item.variant??'secondary',disabled:item.disabled,pressed:item.pressed});button.addEventListener('click',()=>{if(!disposed&&!button.disabled)try{item.onClick(api.state);}catch(error){api.reportError(error);}});element.append(button);}
+   root.append(element);const dispose=api.onDispose(()=>{disposed=true;buttons.clear();element.remove();});return {element,set,dispose};
+  },
+  readouts(options={}){
+   const items=itemsOf(options.items,24),root=rootOf(options.root),element=document.createElement('dl'),rows=new Map();let disposed=false;
+   element.className='vie-sdk-readouts';element.setAttribute('aria-label',text(options.label??'当前读数'));
+   const set=(id,patch={})=>{const row=rows.get(id);if(!row)throw Error('VIE.ui.readouts: unknown item');row.config={...row.config,...patch};row.label.textContent=text(row.config.label??id);const value=typeof row.config.value==='function'?row.config.value(api.state):row.config.value;row.value.textContent=text(value??'—')+(row.config.unit?' '+text(row.config.unit):'');};
+   for(const item of items){const wrap=document.createElement('div'),label=document.createElement('dt'),value=document.createElement('dd');wrap.append(label,value);element.append(wrap);rows.set(item.id,{config:{...item},label,value});}
+   const draw=()=>{if(disposed)return;try{for(const id of rows.keys())set(id);}catch(error){api.reportError(error);}};
+   root.append(element);draw();const stop=api.onState(draw,{immediate:false});const dispose=api.onDispose(()=>{disposed=true;stop();rows.clear();element.remove();});return {element,set,dispose};
+  }
+ };
+}
+
+  /** Bounded, advisory geometry checks. Never alter content or trigger model requests. */
+function inspectFigureLayout(root){
+ const warnings=[],labels=[],controls=[],seen=new Set();
+ const add=(code,message)=>{if(!seen.has(code)&&warnings.length<4){seen.add(code);warnings.push({code,message});}};
+ const intersect=(a,b)=>Math.min(a.right,b.right)-Math.max(a.left,b.left)>3&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>3;
+ const visible=element=>{const style=getComputedStyle(element),rect=element.getBoundingClientRect();return style.display!=='none'&&style.visibility!=='hidden'&&Number(style.opacity)!==0&&rect.width>0&&rect.height>0?rect:null;};
+ for(const element of [...root.querySelectorAll('svg text,button,input,select')].slice(0,200)){
+  const rect=visible(element);if(!rect)continue;
+  if(element.localName==='text'){
+   if(!element.textContent.trim())continue;
+   const svg=element.ownerSVGElement;if(!svg)continue;const box=svg.getBoundingClientRect();
+   if(getComputedStyle(svg).overflow!=='visible'&&(rect.left<box.left-2||rect.right>box.right+2||rect.top<box.top-2||rect.bottom>box.bottom+2))add('TEXT_CLIPPED','部分标注可能超出图形边界。');
+   if(labels.length<80){if(labels.some(row=>row.svg===svg&&intersect(row.rect,rect)))add('TEXT_OVERLAP','部分标注可能重叠，可展开查看。');labels.push({svg,rect});}
+  }else if(controls.length<40){
+   if(controls.some(row=>!row.element.contains(element)&&!element.contains(row.element)&&intersect(row.rect,rect)))add('CONTROL_OVERLAP','部分操作控件可能相互遮挡。');
+   controls.push({element,rect});
+  }
+ }
+ return warnings;
+}
+
+  /** Static streaming DOM only; author JavaScript is activated once at finalization. */
+function createFigureContentRuntime(root,config,done) {
+  let finalized=!config.preview;
+  function content(html,preview) {
+    // Parse as a fragment, just like the initial figure root. Document parsing
+    // moves leading style/script into <head>, which would discard them below.
+    const template=document.createElement('template');template.innerHTML=String(html);const doc=template.content;
+    if(preview){
+      for(const node of doc.querySelectorAll('script,iframe,frame,object,embed,base,link,meta'))node.remove();
+      for(const node of doc.querySelectorAll('*'))for(const attr of [...node.attributes])if(/^on/i.test(attr.name)||['srcdoc','formaction'].includes(attr.name.toLowerCase())||/^(?:javascript|vbscript):/i.test(attr.value.trim()))node.removeAttribute(attr.name);
+    }
+    if(doc.querySelectorAll('*').length>4000)throw Error('Static preview DOM exceeds limit');
+    let count=0;
+    const patch=(target,source)=>{
+      if(++count>4000)throw Error('Static preview DOM exceeds limit');
+      const wanted=[...source.childNodes];
+      for(let i=0;i<wanted.length;i++){
+        const next=wanted[i];let current=target.childNodes[i];
+        if(next.nodeType===1&&next.id&&(!current||current.id!==next.id)){const found=[...target.children].find(c=>c.id===next.id&&c.tagName===next.tagName);if(found){target.insertBefore(found,current??null);current=found;}}
+        if(!current||current.nodeType!==next.nodeType||current.nodeName!==next.nodeName||next.nodeType===1&&current.id!==next.id){const clone=document.importNode(next,true);if(current)current.replaceWith(clone);else target.append(clone);continue;}
+        if(next.nodeType===1){for(const a of [...current.attributes])if(!next.hasAttribute(a.name))current.removeAttribute(a.name);for(const a of next.attributes)if(current.getAttribute(a.name)!==a.value)current.setAttribute(a.name,a.value);patch(current,next);}
+        else if(current.nodeValue!==next.nodeValue)current.nodeValue=next.nodeValue;
+      }
+      while(target.childNodes.length>wanted.length)target.lastChild.remove();
+    };
+    patch(root,doc);root.inert=preview;root.dataset.viePreview=String(preview);
+  }
+  const css=value=>{document.getElementById('vie-user-style').textContent=String(value??'');};
+  return {
+    update(value){if(finalized)return;css(value.css);content(value.html,true);},
+    finalize(value){if(finalized)return;finalized=true;css(value.css);content(value.html,false);
+      if(value.library&&!window.THREE){const library=document.createElement('script');library.textContent=value.library;document.head.append(library);}
+      // Parsed HTML scripts are inert until explicitly inserted, as on a complete initial load.
+      for(const old of root.querySelectorAll('script')){const script=document.createElement('script');for(const a of old.attributes)script.setAttribute(a.name,a.value);script.textContent=old.textContent;old.replaceWith(script);}
+      if(value.js){const script=document.createElement('script');script.textContent=String(value.js);document.body.append(script);}
+      requestAnimationFrame(()=>done());
+    }
+  };
+}
+
+  let state=config.state,theme=config.theme,visible=true,failed=false,contentRuntime;
   const post=(type,value)=>{try{parent.postMessage({v:1,channel:config.channel,type,value},'*');}catch{}};
+  let readyPreview=!!config.preview;
+  const reportPaint=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{if(visible&&!failed)post('painted',{preview:readyPreview});}));
+  const reportReady=value=>{readyPreview=!!value.preview;post('ready',value);reportPaint();};
   const reportError=error=>{failed=true;post('error',String(error?.message??error).slice(0,1200));};
   const applyTheme=value=>{
     theme=value;document.documentElement.dataset.theme=value.mode;
@@ -1650,12 +8403,16 @@ function mountQuestionSet(root,options){
     window.dispatchEvent(new CustomEvent('vie:themechange',{detail:value}));
   };
   window.VIE={get state(){return state;},get theme(){return theme;},get visible(){return visible;},get reducedMotion(){return !!theme.reducedMotion;},
-    title:config.title,setState(value){if(!value||typeof value!=='object'||Array.isArray(value))throw Error('VIE.setState expects an object');state=value;post('state',value);},reportError,mountLearning};
+    title:config.title,setState(value){if(!value||typeof value!=='object'||Array.isArray(value))throw Error('VIE.setState expects an object');state=value;window.dispatchEvent(new CustomEvent('vie:statechange',{detail:state}));post('state',value);},reportError,mountLearning};
+  installGraphicsRuntime(window.VIE);installScene3DRuntime(window.VIE);installFigureUI(window.VIE);
+  document.documentElement.dataset.vieRuntime='graphics-v1';
   window.addEventListener('message',event=>{
     if(event.source!==parent||event.data?.channel!==config.channel)return;
     if(event.data.type==='theme')applyTheme(event.data.value);
     if(event.data.type==='state'){state=event.data.value;window.dispatchEvent(new CustomEvent('vie:statechange',{detail:state}));}
-    if(event.data.type==='visibility'){visible=!!event.data.value;window.dispatchEvent(new CustomEvent('vie:visibilitychange',{detail:visible}));}
+    if(event.data.type==='visibility'){visible=!!event.data.value;window.dispatchEvent(new CustomEvent('vie:visibilitychange',{detail:visible}));if(visible&&document.readyState!=='loading')reportPaint();}
+    if(event.data.type==='preview'&&config.preview)contentRuntime?.update(event.data.value);
+    if(event.data.type==='finalize'&&config.preview){state=event.data.value.state;config.staticSvg=!event.data.value.js?.trim();config.preview=false;contentRuntime?.finalize(event.data.value);}
   });
   window.addEventListener('error',event=>reportError(event.message));
   window.addEventListener('unhandledrejection',event=>reportError(event.reason));
@@ -1663,37 +8420,66 @@ function mountQuestionSet(root,options){
   document.addEventListener('click',event=>{const a=event.target.closest?.('a[href]');if(a&&!a.getAttribute('href').startsWith('#'))event.preventDefault();},true);
   applyTheme(config.theme);
   document.addEventListener('DOMContentLoaded',()=>{
-    const root=document.getElementById('vie-root');let frame=0,last='';
-    if(config.staticSvg&&root.children.length===1&&root.firstElementChild.tagName.toLowerCase()==='svg'){
-      const svg=root.firstElementChild;let readable=0;
-      const fit=()=>{const fonts=[...svg.querySelectorAll('text')].map(t=>parseFloat(getComputedStyle(t).fontSize)*Math.hypot(t.getScreenCTM()?.a??1,t.getScreenCTM()?.b??0)).filter(n=>n>0);const min=Math.min(...fonts);if(min<10.99&&readable<1800){readable=Math.min(1800,Math.ceil(svg.getBoundingClientRect().width*11/min)+2);svg.style.minWidth=readable+'px';svg.style.maxWidth='none';root.style.overflowX='auto';root.tabIndex=0;root.setAttribute('aria-label','图形可横向滚动查看');}};
-      new ResizeObserver(fit).observe(root);fit();
-    }
-    const measure=()=>{if(frame)return;frame=requestAnimationFrame(()=>{frame=0;
+    const root=document.getElementById('vie-root'),controlPresentation=installControlPresentation(root);let frame=0,last='',lastAudit=-Infinity,layoutWarnings=[],minFont=14,auditTimer=0;
+    window.addEventListener('pagehide',()=>controlPresentation.dispose(),{once:true});
+    let staticFitInstalled=false;
+    const fitStaticSvg=()=>{if(staticFitInstalled||!config.staticSvg||root.children.length!==1||root.firstElementChild.tagName.toLowerCase()!=='svg')return;
+      staticFitInstalled=true;
+      const svg=root.firstElementChild,box=svg.viewBox.baseVal;
+      // A viewBox lets the browser scale geometry and text together. Never enlarge
+      // a static figure past its viewport to enforce a font floor: hidden overflow
+      // made its right edge disappear. Small text is reported for the expand hint.
+      if(box.width>0&&box.height>0){svg.style.width='100%';svg.style.minWidth='0';svg.style.maxWidth='100%';svg.style.height='auto';}
+    };
+    contentRuntime=createFigureContentRuntime(root,config,()=>{fitStaticSvg();measure(true);reportReady({ok:!failed,preview:false});});
+    if(config.preview)try{contentRuntime.update({html:config.previewHtml,css:config.previewCss});}catch(error){reportError(error);}
+    fitStaticSvg();
+    const measure=(force=false)=>{const immediate=force===true;if(frame&&!immediate)return;if(frame){cancelAnimationFrame(frame);frame=0;}const run=()=>{frame=0;
       // scrollHeight includes positioned children; a small rounding allowance prevents
       // subpixel overflow from repeatedly adding/removing the Windows scrollbar gutter.
-      const fonts=[...root.querySelectorAll('svg text')].filter(t=>t.textContent.trim()).map(t=>parseFloat(getComputedStyle(t).fontSize)*Math.hypot(t.getScreenCTM()?.a??1,t.getScreenCTM()?.b??0));
-      const value={height:Math.ceil(Math.max(root.getBoundingClientRect().height,root.scrollHeight))+2,width:document.documentElement.scrollWidth,viewport:innerWidth,minFont:fonts.length?Math.min(...fonts):14},signature=JSON.stringify(value);
+      if(immediate||performance.now()-lastAudit>=250){lastAudit=performance.now();layoutWarnings=inspectFigureLayout(root);const fonts=[...root.querySelectorAll('svg text')].slice(0,200).filter(t=>t.textContent.trim()).map(t=>parseFloat(getComputedStyle(t).fontSize)*Math.hypot(t.getScreenCTM()?.a??1,t.getScreenCTM()?.b??0));minFont=fonts.length?Math.min(...fonts):14;}else if(!auditTimer)auditTimer=setTimeout(()=>{auditTimer=0;measure();},Math.max(1,251-(performance.now()-lastAudit)));
+      const value={height:Math.ceil(Math.max(root.getBoundingClientRect().height,root.scrollHeight))+2,width:document.documentElement.scrollWidth,viewport:innerWidth,minFont,layoutWarnings},signature=JSON.stringify(value);
       if(signature!==last){last=signature;post('height',value);}
-    });};
+    };if(immediate)run();else frame=requestAnimationFrame(run);};
+    window.addEventListener('pagehide',()=>clearTimeout(auditTimer),{once:true});
     new ResizeObserver(measure).observe(root);
     new MutationObserver(measure).observe(root,{childList:true,subtree:true,attributes:true,characterData:true});
     window.addEventListener('resize',measure);root.addEventListener('load',measure,true);document.fonts?.ready.then(measure);
-    measure();post('ready',{ok:!failed});
+    measure(true);reportReady({ok:!failed,preview:!!config.preview});
   },{once:true});
 }
 const FIGURE_BASE_CSS=`*{box-sizing:border-box}html,body{margin:0;background:transparent;color:var(--vie-ink,#243044);font:14px/1.65 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif}#vie-root{display:flow-root;padding:14px;overflow-wrap:anywhere;min-width:0}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--vie-stroke,#dce3ec);background:var(--vie-layer,#f4f6fa);color:inherit;border-radius:8px;min-height:34px;padding:5px 11px}input[type=range]{accent-color:var(--vie-accent,#5483ef);max-width:100%}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--vie-accent,#5483ef);outline-offset:3px}svg,canvas{display:block;max-width:100%;height:auto}label{display:block}.muted{color:var(--vie-muted,#718096)}.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.card{border:1px solid var(--vie-stroke,#dce3ec);border-radius:12px;padding:12px;background:var(--vie-layer,#f4f6fa)}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}`;
 // Sandboxed content only. Keep overflow scrollable without native tracks or arrow buttons.
 const FIGURE_SCROLL_CSS='html,body,#vie-root,#vie-root *{scrollbar-width:none!important}html::-webkit-scrollbar,body::-webkit-scrollbar,#vie-root::-webkit-scrollbar,#vie-root *::-webkit-scrollbar{display:none!important;width:0!important;height:0!important}';
+/** Load the shipped package-local chunk through Harness; iframe networking stays disabled. */
+let VIE_THREE_LIBRARY='',VIE_THREE_PENDING=null;
+const needsFigureThree=spec=>/scene3d|\bTHREE\b/.test(spec.js+' '+spec.html);
+function loadFigureThree(){
+ if(VIE_THREE_LIBRARY)return Promise.resolve(VIE_THREE_LIBRARY);
+ if(VIE_THREE_PENDING)return VIE_THREE_PENDING;
+ VIE_THREE_PENDING=Promise.resolve().then(()=>{
+  if(typeof require!=='function'||typeof require.async!=='function')throw Error('VIE_3D_UNAVAILABLE: this host cannot load the bundled client chunk');
+  return require.async('./client.three.js');
+ }).then(module=>{
+  if(typeof module?.source!=='string'||!module.source.includes('WebGLRenderer'))throw Error('VIE_3D_UNAVAILABLE: bundled Three.js chunk is invalid');
+  VIE_THREE_LIBRARY=module.source;return module.source;
+ }).catch(error=>{VIE_THREE_PENDING=null;throw error;});
+ return VIE_THREE_PENDING;
+}
+
+const FIGURE_CONTROL_CSS="/* A / neutral controls. Native views and opaque figures share this vocabulary.\n   Control colors are separate from semantic graph/data colors. */\n.vie-shell,[data-vie-runtime]{--vie-control-radius:10px;--vie-control-height:38px;--vie-control-compact:32px;--vie-control-gap:8px;--vie-control-primary:var(--vie-ink,#272c33);--vie-control-on-primary:var(--vie-bg,#fff);--vie-control-stroke:var(--vie-stroke,#e4e8ed);--vie-control-layer:color-mix(in srgb,var(--vie-ink,#272c33) 5%,var(--vie-bg,#fff));--vie-control-track:color-mix(in srgb,var(--vie-ink,#272c33) 12%,var(--vie-bg,#fff));--vie-control-focus:color-mix(in srgb,var(--vie-ink,#272c33) 65%,var(--vie-bg,#fff));--vie-control-thumb:#fff}\n.vie-shell :where(button),[data-vie-runtime] :where(button){box-sizing:border-box;font:inherit;min-height:var(--vie-control-height);border-radius:var(--vie-control-radius);padding:7px 12px;cursor:pointer;touch-action:manipulation}\n.vie-shell :is(button.vie-button,button.vie-pill,button.vie-context-button,button.vie-can-tab,button.vie-scene-button),.vie-shell :is(.vie-visual-zoom,.vie-case-tabs,.vie-animation-controls,.vie-flow-footer,.vie-flow-roots,.vie-general-chart>header)>button,[data-vie-runtime] button{appearance:none;font:500 12px/1.5 system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;min-height:var(--vie-control-height);border:1px solid var(--vie-control-stroke);border-radius:var(--vie-control-radius);background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);padding:7px 12px;box-shadow:none;transition:background-color .12s,border-color .12s}\n.vie-shell :where(button):disabled,[data-vie-runtime] :where(button):disabled{cursor:default;opacity:.45}\n.vie-shell button:hover:not(:disabled),[data-vie-runtime] button:hover:not(:disabled){background:var(--vie-control-layer)}\n.vie-shell :is(button,input,select):focus-visible,[data-vie-runtime] :is(button,input,select):focus-visible{outline:2px solid var(--vie-control-focus);outline-offset:3px}\n.vie-shell :is(.vie-pill,.vie-button,.vie-context-button,.vie-flow-footer button,.vie-case-tabs button,.vie-scene-button):focus-visible{outline:2px solid var(--vie-control-focus);outline-offset:3px}\n.vie-shell :is([data-vie-play],.vie-scene-button.is-primary,.vie-flow-footer button.vie-flow-next),.vie-sdk-transport button:first-child,[data-vie-runtime] :is(button.primary,button[data-vie-button=primary],button.vie-question-next){background:var(--vie-control-primary);border-color:var(--vie-control-primary);color:var(--vie-control-on-primary)}\n.vie-shell :is([data-vie-play],.vie-scene-button.is-primary,.vie-flow-footer button.vie-flow-next):hover:not(:disabled),.vie-sdk-transport button:first-child:hover:not(:disabled),[data-vie-runtime] :is(button.primary,button[data-vie-button=primary],button.vie-question-next):hover:not(:disabled){background:color-mix(in srgb,var(--vie-control-primary) 88%,var(--vie-control-on-primary));border-color:transparent}\n[data-vie-runtime] button[data-vie-button=ghost]{background:transparent;border-color:transparent;color:var(--vie-muted,#7d8794)}\n[data-vie-runtime] button[data-vie-button=ghost]:hover:not(:disabled){background:var(--vie-control-layer);color:var(--vie-ink)}\n.vie-shell .vie-figure-actions button,.vie-shell .vie-context-row button{min-height:var(--vie-control-compact);font-size:12px;border-radius:var(--vie-control-radius);padding:5px 10px;color:var(--vie-muted)}\n.vie-shell .vie-segmented,.vie-shell .vie-flow-modes,[data-vie-runtime] .vie-learn-tabs{padding:3px;gap:3px;border-radius:10px;background:var(--vie-control-layer)}\n.vie-shell .vie-segmented button,.vie-shell .vie-flow-modes button,[data-vie-runtime] .vie-learn-tabs button{min-height:var(--vie-control-compact);padding:5px 10px;border:1px solid transparent;border-radius:7px;background:transparent;color:var(--vie-muted,#7d8794);font:500 12px/1.5 system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;box-shadow:none}\n.vie-shell .vie-segmented button[aria-pressed=true],.vie-shell .vie-flow-modes button[aria-pressed=true],[data-vie-runtime] .vie-learn-tabs button[aria-selected=true]{background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);border-color:var(--vie-control-stroke);box-shadow:0 1px 3px #1420330a}\n.vie-shell .vie-case-tabs button[aria-selected=true],.vie-shell button.vie-can-tab.active,.vie-shell button.vie-pill.selected,[data-vie-runtime] .vie-sdk-toolbar button[aria-pressed=true]{background:var(--vie-control-layer);border-color:var(--vie-control-primary);color:var(--vie-ink,#272c33)}\n.vie-shell :is(select,input[type=number]),[data-vie-runtime] :is(select,input[type=number]){box-sizing:border-box;max-width:100%;min-width:0;min-height:var(--vie-control-height);border:1px solid var(--vie-control-stroke);border-radius:var(--vie-control-radius);background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);font:400 13px/1.5 system-ui,-apple-system,\"Segoe UI\",\"Microsoft YaHei\",sans-serif;padding:7px 10px;font-variant-numeric:tabular-nums}\n.vie-shell input[type=number],[data-vie-runtime] input[type=number]{appearance:textfield;-moz-appearance:textfield}\n.vie-shell input[type=number]::-webkit-inner-spin-button,.vie-shell input[type=number]::-webkit-outer-spin-button,[data-vie-runtime] input[type=number]::-webkit-inner-spin-button,[data-vie-runtime] input[type=number]::-webkit-outer-spin-button{appearance:none;margin:0}\n.vie-shell input[type=range],[data-vie-runtime] input[type=range]{appearance:none;-webkit-appearance:none;box-sizing:border-box;display:block;width:100%;max-width:100%;height:24px;min-height:24px;padding:0;margin:0;background:transparent;cursor:pointer;touch-action:pan-y;accent-color:var(--vie-control-primary)}\n.vie-shell input[type=range]::-webkit-slider-runnable-track,[data-vie-runtime] input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:999px;background:linear-gradient(to right,var(--vie-control-primary) var(--vie-range-fill,0%),var(--vie-control-track) var(--vie-range-fill,0%))}\n.vie-shell input[type=range]::-moz-range-track,[data-vie-runtime] input[type=range]::-moz-range-track{height:4px;border-radius:999px;background:var(--vie-control-track)}\n.vie-shell input[type=range]::-moz-range-progress,[data-vie-runtime] input[type=range]::-moz-range-progress{height:4px;border-radius:999px;background:var(--vie-control-primary)}\n.vie-shell input[type=range]::-webkit-slider-thumb,[data-vie-runtime] input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:14px;height:14px;margin-top:-5px;border-radius:50%;border:1px solid var(--vie-control-stroke);background:var(--vie-control-thumb);box-shadow:0 1px 4px #10182826}\n.vie-shell input[type=range]::-moz-range-thumb,[data-vie-runtime] input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;border:1px solid var(--vie-control-stroke);background:var(--vie-control-thumb);box-shadow:0 1px 4px #10182826}\n.vie-shell :is(input[type=range],input[type=number],select):disabled,[data-vie-runtime] :is(input[type=range],input[type=number],select):disabled{opacity:.45;cursor:default}\n.vie-shell :is(input[type=checkbox],input[type=radio]),[data-vie-runtime] :is(input[type=checkbox],input[type=radio]){accent-color:var(--vie-control-primary)}\n.vie-shell input[type=checkbox][role=switch],[data-vie-runtime] input[type=checkbox][role=switch]{appearance:none;-webkit-appearance:none;position:relative;display:inline-block;width:34px;height:20px;min-width:34px;min-height:20px;padding:0;margin:0;border:0;border-radius:999px;background:var(--vie-control-track);cursor:pointer;vertical-align:middle}\n.vie-shell input[type=checkbox][role=switch]::before,[data-vie-runtime] input[type=checkbox][role=switch]::before{content:\"\";position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:var(--vie-control-thumb);box-shadow:0 1px 3px #10182820;transition:transform .14s}\n.vie-shell input[type=checkbox][role=switch]:checked,[data-vie-runtime] input[type=checkbox][role=switch]:checked{background:var(--vie-control-primary)}\n.vie-shell input[type=checkbox][role=switch]:checked::before,[data-vie-runtime] input[type=checkbox][role=switch]:checked::before{transform:translateX(14px);background:var(--vie-control-on-primary)}\n.vie-shell input[type=checkbox][role=switch]:disabled,[data-vie-runtime] input[type=checkbox][role=switch]:disabled{opacity:.45;cursor:default}\n.vie-sdk-viewport{max-width:100%;overflow:auto;overscroll-behavior:contain;border-radius:12px}\n.vie-sdk-viewport[data-vie-pannable=true]::after{content:'左右滑动查看完整图形';display:block;position:sticky;left:0;width:100%;font-size:12px;color:var(--vie-muted,#718096);padding:4px 0;text-align:center}\n.vie-sdk-transport{display:flex;flex-wrap:wrap;align-items:center;gap:var(--vie-control-gap);margin-top:12px}\n.vie-sdk-transport input[type=range]{flex:1 1 140px;min-width:80px;max-width:100%}\n.vie-sdk-canvas{display:block;max-width:100%}\n.vie-sdk-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--vie-control-gap);margin-block:10px}\n.vie-sdk-readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr));gap:8px;margin:10px 0}\n.vie-sdk-readouts>div{min-width:0;border:1px solid var(--vie-stroke);border-radius:var(--vie-control-radius);padding:10px 12px;background:var(--vie-bg,#fff)}\n.vie-sdk-readouts dt{font-size:12px;color:var(--vie-muted,#718096);overflow-wrap:anywhere}\n.vie-sdk-readouts dd{margin:4px 0 0;font-variant-numeric:tabular-nums;font-weight:600;overflow-wrap:anywhere}\n[data-vie-runtime] .vie-question-option{min-height:44px;padding:10px 12px;border-radius:var(--vie-control-radius);font-size:14px;text-align:left}\n[data-vie-runtime] .vie-question-option:disabled{opacity:1}\n[data-vie-runtime] .vie-question-option.is-correct{border-color:var(--vie-secondary);background:color-mix(in srgb,var(--vie-secondary) 12%,var(--vie-bg))}\n[data-vie-runtime] .vie-question-option.is-wrong{border-color:var(--vie-warning);background:color-mix(in srgb,var(--vie-warning) 12%,var(--vie-bg))}\n[data-vie-runtime] .vie-question-progress{accent-color:var(--vie-control-primary)}\n.vie-sdk-3d{position:relative;width:100%;max-width:100%;overflow:hidden;border-radius:12px;background:var(--vie-layer,#f4f6fa)}.vie-sdk-3d canvas{display:block;width:100%;height:100%;max-width:100%}\n@media(pointer:coarse){.vie-shell,[data-vie-runtime]{--vie-control-height:44px;--vie-control-compact:44px}}\n@media(max-width:440px){.vie-sdk-transport{gap:6px}.vie-sdk-transport button{flex:1}.vie-sdk-transport input[type=range]{flex-basis:100%}}\n@media(prefers-reduced-motion:reduce){.vie-shell input[role=switch]::before,[data-vie-runtime] input[role=switch]::before{transition:none}}\n";
 function buildFigureDocument(raw,{channel,state,theme}){
-  const spec=validateFigureDefinition(raw),safeScript=x=>x.replace(/<\/script/gi,'<\\/script');
-  const settings=JSON.stringify({channel,title:spec.title,state:validateFigureState(state??spec.state),theme,staticSvg:!spec.js.trim()}).replace(/</g,'\\u003c');
+  const spec=validateFigureDefinition(raw,true),safeScript=x=>x.replace(/<\/script/gi,'<\\/script');
+  const settings=JSON.stringify({channel,title:spec.title,state:validateFigureState(state??spec.state),theme,staticSvg:!spec.js.trim()&&!spec.preview,preview:!!spec.preview,previewHtml:spec.preview?spec.html:undefined,previewCss:spec.preview?spec.css:undefined}).replace(/</g,'\\u003c');
+  const library=/scene3d|\bTHREE\b/.test(spec.js+' '+spec.html)?'<script>'+safeScript(VIE_THREE_LIBRARY)+'</script>':'';
   const csp="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; font-src data:; media-src data: blob:; connect-src 'none'; object-src 'none'; frame-src 'none'; worker-src 'none'; base-uri 'none'; form-action 'none'";
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${csp}"><style>${FIGURE_BASE_CSS}\n.vie-learn{border:0;border-radius:0;padding:0;display:grid;gap:12px}.vie-learn-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.vie-learn-heading small,.vie-learn-note{color:var(--vie-muted);font-size:12px}.vie-learn-panel{min-width:0;overflow:auto}.vie-learn-panel svg{width:100%;display:block}.vie-learn-tabs{display:flex;gap:8px;flex-wrap:wrap}.vie-learn-tabs button{flex:1 1 120px;border-radius:999px;background:transparent;color:var(--vie-ink);border:1px solid var(--vie-stroke);font-size:13px;min-height:38px}.vie-learn-tabs button[aria-selected=true]{background:var(--vie-ink);color:var(--vie-bg);border-color:var(--vie-ink)}.vie-learn-description{background:var(--vie-layer);border-radius:14px;padding:12px}.vie-learn-description p{margin:4px 0 0;font-size:14px}.vie-learn-quiz{border:0;min-width:0;margin:0;padding:0}.vie-learn-quiz legend{font-weight:600;margin-bottom:12px}.vie-learn-choices{display:grid;gap:12px}.vie-learn-choices label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:14px}.vie-learn-choices input{flex:none;accent-color:var(--vie-primary)}.vie-learn-feedback{margin-top:14px;border-radius:12px;padding:12px;background:var(--vie-layer)}.vie-learn-feedback[data-correct=true]{border-left:3px solid var(--vie-secondary)}.vie-learn-feedback[data-correct=false]{border-left:3px solid var(--vie-warning)}@media(max-width:440px){.vie-learn{padding:0}.vie-learn-tabs button{flex-basis:88px;font-size:13px}.vie-learn-panel>svg{width:100%;height:auto}}\n.vie-questions{display:grid;gap:12px}.vie-question-top{display:flex;justify-content:space-between;gap:8px}.vie-question-pill{font-size:12px;border-radius:999px;padding:3px 10px;background:var(--vie-layer);color:var(--vie-muted)}.vie-question-progress{width:100%;height:5px;accent-color:var(--vie-primary)}.vie-question-stem{margin:0;font-size:16px;line-height:1.65}.vie-question-options{display:grid;gap:8px}.vie-question-option{display:flex;align-items:center;gap:10px;text-align:left;width:100%;min-height:44px;border-radius:10px;background:var(--vie-bg);border:1px solid var(--vie-stroke);padding:10px 12px}.vie-question-letter{display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:6px;background:var(--vie-layer);font-weight:600}.vie-question-option.is-correct{border-color:var(--vie-secondary);background:color-mix(in srgb,var(--vie-secondary) 12%,var(--vie-bg))}.vie-question-option.is-wrong{border-color:var(--vie-warning);background:color-mix(in srgb,var(--vie-warning) 12%,var(--vie-bg))}.vie-question-feedback{border-left:3px solid var(--vie-primary);background:var(--vie-layer);padding:10px 12px;font-size:14px}.vie-question-feedback p{margin:5px 0 0}.vie-question-foot{display:flex;justify-content:flex-end}.vie-question-next{background:var(--vie-primary);color:var(--vie-bg);border:0;padding:8px 16px}.vie-question-next:disabled{opacity:.45;cursor:not-allowed}.vie-question-result{font-size:40px;color:var(--vie-primary)}\n${spec.css.replace(/<\/style/gi,'<\\/style')}\n${FIGURE_SCROLL_CSS}</style><script>(${safeScript(figureBootstrap.toString())})(${settings});</script></head><body><div id="vie-root">${spec.html}</div><script>${safeScript(spec.js)}</script></body></html>`;
+  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="${csp}"><style>${FIGURE_BASE_CSS}\n.vie-learn{border:0;border-radius:0;padding:0;display:grid;gap:12px}.vie-learn-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.vie-learn-heading small,.vie-learn-note{color:var(--vie-muted);font-size:12px}.vie-learn-panel{min-width:0;overflow:auto}.vie-learn-panel svg{width:100%;display:block}.vie-learn-tabs{display:flex;gap:8px;flex-wrap:wrap}.vie-learn-tabs button{flex:1 1 120px;border-radius:999px;background:transparent;color:var(--vie-ink);border:1px solid var(--vie-stroke);font-size:13px;min-height:38px}.vie-learn-tabs button[aria-selected=true]{background:var(--vie-ink);color:var(--vie-bg);border-color:var(--vie-ink)}.vie-learn-description{background:var(--vie-layer);border-radius:14px;padding:12px}.vie-learn-description p{margin:4px 0 0;font-size:14px}.vie-learn-quiz{border:0;min-width:0;margin:0;padding:0}.vie-learn-quiz legend{font-weight:600;margin-bottom:12px}.vie-learn-choices{display:grid;gap:12px}.vie-learn-choices label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:14px}.vie-learn-choices input{flex:none;accent-color:var(--vie-primary)}.vie-learn-feedback{margin-top:14px;border-radius:12px;padding:12px;background:var(--vie-layer)}.vie-learn-feedback[data-correct=true]{border-left:3px solid var(--vie-secondary)}.vie-learn-feedback[data-correct=false]{border-left:3px solid var(--vie-warning)}@media(max-width:440px){.vie-learn{padding:0}.vie-learn-tabs button{flex-basis:88px;font-size:13px}.vie-learn-panel>svg{width:100%;height:auto}}\n.vie-questions{display:grid;gap:12px}.vie-question-top{display:flex;justify-content:space-between;gap:8px}.vie-question-pill{font-size:12px;border-radius:999px;padding:3px 10px;background:var(--vie-layer);color:var(--vie-muted)}.vie-question-progress{width:100%;height:5px;accent-color:var(--vie-primary)}.vie-question-stem{margin:0;font-size:16px;line-height:1.65}.vie-question-options{display:grid;gap:8px}.vie-question-option{display:flex;align-items:center;gap:10px;text-align:left;width:100%;min-height:44px;border-radius:10px;background:var(--vie-bg);border:1px solid var(--vie-stroke);padding:10px 12px}.vie-question-letter{display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:6px;background:var(--vie-layer);font-weight:600}.vie-question-option.is-correct{border-color:var(--vie-secondary);background:color-mix(in srgb,var(--vie-secondary) 12%,var(--vie-bg))}.vie-question-option.is-wrong{border-color:var(--vie-warning);background:color-mix(in srgb,var(--vie-warning) 12%,var(--vie-bg))}.vie-question-feedback{border-left:3px solid var(--vie-primary);background:var(--vie-layer);padding:10px 12px;font-size:14px}.vie-question-feedback p{margin:5px 0 0}.vie-question-foot{display:flex;justify-content:flex-end}.vie-question-next{background:var(--vie-primary);color:var(--vie-bg);border:0;padding:8px 16px}.vie-question-next:disabled{opacity:.45;cursor:not-allowed}.vie-question-result{font-size:40px;color:var(--vie-primary)}\n${FIGURE_CONTROL_CSS}\n${FIGURE_SCROLL_CSS}</style><style id="vie-user-style">${spec.css.replace(/<\/style/gi,'<\\/style')}</style>${library}<script>(${safeScript(figureBootstrap.toString())})(${settings});</script></head><body><div id="vie-root">${spec.preview?'':spec.html}</div><script>${safeScript(spec.preview?'':spec.js)}</script></body></html>`;
 }
 function mountGeneratedFigure(frame,raw,options={}){
-  const spec=validateFigureDefinition(raw),win=frame.ownerDocument.defaultView;
+  let spec=validateFigureDefinition(raw,true);const win=frame.ownerDocument.defaultView;
   let state=validateFigureState(options.initialState??spec.state),channel='',disposed=false,lastMessage=0,burst=0,criticalBurst=0,pendingState=null,stateTimer=0;
+  let loaded=false,startedPreview=false,fallbackMode=false,loadGeneration=0;const started=win.performance?.now?.()??Date.now(),metrics={previewMs:null,readyMs:null,visibleMs:null,errors:0};
+  const elapsed=()=>Math.round(((win.performance?.now?.()??Date.now())-started)*100)/100;
   const shell=frame.closest('.vie-shell');
   const theme=()=>{
     const css=win.getComputedStyle(shell??frame),explicit=frame.ownerDocument.documentElement.dataset.theme??(frame.ownerDocument.body.classList.contains('dark')?'dark':null);
@@ -1701,11 +8487,12 @@ function mountGeneratedFigure(frame,raw,options={}){
       colors:Object.fromEntries([['bg','--vie-bg','#fff'],['ink','--vie-ink','#243044'],['muted','--vie-muted','#718096'],['stroke','--vie-stroke','#dce3ec'],['layer','--vie-layer','#f4f6fa'],['accent','--vie-accent','#d58b16'],['primary','--vie-primary','#4d82d6'],['secondary','--vie-secondary','#149f91'],['warning','--vie-warning','#cf6854']].map(([k,token,fallback])=>[k,css.getPropertyValue(token).trim()||fallback]))};
   };
   const send=(type,value)=>{if(!disposed)frame.contentWindow?.postMessage({v:1,channel,type,value},'*');};
-  const load=()=>{if(stateTimer)win.clearTimeout(stateTimer);stateTimer=0;pendingState=null;lastMessage=0;burst=0;criticalBurst=0;channel='vie-'+(++svgScopeSequence)+'-'+Math.random().toString(36).slice(2);frame.dataset.vieReady='false';frame.dataset.vieStatus='loading';options.onError?.('');frame.srcdoc=buildFigureDocument(spec,{channel,state,theme:theme()});};
+  const content=()=>{if(!loaded||!startedPreview||fallbackMode)return;if(needsFigureThree(spec)&&!VIE_THREE_LIBRARY){const generation=loadGeneration;loadFigureThree().then(()=>{if(!disposed&&generation===loadGeneration)content();}).catch(error=>{if(!disposed&&generation===loadGeneration){frame.dataset.vieStatus='error';options.onError?.(error.message);}});return;}if(spec.preview)send('preview',spec);else{startedPreview=false;frame.dataset.vieStatus='loading';send('finalize',{...spec,state,.../scene3d|\bTHREE\b/.test(spec.js+' '+spec.html)?{library:VIE_THREE_LIBRARY}:{}});}};
+  const load=()=>{const generation=++loadGeneration;const sourceSpec=fallbackMode?{...spec,preview:true,js:''}:spec;if(stateTimer)win.clearTimeout(stateTimer);stateTimer=0;pendingState=null;lastMessage=0;burst=0;criticalBurst=0;loaded=false;startedPreview=!!sourceSpec.preview;channel='vie-'+(++svgScopeSequence)+'-'+Math.random().toString(36).slice(2);frame.dataset.vieReady='false';frame.dataset.vieStatus='loading';if(!fallbackMode)options.onError?.('');try{if(needsFigureThree(sourceSpec)&&!VIE_THREE_LIBRARY){loadFigureThree().then(()=>{if(!disposed&&generation===loadGeneration)load();}).catch(error=>{if(!disposed&&generation===loadGeneration){frame.dataset.vieStatus='error';options.onError?.(error.message);}});return;}validateSDKCalls(sourceSpec.js);frame.srcdoc=buildFigureDocument(sourceSpec,{channel,state,theme:theme()});}catch(error){frame.srcdoc='';frame.dataset.vieStatus='error';frame.dataset.vieReady='false';options.onError?.(error.message);}};
   const onMessage=event=>{
-    if(disposed||event.source!==frame.contentWindow||event.data?.channel!==channel||event.data?.v!==1)return;
+    if(disposed||!channel||event.source!==frame.contentWindow||event.data?.channel!==channel||event.data?.v!==1)return;
     const {type,value}=event.data;
-    if(!['state','height','ready','error'].includes(type))return;
+    if(!['state','height','ready','painted','error'].includes(type))return;
     const now=Date.now();if(now-lastMessage>1000){lastMessage=now;burst=0;criticalBurst=0;}
     if(type==='ready'||type==='error'){if(++criticalBurst>16)return;}
     else if(++burst>60){
@@ -1716,12 +8503,15 @@ function mountGeneratedFigure(frame,raw,options={}){
       return;
     }else if(type==='state'&&pendingState){pendingState=null;if(stateTimer){win.clearTimeout(stateTimer);stateTimer=0;}}
     if(type==='height'&&value&&[value.height,value.width,value.viewport].every(v=>typeof v==='number'&&Number.isFinite(v)&&v>=0)){
+      if(Array.isArray(value.layoutWarnings))options.onWarnings?.(value.layoutWarnings.slice(0,4).filter(item=>item&&typeof item.code==='string'&&typeof item.message==='string').map(item=>({code:item.code.slice(0,40),message:item.message.slice(0,120)})));
       frame.dataset.vieSmallText=String(Number.isFinite(value.minFont)&&value.minFont>0&&value.minFont<11);
+      if(Number.isFinite(value.minFont))frame.dataset.vieMinFont=String(value.minFont);
       frame.style.height=Math.min(10000,Math.max(160,value.height))+'px';frame.dataset.vieOverflow=String(value.width>value.viewport+2);frame.dataset.vieContentWidth=String(value.width);frame.dataset.vieViewportWidth=String(value.viewport);frame.dataset.vieContentHeight=String(value.height);
     }
+    if(type==='painted'&&!fallbackMode&&frame.dataset.vieStatus!=='error'){metrics.visibleMs??=elapsed();frame.dataset.vieVisibleMs=String(metrics.visibleMs);options.onVisible?.({...metrics});}
     if(type==='state')try{const clean=validateFigureState(value);options.onChange?.(clean);state=validateFigureState(options.currentState?.()??clean);send('state',state);}catch(error){send('state',state);options.onError?.('交互状态无效：'+error.message);}
-    if(type==='error'&&typeof value==='string'){frame.dataset.vieReady='false';frame.dataset.vieStatus='error';options.onError?.(value.slice(0,1200));}
-    if(type==='ready'){const ok=value?.ok!==false&&frame.dataset.vieStatus!=='error';frame.dataset.vieReady=String(ok);frame.dataset.vieStatus=ok?'ready':'error';send('theme',theme());send('state',state);if(ok)options.onReady?.();}
+    if(type==='error'&&typeof value==='string'){metrics.errors++;frame.dataset.vieReady='false';frame.dataset.vieStatus='error';options.onError?.(value.slice(0,1200));}
+    if(type==='ready'){loaded=true;const preview=value?.preview===true,ok=value?.ok!==false&&frame.dataset.vieStatus!=='error';if(preview){if(ok){metrics.previewMs??=elapsed();frame.dataset.viePreviewMs=String(metrics.previewMs);}frame.dataset.vieReady='false';frame.dataset.vieStatus=ok?(fallbackMode?'fallback':'preview'):'error';if(ok&&!fallbackMode){options.onPreview?.({...metrics});content();}else if(!ok&&!spec.preview&&!fallbackMode)load();}else{if(ok){metrics.readyMs??=elapsed();frame.dataset.vieReadyMs=String(metrics.readyMs);}frame.dataset.vieReady=String(ok);frame.dataset.vieStatus=ok?'ready':'error';if(ok)options.onReady?.({...metrics});}send('theme',theme());send('state',state);visibility();}
   };
   const onTheme=()=>send('theme',theme());
   const observer=new win.MutationObserver(onTheme);
@@ -1729,11 +8519,26 @@ function mountGeneratedFigure(frame,raw,options={}){
   observer.observe(frame.ownerDocument.body,{attributes:true,attributeFilter:['class','data-theme','style']});
   const media=win.matchMedia('(prefers-reduced-motion: reduce)'),colorMedia=win.matchMedia('(prefers-color-scheme: dark)');
   media.addEventListener('change',onTheme);colorMedia.addEventListener('change',onTheme);
-  const visibility=()=>send('visibility',!frame.ownerDocument.hidden);
+  let intersecting=true;
+  const visibility=()=>send('visibility',!frame.ownerDocument.hidden&&intersecting);
   frame.ownerDocument.addEventListener('visibilitychange',visibility);
-  const intersection=win.IntersectionObserver?new win.IntersectionObserver(entries=>send('visibility',!frame.ownerDocument.hidden&&entries[0].isIntersecting)):null;
+  const intersection=win.IntersectionObserver?new win.IntersectionObserver(entries=>{intersecting=!!entries[0]?.isIntersecting;visibility();}):null;
   intersection?.observe(frame);win.addEventListener('message',onMessage);frame.addEventListener('load',onTheme);load();
-  return {snapshot:()=>validateFigureState(state),update(value){const clean=validateFigureState(value);if(JSON.stringify(state)===JSON.stringify(clean))return;state=clean;send('state',state);},reset(){state=validateFigureState(spec.state);options.onChange?.(state);load();},dispose(){if(disposed)return;disposed=true;if(stateTimer)win.clearTimeout(stateTimer);stateTimer=0;pendingState=null;win.removeEventListener('message',onMessage);frame.removeEventListener('load',onTheme);observer.disconnect();intersection?.disconnect();media.removeEventListener('change',onTheme);colorMedia.removeEventListener('change',onTheme);frame.ownerDocument.removeEventListener('visibilitychange',visibility);frame.srcdoc='';}};
+  return {snapshot:()=>validateFigureState(state),metrics:()=>({...metrics}),revise(next){
+    const checked=validateFigureDefinition(next,true);
+    if(disposed||JSON.stringify(checked)===JSON.stringify(spec))return;
+    const wasPreview=!!spec.preview;fallbackMode=false;spec=checked;
+    try{validateSDKCalls(spec.js);}catch(error){
+      // A rejected definition still retires the preceding executable frame.
+      // Its queued messages and pending library loads belong to an old revision.
+      loadGeneration++;channel='';loaded=false;startedPreview=false;
+      if(stateTimer)win.clearTimeout(stateTimer);stateTimer=0;pendingState=null;
+      frame.srcdoc='';frame.dataset.vieStatus='error';frame.dataset.vieReady='false';
+      options.onError?.(error.message);return;
+    }
+    if(wasPreview){state=validateFigureState(options.currentState?.()??spec.state);if(frame.dataset.vieStatus==='error'){load();return;}content();return;}
+    state=validateFigureState(options.currentState?.()??spec.state);load();
+  },update(value){const clean=validateFigureState(value);if(JSON.stringify(state)===JSON.stringify(clean))return;state=clean;send('state',state);},showStaticPreview(){if(disposed)return;fallbackMode=true;load();},reset(){fallbackMode=false;state=validateFigureState(spec.state);options.onChange?.(state);load();},dispose(){if(disposed)return;disposed=true;loadGeneration++;if(stateTimer)win.clearTimeout(stateTimer);stateTimer=0;pendingState=null;win.removeEventListener('message',onMessage);frame.removeEventListener('load',onTheme);observer.disconnect();intersection?.disconnect();media.removeEventListener('change',onTheme);colorMedia.removeEventListener('change',onTheme);frame.ownerDocument.removeEventListener('visibilitychange',visibility);frame.srcdoc='';}};
 }
 
 /** Local, bounded UI recovery. Never changes the Harness journal. */
@@ -1775,7 +8580,7 @@ function mountChart(root,input,options={}){
     }
     svg+=`</g><path d="M${L} ${T}V${T+h}H${L+w}" class="vie-general-chart-axis"/><text x="${L+w/2}" y="${H-8}" text-anchor="middle">${esc(spec.x.label)}</text><text x="16" y="${T+h/2}" text-anchor="middle" transform="rotate(-90 16 ${T+h/2})">${esc(spec.y.label)}</text></svg>`;
     root.querySelector('[data-chart-plot]').innerHTML=svg;
-    for(const c of visibleControls){root.querySelector(`[data-chart-value="${c.key}"]`).textContent=concise(values[c.key]);for(const el of root.querySelectorAll(`[data-chart-key="${c.key}"]`)){if(el.tagName==='BUTTON')el.setAttribute('aria-pressed',String(Number(el.value)===values[c.key]));else if(el.type==='checkbox')el.checked=values[c.key]===1;else if(el!==root.ownerDocument.activeElement)el.value=values[c.key];}}
+    for(const c of visibleControls){root.querySelector(`[data-chart-value="${c.key}"]`).textContent=concise(values[c.key]);for(const el of root.querySelectorAll(`[data-chart-key="${c.key}"]`)){if(el.tagName==='BUTTON')el.setAttribute('aria-pressed',String(Number(el.value)===values[c.key]));else if(el.type==='checkbox')el.checked=values[c.key]===1;else if(el!==root.ownerDocument.activeElement)el.value=values[c.key];updateRangePresentation(el);}}
     root.querySelector('[data-chart-error]').textContent=limited?'采样分辨率已达上限，请缩小横轴范围查看细节。':gaps?'定义域之外的部分未绘制。':'';
   }
   const commit=(key,value)=>{try{const next=validateChartState(spec,{...values,[key]:value});options.onChange?.({...next});values=next;schedule();}catch(error){root.querySelector('[data-chart-error]').textContent=error.message;}};
@@ -2023,14 +8828,16 @@ const copyValue=value=>JSON.parse(JSON.stringify(value));
 class SceneStore {
   constructor(source=''){
     this.source='';this.parser=new VIEStream();this.version=0;
-    this.revision=0;this.listeners=new Set();this.lastError=null;this.localState=Object.create(null);this.figureErrors=Object.create(null);
+    this.revision=0;this.listeners=new Set();this.lastError=null;this.localState=Object.create(null);this.figureErrors=Object.create(null);this.figureStatuses=Object.create(null);this.figureMetrics=Object.create(null);
     if(source)this.updateSource(source);
   }
   subscribe(listener){if(typeof listener!=='function')throw Error('Listener required');this.listeners.add(listener);return ()=>this.listeners.delete(listener);}
   getVersion(){return this.version;}
   snapshot(){return {...this.parser.snapshot(),revision:this.revision,storeError:this.lastError};}
-  context(){const summary=this.parser.interactionContext(),experiments={},figures={};for(const node of this.parser.scene.nodes.values()){if(node.type==='InteractiveScene')experiments[node.id]=experimentContext(node.props,this.localState[node.id]);if(node.type==='Chart')figures[node.id]={title:node.props.title,state:this.local(node.id)??validateChartState(node.props)};if(node.type==='GenerativeFigure')figures[node.id]={title:node.props.title,state:this.local(node.id)??node.props.state};}return {...summary,revision:this.revision,interactiveState:copyValue(this.localState),experiments,figures,figureErrors:{...this.figureErrors}};}
-  setFigureError(nodeId,message){if(this.figureErrors[nodeId]===(message||undefined))return;if(message)this.figureErrors[nodeId]=String(message).slice(0,1200);else delete this.figureErrors[nodeId];this.emit();}
+  context(){const summary=this.parser.interactionContext(),experiments={},figures={};for(const node of this.parser.scene.nodes.values()){if(node.type==='InteractiveScene')experiments[node.id]=experimentContext(node.props,this.localState[node.id]);if(node.type==='Chart')figures[node.id]={title:node.props.title,state:this.local(node.id)??validateChartState(node.props)};if(node.type==='GenerativeFigure')figures[node.id]={title:node.props.title,state:this.local(node.id)??node.props.state};}return {...summary,revision:this.revision,interactiveState:copyValue(this.localState),experiments,figures,figureErrors:{...this.figureErrors},figureStatuses:{...this.figureStatuses},figureMetrics:copyValue(this.figureMetrics)};}
+  setFigureError(nodeId,message){const status=message?'error':'loading';if(this.figureErrors[nodeId]===(message||undefined)&&this.figureStatuses[nodeId]===status)return;if(message){this.figureErrors[nodeId]=String(message).slice(0,1200);}else{delete this.figureErrors[nodeId];delete this.figureMetrics[nodeId];}this.figureStatuses[nodeId]=status;this.emit();}
+  setFigureProgress(nodeId,status,metrics={}){if(!['preview','ready'].includes(status))return;if(this.figureStatuses[nodeId]==='ready'&&status==='preview')return;const clean={};for(const key of ['previewMs','readyMs','visibleMs'])if(Number.isFinite(metrics[key])&&metrics[key]>=0)clean[key]=metrics[key];if(this.figureStatuses[nodeId]===status&&JSON.stringify(this.figureMetrics[nodeId])===JSON.stringify(clean))return;this.figureStatuses[nodeId]=status;this.figureMetrics[nodeId]=clean;if(status==='ready')delete this.figureErrors[nodeId];this.emit();}
+  setFigureReady(nodeId,metrics){this.setFigureProgress(nodeId,'ready',metrics);}
   emit(){this.version++;for(const cb of this.listeners)cb();}
   modifiedValues(){const result=Object.create(null);for(const path of this.parser.modified){if(own(this.parser.scene.state,path))result[path]=this.parser.scene.state[path];}return result;}
   reconcileLocal(parser){
@@ -2064,7 +8871,7 @@ class SceneStore {
       if(own(parser.scene.state,path))try{parser.set(path,value);}catch{/* updated constraints win */}
     }
     this.localState=sameScene?this.reconcileLocal(parser):Object.create(null);
-    this.figureErrors=Object.fromEntries(Object.entries(this.figureErrors).filter(([id])=>sameScene&&parser.scene.nodes.get(id)?.type==='GenerativeFigure'));this.source=source;this.parser=parser;this.lastError=null;this.revision++;this.emit();return true;
+    const unchanged=id=>sameScene&&parser.scene.nodes.get(id)?.type==='GenerativeFigure'&&JSON.stringify(this.parser.scene.nodes.get(id)?.props)===JSON.stringify(parser.scene.nodes.get(id)?.props);this.figureErrors=Object.fromEntries(Object.entries(this.figureErrors).filter(([id])=>unchanged(id)));this.figureStatuses=Object.fromEntries(Object.entries(this.figureStatuses).filter(([id])=>unchanged(id)));this.figureMetrics=Object.fromEntries(Object.entries(this.figureMetrics).filter(([id])=>unchanged(id)));this.source=source;this.parser=parser;this.lastError=null;this.revision++;this.emit();return true;
   }
   local(nodeId){const node=this.parser.scene.nodes.get(nodeId),computed=this.parser.snapshot().values;if(node?.type==='GenerativeFigure'&&node.props.bindings)return validateFigureState({...node.props.state,...(this.localState[nodeId]??{}),...Object.fromEntries(Object.entries(node.props.bindings).map(([key,path])=>[key,Number.isFinite(computed[path])?computed[path]:null]))});if(node?.type==='Chart'&&(node.props.controls.some(c=>c.bind)||(node.props.inputs??[]).length))return validateChartState(node.props,{...(this.localState[nodeId]??{}),...Object.fromEntries([...node.props.controls.filter(c=>c.bind),...(node.props.inputs??[])].map(c=>[c.key,Object.hasOwn(computed,c.bind)?computed[c.bind]:NaN]))});return own(this.localState,nodeId)?copyValue(this.localState[nodeId]):null;}
   setLocal(nodeId,value){
@@ -2176,7 +8983,7 @@ class SceneStore {
     }
     // Atomic commit. The previous scene stays intact on any failed restore.
     this.parser=parser;this.source=checkpoint.source;this.revision=checkpoint.revision;
-    this.lastError=null;this.figureErrors=Object.create(null);this.localState=labStates;this.emit();return this.snapshot();
+    this.lastError=null;this.figureErrors=Object.create(null);this.figureStatuses=Object.create(null);this.figureMetrics=Object.create(null);this.localState=labStates;this.emit();return this.snapshot();
   }
 }
 
@@ -2395,6 +9202,9 @@ function selectVIETurnTail(owner) {
  */
 function createVIEBridge(SceneStore, capacity=96) {
   const stores=new Map(), shown=new Set(), watchers=new Set(),persistence=new Map();
+  let reporter=null;const pendingReports=new Map(),sentReports=new Map();
+  const sendReports=()=>{if(!reporter)return;for(const [key,packet]of pendingReports){if(sentReports.get(key)===JSON.stringify(packet))continue;sentReports.set(key,JSON.stringify(packet));Promise.resolve().then(()=>reporter?.(packet.sessionId,packet.value)).catch(()=>{});}while(sentReports.size>256)sentReports.delete(sentReports.keys().next().value);};
+  const collectReports=(key,store)=>{let sessionId;try{sessionId=JSON.parse(key)[0];}catch{return;}if(!sessionId||!store.parser.snapshot().complete)return;const sourceKey=vieSourceIdentity(store.source);for(const [nodeId,status]of Object.entries(store.figureStatuses)){if(!['preview','error','ready'].includes(status))continue;const value={sourceKey,nodeId,status,metrics:store.figureMetrics[nodeId]??{},...status==='error'?{error:store.figureErrors[nodeId]}:{}};pendingReports.set(key+'|'+sourceKey+'|'+nodeId,{sessionId,value});}while(pendingReports.size>256)pendingReports.delete(pendingReports.keys().next().value);sendReports();};
   let storage;try{storage=window.localStorage;}catch{}
   const checkpoints=createCheckpointRepository(storage);
   if(typeof window.addEventListener==='function')window.addEventListener('pagehide',()=>{for(const item of persistence.values())item.flush();});
@@ -2402,6 +9212,7 @@ function createVIEBridge(SceneStore, capacity=96) {
   const notify = () => {for(const callback of watchers)callback();};
   return {
     sceneKey,
+    setReporter(fn){if(reporter!==fn)sentReports.clear();reporter=fn;sendReports();},
     getStore(key,source='') {
       if(stores.has(key)) {
         const existing=stores.get(key);
@@ -2411,7 +9222,7 @@ function createVIEBridge(SceneStore, capacity=96) {
       const store=new SceneStore(source);
       const saved=checkpoints.load(key,source);if(saved)try{store.restore(saved);}catch{checkpoints.clear(key);}
       let timer;const persist=()=>{try{checkpoints.save(key,store.checkpoint());}catch{}};
-      const unsubscribe=store.subscribe(()=>{clearTimeout(timer);timer=setTimeout(persist,250);});
+      const unsubscribe=store.subscribe(()=>{collectReports(key,store);clearTimeout(timer);timer=setTimeout(persist,250);});
       persistence.set(key,{flush:persist,dispose(){clearTimeout(timer);persist();unsubscribe();}});
       stores.set(key,store);
       // The held instance remains owned by its mounted views even if evicted.
@@ -2766,7 +9577,7 @@ function mountInteractiveScene(root,rawSpec,options={}){
       el('[data-scene-insight]').textContent=`角度 ${parameters.angle}°，长度 ${parameters.magnitude.toFixed(1)}，水平分量 ${sceneSigned(x)}，竖直分量 ${sceneSigned(y)}。`;
       el('[data-scene-equation]').textContent='x=r cos θ，y=r sin θ；x²+y²=r²。';el('[data-scene-scope]').textContent='二维直角坐标的几何关系；数值为教学设定。';
     }
-    if(catalog.timed){el('[data-scene-rate]').textContent=state.rate.toFixed(1)+'×';el('[data-scene-input="rate"]').value=String(state.rate);}
+    if(catalog.timed){el('[data-scene-rate]').textContent=state.rate.toFixed(1)+'×';el('[data-scene-input="rate"]').value=String(state.rate);updateRangePresentation(el('[data-scene-input="rate"]'));}
     draw();
   }
   function mountVector(){
@@ -2920,7 +9731,7 @@ function mountCanLab(root,initial={},options={}){
     ?`方案 A 采样点 ${pct(A.samplePoint)}，方案 B 为 ${pct(B.samplePoint)}；两者波特率相同。`
     :`当前 ${scheme} 的采样点为 ${pct(calc.samplePoint)}；总 TQ 不同时，位速率也会变化。`;
 
-  all('[data-input]').forEach(inp=>{if(inp.type==='checkbox'){inp.checked=lock;return;}const k=inp.dataset.input;if(k==='bs1'||k==='bs2')inp.value=String(s[k]);else if(document.activeElement!==inp)inp.value=String(values[k]);});
+  all('[data-input]').forEach(inp=>{if(inp.type==='checkbox'){inp.checked=lock;return;}const k=inp.dataset.input;if(k==='bs1'||k==='bs2')inp.value=String(s[k]);else if(document.activeElement!==inp)inp.value=String(values[k]);updateRangePresentation(inp);});
   el('[data-readout=bs1]').textContent=`${s.bs1} TQ`;el('[data-readout=bs2]').textContent=`${s.bs2} TQ`;
   el('[data-compare=A]').textContent=pct(A.samplePoint);el('[data-compare=B]').textContent=pct(B.samplePoint);
   el('[data-mini=A]').style.width=`${A.samplePoint}%`;el('[data-mini=B]').style.width=`${B.samplePoint}%`;
@@ -3097,7 +9908,7 @@ function mountVectorLab(root, options = {}) {
     $('[data-v=angle-label]').textContent=state.angle+'°';
     for (const key of ['magnitude','angle']){
       const input=$(`[data-param=${key}]`);
-      if(Number(input.value)!==state[key])input.value=String(state[key]);
+      if(Number(input.value)!==state[key])input.value=String(state[key]);updateRangePresentation(input);
     }
     $('.vie-vector-explain').textContent=`x = ${short(vx)}，y = ${short(vy)}。拖动向量，观察投影的长度和方向。`;
   }
@@ -3250,7 +10061,7 @@ function mountSemanticLab(root,kind,options={}){
       // Cross-control constraints may clamp a value (e.g. a numerator); update
       // the native element without replacing it while the user is dragging.
       if(kind==='fraction' && key==='numerator')input.max=String(state.denominator);
-      if(Number(input.value)!==state[key])input.value=String(state[key]);
+      if(Number(input.value)!==state[key])input.value=String(state[key]);updateRangePresentation(input);
     }
   }
   const notify=()=>options.onChange?.({...state,selected:[...state.selected]});
@@ -3295,7 +10106,7 @@ function mountVisualAnimation(root, spec, initial={}){
       // SVG transforms apply rightmost-first. Declare orbit first, local spin second.
       node.setAttribute('transform',transforms.join(' '));
     }
-    scrub.value=String(Math.round(progress*1000));counter.textContent=Math.round(progress*100)+'%';
+    scrub.value=String(Math.round(progress*1000));updateRangePresentation(scrub);counter.textContent=Math.round(progress*100)+'%';
     play.textContent=running?'暂停':'播放';
   }
   function tick(t){if(disposed||!running)return;
@@ -3371,28 +10182,65 @@ function makeReactView(React, core) {
     },[expanded]);
     return [expanded,()=>expanded?close():setExpanded(true)];
   }
-  function NativeVisualFrame({title,children}){
-    const container=React.useRef(null),button=React.useRef(null);
-    const [expanded,toggle]=useVisualExpansion(container,button);
-    return h('section',{ref:container,className:'vie-native-frame'+(expanded?' vie-figure-expanded':''),role:expanded?'dialog':undefined,'aria-modal':expanded?true:undefined,'aria-label':title||'可视化图形'},[
-      h('header',{key:'head',className:'vie-generated-heading','aria-label':'图形查看操作'},h('div',{className:'vie-figure-actions'},h('button',{ref:button,type:'button',className:'vie-context-button','aria-expanded':expanded,onClick:toggle},expanded?'收起':'展开'))),
-      children
-    ]);
-  }
-  function FigureView({config,nodeId,store}){
-    const frame=React.useRef(null),controller=React.useRef(null);
-    const [error,setError]=React.useState(''),[zoom,setZoom]=React.useState(false),[small,setSmall]=React.useState(false);
+  /** Native content acknowledges readiness and visible painting through the same bridge. */
+function NativeVisualFrame({title,children,nodeId,store,signature}){
+ const container=React.useRef(null),button=React.useRef(null);
+ const [expanded,toggle]=useVisualExpansion(container,button);
+ React.useEffect(()=>{
+  if(!store||!nodeId)return;
+  const element=container.current,doc=element.ownerDocument,win=doc.defaultView,started=win.performance.now(),metrics={},frames=new Set();let ready=false,disposed=false;
+  store.setFigureError(nodeId,'');
+  const later=fn=>{const id=win.requestAnimationFrame(()=>{frames.delete(id);if(!disposed)fn();});frames.add(id);};
+  const paint=()=>{if(!ready||metrics.visibleMs!==undefined||doc.hidden)return;const box=element.getBoundingClientRect();if(box.width&&box.height&&box.bottom>0&&box.top<win.innerHeight&&box.right>0&&box.left<win.innerWidth){metrics.visibleMs=win.performance.now()-started;store.setFigureReady(nodeId,metrics);}};
+  later(()=>later(()=>{const error=element.querySelector('[role="alert"],.vie-error');if(error){store.setFigureError(nodeId,error.textContent);return;}ready=true;metrics.readyMs=win.performance.now()-started;store.setFigureReady(nodeId,metrics);paint();}));
+  const observe=()=>later(()=>later(paint));
+  const observer=win.IntersectionObserver?new win.IntersectionObserver(entries=>{if(entries[0]?.isIntersecting)observe();}):null;
+  observer?.observe(element);doc.addEventListener('visibilitychange',observe);
+  return ()=>{disposed=true;observer?.disconnect();doc.removeEventListener('visibilitychange',observe);for(const id of frames)win.cancelAnimationFrame(id);};
+ },[store,nodeId,signature]);
+ return h('section',{ref:container,className:'vie-native-frame'+(expanded?' vie-figure-expanded':''),role:expanded?'dialog':undefined,'aria-modal':expanded?true:undefined,'aria-label':title||'可视化图形'},[
+  h('header',{key:'head',className:'vie-generated-heading','aria-label':'图形查看操作'},h('div',{className:'vie-figure-actions'},h('button',{ref:button,type:'button',className:'vie-context-button','aria-expanded':expanded,onClick:toggle},expanded?'收起':'展开'))),children
+ ]);
+}
+
+  /** Generated figure UI is independent of chat assembly and native renderers. */
+  function FigureView({config,nodeId,store,inputActions}){
+    const frame=React.useRef(null),controller=React.useRef(null),appliedConfig=React.useRef(null);
+    const [error,setError]=React.useState(''),[small,setSmall]=React.useState(false),[warnings,setWarnings]=React.useState([]),[fallback,setFallback]=React.useState(false);
     const container=React.useRef(null),expandButton=React.useRef(null);
-    const [expanded,toggle]=useVisualExpansion(container,expandButton,()=>setZoom(false));
-    React.useEffect(()=>{controller.current=mountGeneratedFigure(frame.current,config,{initialState:store.local(nodeId)??config.state,onChange:state=>store.setLocal(nodeId,state),currentState:()=>store.local(nodeId),onError:message=>{setError(message);store.setFigureError(nodeId,message);}});const unsubscribe=store.subscribe(()=>{try{controller.current?.update(store.local(nodeId)??config.state);}catch(error){setError(error.message);}});return ()=>{unsubscribe();controller.current?.dispose();controller.current=null;};},[store,nodeId,JSON.stringify(config)]);
+    const [expanded,toggle]=useVisualExpansion(container,expandButton);
+    const isCurrent=definition=>{const node=store.parser.scene.nodes.get(nodeId);return node?.type==='GenerativeFigure'&&JSON.stringify(node.props)===JSON.stringify(definition);};
+    const acceptsCallback=()=>appliedConfig.current!==null&&isCurrent(appliedConfig.current);
+    React.useEffect(()=>{
+      // A retained store can advance in the parent's layout effect before this
+      // view mounts. Never execute or report the previous render's definition.
+      if(!isCurrent(config))return;
+      setFallback(false);appliedConfig.current=config;
+      if(controller.current){controller.current.revise(config);return;}
+      controller.current=mountGeneratedFigure(frame.current,config,{
+        initialState:store.local(nodeId)??config.state,
+        onChange:state=>{if(acceptsCallback())store.setLocal(nodeId,state);},
+        currentState:()=>store.local(nodeId),
+        onError:message=>{if(acceptsCallback()){setError(message);store.setFigureError(nodeId,message);}},
+        onWarnings:next=>{if(acceptsCallback())setWarnings(previous=>JSON.stringify(previous)===JSON.stringify(next)?previous:next);},
+        onVisible:metrics=>{if(acceptsCallback())store.setFigureProgress(nodeId,store.figureStatuses[nodeId]==='ready'?'ready':'preview',metrics);},
+        onPreview:metrics=>{if(acceptsCallback())store.setFigureProgress(nodeId,'preview',metrics);},
+        onReady:metrics=>{if(acceptsCallback())store.setFigureReady(nodeId,metrics);}
+      });
+    },[store,nodeId,JSON.stringify(config)]);
+    React.useEffect(()=>{const unsubscribe=store.subscribe(()=>{if(!acceptsCallback())return;try{controller.current?.update(store.local(nodeId)??appliedConfig.current.state);}catch(error){setError(error.message);}});return ()=>{unsubscribe();appliedConfig.current=null;controller.current?.dispose();controller.current=null;};},[store,nodeId]);
     React.useEffect(()=>{const observer=new MutationObserver(()=>setSmall(frame.current?.dataset.vieSmallText==='true'));observer.observe(frame.current,{attributes:true,attributeFilter:['data-vie-small-text']});return ()=>observer.disconnect();},[]);
     return h('section',{ref:container,className:'vie-generated-figure'+(expanded?' vie-figure-expanded':''),key:nodeId,role:expanded?'dialog':undefined,'aria-modal':expanded?true:undefined,'aria-label':expanded?config.title:undefined},[
-      h('header',{key:'head',className:'vie-generated-heading'},[h('h3',{key:'title',title:config.title},config.title),h('div',{className:'vie-figure-actions',key:'actions'},[h('button',{type:'button',key:'expand',ref:expandButton,className:'vie-context-button','aria-expanded':expanded,onClick:toggle},expanded?'收起':'展开'),h('button',{type:'button',key:'zoom',className:'vie-context-button','aria-pressed':zoom,onClick:()=>setZoom(!zoom)},zoom?'适合宽度':'放大'),(config.js?.trim()||Object.keys(config.state??{}).length>0)&&h('button',{type:'button',key:'reset',className:'vie-context-button',onClick:()=>controller.current?.reset()},'复位')])]),
-      small&&!zoom&&h('p',{key:'small',className:'vie-figure-hint',role:'status'},'图中文字较小，可展开或放大查看。'),
-      h('div',{key:'viewport',className:'vie-figure-viewport',tabIndex:zoom?0:undefined,'aria-label':zoom?'放大图形，可横向滚动查看':undefined},h('iframe',{key:'frame',ref:frame,title:config.title,sandbox:'allow-scripts',referrerPolicy:'no-referrer',allow:"camera 'none'; microphone 'none'; geolocation 'none'; clipboard-read 'none'; clipboard-write 'none'",style:{width:zoom?'max(100%, 800px)':'100%',maxWidth:zoom?'none':'100%',height:config.height+'px',border:0},'data-vie-generated':nodeId})),
-      error&&h('p',{key:'error',className:'vie-generated-error',role:'alert'},'交互图运行错误：'+error)
+      h('header',{key:'head',className:'vie-generated-heading'},[h('h3',{key:'title',title:config.title},config.title),h('div',{className:'vie-figure-actions',key:'actions'},[h('button',{type:'button',key:'expand',ref:expandButton,className:'vie-context-button','aria-expanded':expanded,onClick:toggle},expanded?'收起':'展开'),(config.js?.trim()||Object.keys(config.state??{}).length>0)&&h('button',{type:'button',key:'reset',className:'vie-context-button',onClick:()=>controller.current?.reset()},'复位')])]),
+      config.preview&&h('p',{key:'preview',className:'vie-figure-hint',role:'status'},'正在生成，当前为静态预览。'),
+      fallback&&h('p',{key:'fallback',className:'vie-figure-hint',role:'status'},'当前显示只读静态预览，交互脚本未运行。'),
+      warnings.length>0&&!fallback&&h('p',{key:'layout',className:'vie-figure-hint',role:'status','data-vie-layout-warning':true},warnings.map(item=>item.message).join(' ')),
+      small&&!expanded&&h('p',{key:'small',className:'vie-figure-hint',role:'status'},'图中文字较小，可展开查看。'),
+      h('div',{key:'viewport',className:'vie-figure-viewport'},h('iframe',{key:'frame',ref:frame,title:config.title,sandbox:'allow-scripts',referrerPolicy:'no-referrer',allow:"camera 'none'; microphone 'none'; geolocation 'none'; clipboard-read 'none'; clipboard-write 'none'",style:{width:'100%',maxWidth:'100%',height:config.height+'px',border:0},'data-vie-generated':nodeId})),
+      error&&h('div',{key:'error'},[h('p',{key:'message',className:'vie-generated-error',role:'alert'},'交互图运行错误：'+error),!fallback&&/<(?:svg|img|table|p|h[1-6])\b/i.test(config.html)&&h('button',{key:'static',type:'button',className:'vie-context-button',onClick:()=>{controller.current?.showStaticPreview();setFallback(true);}},'查看静态预览'),inputActions?.insertText&&h('button',{key:'repair',type:'button',className:'vie-context-button',onClick:()=>{const index=Number(nodeId.replace(/^block/,''))-1,text='请仅修复图「'+config.title+'」的第'+(index+1)+'个图块，保留其余图和正文。浏览器错误：'+error+'。使用该图最近返回的visualId、baseRevision和changes进行局部修订。';inputActions.insertText(text,inputActions.captureInsertion());}},'修复这张图')])
     ]);
   }
+
   function GenericVisual({kind,config,values={},nodeId,store}){
     const root=React.useRef(null),saved=React.useRef({progress:0,playing:undefined});
     const zoom=React.useRef(1);
@@ -3433,12 +10281,12 @@ function makeReactView(React, core) {
     const child=(tag,props,children)=>h(tag,props,children);
     const cls='vie-'+n.type.toLowerCase();
     switch(n.type){
-      case 'Flow':case 'RelationGraph':case 'Timeline':case 'Diagram':case 'Animation':return h(NativeVisualFrame,{key:n.id,title:p.title},h(GenericVisual,{key:n.id,kind:n.type,config:p,values:env.values,nodeId:n.id,store:env.store}));
-      case 'Chart':return h(NativeVisualFrame,{key:n.id,title:p.title},h(ChartView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
-      case 'GenerativeFigure':return h(FigureView,{key:n.id,config:p,nodeId:n.id,store:env.store});
-      case 'InteractiveScene':return h(NativeVisualFrame,{key:n.id,title:p.title||'交互场景'},h(ExperimentView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
-      case 'InteractiveLab':return h(NativeVisualFrame,{key:n.id,title:'交互实验'},h(SemanticView,{key:n.id,kind:p.kind,nodeId:n.id,store:env.store}));
-      case 'CanTimingLab':return h(NativeVisualFrame,{key:n.id,title:'CAN 采样点'},h(CanView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
+      case 'Flow':case 'RelationGraph':case 'Timeline':case 'Diagram':case 'Animation':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:p.title},h(GenericVisual,{key:n.id,kind:n.type,config:p,values:env.values,nodeId:n.id,store:env.store}));
+      case 'Chart':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:p.title},h(ChartView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
+      case 'GenerativeFigure':return h(FigureView,{key:n.id,config:p,nodeId:n.id,store:env.store,inputActions:env.inputActions});
+      case 'InteractiveScene':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:p.title||'交互场景'},h(ExperimentView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
+      case 'InteractiveLab':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:'交互实验'},h(SemanticView,{key:n.id,kind:p.kind,nodeId:n.id,store:env.store}));
+      case 'CanTimingLab':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:'CAN 采样点'},h(CanView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
       case 'Text':return h('section',{className:cls,key:n.id},[p.title&&h('h3',{key:'t'},core.interpolateText(p.title,env.values)),p.body&&h('p',{key:'b'},core.interpolateText(p.body,env.values))]);
       case 'Column':return h('div',{className:'vie-column',key:n.id},ch);
       case 'Row':return h('div',{className:'vie-row',key:n.id},ch);
@@ -3542,7 +10390,7 @@ function makeReactView(React, core) {
   }
   function Scene({source='',title='Visual Interactive Engine · 交互画面',callId='local',inputActions=null}){
     const [copyStatus,setCopyStatus]=React.useState('');
-    const storeRef=React.useRef(null);
+    const storeRef=React.useRef(null),controlRoot=React.useRef(null),controlPresentation=React.useRef(null);
     if(storeRef.current===null)storeRef.current=core.getSceneStore?core.getSceneStore(callId,source):new core.SceneStore(source);
     const store=storeRef.current;
     // External store subscription produces an immutable revision signal. The
@@ -3553,11 +10401,13 @@ function makeReactView(React, core) {
     React.useLayoutEffect(()=>{
       try{store.updateSource(source);}catch(error){console.warn('[VIE] invalid streamed source',error);}
     },[store,source]);
-    const env={...store.snapshot(),store,
+    React.useEffect(()=>{const presentation=installControlPresentation(controlRoot.current);controlPresentation.current=presentation;return()=>{presentation.dispose();controlPresentation.current=null;};},[]);
+    React.useLayoutEffect(()=>controlPresentation.current?.refresh());
+    const env={...store.snapshot(),store,inputActions,
       set:(path,value)=>{try{store.set(path,value);}catch(e){console.warn('[VIE] invalid input',e);}},
       reset:path=>{try{store.reset(path);}catch(e){console.warn('[VIE] invalid reset',e);}}
     };
-    return h('div',{className:'vie-shell','data-vie-surface':callId},[
+    return h('div',{ref:controlRoot,className:'vie-shell','data-vie-surface':callId},[
       h('div',{className:'vie-body'+(['story-scene','document-scene'].includes(env.id)?' vie-body--article':''),key:'body'},[
         env.tree.length?env.tree.map(n=>nodeView(n,env)):h('div',{className:'vie-empty',key:'empty'},
           env.errors.length?'无法呈现该界面，请检查诊断信息。':'正在生成界面…'),
@@ -3592,6 +10442,25 @@ const name='dsh-Visual-Interactive-Engine';
 const inject=['slots','uiConversation'];
 
 function createViews(React,bridge){
+  /** Only the reserved telemetry subcommand is hidden; normal /vie results stay readable. */
+function isVIEInternalCommand(node){return node?.name==='vie'&&typeof node.args==='string'&&/^\s*__render(?:\s|$)/.test(node.args);}
+function VIECommandView({node}){
+ const h=React.createElement,internal=isVIEInternalCommand(node),marker=React.useRef(null);
+ React.useLayoutEffect(()=>{
+  if(!internal)return;
+  const row=marker.current?.closest('[data-chat-node-key]');if(!row)return;
+  const prior=row.hidden,id=String(node.commandId);row.dataset.vieInternalCommand=id;row.hidden=true;
+  return ()=>{if(row.dataset.vieInternalCommand===id){row.hidden=prior;delete row.dataset.vieInternalCommand;}};
+ },[internal,node.commandId]);
+ if(internal)return h('span',{ref:marker,hidden:true,'aria-hidden':true,'data-vie-internal-command':true});
+ const outcome=node.outcome,body=typeof outcome?.text==='string'?outcome.text:'',failed=outcome?.kind==='error',label='/vie'+(node.args?.trim()?' '+node.args.trim():'');
+ const summary=outcome===null?'执行中…':failed?'执行失败':body&&body.length<160&&!body.includes('\n')?body:'执行完成';
+ return h('div',{className:'vie-command-view','data-vie-manual-command':true,role:failed?'alert':'status'},[
+  h('div',{key:'line',className:'vie-command-line'},[h('code',{key:'name'},label),h('span',{key:'result'},summary)]),
+  body&&summary!==body&&h('details',{key:'body'},[h('summary',{key:'summary'},'查看结果'),h('pre',{key:'text'},body)])
+ ]);
+}
+
   const View=makeReactView(React,{VIEStream,SceneStore,evaluate,derivedValue,interpolateText,getSceneStore:(key,source)=>bridge.getStore(key,source)});
 
   function VIEToolView(props){
@@ -3721,7 +10590,7 @@ function createViews(React,bridge){
       item.caption?React.createElement('p',{key:'caption',className:'vie-figure-caption'},item.caption):null
     ])));
   }
-  return {VIEToolView,VIETurnTailView,VIEAnswerView};
+  return {VIEToolView,VIETurnTailView,VIEAnswerView,VIECommandView};
 }
 
 function makeView(React){
@@ -3735,19 +10604,21 @@ function apply(ctx){
     let st=document.getElementById('vie-v0250-theme');
     if(!st){st=document.createElement('style');st.id='vie-v0250-theme';document.head.appendChild(st);}
     if(st.textContent!==VIE_CSS)st.textContent=VIE_CSS;
-    st.dataset.vieVersion='0.29.2';
+    st.dataset.vieVersion='0.30.6-dev.1';
   }
   const ModeControl=createVIEModeView(require('react'),require('react-dom'));
   // Cordis requires the namespace as well as its command capability. Keeping
   // both in this scope also unloads the control when either service disconnects.
   ctx.inject?.(['sessions','remote','remote.commands'],child=>child.slots.inject('conversation.input.activity',()=>child.slots.register({name:'conversation.input.activity',inject:sessionId=>({flip:async mode=>{const result=await child.remote.commands.execute(sessionId,'/vie '+mode,[]);if(!result.ok)throw Error(result.error?.message??'切换失败');if(result.value===undefined)throw Error('当前宿主未注册 /vie 命令');if(result.value.result?.kind==='error')throw Error(result.value.result.text);}})},ModeControl)));
   const bridge=createVIEBridge(SceneStore);
-  const {VIEToolView,VIETurnTailView,VIEAnswerView}=createViews(require('react'),bridge);
+  ctx.inject?.(['remote','remote.commands'],child=>{bridge.setReporter(async(sessionId,value)=>{await child.remote.commands.execute(sessionId,'/vie __render '+JSON.stringify(value),[]);});child.effect?.(()=>()=>bridge.setReporter(null));});
+  const {VIEToolView,VIETurnTailView,VIEAnswerView,VIECommandView}=createViews(require('react'),bridge);
   // Register the durable Turn projection before subscribing the tail seat.
   ctx.uiConversation.events.register(createVIETurnDefinition());
   ctx.uiConversation.events.register(createVIEAnswerDefinition());
   ctx.uiConversation.events.register(createVIEFlowDefinition());
   ctx.uiConversation.events.register(createVIEProseDefinition());
+  ctx.slots.inject('conversation.chat.commandview',()=>ctx.slots.register({name:'conversation.chat.commandview',key:'vie'},VIECommandView));
   ctx.slots.inject('conversation.chat.node',()=>ctx.slots.register({name:'conversation.chat.node',key:VIE_ANSWER_KIND},VIEAnswerView));
   ctx.slots.inject('conversation.chat.node',()=>ctx.slots.register({name:'conversation.chat.node',key:VIE_FLOW_KIND},VIEAnswerView));
   ctx.slots.inject('tool.call.toolview',()=>{
@@ -3761,8 +10632,10 @@ function apply(ctx){
   },VIETurnTailView));
   // Diagnostic only: if the browser's module was never materialized, this
   // marker will be absent. No HMR rewriting or unverified bootstrap hack.
-  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.29.2',activated:true,at:Date.now()};
+  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.30.6-dev.1',activated:true,at:Date.now()};
 }
 
 exports.name=name;exports.inject=inject;exports.apply=apply;return module.exports;
 }});
+
+/* VIE Three chunk SHA256 7d48fec7362d4ff826f2e81ae5321948c30804ca3985179aeabc6ef52ba92bed */

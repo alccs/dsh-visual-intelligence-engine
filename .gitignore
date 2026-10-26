@@ -1,39 +1,11 @@
-# Dependencies
+# Dependencies and local build state
 node_modules/
-
-# Local verification sandbox and generated reports
 .validation/
-docs/validation/
-
-# Build output (excluded from source commits)
 dist/
+docs/validation/
 *.tgz
-
-# Not part of the published source tree
-tests/
-screenshots/
-.github/*
-!.github/workflows/
-.github/workflows/*
-!.github/workflows/release-assets.yml
-
-# Generated/private documentation; publish only the reviewed overview
-docs/*
-!docs/ARCHITECTURE.md
-!docs/PROJECT-OVERVIEW-0.29.0.md
-!docs/OPTIMIZATIONS-0.29.0.md
-!docs/OPTIMIZATIONS-0.29.2.md
-!docs/readme/
-docs/readme/*
-!docs/readme/*.png
-
-# OS / editor noise
-Thumbs.db
-.DS_Store
+*.zip
 *.log
-npm-debug.log*
-
-# Credentials and local machine files
 .env
 .env.*
 !.env.example
@@ -47,3 +19,45 @@ npm-debug.log*
 *.db
 *private*
 *session-*.json
+Thumbs.db
+.DS_Store
+
+# Only reviewed public tests are tracked; local fixtures stay local.
+tests/*
+!tests/control-presentation.test.mjs
+!tests/command-feedback.test.mjs
+!tests/workflow-operations.test.mjs
+!tests/client-chunks.test.mjs
+!tests/prompt-budget.test.mjs
+!tests/sdk-preview.test.mjs
+!tests/diagnostics.test.mjs
+!tests/learning-repair.test.mjs
+!tests/study.test.mjs
+!tests/evaluation.test.mjs
+!tests/graphics-lifecycle.test.mjs
+!tests/stability-patch.test.mjs
+!tests/workflow-followup.test.mjs
+!tests/sdk-compatibility.test.mjs
+!tests/render-feedback.test.mjs
+!tests/versioning.test.mjs
+
+# Reviewed docs and examples; generated diagnostics are local.
+docs/*
+!docs/ARCHITECTURE.md
+!docs/BUILD-METRICS.json
+!docs/VERSIONING.md
+!docs/OPTIMIZATIONS-0.30.5.md
+!docs/EVALUATION-0.30.5.md
+!docs/EVALUATION-0.30.1.md
+!docs/ROADMAP-0.30.5.md
+!docs/UI-COMPONENTS-A.md
+!docs/readme/
+docs/readme/*
+!docs/readme/*.png
+!docs/readme/*.jpg
+!docs/readme/*.svg
+
+# Generic screenshots only.
+screenshots/*
+!screenshots/sdk-*.png
+!screenshots/progressive-final-*.png

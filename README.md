@@ -8,7 +8,7 @@
 
 DeepSeek Harness 通用可视化插件 · 图文结合 · 动画演示 · 本地交互
 
-[下载 0.29.2](https://github.com/alccs/dsh-visual-intelligence-engine/releases/tag/v0.29.2) · [快速开始](#快速开始) · [效果展示](#效果展示) · [架构文档](docs/ARCHITECTURE.md)
+[下载已发布版本](https://github.com/alccs/dsh-visual-intelligence-engine/releases/latest) · [快速开始](#快速开始) · [效果展示](#效果展示) · [架构文档](docs/ARCHITECTURE.md)
 
 </div>
 
@@ -76,17 +76,27 @@ VIE 让模型在聊天中绘制图形、构建动画和交互演示。解释复�
 
 ### 1. 安装插件
 
-下载 [dsh-visual-interactive-engine-0.29.2.tgz](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.2/dsh-visual-interactive-engine-0.29.2.tgz)，在 **DeepSeek Harness 桌面版的插件管理器**中安装，完成后完全退出并重新打开 Harness。
+所需版本已发布到 npm 时，可通过 npm 安装预构建插件。在 Harness 插件管理器中选择 npm 来源，填写 `dsh-visual-interactive-engine`；使用 Web CLI 时：
+
+```sh
+dsh plugin --profile web add dsh-visual-interactive-engine
+```
+
+需要固定版本时，在包名后追加 `@版本号`，以 npm 上实际已发布的版本为准。
+
+也可以手动安装 TGZ：
+
+在 [GitHub Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases) 下载所需版本的 TGZ，在 **DeepSeek Harness 桌面版的插件管理器**中安装，完成后完全退出并重新打开 Harness。
 
 使用 Web CLI 时：
 
 ```powershell
-dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-0.29.2.tgz"
+dsh plugin --profile web add "<下载路径>/dsh-visual-interactive-engine-X.Y.Z.tgz"
 ```
 
 重启承载 Web UI 的 Harness 进程。兼容范围：DSH `>=0.2.1-rc.2 <0.3.0-0`；Node.js `>=22.19`。
 
-安装详情与排障见 [安装指南](INSTALL.md)，安装包校验值见 [SHA256SUMS.txt](https://github.com/alccs/dsh-visual-intelligence-engine/releases/download/v0.29.2/SHA256SUMS.txt)。
+安装详情与排障见 [安装指南](INSTALL.md)，安装包校验值见 各版本 Release 附件中的 SHA256SUMS.txt。
 
 ### 2. 选择模式
 
@@ -141,14 +151,20 @@ npm pack ./package
 | 文档 | 内容 |
 | --- | --- |
 | [安装指南](INSTALL.md) | 安装、配置与排障 |
-| [项目概览](docs/PROJECT-OVERVIEW-0.29.0.md) | 项目定位、能力与边界 |
+| [后续规划](docs/ROADMAP-0.30.5.md) | 项目定位、能力边界与后续改进 |
 | [架构说明](docs/ARCHITECTURE.md) | Host、客户端、文档模型与渲染流程 |
-| [0.29.2 更新说明](docs/OPTIMIZATIONS-0.29.2.md) | 流程图布局、逐步引导、逐题练习与升级样式修复 |
-| [0.29.0 更新说明](docs/OPTIMIZATIONS-0.29.0.md) | 0.29.0 的改进 |
+| [图形与控件优化](docs/OPTIMIZATIONS-0.30.5.md) | 宽度适配、A 风格组件与图形修复 |
+| [版本管理](docs/VERSIONING.md) | 单一版本来源、验证与不可覆盖的本地归档 |
 | [更新日志](CHANGELOG.md) | 历史版本记录 |
 
-源码可用于构建和打包插件；`check`、`verify`、`release` 脚本需配套测试环境。本地完整验收包含 190 项测试、11 组浏览器检查和 7 组宿主检查。
+源码可用于构建和打包插件。`npm run verify` 使用公开回归，完整本地验收另有宿主检查；实际验证范围与数量记录在每次交付的清单中。
 
 ## 许可
 
 [MIT](LICENSE)。第三方依赖声明见 [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt)。
+
+## 开发与版本管理
+
+版本号统一来自 `package/package.json`，通过 `npm run version -- X.Y.Z` 或开发版本号修改；构建入口、锁文件及演示名称自动同步。`npm run verify` 执行公开回归；具备本地完整材料时可执行 `npm run verify:full`。
+
+`npm run release` 在本地构建并归档安装包、源码和演示，记录 Git 提交、验证结果与 SHA256。同版本不同内容不能覆盖已归档交付。详见 [版本与发版流程](docs/VERSIONING.md)。

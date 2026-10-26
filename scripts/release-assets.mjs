@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 const packageName='dsh-visual-interactive-engine';
 const stableName=packageName+'.tgz';
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
-function packageManifest(bytes){
+export function packageManifest(bytes){
   const tar=gunzipSync(bytes,{maxOutputLength:32*1024*1024});
   for(let at=0;at+512<=tar.length;){
     const header=tar.subarray(at,at+512);
@@ -22,7 +22,7 @@ function packageManifest(bytes){
   }
   throw Error('Installer has no package/package.json');
 }
-function readChecksums(file){
+export function readChecksums(file){
   const entries=new Map();
   if(!fs.existsSync(file))return entries;
   for(const line of fs.readFileSync(file,'utf8').split(/\r?\n/).filter(line=>line.trim())){

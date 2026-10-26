@@ -1,4 +1,4 @@
-/** Production browser regressions for responsive graphics, recovery and magnification. */
+/** Production browser regressions for responsive graphics, recovery and expanded viewing. */
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
 const root=path.resolve(import.meta.dirname,'..'),version=JSON.parse(fs.readFileSync(path.join(root,'package/package.json'))).version,session='vie-optimization-'+process.pid,exe=path.join(root,'node_modules/agent-browser/bin/agent-browser-win32-x64.exe'),checks=[];
 function run(...args){const r=spawnSync(exe,['--session',session,'--json',...args],{encoding:'utf8',cwd:root,timeout:35000});if(r.status!==0)throw Error(r.stderr||r.stdout);const j=JSON.parse(r.stdout);if(!j.success)throw Error(JSON.stringify(j));return j.data;}
@@ -41,7 +41,7 @@ try{
  run('set','viewport','320','800');run('snapshot','-i');
  run('screenshot',path.join(root,'screenshots/optimization-expanded-safe-'+version+'.png'));
  run('press','Shift+Tab');run('snapshot','-i');check('expanded keyboard focus remains within the dialog',`document.querySelector('.vie-figure-expanded').contains(document.activeElement)&&document.querySelector('.vie-figure-expanded').getAttribute('role')==='dialog'`);
- click('放大');check('magnification provides readable physical width',`document.querySelector('iframe').clientWidth>=800`);run('press','Escape');run('snapshot','-i');check('Escape exits expanded viewing',`!document.querySelector('.vie-figure-expanded')`);
+ check('expanded figure only exposes collapse and optional reset and fits its viewing area',`(()=>{const panel=document.querySelector('.vie-figure-expanded'),buttons=[...panel.querySelectorAll('.vie-figure-actions button')],frame=panel.querySelector('iframe');return buttons.some(b=>b.textContent==='收起')&&buttons.every(b=>['收起','复位'].includes(b.textContent))&&frame.style.width==='100%'&&frame.clientWidth<=panel.clientWidth})()`);run('focus','.vie-figure-expanded .vie-figure-actions button');run('press','Escape');run('snapshot','-i');check('Escape from the host actions exits expanded viewing and restores its trigger focus',`!document.querySelector('.vie-figure-expanded')&&document.activeElement===document.querySelector('.vie-figure-actions button')&&document.querySelector('iframe')===window.__vieExpansionFrame`);
  ev(`document.querySelector('#host-caption-probe').remove()`);
  run('set','viewport','1080','1100');ev('VIEDemo.select("fast")');run('snapshot','-i');
  const slider=Object.entries(run('snapshot','-i').refs).find(([,v])=>v.role==='slider');assert.ok(slider);run('focus','@'+slider[0]);run('press','End');run('snapshot','-i');
@@ -66,8 +66,8 @@ try{
  ev(`(()=>{window.__readability=null;window.addEventListener('message',e=>{if(e.source===document.querySelector('iframe')?.contentWindow&&e.data?.type==='height')window.__readability=e.data.value;});return true})()`);
  for(const width of [320,1080]){run('set','viewport',String(width),'1000');for(const [i,doc]of staticDocs.entries()){
   ev(`window.__readability=null;VIEDemo.setSource(VIE.documentSceneSource(${JSON.stringify(doc)}),'readable-${width}-${i}')`);run('wait','iframe[data-vie-ready="true"]');run('snapshot','-i');
-  check('original static SVG retains 11px text and outer fit at '+width+' / '+i,`(async()=>{${frames}return window.__readability?.minFont>=10.99&&document.documentElement.scrollWidth<=innerWidth&&document.querySelector('iframe').dataset.vieOverflow==='false'})()`);
-  check('stateless static SVG omits reset at '+width+' / '+i,`![...document.querySelectorAll('.vie-figure-actions button')].some(b=>b.textContent==='复位')`);
+  check('original static SVG fits the viewport and reports small text at '+width+' / '+i,`(async()=>{${frames}const font=window.__readability?.minFont;return font>0&&document.documentElement.scrollWidth<=innerWidth&&document.querySelector('iframe').dataset.vieOverflow==='false'&&(font>=11||document.querySelector('iframe').dataset.vieSmallText==='true')})()`);
+  check('stateless static SVG only exposes expand at '+width+' / '+i,`[...document.querySelectorAll('.vie-figure-actions button')].map(b=>b.textContent).join(',')==='展开'`);
  }}
  ev('VIEDemo.select("changes")');run('wait','iframe[data-vie-ready="true"]');run('snapshot','-i');
  check('responsive change comparison example renders without errors',`!document.querySelector('.vie-generated-error')&&document.querySelector('iframe').dataset.vieOverflow==='false'`);

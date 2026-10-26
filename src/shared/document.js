@@ -1,5 +1,10 @@
 /** Topic-independent document and generated-figure contract. No topic allowlist. */
 /* @include shared/learning.js */
+function documentVisualUnits(document){
+  try{document=normalizeLearningDocumentAlias(document);}catch{}
+  if(!document||document.controls?.length||isLearningQuestionGroup(document.blocks))return 1;
+  return Math.max(1,(Array.isArray(document.blocks)?document.blocks:[]).filter(b=>b&&(['figure','learning','graphic','chart','visual','experiment'].includes(b.type)||b.kind||b.type===undefined&&typeof b.html==='string')).length);
+}
 function validateFigureState(input={}){
   const plain=x=>x!==null&&typeof x==='object'&&!Array.isArray(x)&&(Object.getPrototypeOf(x)===Object.prototype||Object.getPrototypeOf(x)===null);
   let nodes=0;
@@ -15,24 +20,53 @@ function validateFigureState(input={}){
   if(new TextEncoder().encode(JSON.stringify(input)).length>8192)throw Error('Figure state exceeds 8KB');
   return JSON.parse(JSON.stringify(input));
 }
-function validateFigureDefinition(input){
+function validateFigureDefinition(input,internalPreview=false){
   if(!input||typeof input!=='object'||Array.isArray(input)||Object.getPrototypeOf(input)!==Object.prototype)throw Error('Figure requires an object');
-  for(const key of Object.keys(input))if(!DOCUMENT_CONTRACT.blocks.figure.fields.includes(key)&&key!=='type')throw Error('Unknown figure field: '+key);
+  for(const key of Object.keys(input))if(!DOCUMENT_CONTRACT.blocks.figure.fields.includes(key)&&key!=='type'&&!(internalPreview&&key==='preview'))throw Error('Unknown figure field: '+key);
   const bounded=(value,max,label)=>{if(typeof value!=='string'||new TextEncoder().encode(value).length>max)throw Error('Figure '+label+' exceeds limit or is not text');return value;};
   const result={title:bounded(input.title??'交互图解',300,'title'),html:bounded(input.html??'',16384,'html'),css:bounded(input.css??'',8192,'css'),js:bounded(input.js??'',32768,'js'),height:input.height??360,state:validateFigureState(input.state??{})};
+  if(internalPreview&&input.preview!==undefined){if(typeof input.preview!=='boolean'||input.preview&&result.js)throw Error('Invalid static preview');result.preview=input.preview;}
   if(input.bindings!==undefined){
     if(!input.bindings||typeof input.bindings!=='object'||Array.isArray(input.bindings)||Object.keys(input.bindings).length>8)throw Error('Invalid figure bindings');
     result.bindings={};for(const [key,ref]of Object.entries(input.bindings)){if(!/^[A-Za-z][A-Za-z0-9_]{0,19}$/.test(key)||['constructor','prototype','__proto__'].includes(key)||typeof ref!=='string'||!/^\/(shared|derived)\/[A-Za-z][A-Za-z0-9_]{0,19}$/.test(ref))throw Error('Invalid figure binding');result.bindings[key]=ref;}
   }
   if(!result.html.trim())throw Error('Figure html must not be empty');
   validateLearningCalls(result.js);
-  if(!Number.isInteger(result.height)||result.height<160||result.height>1000)throw Error('Figure height must be 160–1000');
+  if(!Number.isInteger(result.height)||result.height<80||result.height>1000)throw Error('Figure height must be 80–1000 (values below 160 display at 160)');result.height=Math.max(160,result.height);
   if(/<(?:iframe|frame|object|embed|base)\b|<meta\b[^>]*http-equiv\s*=\s*["']?refresh/i.test(result.html))throw Error('Figure must be self-contained; nested browsing contexts and refresh are not supported');
   if(new TextEncoder().encode(JSON.stringify(result)).length>60000)throw Error('Figure exceeds serialized 60KB limit');
   return result;
 }
+function normalizeLearningDocumentAlias(input){
+  if(!input||typeof input!=='object'||Array.isArray(input)||Object.getPrototypeOf(input)!==Object.prototype||input.type===undefined)return input;
+  if(input.type!=='learning')throw Error('Unknown document type: '+String(input.type));
+  const {type,...document}=input;
+  const blocks=document.blocks;
+  if(!Array.isArray(blocks)||blocks.every(block=>block?.type==='learning'))return document;
+  const stageFields=new Set(['label','title','caption','html','mobileHtml']);
+  // Preserve invalid required fields so validation and repair use the same block.
+  const stages=blocks.every(block=>block&&typeof block==='object'&&!Array.isArray(block)&&
+    Object.keys(block).every(key=>stageFields.has(key)));
+  if(!stages){
+    const error=Error('document.type:"learning" requires typed learning blocks or stage objects with html');
+    error.code='VIE_LEARNING_INVALID';
+    throw error;
+  }
+  return {...document,blocks:[{
+    type:'learning',
+    title:typeof document.title==='string'&&document.title.trim()?document.title:'交互演示',
+    stages:blocks.map((stage,index)=>({
+      label:stage.label??stage.title??String(index+1),
+      ...(stage.title===undefined?{}:{title:stage.title}),
+      ...(stage.caption===undefined?{}:{caption:stage.caption}),
+      html:stage.html,
+      ...(stage.mobileHtml===undefined?{}:{mobileHtml:stage.mobileHtml})
+    }))
+  }]};
+}
 function validateDocumentSpec(input){
   if(!input||typeof input!=='object'||Array.isArray(input)||Object.getPrototypeOf(input)!==Object.prototype)throw Error('Document requires an object');
+  input=normalizeLearningDocumentAlias(input);
   if(input.caption!==undefined){if(typeof input.caption!=='string'||input.caption.length>140)throw Error('document.caption must be text of at most 140 characters');const {caption,...rest}=input;input=rest;}
   if(input.title===undefined){const first=isLearningQuestionGroup(input.blocks)?'选择题练习':input.blocks?.[0]?.title;input={...input,title:typeof first==='string'&&first.trim()?first.trim().slice(0,100):'交互图解'};}
   for(const key of Object.keys(input))if(!DOCUMENT_CONTRACT.fields.includes(key))throw Error('Unknown document field: '+key);

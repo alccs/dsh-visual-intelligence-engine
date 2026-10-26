@@ -1,3 +1,4 @@
+import {VERSION} from './version-info.mjs';
 /** Actual Cordis, Commands, SessionProjection and Tools with an in-memory Session log adapter. */
 import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';import assert from 'node:assert/strict';import {createRequire,registerHooks} from 'node:module';import {pathToFileURL} from 'node:url';import {reactiveWave} from './reactive-examples.mjs';import {flowDocument} from './flow-examples.mjs';
 const root=path.resolve(import.meta.dirname,'..'),runtime=createRequire(path.resolve(process.env.VIE_DSH_RUNTIME??path.join(root,'.validation/runtime'),'package.json'));
@@ -14,6 +15,26 @@ const one={id:'mode-one',session:session('one')},two={id:'mode-two',session:sess
 const assemble=agent=>ctx.systemPrompt.assemble({agent,scope:agent,signal});
 const command=(agent,text)=>ctx.commands.execute(agent,'/'+text,[],signal);
 const view=agent=>ctx.sessionProjections.snapshot(agent.session).values['dsh-vie:mode'];
+async function checkOperationRouting(){
+ const names=['pwsh','plugin_manager','list_bundles'];let executed=0;
+ const dispose=names.map(name=>ctx.tools.register({...plugin.createExplainImplementation(),name,description:'Inert maintenance routing regression stub',execute:async()=>{executed++;return {note:'maintenance stub executed',meta:{}};}}));
+ try{
+  const artifact=path.join(root,("dist/dsh-visual-interactive-engine-"+VERSION+".tgz"));
+  for(const mode of ['auto','on','study','off']){
+   const agent={id:'ops-'+mode,session:session('ops-'+mode)},carrier=scopeTarget(agent,agent);await command(agent,'vie '+mode);
+   let turn=0;
+   for(const text of ['安装','@'+artifact+' 安装','把「'+artifact+'」安装到 desktop profile']){
+    ctx.emit(carrier,'agent/inbox/claimed',{agent,turn:++turn,message:{source:{kind:'user'},content:[{type:'text',text}]}});
+    const prompt=await assemble(agent);assert.ok(!prompt.sections.some(section=>section.name==='dsh-vie:fast-turn'),mode+': '+text);
+    for(const name of names){assert.ok(prompt.tools.some(tool=>tool.name===name),mode+': '+name);assert.notEqual((await ctx.tools.execute({agent,signal,callId:'ops-'+mode+'-'+turn+'-'+name,name,arguments:{}})).isError,true);}
+   }
+  }
+  assert.equal(executed,36);
+  const agent={id:'ops-teaching',session:session('ops-teaching')},carrier=scopeTarget(agent,agent);await command(agent,'vie study');ctx.emit(carrier,'agent/inbox/claimed',{agent,turn:1,message:{source:{kind:'user'},content:[{type:'text',text:'讲解插件安装流程'}]}});
+  assert.ok(!(await assemble(agent)).tools.some(tool=>tool.name==='pwsh'));const denied=await ctx.tools.execute({agent,signal,callId:'ops-teaching-denied',name:'pwsh',arguments:{}});assert.match(JSON.stringify(denied),/VIE_FAST_PATH/);assert.equal(executed,36);
+  pass('installation requests retain shell and plugin tools in every actual chat mode; installation teaching stays visual');
+ }finally{dispose.forEach(stop=>stop());}
+}
 async function checkClientModes(){
  // Use the real bundled client and Cordis dependency access checks. Only the
  // slot surface and RPC transport are adapters; commands and projections use
@@ -39,6 +60,7 @@ async function checkClientModes(){
  const clientFiber=clientCtx.plugin(client);await clientFiber.await();await settle();
  try{
   assert.equal(entries().length,0);assert.ok(slots.entries('tool.call.toolview').length>0);pass('real client keeps graphics available while remote commands are unavailable');
+  const commandSlots=slots.entries('conversation.chat.commandview');assert.equal(commandSlots.length,1);assert.equal(commandSlots[0].key,'vie');assert.equal(typeof commandSlots[0].component,'function');pass('real client registers one VIE-only command specialization without remote commands');
   let removeRemote=await provide('remote',{commands}),removeCommands=await provide('remote.commands',commands);await settle();
   assert.equal(entries().length,1);const binding=entries()[0].inject(clientOne.session.id);
   await binding.flip('study');assert.equal(view(clientOne).mode,'study');assert.equal(view(clientTwo).mode,'auto');assert.ok((await assemble(clientOne)).sections.some(section=>section.text.includes('学习模式')));assert.equal(calls.at(-1).sessionId,clientOne.session.id);assert.equal(calls.at(-1).line,'/vie study');assert.equal(calls.at(-1).args.length,0);pass('real client Cordis binding executes study through the Host and updates only its chat');
@@ -47,7 +69,7 @@ async function checkClientModes(){
   await removeRemote();await settle();assert.equal(entries().length,0);assert.ok(slots.entries('tool.call.toolview').length>0);pass('parent remote loss removes only the mode control');
   removeRemote=await provide('remote',{commands});await settle();assert.equal(entries().length,1);await entries()[0].inject(clientOne.session.id).flip('study');
   await removeCommands();await settle();assert.equal(entries().length,0);removeCommands=await provide('remote.commands',commands);await settle();assert.equal(entries().length,1);await entries()[0].inject(clientOne.session.id).flip('auto');await entries()[0].inject(clientTwo.session.id).flip('auto');pass('remote command reconnection remounts one working control and preserves session routing');
-  await clientFiber.dispose();await settle();assert.equal(entries().length,0);assert.equal(slots.entries('tool.call.toolview').length,0);pass('real client disposal removes its mode and graphic slots');
+  await clientFiber.dispose();await settle();assert.equal(entries().length,0);assert.equal(slots.entries('tool.call.toolview').length,0);assert.equal(slots.entries('conversation.chat.commandview').length,0);pass('real client disposal removes its mode, graphic and command slots');
  }finally{await clientFiber.dispose();await clientCtx.fiber.dispose();}
 }
 try{
@@ -72,9 +94,10 @@ try{
  one.session.append('turn/end',{turn:2,reason:{kind:'max-tokens'}});
  await fiber.dispose();fiber=ctx.plugin(plugin);await fiber.await();await new Promise(setImmediate);
  const resumed=await ctx.tools.execute({agent:one,signal,callId:'repair-after-restart',name:'vie_explain',arguments:{visualId:result.meta.visualId,baseRevision:result.meta.revision,changes:[{index:0,block:reactiveWave.blocks[0]}]}});assert.equal(resumed.meta?.valid,true,JSON.stringify(resumed));assert.equal(resumed.meta.revision,result.meta.revision+1);assert.equal(resumed.meta.anchorCallId,'reactive-native');pass('real disk baseline resumes local repair after plugin restart');
- const fresh={id:'reopened-agent',session:one.session},freshCarrier=scopeTarget(fresh,fresh);ctx.emit(freshCarrier,'agent/inbox/claimed',{agent:fresh,turn:3,message:{source:{kind:'user'},content:[{type:'text',text:'继续'}]}});const resumedPrompt=await assemble(fresh);assert.match(resumedPrompt.sections.at(-1).text,/续写/);const resumedConfig=await ctx.waterfall(freshCarrier,'agent/request',{agent:fresh,turn:3,step:1,signal},async()=>({provider:'deepseek-account',model:'test',maxTokens:128000,reasoningEffort:'max'}));assert.equal(resumedConfig.maxTokens,128000);assert.equal(resumedConfig.reasoningEffort,'max');pass('real Host restart recovers truncated scope from public session events without lowering output');
+ const fresh={id:'reopened-agent',session:one.session},freshCarrier=scopeTarget(fresh,fresh);ctx.emit(freshCarrier,'agent/inbox/claimed',{agent:fresh,turn:3,message:{source:{kind:'user'},content:[{type:'text',text:'继续'}]}});const resumedPrompt=await assemble(fresh);assert.match(resumedPrompt.sections.find(s=>s.name==='dsh-vie:fast-turn').text,/续写/);const resumedConfig=await ctx.waterfall(freshCarrier,'agent/request',{agent:fresh,turn:3,step:1,signal},async()=>({provider:'deepseek-account',model:'test',maxTokens:128000,reasoningEffort:'max'}));assert.equal(resumedConfig.maxTokens,128000);assert.equal(resumedConfig.reasoningEffort,'max');pass('real Host restart recovers truncated scope from public session events without lowering output');
+ await checkOperationRouting();
  await command(two,'vie global off');const three={id:'third',session:session('three')};assert.ok(!(await assemble(three)).tools.some(t=>t.name==='vie_explain'));assert.equal(view(one).mode,'on');pass('global default applies to unconfigured chats and preserves explicit chat choices');
  const invalid=await command(two,'vie arbitrary');assert.equal(invalid.result.kind,'error');assert.equal(view(two).mode,'off');pass('invalid mode command cannot change the saved choice');
  await fiber.dispose();assert.equal(ctx.commands.view(one).get('vie'),undefined);assert.equal(view(one),undefined);pass('plugin disposal removes commands, projections and hooks');
- fs.writeFileSync(path.join(root,'docs/validation/mode-runtime.json'),JSON.stringify({version:'0.29.2',runtime:'Cordis4 / DSH0.2.1-rc.2',installedArtifact:installed,clientBinding:'actual client apply and Cordis with sibling remote providers; slot surface and in-process transport adapters',sessionAdapter:'in-memory log; real Commands and SessionProjection services',isolatedHome:true,checks:checks.length,results:checks,externalModelRequests:0},null,2));
+ fs.writeFileSync(path.join(root,'docs/validation/mode-runtime.json'),JSON.stringify({version:VERSION,runtime:'Cordis4 / DSH0.2.1-rc.2',installedArtifact:installed,clientBinding:'actual client apply and Cordis with sibling remote providers; slot surface and in-process transport adapters',sessionAdapter:'in-memory log; real Commands and SessionProjection services',isolatedHome:true,checks:checks.length,results:checks,externalModelRequests:0},null,2));
 }finally{await fiber.dispose();await ctx.fiber.dispose();hook.deregister();}

@@ -26,7 +26,7 @@ function mountChart(root,input,options={}){
     }
     svg+=`</g><path d="M${L} ${T}V${T+h}H${L+w}" class="vie-general-chart-axis"/><text x="${L+w/2}" y="${H-8}" text-anchor="middle">${esc(spec.x.label)}</text><text x="16" y="${T+h/2}" text-anchor="middle" transform="rotate(-90 16 ${T+h/2})">${esc(spec.y.label)}</text></svg>`;
     root.querySelector('[data-chart-plot]').innerHTML=svg;
-    for(const c of visibleControls){root.querySelector(`[data-chart-value="${c.key}"]`).textContent=concise(values[c.key]);for(const el of root.querySelectorAll(`[data-chart-key="${c.key}"]`)){if(el.tagName==='BUTTON')el.setAttribute('aria-pressed',String(Number(el.value)===values[c.key]));else if(el.type==='checkbox')el.checked=values[c.key]===1;else if(el!==root.ownerDocument.activeElement)el.value=values[c.key];}}
+    for(const c of visibleControls){root.querySelector(`[data-chart-value="${c.key}"]`).textContent=concise(values[c.key]);for(const el of root.querySelectorAll(`[data-chart-key="${c.key}"]`)){if(el.tagName==='BUTTON')el.setAttribute('aria-pressed',String(Number(el.value)===values[c.key]));else if(el.type==='checkbox')el.checked=values[c.key]===1;else if(el!==root.ownerDocument.activeElement)el.value=values[c.key];updateRangePresentation(el);}}
     root.querySelector('[data-chart-error]').textContent=limited?'采样分辨率已达上限，请缩小横轴范围查看细节。':gaps?'定义域之外的部分未绘制。':'';
   }
   const commit=(key,value)=>{try{const next=validateChartState(spec,{...values,[key]:value});options.onChange?.({...next});values=next;schedule();}catch(error){root.querySelector('[data-chart-error]').textContent=error.message;}};

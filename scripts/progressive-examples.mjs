@@ -1,7 +1,6 @@
-import fs from 'node:fs';
+import {i2cStaticExample as original} from './i2c-static-example.mjs';
 // Reframe the supplied static case into three focused views for the offline preview.
 // This is an explicit example, not an automatic semantic SVG splitter in the plugin.
-const original=JSON.parse(fs.readFileSync(new URL('../tests/fixtures/i2c-collage.json',import.meta.url),'utf8')).blocks[0];
 const views=[
  {title:'① 两线总线：SCL 与 SDA',box:'0 76 484 164',text:'SCL 提供时钟，SDA 传输数据。多个器件共享这两根线，主机通过地址选择目标从机。图中两根信号线分别通过上拉电阻连接电源；先理解连接关系，再看下一张图的驱动方式。'},
  {title:'② 开漏输出：拉低与释放',box:'490 72 440 144',text:'开漏输出通过“拉低”或“释放”控制线路。器件释放线路后，上拉电阻使电平回到高；任何一个器件拉低，共享线路就保持低。这解释了多个器件如何共用 SDA，也为应答位由接收方拉低提供了基础。'},

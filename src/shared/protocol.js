@@ -189,7 +189,7 @@ const LIMITS = Object.freeze({bytes: 262144, line: 65536, events: 300, nodes: 80
  * meaningful renderer/runtime consumer before it can be listed here. */
 const COMPONENT_CATALOG=Object.freeze({
   Chart:{props:['title','x','y','series','controls','inputs','regions','note'],description:'General formula/data chart with local controls and region fills; no generated code required'},
-  GenerativeFigure:{props:['title','html','css','js','height','state','bindings'],description:'Topic-independent generated HTML/CSS/JS, isolated iframe; SVG/Canvas/WebGL and custom interaction, not bound to experiment templates'},
+  GenerativeFigure:{props:['title','html','css','js','height','state','bindings','preview'],description:'Topic-independent generated HTML/CSS/JS, isolated iframe; SVG/Canvas/WebGL and custom interaction, not bound to experiment templates'},
   Column:{props:[],description:'Vertical layout'}, Row:{props:[],description:'Horizontal layout'},
   Split:{props:['ratio'],description:'Responsive text / visual split layout'},
   Card:{props:['title'],description:'Grouped content'}, Text:{props:['title','body'],description:'Explanatory text'},
@@ -276,7 +276,7 @@ function validateEvent(event) {
   if(!ALLOWED.has(type)) error('Unsupported component: '+type);
   const props=shared(event.props??{});
   if(type==='Chart')return {v:1,op:'node.put',id:id(event.id),type,props:validateChartSpec(props),parent:event.parent===undefined?'root':id(event.parent),order:event.order===undefined?0:number(event.order,-10000,10000)};
-  if(type==='GenerativeFigure')return {v:1,op:'node.put',id:id(event.id),type,props:validateFigureDefinition(props),parent:event.parent===undefined?'root':id(event.parent),order:event.order===undefined?0:number(event.order,-10000,10000)};
+  if(type==='GenerativeFigure')return {v:1,op:'node.put',id:id(event.id),type,props:validateFigureDefinition(props,true),parent:event.parent===undefined?'root':id(event.parent),order:event.order===undefined?0:number(event.order,-10000,10000)};
   if(type==='InteractiveScene'){
     return {v:1,op:'node.put',id:id(event.id),type,props:validateExperimentSpec(props),parent:event.parent===undefined?'root':id(event.parent),order:event.order===undefined?0:number(event.order,-10000,10000)};
   }

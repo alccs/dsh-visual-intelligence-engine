@@ -1,7 +1,7 @@
 {
   "name": "visual-interactive-engine-source",
   "private": true,
-  "version": "0.29.2",
+  "version": "0.30.6-dev.1",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -10,15 +10,23 @@
     "browser-test": "node scripts/browser-test.mjs",
     "dsh-test": "node scripts/test-dsh.mjs",
     "cli-test": "node scripts/test-cli.mjs",
-    "release": "node scripts/release.mjs",
+    "release": "node scripts/release.mjs --archive",
     "transmission-test": "node scripts/browser-transmission.mjs",
     "general-test": "node scripts/browser-general.mjs",
-    "verify": "node scripts/verify.mjs",
-    "mode-test": "node scripts/test-mode-runtime.mjs"
+    "verify": "node scripts/verify-public.mjs",
+    "mode-test": "node scripts/test-mode-runtime.mjs",
+    "version": "node scripts/version.mjs",
+    "version:check": "node scripts/version.mjs --check",
+    "verify:public": "node scripts/verify-public.mjs",
+    "release:archive": "node scripts/archive-release.mjs",
+    "verify:full": "node scripts/verify.mjs"
   },
   "devDependencies": {
     "agent-browser": "0.39.1",
     "react": "18.3.1",
     "react-dom": "18.3.1"
+  },
+  "engines": {
+    "node": ">=24"
   }
 }

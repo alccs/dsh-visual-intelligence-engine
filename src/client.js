@@ -1,16 +1,20 @@
-/* VIE v0.29.2 — DSH browser entry. Generated includes are resolved by build.mjs. */
+/* VIE v__VIE_VERSION__ — DSH browser entry. Generated includes are resolved by build.mjs. */
 window.__ModuleLoader__.load({id:'dsh-visual-interactive-engine',factory:(require)=>{
  const module={exports:{}};const exports=module.exports;
- const VIE_CSS=/* @style styles/base.css,styles/experiments.css,styles/system.css */ "";
+ const VIE_CSS=/* @style styles/base.css,styles/experiments.css,styles/system.css,styles/controls.css,styles/command.css */ "";
 /* @include shared/catalog.js */
+/* @include shared/identity.js */
 /* @include shared/experiments.js */
 /* @include shared/chart.js */
 /* @include shared/chart-sampling.js */
 /* @include shared/graphics.js */
+/* @include shared/sdk-geometry.js */
+/* @include shared/sdk-preflight.js */
 /* @include shared/document.js */
 /* @include shared/flow-layout.js */
 /* @include shared/protocol.js */
 /* @include shared/preview.js */
+/* @include shared/control-presentation.js */
 /* @include view/generated.js */
 /* @include view/checkpoints.js */
 /* @include view/chart.js */
@@ -149,14 +153,16 @@ const copyValue=value=>JSON.parse(JSON.stringify(value));
 class SceneStore {
   constructor(source=''){
     this.source='';this.parser=new VIEStream();this.version=0;
-    this.revision=0;this.listeners=new Set();this.lastError=null;this.localState=Object.create(null);this.figureErrors=Object.create(null);
+    this.revision=0;this.listeners=new Set();this.lastError=null;this.localState=Object.create(null);this.figureErrors=Object.create(null);this.figureStatuses=Object.create(null);this.figureMetrics=Object.create(null);
     if(source)this.updateSource(source);
   }
   subscribe(listener){if(typeof listener!=='function')throw Error('Listener required');this.listeners.add(listener);return ()=>this.listeners.delete(listener);}
   getVersion(){return this.version;}
   snapshot(){return {...this.parser.snapshot(),revision:this.revision,storeError:this.lastError};}
-  context(){const summary=this.parser.interactionContext(),experiments={},figures={};for(const node of this.parser.scene.nodes.values()){if(node.type==='InteractiveScene')experiments[node.id]=experimentContext(node.props,this.localState[node.id]);if(node.type==='Chart')figures[node.id]={title:node.props.title,state:this.local(node.id)??validateChartState(node.props)};if(node.type==='GenerativeFigure')figures[node.id]={title:node.props.title,state:this.local(node.id)??node.props.state};}return {...summary,revision:this.revision,interactiveState:copyValue(this.localState),experiments,figures,figureErrors:{...this.figureErrors}};}
-  setFigureError(nodeId,message){if(this.figureErrors[nodeId]===(message||undefined))return;if(message)this.figureErrors[nodeId]=String(message).slice(0,1200);else delete this.figureErrors[nodeId];this.emit();}
+  context(){const summary=this.parser.interactionContext(),experiments={},figures={};for(const node of this.parser.scene.nodes.values()){if(node.type==='InteractiveScene')experiments[node.id]=experimentContext(node.props,this.localState[node.id]);if(node.type==='Chart')figures[node.id]={title:node.props.title,state:this.local(node.id)??validateChartState(node.props)};if(node.type==='GenerativeFigure')figures[node.id]={title:node.props.title,state:this.local(node.id)??node.props.state};}return {...summary,revision:this.revision,interactiveState:copyValue(this.localState),experiments,figures,figureErrors:{...this.figureErrors},figureStatuses:{...this.figureStatuses},figureMetrics:copyValue(this.figureMetrics)};}
+  setFigureError(nodeId,message){const status=message?'error':'loading';if(this.figureErrors[nodeId]===(message||undefined)&&this.figureStatuses[nodeId]===status)return;if(message){this.figureErrors[nodeId]=String(message).slice(0,1200);}else{delete this.figureErrors[nodeId];delete this.figureMetrics[nodeId];}this.figureStatuses[nodeId]=status;this.emit();}
+  setFigureProgress(nodeId,status,metrics={}){if(!['preview','ready'].includes(status))return;if(this.figureStatuses[nodeId]==='ready'&&status==='preview')return;const clean={};for(const key of ['previewMs','readyMs','visibleMs'])if(Number.isFinite(metrics[key])&&metrics[key]>=0)clean[key]=metrics[key];if(this.figureStatuses[nodeId]===status&&JSON.stringify(this.figureMetrics[nodeId])===JSON.stringify(clean))return;this.figureStatuses[nodeId]=status;this.figureMetrics[nodeId]=clean;if(status==='ready')delete this.figureErrors[nodeId];this.emit();}
+  setFigureReady(nodeId,metrics){this.setFigureProgress(nodeId,'ready',metrics);}
   emit(){this.version++;for(const cb of this.listeners)cb();}
   modifiedValues(){const result=Object.create(null);for(const path of this.parser.modified){if(own(this.parser.scene.state,path))result[path]=this.parser.scene.state[path];}return result;}
   reconcileLocal(parser){
@@ -190,7 +196,7 @@ class SceneStore {
       if(own(parser.scene.state,path))try{parser.set(path,value);}catch{/* updated constraints win */}
     }
     this.localState=sameScene?this.reconcileLocal(parser):Object.create(null);
-    this.figureErrors=Object.fromEntries(Object.entries(this.figureErrors).filter(([id])=>sameScene&&parser.scene.nodes.get(id)?.type==='GenerativeFigure'));this.source=source;this.parser=parser;this.lastError=null;this.revision++;this.emit();return true;
+    const unchanged=id=>sameScene&&parser.scene.nodes.get(id)?.type==='GenerativeFigure'&&JSON.stringify(this.parser.scene.nodes.get(id)?.props)===JSON.stringify(parser.scene.nodes.get(id)?.props);this.figureErrors=Object.fromEntries(Object.entries(this.figureErrors).filter(([id])=>unchanged(id)));this.figureStatuses=Object.fromEntries(Object.entries(this.figureStatuses).filter(([id])=>unchanged(id)));this.figureMetrics=Object.fromEntries(Object.entries(this.figureMetrics).filter(([id])=>unchanged(id)));this.source=source;this.parser=parser;this.lastError=null;this.revision++;this.emit();return true;
   }
   local(nodeId){const node=this.parser.scene.nodes.get(nodeId),computed=this.parser.snapshot().values;if(node?.type==='GenerativeFigure'&&node.props.bindings)return validateFigureState({...node.props.state,...(this.localState[nodeId]??{}),...Object.fromEntries(Object.entries(node.props.bindings).map(([key,path])=>[key,Number.isFinite(computed[path])?computed[path]:null]))});if(node?.type==='Chart'&&(node.props.controls.some(c=>c.bind)||(node.props.inputs??[]).length))return validateChartState(node.props,{...(this.localState[nodeId]??{}),...Object.fromEntries([...node.props.controls.filter(c=>c.bind),...(node.props.inputs??[])].map(c=>[c.key,Object.hasOwn(computed,c.bind)?computed[c.bind]:NaN]))});return own(this.localState,nodeId)?copyValue(this.localState[nodeId]):null;}
   setLocal(nodeId,value){
@@ -302,7 +308,7 @@ class SceneStore {
     }
     // Atomic commit. The previous scene stays intact on any failed restore.
     this.parser=parser;this.source=checkpoint.source;this.revision=checkpoint.revision;
-    this.lastError=null;this.figureErrors=Object.create(null);this.localState=labStates;this.emit();return this.snapshot();
+    this.lastError=null;this.figureErrors=Object.create(null);this.figureStatuses=Object.create(null);this.figureMetrics=Object.create(null);this.localState=labStates;this.emit();return this.snapshot();
   }
 }
 
@@ -384,6 +390,9 @@ function selectVIETurnTail(owner) {
  */
 function createVIEBridge(SceneStore, capacity=96) {
   const stores=new Map(), shown=new Set(), watchers=new Set(),persistence=new Map();
+  let reporter=null;const pendingReports=new Map(),sentReports=new Map();
+  const sendReports=()=>{if(!reporter)return;for(const [key,packet]of pendingReports){if(sentReports.get(key)===JSON.stringify(packet))continue;sentReports.set(key,JSON.stringify(packet));Promise.resolve().then(()=>reporter?.(packet.sessionId,packet.value)).catch(()=>{});}while(sentReports.size>256)sentReports.delete(sentReports.keys().next().value);};
+  const collectReports=(key,store)=>{let sessionId;try{sessionId=JSON.parse(key)[0];}catch{return;}if(!sessionId||!store.parser.snapshot().complete)return;const sourceKey=vieSourceIdentity(store.source);for(const [nodeId,status]of Object.entries(store.figureStatuses)){if(!['preview','error','ready'].includes(status))continue;const value={sourceKey,nodeId,status,metrics:store.figureMetrics[nodeId]??{},...status==='error'?{error:store.figureErrors[nodeId]}:{}};pendingReports.set(key+'|'+sourceKey+'|'+nodeId,{sessionId,value});}while(pendingReports.size>256)pendingReports.delete(pendingReports.keys().next().value);sendReports();};
   let storage;try{storage=window.localStorage;}catch{}
   const checkpoints=createCheckpointRepository(storage);
   if(typeof window.addEventListener==='function')window.addEventListener('pagehide',()=>{for(const item of persistence.values())item.flush();});
@@ -391,6 +400,7 @@ function createVIEBridge(SceneStore, capacity=96) {
   const notify = () => {for(const callback of watchers)callback();};
   return {
     sceneKey,
+    setReporter(fn){if(reporter!==fn)sentReports.clear();reporter=fn;sendReports();},
     getStore(key,source='') {
       if(stores.has(key)) {
         const existing=stores.get(key);
@@ -400,7 +410,7 @@ function createVIEBridge(SceneStore, capacity=96) {
       const store=new SceneStore(source);
       const saved=checkpoints.load(key,source);if(saved)try{store.restore(saved);}catch{checkpoints.clear(key);}
       let timer;const persist=()=>{try{checkpoints.save(key,store.checkpoint());}catch{}};
-      const unsubscribe=store.subscribe(()=>{clearTimeout(timer);timer=setTimeout(persist,250);});
+      const unsubscribe=store.subscribe(()=>{collectReports(key,store);clearTimeout(timer);timer=setTimeout(persist,250);});
       persistence.set(key,{flush:persist,dispose(){clearTimeout(timer);persist();unsubscribe();}});
       stores.set(key,store);
       // The held instance remains owned by its mounted views even if evicted.
@@ -608,7 +618,7 @@ function mountCanLab(root,initial={},options={}){
     ?`方案 A 采样点 ${pct(A.samplePoint)}，方案 B 为 ${pct(B.samplePoint)}；两者波特率相同。`
     :`当前 ${scheme} 的采样点为 ${pct(calc.samplePoint)}；总 TQ 不同时，位速率也会变化。`;
 
-  all('[data-input]').forEach(inp=>{if(inp.type==='checkbox'){inp.checked=lock;return;}const k=inp.dataset.input;if(k==='bs1'||k==='bs2')inp.value=String(s[k]);else if(document.activeElement!==inp)inp.value=String(values[k]);});
+  all('[data-input]').forEach(inp=>{if(inp.type==='checkbox'){inp.checked=lock;return;}const k=inp.dataset.input;if(k==='bs1'||k==='bs2')inp.value=String(s[k]);else if(document.activeElement!==inp)inp.value=String(values[k]);updateRangePresentation(inp);});
   el('[data-readout=bs1]').textContent=`${s.bs1} TQ`;el('[data-readout=bs2]').textContent=`${s.bs2} TQ`;
   el('[data-compare=A]').textContent=pct(A.samplePoint);el('[data-compare=B]').textContent=pct(B.samplePoint);
   el('[data-mini=A]').style.width=`${A.samplePoint}%`;el('[data-mini=B]').style.width=`${B.samplePoint}%`;
@@ -785,7 +795,7 @@ function mountVectorLab(root, options = {}) {
     $('[data-v=angle-label]').textContent=state.angle+'°';
     for (const key of ['magnitude','angle']){
       const input=$(`[data-param=${key}]`);
-      if(Number(input.value)!==state[key])input.value=String(state[key]);
+      if(Number(input.value)!==state[key])input.value=String(state[key]);updateRangePresentation(input);
     }
     $('.vie-vector-explain').textContent=`x = ${short(vx)}，y = ${short(vy)}。拖动向量，观察投影的长度和方向。`;
   }
@@ -938,7 +948,7 @@ function mountSemanticLab(root,kind,options={}){
       // Cross-control constraints may clamp a value (e.g. a numerator); update
       // the native element without replacing it while the user is dragging.
       if(kind==='fraction' && key==='numerator')input.max=String(state.denominator);
-      if(Number(input.value)!==state[key])input.value=String(state[key]);
+      if(Number(input.value)!==state[key])input.value=String(state[key]);updateRangePresentation(input);
     }
   }
   const notify=()=>options.onChange?.({...state,selected:[...state.selected]});
@@ -983,7 +993,7 @@ function mountVisualAnimation(root, spec, initial={}){
       // SVG transforms apply rightmost-first. Declare orbit first, local spin second.
       node.setAttribute('transform',transforms.join(' '));
     }
-    scrub.value=String(Math.round(progress*1000));counter.textContent=Math.round(progress*100)+'%';
+    scrub.value=String(Math.round(progress*1000));updateRangePresentation(scrub);counter.textContent=Math.round(progress*100)+'%';
     play.textContent=running?'暂停':'播放';
   }
   function tick(t){if(disposed||!running)return;
@@ -1059,28 +1069,8 @@ function makeReactView(React, core) {
     },[expanded]);
     return [expanded,()=>expanded?close():setExpanded(true)];
   }
-  function NativeVisualFrame({title,children}){
-    const container=React.useRef(null),button=React.useRef(null);
-    const [expanded,toggle]=useVisualExpansion(container,button);
-    return h('section',{ref:container,className:'vie-native-frame'+(expanded?' vie-figure-expanded':''),role:expanded?'dialog':undefined,'aria-modal':expanded?true:undefined,'aria-label':title||'可视化图形'},[
-      h('header',{key:'head',className:'vie-generated-heading','aria-label':'图形查看操作'},h('div',{className:'vie-figure-actions'},h('button',{ref:button,type:'button',className:'vie-context-button','aria-expanded':expanded,onClick:toggle},expanded?'收起':'展开'))),
-      children
-    ]);
-  }
-  function FigureView({config,nodeId,store}){
-    const frame=React.useRef(null),controller=React.useRef(null);
-    const [error,setError]=React.useState(''),[zoom,setZoom]=React.useState(false),[small,setSmall]=React.useState(false);
-    const container=React.useRef(null),expandButton=React.useRef(null);
-    const [expanded,toggle]=useVisualExpansion(container,expandButton,()=>setZoom(false));
-    React.useEffect(()=>{controller.current=mountGeneratedFigure(frame.current,config,{initialState:store.local(nodeId)??config.state,onChange:state=>store.setLocal(nodeId,state),currentState:()=>store.local(nodeId),onError:message=>{setError(message);store.setFigureError(nodeId,message);}});const unsubscribe=store.subscribe(()=>{try{controller.current?.update(store.local(nodeId)??config.state);}catch(error){setError(error.message);}});return ()=>{unsubscribe();controller.current?.dispose();controller.current=null;};},[store,nodeId,JSON.stringify(config)]);
-    React.useEffect(()=>{const observer=new MutationObserver(()=>setSmall(frame.current?.dataset.vieSmallText==='true'));observer.observe(frame.current,{attributes:true,attributeFilter:['data-vie-small-text']});return ()=>observer.disconnect();},[]);
-    return h('section',{ref:container,className:'vie-generated-figure'+(expanded?' vie-figure-expanded':''),key:nodeId,role:expanded?'dialog':undefined,'aria-modal':expanded?true:undefined,'aria-label':expanded?config.title:undefined},[
-      h('header',{key:'head',className:'vie-generated-heading'},[h('h3',{key:'title',title:config.title},config.title),h('div',{className:'vie-figure-actions',key:'actions'},[h('button',{type:'button',key:'expand',ref:expandButton,className:'vie-context-button','aria-expanded':expanded,onClick:toggle},expanded?'收起':'展开'),h('button',{type:'button',key:'zoom',className:'vie-context-button','aria-pressed':zoom,onClick:()=>setZoom(!zoom)},zoom?'适合宽度':'放大'),(config.js?.trim()||Object.keys(config.state??{}).length>0)&&h('button',{type:'button',key:'reset',className:'vie-context-button',onClick:()=>controller.current?.reset()},'复位')])]),
-      small&&!zoom&&h('p',{key:'small',className:'vie-figure-hint',role:'status'},'图中文字较小，可展开或放大查看。'),
-      h('div',{key:'viewport',className:'vie-figure-viewport',tabIndex:zoom?0:undefined,'aria-label':zoom?'放大图形，可横向滚动查看':undefined},h('iframe',{key:'frame',ref:frame,title:config.title,sandbox:'allow-scripts',referrerPolicy:'no-referrer',allow:"camera 'none'; microphone 'none'; geolocation 'none'; clipboard-read 'none'; clipboard-write 'none'",style:{width:zoom?'max(100%, 800px)':'100%',maxWidth:zoom?'none':'100%',height:config.height+'px',border:0},'data-vie-generated':nodeId})),
-      error&&h('p',{key:'error',className:'vie-generated-error',role:'alert'},'交互图运行错误：'+error)
-    ]);
-  }
+  /* @include view/native-frame.js */
+  /* @include view/figure-view.js */
   function GenericVisual({kind,config,values={},nodeId,store}){
     const root=React.useRef(null),saved=React.useRef({progress:0,playing:undefined});
     const zoom=React.useRef(1);
@@ -1121,12 +1111,12 @@ function makeReactView(React, core) {
     const child=(tag,props,children)=>h(tag,props,children);
     const cls='vie-'+n.type.toLowerCase();
     switch(n.type){
-      case 'Flow':case 'RelationGraph':case 'Timeline':case 'Diagram':case 'Animation':return h(NativeVisualFrame,{key:n.id,title:p.title},h(GenericVisual,{key:n.id,kind:n.type,config:p,values:env.values,nodeId:n.id,store:env.store}));
-      case 'Chart':return h(NativeVisualFrame,{key:n.id,title:p.title},h(ChartView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
-      case 'GenerativeFigure':return h(FigureView,{key:n.id,config:p,nodeId:n.id,store:env.store});
-      case 'InteractiveScene':return h(NativeVisualFrame,{key:n.id,title:p.title||'交互场景'},h(ExperimentView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
-      case 'InteractiveLab':return h(NativeVisualFrame,{key:n.id,title:'交互实验'},h(SemanticView,{key:n.id,kind:p.kind,nodeId:n.id,store:env.store}));
-      case 'CanTimingLab':return h(NativeVisualFrame,{key:n.id,title:'CAN 采样点'},h(CanView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
+      case 'Flow':case 'RelationGraph':case 'Timeline':case 'Diagram':case 'Animation':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:p.title},h(GenericVisual,{key:n.id,kind:n.type,config:p,values:env.values,nodeId:n.id,store:env.store}));
+      case 'Chart':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:p.title},h(ChartView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
+      case 'GenerativeFigure':return h(FigureView,{key:n.id,config:p,nodeId:n.id,store:env.store,inputActions:env.inputActions});
+      case 'InteractiveScene':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:p.title||'交互场景'},h(ExperimentView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
+      case 'InteractiveLab':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:'交互实验'},h(SemanticView,{key:n.id,kind:p.kind,nodeId:n.id,store:env.store}));
+      case 'CanTimingLab':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:'CAN 采样点'},h(CanView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
       case 'Text':return h('section',{className:cls,key:n.id},[p.title&&h('h3',{key:'t'},core.interpolateText(p.title,env.values)),p.body&&h('p',{key:'b'},core.interpolateText(p.body,env.values))]);
       case 'Column':return h('div',{className:'vie-column',key:n.id},ch);
       case 'Row':return h('div',{className:'vie-row',key:n.id},ch);
@@ -1230,7 +1220,7 @@ function makeReactView(React, core) {
   }
   function Scene({source='',title='Visual Interactive Engine · 交互画面',callId='local',inputActions=null}){
     const [copyStatus,setCopyStatus]=React.useState('');
-    const storeRef=React.useRef(null);
+    const storeRef=React.useRef(null),controlRoot=React.useRef(null),controlPresentation=React.useRef(null);
     if(storeRef.current===null)storeRef.current=core.getSceneStore?core.getSceneStore(callId,source):new core.SceneStore(source);
     const store=storeRef.current;
     // External store subscription produces an immutable revision signal. The
@@ -1241,11 +1231,13 @@ function makeReactView(React, core) {
     React.useLayoutEffect(()=>{
       try{store.updateSource(source);}catch(error){console.warn('[VIE] invalid streamed source',error);}
     },[store,source]);
-    const env={...store.snapshot(),store,
+    React.useEffect(()=>{const presentation=installControlPresentation(controlRoot.current);controlPresentation.current=presentation;return()=>{presentation.dispose();controlPresentation.current=null;};},[]);
+    React.useLayoutEffect(()=>controlPresentation.current?.refresh());
+    const env={...store.snapshot(),store,inputActions,
       set:(path,value)=>{try{store.set(path,value);}catch(e){console.warn('[VIE] invalid input',e);}},
       reset:path=>{try{store.reset(path);}catch(e){console.warn('[VIE] invalid reset',e);}}
     };
-    return h('div',{className:'vie-shell','data-vie-surface':callId},[
+    return h('div',{ref:controlRoot,className:'vie-shell','data-vie-surface':callId},[
       h('div',{className:'vie-body'+(['story-scene','document-scene'].includes(env.id)?' vie-body--article':''),key:'body'},[
         env.tree.length?env.tree.map(n=>nodeView(n,env)):h('div',{className:'vie-empty',key:'empty'},
           env.errors.length?'无法呈现该界面，请检查诊断信息。':'正在生成界面…'),
@@ -1280,6 +1272,7 @@ const name='dsh-Visual-Interactive-Engine';
 const inject=['slots','uiConversation'];
 
 function createViews(React,bridge){
+  /* @include view/command.js */
   const View=makeReactView(React,{VIEStream,SceneStore,evaluate,derivedValue,interpolateText,getSceneStore:(key,source)=>bridge.getStore(key,source)});
 
   function VIEToolView(props){
@@ -1409,7 +1402,7 @@ function createViews(React,bridge){
       item.caption?React.createElement('p',{key:'caption',className:'vie-figure-caption'},item.caption):null
     ])));
   }
-  return {VIEToolView,VIETurnTailView,VIEAnswerView};
+  return {VIEToolView,VIETurnTailView,VIEAnswerView,VIECommandView};
 }
 
 function makeView(React){
@@ -1423,19 +1416,21 @@ function apply(ctx){
     let st=document.getElementById('vie-v0250-theme');
     if(!st){st=document.createElement('style');st.id='vie-v0250-theme';document.head.appendChild(st);}
     if(st.textContent!==VIE_CSS)st.textContent=VIE_CSS;
-    st.dataset.vieVersion='0.29.2';
+    st.dataset.vieVersion='__VIE_VERSION__';
   }
   const ModeControl=createVIEModeView(require('react'),require('react-dom'));
   // Cordis requires the namespace as well as its command capability. Keeping
   // both in this scope also unloads the control when either service disconnects.
   ctx.inject?.(['sessions','remote','remote.commands'],child=>child.slots.inject('conversation.input.activity',()=>child.slots.register({name:'conversation.input.activity',inject:sessionId=>({flip:async mode=>{const result=await child.remote.commands.execute(sessionId,'/vie '+mode,[]);if(!result.ok)throw Error(result.error?.message??'切换失败');if(result.value===undefined)throw Error('当前宿主未注册 /vie 命令');if(result.value.result?.kind==='error')throw Error(result.value.result.text);}})},ModeControl)));
   const bridge=createVIEBridge(SceneStore);
-  const {VIEToolView,VIETurnTailView,VIEAnswerView}=createViews(require('react'),bridge);
+  ctx.inject?.(['remote','remote.commands'],child=>{bridge.setReporter(async(sessionId,value)=>{await child.remote.commands.execute(sessionId,'/vie __render '+JSON.stringify(value),[]);});child.effect?.(()=>()=>bridge.setReporter(null));});
+  const {VIEToolView,VIETurnTailView,VIEAnswerView,VIECommandView}=createViews(require('react'),bridge);
   // Register the durable Turn projection before subscribing the tail seat.
   ctx.uiConversation.events.register(createVIETurnDefinition());
   ctx.uiConversation.events.register(createVIEAnswerDefinition());
   ctx.uiConversation.events.register(createVIEFlowDefinition());
   ctx.uiConversation.events.register(createVIEProseDefinition());
+  ctx.slots.inject('conversation.chat.commandview',()=>ctx.slots.register({name:'conversation.chat.commandview',key:'vie'},VIECommandView));
   ctx.slots.inject('conversation.chat.node',()=>ctx.slots.register({name:'conversation.chat.node',key:VIE_ANSWER_KIND},VIEAnswerView));
   ctx.slots.inject('conversation.chat.node',()=>ctx.slots.register({name:'conversation.chat.node',key:VIE_FLOW_KIND},VIEAnswerView));
   ctx.slots.inject('tool.call.toolview',()=>{
@@ -1449,7 +1444,7 @@ function apply(ctx){
   },VIETurnTailView));
   // Diagnostic only: if the browser's module was never materialized, this
   // marker will be absent. No HMR rewriting or unverified bootstrap hack.
-  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'0.29.2',activated:true,at:Date.now()};
+  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'__VIE_VERSION__',activated:true,at:Date.now()};
 }
 
 exports.name=name;exports.inject=inject;exports.apply=apply;return module.exports;

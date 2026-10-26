@@ -1,7 +1,7 @@
 /** Decode only complete document blocks. Incomplete executable strings never run. */
 class DocumentPreview {
   constructor(){this.reset();}
-  reset(){this.raw='';this.cursor=0;this.depth=0;this.quoted=false;this.escape=false;this.begin=-1;this.blocks=[];this.array=false;this.closed=false;this.source='';}
+  reset(){this.raw='';this.cursor=0;this.depth=0;this.quoted=false;this.escape=false;this.begin=-1;this.blocks=[];this.array=false;this.closed=false;this.source='';this.pendingDecoder=null;this.pendingStart=-1;this.pendingSignature='';}
   update(raw){
     if(typeof raw!=='string'||new TextEncoder().encode(raw).length>245760)return '';
     if(!raw.startsWith(this.raw))this.reset();
@@ -29,7 +29,21 @@ class DocumentPreview {
         if(this.depth<2)this.closed=true;
       }
     }
-    if(changed){try{this.source=documentSceneSource({...this.header,blocks:this.blocks});}catch{this.source='';this.closed=true;}}
+    if(changed){try{this.source=documentSceneSource({...this.header,blocks:this.blocks});this.pendingSignature='';}catch{this.source='';this.closed=true;}}
+    // Preview a completed HTML field while its JavaScript is still being generated.
+    // The internal marker is never accepted on public document input.
+    if(!this.closed&&this.begin>=0){
+      if(this.pendingStart!==this.begin){this.pendingStart=this.begin;this.pendingDecoder=new IncrementalToolArguments({fields:['type','title','html','css','state','bindings'],maxRaw:65000,maxValue:32768});}
+      const decoder=this.pendingDecoder,fields=decoder.update(raw.slice(this.begin));
+      if(!decoder.invalid&&(!fields.type||fields.type==='figure')&&fields.html?.trim()&&!(decoder.inString&&decoder.currentField==='html')){
+        try{
+          const block={type:'figure',title:fields.title??this.title,html:fields.html,css:decoder.inString&&decoder.currentField==='css'?'':fields.css??'',js:''};
+          for(const key of ['state','bindings'])if(fields[key])try{block[key]=JSON.parse(fields[key]);}catch{}
+          const signature=JSON.stringify(block);
+          if(signature!==this.pendingSignature){const source=documentSceneSource({...this.header,blocks:[...this.blocks,block]}),lines=source.split('\n').filter(Boolean).map(s=>JSON.parse(s));const figures=lines.filter(e=>e.op==='node.put'&&e.type==='GenerativeFigure');figures.at(-1).props.preview=true;this.source=lines.map(e=>JSON.stringify(e)).join('\n')+'\n';this.pendingSignature=signature;}
+        }catch{}
+      }
+    }
     return this.source;
   }
 }

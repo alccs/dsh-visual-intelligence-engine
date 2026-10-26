@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
+const h={};vm.runInNewContext(fs.readFileSync(new URL('../src/shared/control-presentation.js',import.meta.url),'utf8')+';this.update=updateRangePresentation;',h);
+function input(min,max,value){const props=new Map();let writes=0;return {type:'range',min,max,value,style:{getPropertyValue:k=>props.get(k)??'',setProperty:(k,v)=>{writes++;props.set(k,v);}},fill:()=>props.get('--vie-range-fill'),writes:()=>writes};}
+test('range appearance handles signed domains without modifying the control value',()=>{const el=input('-20','80','5');h.update(el);assert.equal(el.fill(),'25%');assert.equal(el.value,'5');h.update(el);assert.equal(el.writes(),1);el.value='80';h.update(el);assert.equal(el.fill(),'100%');});
+test('default ranges, clamping and degenerate domains cannot produce invalid CSS',()=>{for(const [min,max,value,fill]of [['','','50','50%'],['0','10','12','100%'],['0','10','-1','0%'],['2','2','2','0%'],['x','20','10','0%']]){const el=input(min,max,value);h.update(el);assert.equal(el.fill(),fill);assert.equal(el.value,value);}});
+test('non-range form fields are untouched by the presentation layer',()=>{h.update({type:'number',value:'3',get style(){throw Error('must not touch number styles');}});h.update(null);});

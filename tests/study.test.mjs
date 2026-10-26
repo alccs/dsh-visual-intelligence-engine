@@ -1,0 +1,16 @@
+import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import vm from 'node:vm';
+const c=vm.createContext({TextEncoder,Date,Set,WeakMap,Map,console});
+vm.runInContext(['src/shared/catalog.js','src/workflow.js','src/mode.js'].map(p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8')).join('\n')+';this.api={createVIEMode,createVisualWorkflow,visualWorkflowOptions};',c);
+const user=text=>({source:{kind:'user'},content:[{type:'text',text}]});
+test('study mode persists per chat without changing other chats or old snapshots',()=>{let saved;const m=c.api.createVIEMode('auto',{},v=>saved=v);m.set('study','lesson');assert.equal(m.get('lesson'),'study');assert.equal(m.get('other'),'auto');assert.equal(c.api.createVIEMode('auto',saved).get('lesson'),'study');assert.equal(c.api.visualWorkflowOptions({visualMode:'study'}).visualMode,'study');});
+test('study guidance is topic neutral and retains budgets, pure text and diagnostic boundaries',()=>{for(const topic of ['接触电动势','二分查找','光合作用']){const a={},w=c.api.createVisualWorkflow({visualMode:'study'});w.claim({agent:a,turn:1,message:user(topic)});const p=w.assembly({tools:[{name:'vie_explain'}],sections:[]},{agent:a});assert.ok(p.sections.some(s=>s.text.includes('学习模式')&&s.text.includes('理解测试')&&s.text.includes('VIE.mountLearning')));assert.equal(w.state(a).study,true);assert.equal(w.allowed(a,'pwsh'),false);}for(const text of ['只用文字解释接触电动势','请排查最终渲染的问题']){const a={},w=c.api.createVisualWorkflow({visualMode:'study'});w.claim({agent:a,turn:1,message:user(text)});assert.equal(w.state(a).active,false);}});
+test('invalid VIE arguments produce a targeted repair prompt instead of a render-failure claim',()=>{const a={},w=c.api.createVisualWorkflow({visualMode:'study'});w.claim({agent:a,turn:1,message:user('分阶段解释合金相图')});w.request({agent:a,turn:1,step:1},{});w.result({agent:a,name:'vie_explain',callId:'bad'},{isError:true,meta:{kind:'vie',valid:false,error:'document.type is not declared',errorCode:'VIE_TOOL_ARGUMENTS',errorPath:'$'}});const guidance=w.guidance(a);assert.match(guidance,/参数或结构错误，不是浏览器渲染失败/);assert.match(guidance,/document\.type:"learning"/);});
+test('closed repair budgets retain argument diagnostics and explicitly finish with prose',()=>{
+ const a={},w=c.api.createVisualWorkflow({visualMode:'study'});w.claim({agent:a,turn:1,message:user('分阶段解释合金相图')});w.request({agent:a,turn:1,step:1},{});
+ w.result({agent:a,name:'vie_explain',callId:'good'},{meta:{kind:'vie',valid:true,visualId:'visual-1',visualUnits:1}});
+ for(const callId of ['bad-1','bad-2'])w.result({agent:a,name:'vie_explain',callId},{meta:{kind:'vie',valid:false,error:'stage HTML must not be blank',errorCode:'VIE_LEARNING_INVALID',errorPath:'blocks[0]',repairHint:'Replace the learning block.'}});
+ const assembled=w.assembly({tools:[{name:'vie_explain'}],sections:[]},{agent:a}),guidance=assembled.sections.at(-1).text;
+ assert.equal(w.state(a).failures,2);assert.equal(assembled.tools.length,0);assert.equal(w.allowed(a,'vie_explain'),false);
+ assert.match(guidance,/本轮可视化工具尝试已结束/);assert.match(guidance,/参数或结构错误，不是浏览器渲染失败/);assert.match(guidance,/VIE_LEARNING_INVALID/);
+ assert.match(guidance,/DSML\/DSEL/);assert.match(guidance,/Harness原生正文/);assert.doesNotMatch(guidance,/按repairHint只修正|Replace the learning block/);
+});

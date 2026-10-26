@@ -1,0 +1,7 @@
+/* Narrow to command rows carrying VIE's own internal marker. No log rewriting. */
+[data-chat-node-key][data-vie-internal-command]{display:none!important;margin:0!important}
+.vie-command-view{font:inherit;color:inherit;padding:6px 0;min-width:0}
+.vie-command-line{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:13px}
+.vie-command-line code{font-family:inherit;color:inherit;opacity:.65}
+.vie-command-view details{margin-top:6px;font-size:13px}
+.vie-command-view pre{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.65 ui-monospace,monospace}
