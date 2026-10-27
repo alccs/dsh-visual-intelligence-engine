@@ -70,3 +70,4 @@ screenshots/*
 !screenshots/progressive-final-*.png
 
 /docs/**/*.md
+/screenshots/
