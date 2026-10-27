@@ -8,14 +8,14 @@
 
 ```sh
 npm ci --ignore-scripts
-npm run version -- 0.30.6-dev.2
+npm run version -- 0.31.0
 npm run build
 npm run check
 ```
 
 `npm run version:check` 检查根元数据和锁文件是否一致。`npm run demo` 生成对应版本的离线演示。`node_modules/` 由本仓库的锁文件安装，不链接到历史版本目录。
 
-版本规则：`0.30.6-dev.1`、`0.30.6-dev.2` 表示开发交付；确认发布时使用 `0.30.6`。已交付版本不复用，后续修复增加补丁号。
+版本号直接使用正式语义版本，例如 0.31.0；无需添加 dev 后缀。通过完整验证并归档后交付。已交付版本不可覆盖，后续修复增加补丁号。
 
 ## 验证与交付
 

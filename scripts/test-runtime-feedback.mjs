@@ -33,5 +33,10 @@ try{
  b.ev('VIEDemo.answerHistory('+JSON.stringify([{type:'tool/result',seq:30,time:30,data:{turn:2,step:2,message:{source:{callId:'rejected-repair'}},meta:fixed.meta}}])+',true)');b.run('wait','iframe[data-vie-ready="true"]');
  const handoff=await ctx.systemPrompt.assemble({agent,scope:agent,signal}),handoffStatus=handoff.sections.find(s=>s.name==='dsh-vie:runtime');
  pass('rejected-preview handoff reports repaired readiness through the actual Host',handoffStatus?.text.includes('"status":"ready"')&&!handoffStatus.text.includes('unsupportedAlignment'));
+ ctx.emit(carrier,'agent/inbox/claimed',{agent,turn:3,message:{source:{kind:'user'},content:[{type:'text',text:'解释第三个过程'}]}});
+ const empty=await execute({document:{blocks:[{type:'figure',html:'<h3>Only a title</h3>'}]}},'empty-title');assert.equal(empty.meta.valid,true);
+ b.ev('VIEDemo.setSource('+JSON.stringify(empty.meta.source)+',"empty-title")');b.run('wait','iframe[data-vie-status="waiting"]');
+ const emptyPrompt=await ctx.systemPrompt.assemble({agent,scope:agent,signal}),emptyStatus=emptyPrompt.sections.find(s=>s.name==='dsh-vie:runtime');
+ pass('a title-only frame reports waiting through actual Commands instead of reporting successful rendering',emptyStatus?.text.includes('"status":"waiting"')&&!emptyStatus.text.includes('"readyMs":'));
  fs.writeFileSync(path.join(root,'docs/validation/runtime-feedback.json'),JSON.stringify({passed:true,checks,commandReports:reports,externalModelRequests:0},null,2));
 }finally{b.close();await new Promise(resolve=>server.close(resolve));await ctx.fiber.dispose();hook.deregister();}

@@ -1,6 +1,6 @@
-# VIE 0.30.6-dev.1 · 主图与正文分工
+# VIE 0.31.0 · 主图与正文分工
 
-三维讲解用内置VIE.scene3d（本地Three.js、相机/光照/旋转缩放与通用几何），不为知识问题搭建外部项目、安装依赖或调用其他开发技能。数据图优先chart；自由SVG用g.coordinates统一映射坐标、标注与读数，不把原始像素与数据值分开硬编码。 自绘二维图优先内置VIE.svg与VIE.animate，参数用document.controls与bindings；不要重复编写箭头、播放栏和状态订阅。控件沿用A式中性UI；参数用document.controls，操作用VIE.ui.toolbar（item.variant为primary/secondary/ghost），不重绘默认按钮、滑轨和开关。图形内容自由配色。SDK坐标用像素数组，标签由引擎尝试避让，密集图仍需减少标注。 流程图优先原生Flow数据；默认全景分支布局按连线分层，学习模式默认逐步引导。模型只给nodes/edges和必要detail，不手写导航按钮。每条边必须表达实际关系，不因列表顺序添加连线。 每张图后用Harness正文解释图中关键关系，不能仅过渡一句便出下一图。优先原生graphic/chart/Flow，减少手写SVG。变化过程明确分开前→后，箭头连接对应对象，不能将前后工件重叠或画成断裂材料。窄屏用CSS重排或分步查看，标注不低于11px。说明材料、工况与适用范围，不把热锻等同所有锻造；数值注明来源，示意值不能充当工艺限值。VIE只画当前段落的图、交互、图例和短标注；完整解释/公式/表格由Harness正文渲染。同图内的曲线、端点、标签、箭头和读数必须来自同一组坐标或数据，不能互换左右端点、让方向与标签冲突；无法核实的数值省略或明确标为示意。任意主题均可。出题优先使用learning.questions题组，一张卡片逐题作答并计分，答案解析只在作答后展示；阶段演示与测验优先使用learning数据块，由引擎提供通用控件，无需手写JS；其他图形继续自由绘制。复杂主题按图→正文解释→下一图→正文解释展开，每张图聚焦一个概念；勿把各章节拼成一张SVG的编号小面板或多图海报。需同时比较或共享交互才并列。默认flow按调用位置显示，补图/修图无需more:true，通常1张、必要时2–3张。visualId仅供修改，不是图片URL；不必先加载技能或写脚本。
+VIE面向任意主题：数据图优先graphic/chart，流程优先原生Flow。自由图用SVG/Canvas或内置VIE.scene3d；三维的Three.js、相机和几何已本地提供。复用VIE.svg、VIE.animate、VIE.ui.toolbar/readouts以及document.controls/bindings，不重复生成控件、坐标轴、箭头和状态订阅。控件沿用A式中性UI，图形自由配色。同一主图的多个阶段优先learning数据块的baseHtml+stages.patches，仅给各步变化与values读数；旧stage.html仍可用。独立章节按图→Harness正文→下一图编排，每图聚焦一个概念；并列用于真实比较或共享交互。完整解释、公式和表格由Harness正文渲染。曲线、端点、标注、箭头与读数使用同一组数据和g.coordinates映射；保留实际连接与方向，明确单位、来源、假设，未知数值标为示意。窄屏保持完整图形与可读标注，需要时分步或展开。出题使用learning.questions，correct必填且从0开始，作答前不泄露答案。调用真实工具，visualId不是图片URL；修图使用visualId/baseRevision/changes保留其他图。优先局部替换；结构化块可用updates修改已有字段。仅已提交或waiting不等于已经显示成功。
 
 ## 默认做法
 

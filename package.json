@@ -1,7 +1,7 @@
 {
   "name": "visual-interactive-engine-source",
   "private": true,
-  "version": "0.30.6-dev.1",
+  "version": "0.31.0",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",

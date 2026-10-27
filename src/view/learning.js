@@ -13,13 +13,14 @@ function mountLearning(options){
   let stageIndex=0,answer=-1;
   const saved=()=>{const v=VIE.state[key]??{};stageIndex=Number.isInteger(v.stage)&&v.stage>=0&&v.stage<stages.length?v.stage:0;answer=Number.isInteger(v.answer)&&v.answer>=0&&v.answer<(quiz?.options.length??0)?v.answer:-1;};saved();
   const commit=()=>VIE.setState({...VIE.state,[key]:{stage:stageIndex,answer}});
-  let panel,tabs,description,caption;
+  let panel,tabs,description,caption,readouts;
   if(stages.length){
     panel=el('div','vie-learn-panel');panel.id='vie-learning-panel-'+key;panel.setAttribute('role','tabpanel');panel.tabIndex=0;
     tabs=el('div','vie-learn-tabs');tabs.setAttribute('role','tablist');tabs.setAttribute('aria-label',options.title??'学习阶段');
     stages.forEach((stage,i)=>{const b=el('button','',stage.label??String(i+1));b.type='button';b.id='vie-learning-tab-'+key+'-'+i;b.setAttribute('role','tab');b.setAttribute('aria-controls',panel.id);b.onclick=()=>{stageIndex=i;draw();commit();};tabs.append(b);});
     tabs.onkeydown=e=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(e.key))return;e.preventDefault();const next=e.key==='Home'?0:e.key==='End'?stages.length-1:(stageIndex+(e.key==='ArrowRight'?1:stages.length-1))%stages.length;tabs.children[next].click();tabs.children[next].focus();};
     description=el('div','vie-learn-description');description.setAttribute('aria-live','polite');caption=el('p');description.append(el('strong'),caption);card.append(panel,tabs,description);
+    if(options.readouts?.length)readouts=VIE.ui.readouts({root:card,items:options.readouts.map(item=>({...item,value:'—'}))});
   }
   if(options.note)card.append(el('small','vie-learn-note',options.note));
   let choices,feedback;
@@ -29,12 +30,17 @@ function mountLearning(options){
     feedback=el('div','vie-learn-feedback');feedback.setAttribute('role','status');field.append(choices,feedback);card.append(field);
   }
   function draw(){
-    if(panel){const stage=stages[stageIndex];panel.innerHTML=String(root.clientWidth<440?(stage.mobileHtml??stage.html??''):(stage.html??''));panel.setAttribute('aria-labelledby',tabs.children[stageIndex].id);[...tabs.children].forEach((b,i)=>{b.setAttribute('aria-selected',String(i===stageIndex));b.tabIndex=i===stageIndex?0:-1;});description.firstChild.textContent=stage.title??stage.label??'';caption.textContent=stage.caption??'';}
+    if(panel){const stage=stages[stageIndex],shared=options.baseHtml!==undefined;
+      // Every stage is a complete projection of the immutable base, including jumps backwards.
+      panel.innerHTML=String(shared?(root.clientWidth<440?(options.baseMobileHtml??options.baseHtml):options.baseHtml):(root.clientWidth<440?(stage.mobileHtml??stage.html??''):(stage.html??'')));
+      if(shared)for(const patch of stage.patches){const target=panel.querySelector('[id="'+patch.target+'"]');if(!target||target.namespaceURI!=='http://www.w3.org/2000/svg')throw Error('VIE_LEARNING_INVALID: missing SVG target '+patch.target);for(const [name,value]of Object.entries(patch.attrs??{}))target.setAttribute(name,String(value));if(patch.text!==undefined)target.textContent=patch.text;if(patch.visible!==undefined)target.style.display=patch.visible?'':'none';}
+      for(const item of options.readouts??[])readouts.set(item.id,{value:stage.values?.[item.id]??'—'});
+      panel.setAttribute('aria-labelledby',tabs.children[stageIndex].id);[...tabs.children].forEach((b,i)=>{b.setAttribute('aria-selected',String(i===stageIndex));b.tabIndex=i===stageIndex?0:-1;});description.firstChild.textContent=stage.title??stage.label??'';caption.textContent=stage.caption??'';}
     if(choices){[...choices.querySelectorAll('input')].forEach((input,i)=>{input.checked=i===answer;});feedback.hidden=answer<0;feedback.dataset.correct=String(answer===quiz.correct);feedback.textContent=answer<0?'':(answer===quiz.correct?'回答正确。':'再想一想。')+(quiz.options[answer].feedback??'');}
   }
   const restore=()=>{saved();draw();};window.addEventListener('vie:statechange',restore);root.replaceChildren(card);draw();
   let width=root.clientWidth;const resize=new ResizeObserver(()=>{if(root.clientWidth!==width){width=root.clientWidth;draw();}});resize.observe(root);
-  return {dispose(){resize.disconnect();window.removeEventListener('vie:statechange',restore);root.replaceChildren();}};
+  return {dispose(){resize.disconnect();window.removeEventListener('vie:statechange',restore);readouts?.dispose();root.replaceChildren();}};
 }
 
 /** Shared, local-only exercise runner. Answers and score survive remounting. */

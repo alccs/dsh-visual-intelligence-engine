@@ -1,5 +1,19 @@
 /** Per-agent, bounded repair baselines. Durable results always contain a full scene. */
 let VIE_BASELINE_STORAGE=null;
+function applyVisualFieldUpdates(block,updates,index){
+ const fail=message=>{const error=Error('VIE_PATCH_INVALID: '+message);error.code='VIE_PATCH_INVALID';error.path='blocks['+index+']';throw error;};
+ if(!block||!['learning','graphic','chart','visual'].includes(block.type))fail('field updates require a native data block; replace a free figure with {index,block}');
+ if(!Array.isArray(updates)||updates.length<1||updates.length>16)fail('updates needs 1–16 existing-field replacements');
+ const next=JSON.parse(JSON.stringify(block)),seen=new Set();
+ for(const update of updates){
+  if(!update||Object.keys(update).some(k=>!['path','value'].includes(k))||typeof update.path!=='string'||update.path.length>240||!update.path.startsWith('/')||!Object.hasOwn(update,'value')||seen.has(update.path)||/~(?![01])/g.test(update.path))fail('use unique JSON-pointer paths and a value');
+  seen.add(update.path);const keys=update.path.slice(1).split('/').map(k=>k.replace(/~1/g,'/').replace(/~0/g,'~'));
+  if(keys.some(k=>!k||['__proto__','constructor','prototype','js','html','mobileHtml','baseHtml','baseMobileHtml'].includes(k))||['type','kind'].includes(keys[0]))fail('code, identity and prototype fields require a full block replacement');
+  let parent=next;
+  for(let i=0;i<keys.length;i++){const key=keys[i];if(!parent||typeof parent!=='object'||!Object.hasOwn(parent,key)||Array.isArray(parent)&&! /^(?:0|[1-9]\d*)$/.test(key))fail('path does not identify an existing field: '+update.path);if(i===keys.length-1)parent[key]=JSON.parse(JSON.stringify(update.value));else parent=parent[key];}
+ }
+ return next;
+}
 function createDocumentExecutor(){
   const agents=new WeakMap(),unscoped=new Map(),namespace=Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8);let sequence=0;
   const cache=exec=>{if(!exec?.agent)return unscoped;let value=agents.get(exec.agent);if(!value){value=new Map();const session=exec.agent?.session?.id;if(session&&VIE_BASELINE_STORAGE)try{for(const [id,entry] of VIE_BASELINE_STORAGE.load(session))value.set(id,entry);}catch{}agents.set(exec.agent,value);}return value;};
@@ -16,8 +30,8 @@ function createDocumentExecutor(){
         candidate=normalizeLearningDocumentAlias(JSON.parse(JSON.stringify(base.document)));id=args.visualId;revision=base.revision+1;display=appearance({...base.display,...args});anchorCallId=base.anchorCallId??anchorCallId;
         const seen=new Set();
         for(const change of args.changes){
-          if(!change||Object.keys(change).some(k=>!['index','block'].includes(k))||!Number.isInteger(change.index)||change.index<0||change.index>=candidate.blocks.length||seen.has(change.index)||!change.block)throw Error('Each change needs a unique existing zero-based index and block');
-          seen.add(change.index);candidate.blocks[change.index]=change.block;
+          if(!change||Object.keys(change).some(k=>!['index','block','updates'].includes(k))||!Number.isInteger(change.index)||change.index<0||change.index>=candidate.blocks.length||seen.has(change.index)||(change.block!==undefined)===(change.updates!==undefined))throw Error('Each change needs a unique existing zero-based index and either block or updates');
+          seen.add(change.index);candidate.blocks[change.index]=change.updates!==undefined?applyVisualFieldUpdates(candidate.blocks[change.index],change.updates,change.index):change.block;
         }
       }else{
         if((args.document!==undefined)===(args.spec!==undefined))throw Error('Provide exactly one document object or legacy spec string');
@@ -32,7 +46,7 @@ function createDocumentExecutor(){
       for(let i=0;i<document.blocks.length;i++)if(document.blocks[i].type==='figure'&&document.blocks[i].js)try{new VIEJavaScriptParser(document.blocks[i].js);validateSDKCalls(document.blocks[i].js);}catch(error){error.path='blocks['+i+'].js';error.message=error.path+(error.code?': SDK arguments: ':': JavaScript syntax: ')+error.message;throw error;}
       const source=documentSceneSource(document),parser=new VIEStream();parser.push(source);parser.finish();const snap=parser.snapshot();
       if(!snap.complete||snap.errors.length)throw Error(snap.errors[0]??'Incomplete scene');
-      save(store,id,{document,revision,display,anchorCallId});
+      save(store,id,{document:JSON.parse(JSON.stringify(candidate)),revision,display,anchorCallId});
       if(exec?.agent?.session?.id&&VIE_BASELINE_STORAGE)try{VIE_BASELINE_STORAGE.save(exec.agent.session.id,[...store]);}catch{}
       return {note:'图形结构、脚本语法与可确定的SDK参数已校验，已提交视图；浏览器运行尚待确认，不能仅据此声称渲染成功。visualId='+id+'，revision='+revision+'。现在在Harness正文解释此图；还需另一概念图可继续调用，再紧跟对应正文，不要求more:true。每张图只表达当前概念，勿把各章节拼在一个SVG。visualId仅用于局部修改，不能写成图片链接。',meta:{kind:'vie',mode:'document',title:document.title,source,valid:true,visualUnits:documentVisualUnits(document),renderStatus:'submitted',validationScope:'schema-and-script',visualId:id,revision,...display,...anchorCallId?{anchorCallId:String(anchorCallId)}:{}}};
     }catch(error){

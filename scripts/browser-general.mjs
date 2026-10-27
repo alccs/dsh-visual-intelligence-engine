@@ -61,6 +61,7 @@ try{
   evaluate(`VIEDemo.setSource(VIE.documentSceneSource({title:'错误反馈验证',blocks:[{type:'figure',title:'测试',html:'<output id="done"></output>',js:'throw Error("VIE_EXPECTED_ERROR");'}]}),'runtime-error-test')`);run('snapshot','-i');
   check('script errors are visible and can be returned for repair',`(async()=>{${frames}return document.querySelector('.vie-generated-error').textContent.includes('VIE_EXPECTED_ERROR')&&VIEDemo.context.figureErrors.block1.includes('VIE_EXPECTED_ERROR')})()`);
   evaluate(`VIEDemo.setSource(VIE.documentSceneSource({title:'错误反馈验证',blocks:[{type:'figure',title:'测试',html:'<output id="done"></output>',js:'document.getElementById("done").textContent="修复完成";'}]}),'runtime-error-test')`);run('snapshot','-i');
+  run('wait','iframe[data-vie-ready=true]');
   check('corrected source clears runtime errors and runs again',`(async()=>{${frames}return !document.querySelector('.vie-generated-error')&&Object.keys(VIEDemo.context.figureErrors).length===0&&document.querySelector('iframe').dataset.vieReady==='true'})()`);
   evaluate(`VIEDemo.setSource(VIE.documentSceneSource(${JSON.stringify(learningLesson[0].document)}),'study-stages')`);run('wait','iframe[data-vie-ready="true"]');run('snapshot','-i');
   check('declarative learning data mounts without authored control code',`document.querySelector('iframe').dataset.vieStatus==='ready'&&!document.querySelector('.vie-generated-error')`);

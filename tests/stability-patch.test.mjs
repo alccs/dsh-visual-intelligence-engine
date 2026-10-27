@@ -48,3 +48,10 @@ test('readonly fallback preserves failure and cannot activate the failed final s
 test('failed initialization never fills a successful ready measurement',()=>{
  const b=bridge();b.send('error','failed');b.send('ready',{ok:false});assert.equal(b.api.metrics().readyMs,null);b.api.dispose();
 });
+
+test('empty initialized content waits, and a replacement clears the old revision timings',()=>{
+ const b=bridge();b.send('ready',{ok:true,content:{meaningful:false}});assert.equal(b.ready,0);assert.equal(b.frame.dataset.vieStatus,'waiting');assert.equal(b.api.metrics().readyMs,null);
+ b.send('ready',{ok:true,content:{meaningful:true}});b.send('painted',{content:{meaningful:true}});assert.equal(b.ready,1);assert.notEqual(b.frame.dataset.vieReadyMs,undefined);
+ b.flush();b.api.revise({title:'new',state:{},html:'<div>New</div>',js:''});assert.equal(b.api.metrics().readyMs,null);assert.equal(b.api.metrics().visibleMs,null);assert.equal(b.frame.dataset.vieReadyMs,undefined);assert.equal(b.frame.dataset.vieVisibleMs,undefined);
+ b.send('ready',{ok:true,content:{meaningful:false}});assert.equal(b.frame.dataset.vieStatus,'waiting');assert.equal(b.ready,1);b.api.dispose();
+});

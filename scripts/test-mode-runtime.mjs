@@ -23,16 +23,16 @@ async function checkOperationRouting(){
   for(const mode of ['auto','on','study','off']){
    const agent={id:'ops-'+mode,session:session('ops-'+mode)},carrier=scopeTarget(agent,agent);await command(agent,'vie '+mode);
    let turn=0;
-   for(const text of ['安装','@'+artifact+' 安装','把「'+artifact+'」安装到 desktop profile']){
+   for(const text of ['安装','@'+artifact+' 安装','把「'+artifact+'」安装到 desktop profile','运行 npm test，然后用图解释失败原因','读取 data.csv，用图展示变化','安装这个插件，然后用图解释原理']){
     ctx.emit(carrier,'agent/inbox/claimed',{agent,turn:++turn,message:{source:{kind:'user'},content:[{type:'text',text}]}});
     const prompt=await assemble(agent);assert.ok(!prompt.sections.some(section=>section.name==='dsh-vie:fast-turn'),mode+': '+text);
     for(const name of names){assert.ok(prompt.tools.some(tool=>tool.name===name),mode+': '+name);assert.notEqual((await ctx.tools.execute({agent,signal,callId:'ops-'+mode+'-'+turn+'-'+name,name,arguments:{}})).isError,true);}
    }
   }
-  assert.equal(executed,36);
+  assert.equal(executed,72);
   const agent={id:'ops-teaching',session:session('ops-teaching')},carrier=scopeTarget(agent,agent);await command(agent,'vie study');ctx.emit(carrier,'agent/inbox/claimed',{agent,turn:1,message:{source:{kind:'user'},content:[{type:'text',text:'讲解插件安装流程'}]}});
-  assert.ok(!(await assemble(agent)).tools.some(tool=>tool.name==='pwsh'));const denied=await ctx.tools.execute({agent,signal,callId:'ops-teaching-denied',name:'pwsh',arguments:{}});assert.match(JSON.stringify(denied),/VIE_FAST_PATH/);assert.equal(executed,36);
-  pass('installation requests retain shell and plugin tools in every actual chat mode; installation teaching stays visual');
+  assert.ok(!(await assemble(agent)).tools.some(tool=>tool.name==='pwsh'));const denied=await ctx.tools.execute({agent,signal,callId:'ops-teaching-denied',name:'pwsh',arguments:{}});assert.match(JSON.stringify(denied),/VIE_FAST_PATH/);assert.equal(executed,72);
+  pass('installation and mixed operation requests retain tools in every actual chat mode; pure teaching stays visual');
  }finally{dispose.forEach(stop=>stop());}
 }
 async function checkClientModes(){

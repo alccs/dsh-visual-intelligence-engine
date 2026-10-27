@@ -14,7 +14,10 @@ const catalogContext={};vm.runInNewContext(fs.readFileSync(path.join(sourceRoot,
 fs.mkdirSync(path.join(root,'docs'),{recursive:true});fs.writeFileSync(path.join(root,'docs/COMPONENTS.generated.md'),catalogContext.reference);
 fs.writeFileSync(path.join(root,'package/assets/components-reference.md'),catalogContext.reference);
 const skillPath=path.join(root,'package/assets/visual-lab-skill.md');const skill=fs.readFileSync(skillPath,'utf8').replace(/\r\n/g,'\n');fs.writeFileSync(skillPath,skill.replace(/^(# [^\n]+\n\n)[\s\S]*?(?=\n\n## )/,(_,heading)=>heading+catalogContext.policy));
-const read=file=>fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n').replaceAll('__VIE_VERSION__',version);
+const buildFiles=folder=>fs.readdirSync(folder,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?buildFiles(path.join(folder,entry.name)):[path.join(folder,entry.name)]);
+const buildHash=createHash('sha256');for(const file of [...buildFiles(sourceRoot),...buildFiles(path.join(root,'package/assets')),path.join(root,'package/package.json')].sort()){buildHash.update(path.relative(root,file).replaceAll('\\','/'));const bytes=fs.readFileSync(file);buildHash.update(/\.(?:js|css|md|json|txt|svg)$/.test(file)?bytes.toString('utf8').replace(/\r\n/g,'\n'):bytes);}
+const buildId=buildHash.digest('hex').slice(0,16);
+const read=file=>fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n').replaceAll('__VIE_VERSION__',version).replaceAll('__VIE_BUILD_ID__',buildId);
 function expand(relative,seen=new Set()){
   const full=path.resolve(sourceRoot,relative);
   if(!full.startsWith(sourceRoot+path.sep)||seen.has(full))throw Error('Invalid/cyclic source include: '+relative);

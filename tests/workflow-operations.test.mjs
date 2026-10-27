@@ -27,3 +27,18 @@ test('installing after an unfinished lesson releases tools and continue cannot r
   const events=[{type:'user/message',data:user('@'+artifact+' 安装')},{type:'turn/end',data:{reason:{kind:'max-tokens'}}}],cold={session:{seq:2,eventAt:i=>events[i]}},reopened=h.api.createVisualWorkflow({visualMode:mode});reopened.claim({agent:cold,turn:3,message:user('继续')});assert.equal(reopened.state(cold).active,false);assert.equal(reopened.allowed(cold,'pwsh'),true);
  }
 });
+test('mixed computer actions and visual explanations preserve tools in every mode',()=>{
+ for(const mode of ['auto','on','study','off'])for(const text of [
+  '运行 npm test，然后用图解释失败原因','先执行 pytest，再用图文说明结果','解释完之后，运行 npm test',
+  '先读取这份文件，再用图文解释里面的流程','检查仓库里的代码，然后画出调用关系',
+  'run npm test and explain the result visually','Explain the result, then run the test script',
+  '打开这个 CSV 文件，解释其中的数据','先用终端计算数据，再做可视化'
+ ]){
+  const agent={},w=h.api.createVisualWorkflow({visualMode:mode});w.claim({agent,turn:1,message:user(text)});
+  assert.equal(w.state(agent).active,false,mode+': '+text);
+  for(const tool of ['pwsh','read_file','plugin_manager','list_bundles'])assert.equal(w.allowed(agent,tool),true,text+': '+tool);
+ }
+});
+test('teaching about commands and negated actions remain visual explanations',()=>{
+ for(const text of ['用图解释 npm test 如何运行','解释运行测试的工作原理','不要运行 npm test，用图解释它的作用','Explain how to run npm test','不用读取文件，解释文件系统原理','打开阀门后压力如何变化','用图解释发动机运行原理'])assert.equal(h.api.visualIntent(user(text)).active,true,text);
+});

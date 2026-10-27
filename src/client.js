@@ -4,6 +4,8 @@ window.__ModuleLoader__.load({id:'dsh-visual-interactive-engine',factory:(requir
  const VIE_CSS=/* @style styles/base.css,styles/experiments.css,styles/system.css,styles/controls.css,styles/command.css */ "";
 /* @include shared/catalog.js */
 /* @include shared/identity.js */
+/* @include shared/build-info.js */
+/* @include shared/diagnostics.js */
 /* @include shared/experiments.js */
 /* @include shared/chart.js */
 /* @include shared/chart-sampling.js */
@@ -159,9 +161,10 @@ class SceneStore {
   subscribe(listener){if(typeof listener!=='function')throw Error('Listener required');this.listeners.add(listener);return ()=>this.listeners.delete(listener);}
   getVersion(){return this.version;}
   snapshot(){return {...this.parser.snapshot(),revision:this.revision,storeError:this.lastError};}
-  context(){const summary=this.parser.interactionContext(),experiments={},figures={};for(const node of this.parser.scene.nodes.values()){if(node.type==='InteractiveScene')experiments[node.id]=experimentContext(node.props,this.localState[node.id]);if(node.type==='Chart')figures[node.id]={title:node.props.title,state:this.local(node.id)??validateChartState(node.props)};if(node.type==='GenerativeFigure')figures[node.id]={title:node.props.title,state:this.local(node.id)??node.props.state};}return {...summary,revision:this.revision,interactiveState:copyValue(this.localState),experiments,figures,figureErrors:{...this.figureErrors},figureStatuses:{...this.figureStatuses},figureMetrics:copyValue(this.figureMetrics)};}
+  context(){const summary=this.parser.interactionContext(),experiments={},figures={};for(const node of this.parser.scene.nodes.values()){if(node.type==='InteractiveScene')experiments[node.id]=experimentContext(node.props,this.localState[node.id]);if(node.type==='Chart')figures[node.id]={title:node.props.title,state:this.local(node.id)??validateChartState(node.props)};if(node.type==='GenerativeFigure')figures[node.id]={title:node.props.title,state:this.local(node.id)??node.props.state};}return {...summary,revision:this.revision,interactiveState:copyValue(this.localState),experiments,figures,figureErrors:{...this.figureErrors},figureStatuses:{...this.figureStatuses},figureMetrics:copyValue(this.figureMetrics),figureWarnings:copyValue(this.figureWarnings??{})};}
   setFigureError(nodeId,message){const status=message?'error':'loading';if(this.figureErrors[nodeId]===(message||undefined)&&this.figureStatuses[nodeId]===status)return;if(message){this.figureErrors[nodeId]=String(message).slice(0,1200);}else{delete this.figureErrors[nodeId];delete this.figureMetrics[nodeId];}this.figureStatuses[nodeId]=status;this.emit();}
-  setFigureProgress(nodeId,status,metrics={}){if(!['preview','ready'].includes(status))return;if(this.figureStatuses[nodeId]==='ready'&&status==='preview')return;const clean={};for(const key of ['previewMs','readyMs','visibleMs'])if(Number.isFinite(metrics[key])&&metrics[key]>=0)clean[key]=metrics[key];if(this.figureStatuses[nodeId]===status&&JSON.stringify(this.figureMetrics[nodeId])===JSON.stringify(clean))return;this.figureStatuses[nodeId]=status;this.figureMetrics[nodeId]=clean;if(status==='ready')delete this.figureErrors[nodeId];this.emit();}
+  setFigureWarnings(nodeId,value){const next=cleanFigureWarnings(value);this.figureWarnings??=Object.create(null);if(JSON.stringify(this.figureWarnings[nodeId]??[])===JSON.stringify(next))return;this.figureWarnings[nodeId]=next;this.emit();}
+  setFigureProgress(nodeId,status,metrics={}){if(!['waiting','preview','ready'].includes(status))return;if(this.figureStatuses[nodeId]==='ready'&&status!=='ready')return;const clean={};for(const key of ['previewMs','readyMs','visibleMs'])if(Number.isFinite(metrics[key])&&metrics[key]>=0)clean[key]=metrics[key];if(this.figureStatuses[nodeId]===status&&JSON.stringify(this.figureMetrics[nodeId])===JSON.stringify(clean))return;this.figureStatuses[nodeId]=status;this.figureMetrics[nodeId]=clean;if(status==='ready')delete this.figureErrors[nodeId];this.emit();}
   setFigureReady(nodeId,metrics){this.setFigureProgress(nodeId,'ready',metrics);}
   emit(){this.version++;for(const cb of this.listeners)cb();}
   modifiedValues(){const result=Object.create(null);for(const path of this.parser.modified){if(own(this.parser.scene.state,path))result[path]=this.parser.scene.state[path];}return result;}
@@ -196,7 +199,7 @@ class SceneStore {
       if(own(parser.scene.state,path))try{parser.set(path,value);}catch{/* updated constraints win */}
     }
     this.localState=sameScene?this.reconcileLocal(parser):Object.create(null);
-    const unchanged=id=>sameScene&&parser.scene.nodes.get(id)?.type==='GenerativeFigure'&&JSON.stringify(this.parser.scene.nodes.get(id)?.props)===JSON.stringify(parser.scene.nodes.get(id)?.props);this.figureErrors=Object.fromEntries(Object.entries(this.figureErrors).filter(([id])=>unchanged(id)));this.figureStatuses=Object.fromEntries(Object.entries(this.figureStatuses).filter(([id])=>unchanged(id)));this.figureMetrics=Object.fromEntries(Object.entries(this.figureMetrics).filter(([id])=>unchanged(id)));this.source=source;this.parser=parser;this.lastError=null;this.revision++;this.emit();return true;
+    const unchanged=id=>sameScene&&parser.scene.nodes.get(id)?.type==='GenerativeFigure'&&JSON.stringify(this.parser.scene.nodes.get(id)?.props)===JSON.stringify(parser.scene.nodes.get(id)?.props);this.figureErrors=Object.fromEntries(Object.entries(this.figureErrors).filter(([id])=>unchanged(id)));this.figureStatuses=Object.fromEntries(Object.entries(this.figureStatuses).filter(([id])=>unchanged(id)));this.figureMetrics=Object.fromEntries(Object.entries(this.figureMetrics).filter(([id])=>unchanged(id)));this.figureWarnings=Object.fromEntries(Object.entries(this.figureWarnings??{}).filter(([id])=>unchanged(id)));this.source=source;this.parser=parser;this.lastError=null;this.revision++;this.emit();return true;
   }
   local(nodeId){const node=this.parser.scene.nodes.get(nodeId),computed=this.parser.snapshot().values;if(node?.type==='GenerativeFigure'&&node.props.bindings)return validateFigureState({...node.props.state,...(this.localState[nodeId]??{}),...Object.fromEntries(Object.entries(node.props.bindings).map(([key,path])=>[key,Number.isFinite(computed[path])?computed[path]:null]))});if(node?.type==='Chart'&&(node.props.controls.some(c=>c.bind)||(node.props.inputs??[]).length))return validateChartState(node.props,{...(this.localState[nodeId]??{}),...Object.fromEntries([...node.props.controls.filter(c=>c.bind),...(node.props.inputs??[])].map(c=>[c.key,Object.hasOwn(computed,c.bind)?computed[c.bind]:NaN]))});return own(this.localState,nodeId)?copyValue(this.localState[nodeId]):null;}
   setLocal(nodeId,value){
@@ -392,7 +395,21 @@ function createVIEBridge(SceneStore, capacity=96) {
   const stores=new Map(), shown=new Set(), watchers=new Set(),persistence=new Map();
   let reporter=null;const pendingReports=new Map(),sentReports=new Map();
   const sendReports=()=>{if(!reporter)return;for(const [key,packet]of pendingReports){if(sentReports.get(key)===JSON.stringify(packet))continue;sentReports.set(key,JSON.stringify(packet));Promise.resolve().then(()=>reporter?.(packet.sessionId,packet.value)).catch(()=>{});}while(sentReports.size>256)sentReports.delete(sentReports.keys().next().value);};
-  const collectReports=(key,store)=>{let sessionId;try{sessionId=JSON.parse(key)[0];}catch{return;}if(!sessionId||!store.parser.snapshot().complete)return;const sourceKey=vieSourceIdentity(store.source);for(const [nodeId,status]of Object.entries(store.figureStatuses)){if(!['preview','error','ready'].includes(status))continue;const value={sourceKey,nodeId,status,metrics:store.figureMetrics[nodeId]??{},...status==='error'?{error:store.figureErrors[nodeId]}:{}};pendingReports.set(key+'|'+sourceKey+'|'+nodeId,{sessionId,value});}while(pendingReports.size>256)pendingReports.delete(pendingReports.keys().next().value);sendReports();};
+  const collectReports=(key,store)=>{
+    let sessionId;try{sessionId=JSON.parse(key)[0];}catch{return;}
+    if(!sessionId||!store.parser.snapshot().complete)return;
+    const sourceKey=vieSourceIdentity(store.source);
+    for(const [nodeId,status]of Object.entries(store.figureStatuses)){
+      if(!['waiting','preview','error','ready'].includes(status))continue;
+      const reportKey=key+'|'+sourceKey+'|'+nodeId,prior=pendingReports.get(reportKey)?.value;
+      let warnings=status==='error'?[]:cleanFigureWarnings(store.figureWarnings?.[nodeId]);
+      // Retain the first bounds for an unchanged issue instead of writing one command per frame.
+      if(figureWarningIdentity(prior?.warnings)===figureWarningIdentity(warnings))warnings=prior?.warnings??warnings;
+      const value={sourceKey,nodeId,status,metrics:['waiting','error'].includes(status)?{}:store.figureMetrics[nodeId]??{},warnings,...status==='error'?{error:store.figureErrors[nodeId]}:{}};
+      pendingReports.set(reportKey,{sessionId,value});
+    }
+    while(pendingReports.size>256)pendingReports.delete(pendingReports.keys().next().value);sendReports();
+  };
   let storage;try{storage=window.localStorage;}catch{}
   const checkpoints=createCheckpointRepository(storage);
   if(typeof window.addEventListener==='function')window.addEventListener('pagehide',()=>{for(const item of persistence.values())item.flush();});
@@ -1064,8 +1081,8 @@ function makeReactView(React, core) {
           else if(!e.shiftKey&&doc.activeElement===last){e.preventDefault();first?.focus();}
         }
       };
-      doc.addEventListener('keydown',key);doc.addEventListener('focusin',focus);button.current?.focus();
-      return ()=>{doc.removeEventListener('keydown',key);doc.removeEventListener('focusin',focus);if(prior?.isConnected)prior.focus();};
+      doc.addEventListener('keydown',key);doc.addEventListener('focusin',focus);panel.addEventListener('vie:close',close);button.current?.focus();
+      return ()=>{doc.removeEventListener('keydown',key);doc.removeEventListener('focusin',focus);panel.removeEventListener('vie:close',close);if(prior?.isConnected)prior.focus();};
     },[expanded]);
     return [expanded,()=>expanded?close():setExpanded(true)];
   }
@@ -1444,7 +1461,7 @@ function apply(ctx){
   },VIETurnTailView));
   // Diagnostic only: if the browser's module was never materialized, this
   // marker will be absent. No HMR rewriting or unverified bootstrap hack.
-  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:'__VIE_VERSION__',activated:true,at:Date.now()};
+  if(typeof window!=='undefined')window.__VIE_CLIENT_STATUS__={version:VIE_ENGINE_VERSION,buildId:VIE_BUILD_ID,activated:true,at:Date.now()};
 }
 
 exports.name=name;exports.inject=inject;exports.apply=apply;return module.exports;

@@ -21,7 +21,7 @@ function installGraphicsRuntime(api) {
     svg.style.width='100%';svg.style.display='block';svg.style.minWidth=Math.min(width,width*12/14)+'px';
     const defs=el('defs',{},svg),markerId='vie-sdk-arrow-'+(++sequence);
     el('path',{d:'M0 0L7 3.5L0 7Z',fill:'context-stroke'},el('marker',{id:markerId,viewBox:'0 0 7 7',refX:6.5,refY:3.5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'},defs));
-    const labels=[],connectors=new Set();let scheduled=0,disposed=false;
+    const labels=[],connectors=new Set();let scheduled=0,disposed=false,objectSequence=0;
     const overlap=(a,b)=>a.left<b.right+3&&a.right>b.left-3&&a.top<b.bottom+3&&a.bottom>b.top-3;
     const layout=()=>{if(disposed)return;for(const connector of connectors)connector.refresh();viewport.dataset.viePannable=String(viewport.scrollWidth>viewport.clientWidth+2);const placed=[],box=svg.getBoundingClientRect();let conflicts=0;
       for(const item of labels){if(!item.node.isConnected)continue;const {x,y}=item;let accepted=false;
@@ -39,7 +39,7 @@ function installGraphicsRuntime(api) {
     const dispose=ownDispose(()=>{disposed=true;if(scheduled)cancelAnimationFrame(scheduled);observer.disconnect();stopTheme();viewport.remove();});
     function scope(parent) {
       function primitive(kind,raw={}) {
-        let value=normalizeSVGPrimitive(kind,raw);const group=el('g',{'data-vie-primitive':kind},parent),nodes=[],ownedLabels=[];
+        let value=normalizeSVGPrimitive(kind,raw);const group=el('g',{'data-vie-primitive':kind,'data-vie-object':markerId+'-object-'+(++objectSequence)},parent),nodes=[],ownedLabels=[];
         const clear=()=>{for(const l of ownedLabels){const i=labels.indexOf(l);if(i>=0)labels.splice(i,1);}ownedLabels.length=0;group.replaceChildren();nodes.length=0;};
         const make=(tag,attrs)=>{const n=el(tag,attrs,group);nodes.push(n);return n;};
         const label=(at,text,extra={})=>{const [x,y]=point(at),node=make('text',{x,y,fill:tone(value.color??value.labelColor??'ink'),'font-size':value.fontSize??14,'text-anchor':'middle','dominant-baseline':'middle',...extra});node.textContent=String(text??'').slice(0,160);const record={node,x,y};labels.push(record);ownedLabels.push(record);return node;};
@@ -92,9 +92,9 @@ function installGraphicsRuntime(api) {
   };
   api.canvas=function(options={}) {
     const root=rootOf(options.root),canvas=document.createElement('canvas');canvas.className='vie-sdk-canvas';canvas.setAttribute('aria-label',options.title??'交互画布');canvas.setAttribute('role','img');canvas.style.width='100%';canvas.style.height=number(options.height,280)+'px';root.append(canvas);
-    const ctx=canvas.getContext('2d');if(!ctx)throw Error('VIE.canvas: 2D canvas unavailable');let scheduled=0,disposed=false;
-    const draw=()=>{scheduled=0;if(disposed||!api.visible)return;const width=Math.max(1,canvas.getBoundingClientRect().width),height=Math.max(1,canvas.getBoundingClientRect().height),dpr=Math.min(2,Math.max(1,devicePixelRatio||1));canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);try{options.draw?.({ctx,width,height,state:api.state,theme:api.theme});}catch(e){api.reportError(e);}};
-    const redraw=()=>{if(!scheduled&&!disposed&&api.visible)scheduled=requestAnimationFrame(draw);};
+    const ctx=canvas.getContext('2d');if(!ctx)throw Error('VIE.canvas: 2D canvas unavailable');let scheduled=0,disposed=false,drawn=false;
+    const draw=()=>{scheduled=0;if(disposed||!api.visible&&drawn)return;const width=Math.max(1,canvas.getBoundingClientRect().width),height=Math.max(1,canvas.getBoundingClientRect().height),dpr=Math.min(2,Math.max(1,devicePixelRatio||1));canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);try{options.draw?.({ctx,width,height,state:api.state,theme:api.theme});drawn=true;}catch(e){api.reportError(e);}};
+    const redraw=()=>{if(!scheduled&&!disposed&&(api.visible||!drawn))scheduled=requestAnimationFrame(draw);};
     const observer=new ResizeObserver(redraw);observer.observe(canvas);
     const stops=[api.onState(redraw,{immediate:false}),api.onTheme(redraw,{immediate:false}),listen('vie:visibilitychange',redraw)];
     const dispose=ownDispose(()=>{disposed=true;if(scheduled)cancelAnimationFrame(scheduled);observer.disconnect();stops.forEach(s=>s());canvas.remove();});redraw();

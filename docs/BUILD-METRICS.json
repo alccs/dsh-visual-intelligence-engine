@@ -1,14 +1,14 @@
 {
-  "version": "0.30.6-dev.1",
+  "version": "0.31.0",
   "uncompressedBytes": {
-    "client": 744530,
+    "client": 761503,
     "threeChunk": 681953,
-    "host": 487396
+    "host": 497254
   },
   "promptCharacters": {
     "entry": 214,
-    "study": 926,
-    "primaryTool": 3367
+    "study": 620,
+    "primaryTool": 3571
   },
   "modelLatencyMeasured": false
 }

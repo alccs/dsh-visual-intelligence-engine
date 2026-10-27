@@ -1,0 +1,2 @@
+const VIE_ENGINE_VERSION='__VIE_VERSION__';
+const VIE_BUILD_ID='__VIE_BUILD_ID__';

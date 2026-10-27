@@ -1,4 +1,4 @@
-# VIE 0.30.5 架构
+# VIE 0.31.0 架构
 
 VIE是运行于DeepSeek Harness中的插件，包含Host与Client两个入口。它复用Harness模型、命令、会话、工具和正文能力，无独立业务服务器。技术主体为JavaScript、React、Cordis与自包含的隔离图形运行时。
 
@@ -49,7 +49,7 @@ Host通过vm.Script只解析生成JS语法，不执行模型程序。src/shared/
 
 ## 增量预览、修订与图文顺序
 
-src/document-tool.js管理按agent隔离的修图基线、visualId、revision与原调用anchorCallId。局部修订只替换指定块；过期修订被拒绝，失败补丁不会覆盖有效原图。完整source写入工具结果，冷历史恢复不依赖临时内存。
+src/document-tool.js管理按agent隔离的修图基线、visualId、revision与原调用anchorCallId。局部修订可替换指定块，或对原生数据块的已有字段提交有界 JSON Pointer 更新；过期修订被拒绝，失败补丁不会覆盖有效原图。完整source写入工具结果，冷历史恢复不依赖临时内存。
 
 src/client.js的SceneStore承载协议状态、共享控件、派生值、图内状态及错误。完整可解析的块可提前预览；figure 的完整 HTML 字段也可先作为不可交互的静态预览，清除脚本与事件属性，等待最终脚本就地激活。不完整 JS 不执行。view/flow-answer.js按原调用位置发布独立图形节点；成功出图轮次结束后，相关中间正文通过公开assistant-step数据投影为原生正文节点，保留最终图文顺序。最终答案避免重复，原始过程记录仍可用于诊断。旧start/tail/process继续兼容。
 
@@ -57,9 +57,17 @@ src/client.js的SceneStore承载协议状态、共享控件、派生值、图内
 
 view/generated.js在opaque-origin iframe中运行自定义figure，以CSP禁止联网和额外浏览上下文。消息桥检查来源窗口与通道，传递有界JSON状态、主题、可见性、尺寸、ready与运行错误。运行报错不会被标记为ready。它提供DOM和网络边界，不是完整的CPU/内存资源隔离。
 
-工具返回的renderStatus:submitted只表示结构、语法与可确定参数已通过。src/render-feedback.js将实际ready/error与会话、完整源标识、visualId/revision绑定；客户端通过可选remote.commands通道回传，下一次模型请求最多等待300ms接收状态。迟到的旧修订不覆盖新结果；诊断以数据形式进入下一请求，不自动写入用户或助手消息。Harness仍保留command/run和command/done事件；view/command.js通过conversation.chat.commandview的vie键隐藏保留子命令__render的呈现与行占位，历史重载采用同一规则，手动命令保持可读。没有反馈通道时保持submitted，报错卡片可生成修复提问草稿。
+工具返回的renderStatus:submitted只表示结构、语法与可确定参数已通过。src/render-feedback.js将实际waiting/preview/ready/error与会话、完整源标识、visualId/revision绑定；客户端通过可选remote.commands通道回传，下一次模型请求最多等待300ms接收状态。迟到的旧修订不覆盖新结果；诊断以数据形式进入下一请求，不自动写入用户或助手消息。Harness仍保留command/run和command/done事件；view/command.js通过conversation.chat.commandview的vie键隐藏保留子命令__render的呈现与行占位，历史重载采用同一规则，手动命令保持可读。没有反馈通道时保持submitted，报错卡片可生成修复提问草稿。
 
 view/learning.js统一阶段按钮、键盘操作、短说明与本地测验反馈。通用参数与derive把控件、曲线和示意图连接起来；用户操作不自动调用模型。图形外层仅提供展开/收起与有状态时的复位，iframe保持适合容器宽度；图内独立缩放继续可用。图形支持主题、窄屏阅读与原挂载状态保留。
+
+## 0.31.0 共享阶段与诊断
+
+learning 的 baseHtml/baseMobileHtml 定义一次静态 SVG，stages.patches/values 声明阶段变化和读数。shared/learning.js 在双端验证对象、属性和引用；view/learning.js 从不可变主图重建当前阶段，支持跳步、恢复和统一读数。旧阶段 HTML 和自由 figure 兼容。
+
+runtime/content.js 提供有界内容证据检测，空白/标题外壳显示 waiting；像素不可读时保持未知或使用作者显式确认。runtime/layout-audit.js 的对象与视口证据经 shared/diagnostics.js 限长清洗，随当前源反馈。waiting/error 不计成功时间；同一问题按对象身份去重。布局与内容证据均不验证专业事实。
+
+workflow.js 仅保存公开统计量，记录请求、流参数字节、usage、工具和修复耗时，缺失保持未知。shared/build-info.js 由构建脚本填入版本与可重复计算的摘要，Host 结果、Client 状态和 /vie status 可核对是否使用同一构建。
 
 ## 存储与恢复
 
@@ -67,7 +75,7 @@ view/learning.js统一阶段按钮、键盘操作、短说明与本地测验反�
 
 ## 构建与交付
 
-scripts/build.mjs确定性展开共享源码并生成组件/技能参考，生成package/lib/index.js与client.js。verify.mjs执行Node测试、19组Chrome测试、10组Host/安装脚本（包括真实运行反馈、Chat组装、隔离CLI安装和元数据验证），最后确认验证哈希未变化。release.mjs生成TGZ、源码ZIP、离线HTML及SHA256校验值。精简源码包附带通用检查与8组实际Chrome脚本，可独立安装开发依赖后复验。
+scripts/build.mjs确定性展开共享源码并生成组件/技能参考，生成package/lib/index.js与client.js。verify.mjs执行Node测试、21组Chrome测试、10组Host/安装脚本（包括真实运行反馈、Chat组装、隔离CLI安装和元数据验证），最后确认验证哈希未变化。release.mjs生成TGZ、源码ZIP、离线HTML及SHA256校验值。精简源码包附带通用检查与10组实际Chrome脚本，可独立安装开发依赖后复验。
 
 这些检查覆盖软件契约与既定回归，不构成任意生成内容的专业认证，也不等于完整Electron桌面GUI或外部模型延迟A/B验收。
 

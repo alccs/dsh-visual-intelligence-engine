@@ -14,11 +14,12 @@ import {linkedMotion} from './visual-examples.mjs';
 import {reactiveWave} from './reactive-examples.mjs';
 import {progressiveI2C} from './progressive-examples.mjs';
 import {controlsA} from './control-examples.mjs';
+import {sharedStageDocument} from './stage-examples.mjs';
 const root=path.resolve(import.meta.dirname,'..');
 const read=name=>fs.readFileSync(path.join(root,name),'utf8');
 // HTML's legacy script-comment states also interpret markers in JS comments.
 const scriptSafe=text=>text.replace(/<\/script/gi,'<\\/script').replace(/<!--/g,'<\\!--');
-const client=read('package/lib/client.js').replace('exports.name=name;',`window.VIE={createVIEAnswerDefinition,createVIEFlowDefinition,createVIETurnDefinition,DocumentPreview,validateChartSpec,documentSceneSource,validateDocumentSpec,validateFigureDefinition,validateFigureState,buildFigureDocument,VIE_CSS,createViews,createVIEBridge,SceneStore,createVIEModeView,experimentSceneSource,storySceneSource,makePresetSource,visualSceneSource,VIEStream,planetaryRates,normalizeExperiment,gearTrainModel,wormModel,mountInteractiveScene,mountCanLab,validateExperimentSnapshot};exports.name=name;`);
+const client=read('package/lib/client.js').replace('exports.name=name;',`window.VIE={vieSourceIdentity,createVIEAnswerDefinition,createVIEFlowDefinition,createVIETurnDefinition,DocumentPreview,validateChartSpec,documentSceneSource,validateDocumentSpec,validateFigureDefinition,validateFigureState,buildFigureDocument,VIE_CSS,createViews,createVIEBridge,SceneStore,createVIEModeView,experimentSceneSource,storySceneSource,makePresetSource,visualSceneSource,VIEStream,planetaryRates,normalizeExperiment,gearTrainModel,wormModel,mountInteractiveScene,mountCanLab,validateExperimentSnapshot};exports.name=name;`);
 const html=`<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VIE ${VERSION} · 交互解释</title>
 <style>
@@ -33,7 +34,7 @@ const html=`<!doctype html>
 <script>window.__VIE_CHUNKS__=new Map();window.__ModuleLoader__={load:({chunk,factory})=>{if(chunk){__VIE_CHUNKS__.set(chunk,{factory});return;}const require=name=>{if(name==='react')return window.React;throw Error('Unknown import '+name)};require.async=async spec=>{const chunk=__VIE_CHUNKS__.get((spec.startsWith('./')?spec.slice(2):spec));if(!chunk)throw Error('Unknown chunk '+spec);return chunk.exports??=chunk.factory();};window.VIEPlugin=factory(require)}};</script>
 <script>${scriptSafe(read('package/lib/client.three.js'))}</script>
 <script>${scriptSafe(client)}</script>
-<script>window.VIEControlsA=${scriptSafe(JSON.stringify(controlsA))};window.VIESDKExamples=${scriptSafe(JSON.stringify(sdkExamples))};window.VIEWideFlowExample=${scriptSafe(JSON.stringify(wideFlowExample))};window.VIEFlowExample=${scriptSafe(JSON.stringify(flowExample))};window.VIELearningLesson=${scriptSafe(JSON.stringify(learningLesson))};window.VIEExamples=${scriptSafe(JSON.stringify({...examples,changeComparison}))};window.VIECompact=${scriptSafe(JSON.stringify(compactExamples))};window.VIEReactive=${scriptSafe(JSON.stringify(reactiveWave))};window.VIELinkedMotion=${scriptSafe(JSON.stringify(linkedMotion))};window.VIEHistory=${scriptSafe(JSON.stringify(syntheticHistory))};window.VIEProgressiveI2C=${scriptSafe(JSON.stringify(progressiveI2C))};</script><script>${scriptSafe(read('scripts/demo-app.js'))}</script></body></html>`;
+<script>window.VIESharedStages=${scriptSafe(JSON.stringify(sharedStageDocument))};window.VIEControlsA=${scriptSafe(JSON.stringify(controlsA))};window.VIESDKExamples=${scriptSafe(JSON.stringify(sdkExamples))};window.VIEWideFlowExample=${scriptSafe(JSON.stringify(wideFlowExample))};window.VIEFlowExample=${scriptSafe(JSON.stringify(flowExample))};window.VIELearningLesson=${scriptSafe(JSON.stringify(learningLesson))};window.VIEExamples=${scriptSafe(JSON.stringify({...examples,changeComparison}))};window.VIECompact=${scriptSafe(JSON.stringify(compactExamples))};window.VIEReactive=${scriptSafe(JSON.stringify(reactiveWave))};window.VIELinkedMotion=${scriptSafe(JSON.stringify(linkedMotion))};window.VIEHistory=${scriptSafe(JSON.stringify(syntheticHistory))};window.VIEProgressiveI2C=${scriptSafe(JSON.stringify(progressiveI2C))};</script><script>${scriptSafe(read('scripts/demo-app.js'))}</script></body></html>`;
 fs.mkdirSync(path.join(root,'dist'),{recursive:true});
 const file=path.join(root,'dist',("VIE-Interactive-"+VERSION+".html"));
 fs.writeFileSync(file,html);console.log(file+' ('+Buffer.byteLength(html)+' bytes)');

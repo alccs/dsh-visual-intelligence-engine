@@ -40,6 +40,10 @@ tests/*
 !tests/sdk-compatibility.test.mjs
 !tests/render-feedback.test.mjs
 !tests/versioning.test.mjs
+!tests/content-evidence.test.mjs
+!tests/shared-stages.test.mjs
+!tests/field-repair.test.mjs
+!tests/performance.test.mjs
 
 # Reviewed docs and examples; generated diagnostics are local.
 docs/*
@@ -51,6 +55,8 @@ docs/*
 !docs/EVALUATION-0.30.1.md
 !docs/ROADMAP-0.30.5.md
 !docs/UI-COMPONENTS-A.md
+!docs/OPTIMIZATIONS-0.31.0.md
+!docs/EVALUATION-0.31.0.md
 !docs/readme/
 docs/readme/*
 !docs/readme/*.png

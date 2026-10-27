@@ -3,6 +3,7 @@ const style=document.createElement('style');style.textContent=VIE.VIE_CSS;docume
 const bridge=VIE.createVIEBridge(VIE.SceneStore);
 const views=VIE.createViews(React,bridge);
 const topics={
+  "shared-stages":{general:true,label:"共享主图与阶段",question:"同一幅图如何用少量数据展示三个阶段？",intro:"主图定义一次，变化、阶段控制和读数由引擎处理。",prose:"每个阶段从完整基础状态重建，可直接跳步和复位；讲解继续由 Harness 正文显示。",source:()=>VIE.documentSceneSource(window.VIESharedStages)},
   controls:{general:true,label:'A 组件规范',question:'统一按钮、滑块和输入组件的风格。',intro:'这是插件实际使用的 A 风格组件；图形、布局和内容仍自由表达。',prose:'主操作采用中性色，次操作使用细边框；滑块、开关、数字输入、页签与键盘焦点共享规则。组件颜色与图形中的语义配色分开管理。',source:()=>VIE.documentSceneSource(window.VIEControlsA)},
   ...Object.fromEntries(Object.entries(window.VIESDKExamples).map(([key,doc])=>["sdk-"+key,{general:true,label:doc.title,question:doc.title,intro:"模型只写当前内容，通用绘图与控件由引擎提供。",source:()=>VIE.documentSceneSource(doc)}])),
   'wide-flow':{general:true,label:'多级分类图',question:'用流程图比较文字资料和数值资料的检查路径。',intro:'各级分支按父节点分组；切换逐步引导可以沿某一条路径查看。',prose:'文字资料核对结构、术语和标点，数值资料核对单位、范围和精度。不同检查属于并列分支，并非依次经过。',source:()=>VIE.documentSceneSource({title:'资料校验分类',blocks:[{type:'visual',kind:'Flow',spec:window.VIEWideFlowExample}]})},
