@@ -71,3 +71,4 @@ screenshots/*
 
 /docs/**/*.md
 /screenshots/
+/tests/
