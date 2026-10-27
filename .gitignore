@@ -68,3 +68,5 @@ docs/readme/*
 screenshots/*
 !screenshots/sdk-*.png
 !screenshots/progressive-final-*.png
+
+/docs/**/*.md
