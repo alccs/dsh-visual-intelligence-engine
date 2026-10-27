@@ -1,4 +1,4 @@
-# VIE 0.31.0 架构
+# VIE 0.31.1 架构
 
 VIE是运行于DeepSeek Harness中的插件，包含Host与Client两个入口。它复用Harness模型、命令、会话、工具和正文能力，无独立业务服务器。技术主体为JavaScript、React、Cordis与自包含的隔离图形运行时。
 
@@ -71,11 +71,13 @@ workflow.js 仅保存公开统计量，记录请求、流参数字节、usage、
 
 ## 存储与恢复
 
+0.31.1 将输入区模式控件注册到 conversation.input.right 的唯一列表条目 vie-mode-control，保留内置语音的 activity 席位。完整模式回归执行官方 SlotCore 的真实冲突/选举逻辑，不再用数组追加代替注册约束。
+
 聊天模式保存在DSH_HOME/dsh-vie-mode.json；修图基线使用按会话哈希命名的限量文件。两者均由Harness环境提供存储位置。view/checkpoints.js保存有限本地checkpoint，只有源及会话/调用匹配才恢复；不支持天然跨设备同步。截断和显式VIE超时可从有限公开会话事件恢复，study/on下的简短主题也保留任务范围。
 
 ## 构建与交付
 
-scripts/build.mjs确定性展开共享源码并生成组件/技能参考，生成package/lib/index.js与client.js。verify.mjs执行Node测试、21组Chrome测试、10组Host/安装脚本（包括真实运行反馈、Chat组装、隔离CLI安装和元数据验证），最后确认验证哈希未变化。release.mjs生成TGZ、源码ZIP、离线HTML及SHA256校验值。精简源码包附带通用检查与10组实际Chrome脚本，可独立安装开发依赖后复验。
+scripts/build.mjs确定性展开共享源码并生成组件/技能参考，生成package/lib/index.js与client.js。verify.mjs执行Node测试、22组Chrome测试、10组Host/安装脚本（包括真实运行反馈、Chat组装、隔离CLI安装和元数据验证），最后确认验证哈希未变化。release.mjs生成TGZ、源码ZIP、离线HTML及SHA256校验值。精简源码包附带通用检查与11组实际Chrome脚本，可独立安装开发依赖后复验。
 
 这些检查覆盖软件契约与既定回归，不构成任意生成内容的专业认证，也不等于完整Electron桌面GUI或外部模型延迟A/B验收。
 

@@ -10,7 +10,7 @@ run(['scripts/export-demo.mjs']);
 const testedHash=verificationHash(root);
 async function browser(name){return new Promise((resolve,reject)=>{const child=spawn(process.execPath,['scripts/browser-'+name+'.mjs'],{cwd:root,windowsHide:true,timeout:600000});let output='';child.stdout.on('data',data=>{output+=data;});child.stderr.on('data',data=>{output+=data;});child.on('error',reject);child.on('close',code=>{process.stdout.write(output);code===0?resolve():reject(Error('Browser suite failed: '+name));});});}
 // Separate named browser sessions and separate reports/screenshots; no shared app state.
-for(const batch of [['reactive','visual','speed'],['general','test','transmission'],['layout','optimization','questions'],['flow-ui','flow-repair','responsive'],['controls','render-repair'],['sdk','preview','preview-audit'],['session-fixes','quality','command-feedback'],['031']]){const results=await Promise.allSettled(batch.map(browser));for(const result of results)if(result.status==='rejected')throw result.reason;}
+for(const batch of [['reactive','visual','speed'],['general','test','transmission'],['layout','optimization','questions'],['flow-ui','flow-repair','responsive'],['controls','render-repair'],['sdk','preview','preview-audit'],['session-fixes','quality','command-feedback'],['031','0311']]){const results=await Promise.allSettled(batch.map(browser));for(const result of results)if(result.status==='rejected')throw result.reason;}
 for(const script of ['test-workflow','test-mode-runtime','test-runtime-feedback'])run(['scripts/'+script+'.mjs']);
 run(['--experimental-transform-types','scripts/test-assembly.mjs']);
 const npm=process.env.VIE_NPM_CLI??path.join(path.dirname(process.execPath),'node_modules/npm/bin/npm-cli.js');
@@ -18,5 +18,5 @@ run([npm,'pack','./package','--pack-destination','dist','--json']);
 run(['scripts/test-cli.mjs']);run(['scripts/test-dsh.mjs']);run(['--expose-internals','scripts/test-native-resolver.mjs']);run(['scripts/test-name-runtime.mjs']);run(['scripts/test-mode-runtime.mjs','--installed']);
 run(['scripts/test-client-chunk.mjs','--installed']);
 if(verificationHash(root)!==testedHash)throw Error('Sources changed during verification; rerun the release gate');
-fs.writeFileSync(path.join(root,'docs/validation/release-gate.json'),JSON.stringify({version:VERSION,passed:true,nodeTests:Number(tap.match(/# pass (\d+)/)?.[1]),browserScripts:21,hostScripts:10,verificationHash:verificationHash(root),externalModelRequests:0},null,2));
+fs.writeFileSync(path.join(root,'docs/validation/release-gate.json'),JSON.stringify({version:VERSION,passed:true,nodeTests:Number(tap.match(/# pass (\d+)/)?.[1]),browserScripts:22,hostScripts:10,verificationHash:verificationHash(root),externalModelRequests:0},null,2));
 console.log('Required release checks passed.');

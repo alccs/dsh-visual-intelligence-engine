@@ -1,7 +1,7 @@
 /** Production browser regressions for responsive graphics, recovery and expanded viewing. */
 import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';import {spawnSync} from 'node:child_process';import {pathToFileURL} from 'node:url';
-const root=path.resolve(import.meta.dirname,'..'),version=JSON.parse(fs.readFileSync(path.join(root,'package/package.json'))).version,session='vie-optimization-'+process.pid,exe=path.join(root,'node_modules/agent-browser/bin/agent-browser-win32-x64.exe'),checks=[];
-function run(...args){const r=spawnSync(exe,['--session',session,'--json',...args],{encoding:'utf8',cwd:root,timeout:35000});if(r.status!==0)throw Error(r.stderr||r.stdout);const j=JSON.parse(r.stdout);if(!j.success)throw Error(JSON.stringify(j));return j.data;}
+const root=path.resolve(import.meta.dirname,'..'),version=JSON.parse(fs.readFileSync(path.join(root,'package/package.json'))).version,session='vie-optimization-'+process.pid+'-'+Date.now().toString(36),exe=path.join(root,'node_modules/agent-browser/bin/agent-browser-win32-x64.exe'),checks=[];
+function run(...args){const r=spawnSync(exe,['--session',session,'--json',...args],{encoding:'utf8',cwd:root,timeout:35000});if(r.status!==0)throw Error((r.stderr??'')+'\n'+(r.stdout??''));const j=JSON.parse(r.stdout);if(!j.success)throw Error(JSON.stringify(j));return j.data;}
 function ev(input){const r=spawnSync(exe,['--session',session,'--json','eval','--stdin'],{input,encoding:'utf8',cwd:root,timeout:35000});if(r.status!==0)throw Error(r.stderr||r.stdout);const j=JSON.parse(r.stdout);if(!j.success)throw Error(JSON.stringify(j));return j.data.result;}
 function check(name,code){assert.equal(ev(code),true,name);checks.push({name,passed:true});console.log('PASS '+name);}
 function click(name){const item=Object.entries(run('snapshot','-i').refs).find(([,v])=>v.role==='button'&&v.name===name);assert.ok(item,name);run('click','@'+item[0]);run('snapshot','-i');}

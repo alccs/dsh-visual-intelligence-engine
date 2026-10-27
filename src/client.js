@@ -1438,7 +1438,9 @@ function apply(ctx){
   const ModeControl=createVIEModeView(require('react'),require('react-dom'));
   // Cordis requires the namespace as well as its command capability. Keeping
   // both in this scope also unloads the control when either service disconnects.
-  ctx.inject?.(['sessions','remote','remote.commands'],child=>child.slots.inject('conversation.input.activity',()=>child.slots.register({name:'conversation.input.activity',inject:sessionId=>({flip:async mode=>{const result=await child.remote.commands.execute(sessionId,'/vie '+mode,[]);if(!result.ok)throw Error(result.error?.message??'切换失败');if(result.value===undefined)throw Error('当前宿主未注册 /vie 命令');if(result.value.result?.kind==='error')throw Error(result.value.result.text);}})},ModeControl)));
+  // Activity is a single seat owned by built-ins such as voice input. A unique
+  // list entry keeps the mode picker and microphone independently available.
+  ctx.inject?.(['sessions','remote','remote.commands'],child=>child.slots.inject('conversation.input.right',()=>child.slots.register({name:'conversation.input.right',id:'vie-mode-control',inject:sessionId=>({flip:async mode=>{const result=await child.remote.commands.execute(sessionId,'/vie '+mode,[]);if(!result.ok)throw Error(result.error?.message??'切换失败');if(result.value===undefined)throw Error('当前宿主未注册 /vie 命令');if(result.value.result?.kind==='error')throw Error(result.value.result.text);}})},ModeControl)));
   const bridge=createVIEBridge(SceneStore);
   ctx.inject?.(['remote','remote.commands'],child=>{bridge.setReporter(async(sessionId,value)=>{await child.remote.commands.execute(sessionId,'/vie __render '+JSON.stringify(value),[]);});child.effect?.(()=>()=>bridge.setReporter(null));});
   const {VIEToolView,VIETurnTailView,VIEAnswerView,VIECommandView}=createViews(require('react'),bridge);

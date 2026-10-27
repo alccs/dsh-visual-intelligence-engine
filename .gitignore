@@ -57,6 +57,7 @@ docs/*
 !docs/UI-COMPONENTS-A.md
 !docs/OPTIMIZATIONS-0.31.0.md
 !docs/EVALUATION-0.31.0.md
+!docs/FIXES-0.31.1.md
 !docs/readme/
 docs/readme/*
 !docs/readme/*.png

@@ -33,7 +33,15 @@ function mountLearning(options){
     if(panel){const stage=stages[stageIndex],shared=options.baseHtml!==undefined;
       // Every stage is a complete projection of the immutable base, including jumps backwards.
       panel.innerHTML=String(shared?(root.clientWidth<440?(options.baseMobileHtml??options.baseHtml):options.baseHtml):(root.clientWidth<440?(stage.mobileHtml??stage.html??''):(stage.html??'')));
-      if(shared)for(const patch of stage.patches){const target=panel.querySelector('[id="'+patch.target+'"]');if(!target||target.namespaceURI!=='http://www.w3.org/2000/svg')throw Error('VIE_LEARNING_INVALID: missing SVG target '+patch.target);for(const [name,value]of Object.entries(patch.attrs??{}))target.setAttribute(name,String(value));if(patch.text!==undefined)target.textContent=patch.text;if(patch.visible!==undefined)target.style.display=patch.visible?'':'none';}
+      if(shared)for(const patch of stage.patches){
+        const target=panel.querySelector('[id="'+patch.target+'"]');if(!target||target.namespaceURI!=='http://www.w3.org/2000/svg')throw Error('VIE_LEARNING_INVALID: missing SVG target '+patch.target);
+        for(const [name,value]of Object.entries(patch.attrs??{}))target.setAttribute(name,String(value));if(patch.text!==undefined)target.textContent=patch.text;
+        if(patch.visible===false)target.style.display='none';
+        if(patch.visible===true){
+          target.style.display='';if(target.getAttribute('display')?.trim().toLowerCase()==='none')target.removeAttribute('display');
+          target.style.visibility='visible';
+        }
+      }
       for(const item of options.readouts??[])readouts.set(item.id,{value:stage.values?.[item.id]??'—'});
       panel.setAttribute('aria-labelledby',tabs.children[stageIndex].id);[...tabs.children].forEach((b,i)=>{b.setAttribute('aria-selected',String(i===stageIndex));b.tabIndex=i===stageIndex?0:-1;});description.firstChild.textContent=stage.title??stage.label??'';caption.textContent=stage.caption??'';}
     if(choices){[...choices.querySelectorAll('input')].forEach((input,i)=>{input.checked=i===answer;});feedback.hidden=answer<0;feedback.dataset.correct=String(answer===quiz.correct);feedback.textContent=answer<0?'':(answer===quiz.correct?'回答正确。':'再想一想。')+(quiz.options[answer].feedback??'');}

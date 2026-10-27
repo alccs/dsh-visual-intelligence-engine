@@ -1,6 +1,6 @@
 import {VERSION} from './version-info.mjs';
 /** Actual Cordis, Commands, SessionProjection and Tools with an in-memory Session log adapter. */
-import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';import assert from 'node:assert/strict';import {createRequire,registerHooks} from 'node:module';import {pathToFileURL} from 'node:url';import {reactiveWave} from './reactive-examples.mjs';import {flowDocument} from './flow-examples.mjs';
+import fs from 'node:fs';import path from 'node:path';import vm from 'node:vm';import assert from 'node:assert/strict';import {createRequire,registerHooks} from 'node:module';import {pathToFileURL} from 'node:url';import {reactiveWave} from './reactive-examples.mjs';import {flowDocument} from './flow-examples.mjs';import {createHarnessSlotCore,registerBuiltinVoiceControl} from './harness-slot-core.mjs';
 const root=path.resolve(import.meta.dirname,'..'),runtime=createRequire(path.resolve(process.env.VIE_DSH_RUNTIME??path.join(root,'.validation/runtime'),'package.json'));
 const home=path.join(root,'.validation/mode-home-'+process.pid);fs.mkdirSync(home,{recursive:true});process.env.DSH_HOME=home;
 const hook=registerHooks({resolve(s,c,next){if(['@deepseek-ai/dsh-tools','zod'].includes(s))return {url:pathToFileURL(runtime.resolve(s)).href,shortCircuit:true};return next(s,c);}});
@@ -35,16 +35,17 @@ async function checkOperationRouting(){
   pass('installation and mixed operation requests retain tools in every actual chat mode; pure teaching stays visual');
  }finally{dispose.forEach(stop=>stop());}
 }
-async function checkClientModes(){
+async function checkClientModes(voiceFirst){
  // Use the real bundled client and Cordis dependency access checks. Only the
- // slot surface and RPC transport are adapters; commands and projections use
- // the actual Host above. A plain flip() mock cannot catch a missing inject.
+ // RPC is adapted, but slot collision/election uses the real installed SlotCore.
+ // Both built-in voice registration orders must coexist with the production client.
  const clientCtx=new Context(),calls=[],clientOne={id:'client-one',session:session('client-one')},clientTwo={id:'client-two',session:session('client-two')};
  class TestSlots extends Service{
-  constructor(context){super(context,'slots');this.rows=[];}
+  constructor(context){super(context,'slots');this.core=createHarnessSlotCore();}
   inject(name,callback){return this.ctx.effect(callback,'test slot '+name);}
-  register(options,component){const row={...options,component};return this.ctx.effect(()=>{this.rows.push(row);return ()=>{this.rows.splice(this.rows.indexOf(row),1);};},'test slot registration');}
-  entries(name){return this.rows.filter(row=>row.name===name);}
+  register(options,component){return this.ctx.effect(()=>this.core.register(options,component),'native test slot registration');}
+  entries(name){return Array.from(this.core.entries(name),entry=>({...entry.options,component:entry.component,inject:entry.inject}));}
+  elected(name){return Array.from(this.core.entriesOfSlot(name));}
  }
  let client,override;
  const localRequire=createRequire(path.join(root,'package.json'));
@@ -53,7 +54,9 @@ async function checkClientModes(){
  clientCtx.provide('uiConversation',{events:{register:()=>()=>{}}});
  clientCtx.provide('sessions',{});
  const commands={execute:async(sessionId,line,args)=>{calls.push({sessionId,line,args});if(override)return override;const agent=[clientOne,clientTwo].find(agent=>agent.session.id===sessionId);assert.ok(agent,'unknown test session');return {ok:true,value:await ctx.commands.execute(agent,line,args,signal)};}};
- const slots=clientCtx.get('slots'),entries=()=>slots.entries('conversation.input.activity'),settle=async()=>{await new Promise(setImmediate);await new Promise(setImmediate);};
+ const slots=clientCtx.get('slots'),entries=()=>slots.entries('conversation.input.right').filter(row=>row.id==='vie-mode-control'),settle=async()=>{await new Promise(setImmediate);await new Promise(setImmediate);};
+ const disposeOther=slots.register({name:'conversation.input.right',id:'another-plugin-control'},()=>null);let disposeVoice;
+ if(voiceFirst)disposeVoice=registerBuiltinVoiceControl({slots});
  // Providers must be sibling fibers. A root-provided service is inherited
  // without an inject declaration and would hide the production failure.
  const provide=async(name,value)=>{const provider=clientCtx.plugin({name:'test-'+name,apply:scope=>{scope.provide(name,value);}});await provider.await();return ()=>provider.dispose();};
@@ -62,19 +65,22 @@ async function checkClientModes(){
   assert.equal(entries().length,0);assert.ok(slots.entries('tool.call.toolview').length>0);pass('real client keeps graphics available while remote commands are unavailable');
   const commandSlots=slots.entries('conversation.chat.commandview');assert.equal(commandSlots.length,1);assert.equal(commandSlots[0].key,'vie');assert.equal(typeof commandSlots[0].component,'function');pass('real client registers one VIE-only command specialization without remote commands');
   let removeRemote=await provide('remote',{commands}),removeCommands=await provide('remote.commands',commands);await settle();
+  if(!voiceFirst)disposeVoice=registerBuiltinVoiceControl({slots});
+  assert.equal(slots.elected('conversation.input.activity').length,1);assert.equal(slots.elected('conversation.input.right').length,2);assert.equal(slots.core.spec('conversation.input.right').kind,'list');
+  pass('voice and VIE coexist under the actual slot registry: '+(voiceFirst?'voice first':'VIE first'));
   assert.equal(entries().length,1);const binding=entries()[0].inject(clientOne.session.id);
   await binding.flip('study');assert.equal(view(clientOne).mode,'study');assert.equal(view(clientTwo).mode,'auto');assert.ok((await assemble(clientOne)).sections.some(section=>section.text.includes('学习模式')));assert.equal(calls.at(-1).sessionId,clientOne.session.id);assert.equal(calls.at(-1).line,'/vie study');assert.equal(calls.at(-1).args.length,0);pass('real client Cordis binding executes study through the Host and updates only its chat');
   for(const mode of ['off','on','auto','study']){await binding.flip(mode);assert.equal(view(clientOne).mode,mode);}await entries()[0].inject(clientTwo.session.id).flip('on');assert.equal(view(clientTwo).mode,'on');assert.equal(view(clientOne).mode,'study');pass('all four menu modes route to the selected session and real projection');
   for(const [response,message]of [[{ok:false,error:{message:'connection unavailable'}},/connection unavailable/],[{ok:true,value:undefined},/未注册/],[{ok:true,value:{result:{kind:'error',text:'mode rejected'}}},/mode rejected/]]){override=response;await assert.rejects(binding.flip('off'),message);assert.equal(view(clientOne).mode,'study');}override=undefined;pass('client reports remote and command failures without changing the saved mode');
-  await removeRemote();await settle();assert.equal(entries().length,0);assert.ok(slots.entries('tool.call.toolview').length>0);pass('parent remote loss removes only the mode control');
+  await removeRemote();await settle();assert.equal(entries().length,0);assert.equal(slots.elected('conversation.input.activity').length,1);assert.equal(slots.elected('conversation.input.right').length,1);assert.ok(slots.entries('tool.call.toolview').length>0);pass('parent remote loss removes only the mode control');
   removeRemote=await provide('remote',{commands});await settle();assert.equal(entries().length,1);await entries()[0].inject(clientOne.session.id).flip('study');
   await removeCommands();await settle();assert.equal(entries().length,0);removeCommands=await provide('remote.commands',commands);await settle();assert.equal(entries().length,1);await entries()[0].inject(clientOne.session.id).flip('auto');await entries()[0].inject(clientTwo.session.id).flip('auto');pass('remote command reconnection remounts one working control and preserves session routing');
-  await clientFiber.dispose();await settle();assert.equal(entries().length,0);assert.equal(slots.entries('tool.call.toolview').length,0);assert.equal(slots.entries('conversation.chat.commandview').length,0);pass('real client disposal removes its mode, graphic and command slots');
- }finally{await clientFiber.dispose();await clientCtx.fiber.dispose();}
+  await clientFiber.dispose();await settle();assert.equal(entries().length,0);assert.equal(slots.elected('conversation.input.activity').length,1);assert.equal(slots.elected('conversation.input.right').length,1);assert.equal(slots.entries('tool.call.toolview').length,0);assert.equal(slots.entries('conversation.chat.commandview').length,0);pass('real client disposal removes its mode, graphic and command slots');
+ }finally{await clientFiber.dispose();disposeVoice?.();disposeOther();await clientCtx.fiber.dispose();}
 }
 try{
  assert.ok((await assemble(one)).tools.some(t=>t.name==='vie_explain'));assert.equal(view(one).mode,'auto');pass('default auto mode is available through actual Host projection');
- await checkClientModes();
+ await checkClientModes(false);await checkClientModes(true);
  await command(one,'vie study');assert.equal(view(one).mode,'study');assert.equal(view(two).mode,'auto');assert.ok((await assemble(one)).sections.some(s=>s.text.includes('学习模式')));pass('study command persists per chat and injects learning guidance');
  const flowProps=result=>result.meta.source.trim().split('\n').map(JSON.parse).find(e=>e.type==='Flow').props;
  for(const [agent,presentation] of [[one,'guided'],[two,'overview']]){const r=await ctx.tools.execute({agent,signal,callId:'flow-'+presentation,name:'vie_explain',arguments:{document:flowDocument()}});assert.equal(r.meta?.valid,true,JSON.stringify(r));assert.equal(flowProps(r).presentation,presentation);}

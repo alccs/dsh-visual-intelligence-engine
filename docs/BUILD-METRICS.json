@@ -1,7 +1,7 @@
 {
-  "version": "0.31.0",
+  "version": "0.31.1",
   "uncompressedBytes": {
-    "client": 761503,
+    "client": 763598,
     "threeChunk": 681953,
     "host": 497254
   },

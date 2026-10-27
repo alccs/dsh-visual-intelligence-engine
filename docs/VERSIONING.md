@@ -8,7 +8,7 @@
 
 ```sh
 npm ci --ignore-scripts
-npm run version -- 0.31.0
+npm run version -- 0.31.1
 npm run build
 npm run check
 ```
@@ -38,5 +38,5 @@ npm run release -- --reuse-verification
 
 ## 历史目录
 
-`archive/versions/` 保存迁移前的版本快照，`archive/previous-publish-repo/` 保存原发布仓库及其未提交内容。整理备份还保存了 Git bundle、原始补丁与目录迁移记录。当前正式交付保存在 `releases/0.30.5/`；整理后的开发版本从 `0.30.6-dev.1` 开始。
+`archive/versions/` 保存迁移前的版本快照，`archive/previous-publish-repo/` 保存原发布仓库及其未提交内容。整理备份还保存了 Git bundle、原始补丁与目录迁移记录。原始正式交付保存在 `releases/0.30.5/`；整理后的开发版本从 `0.30.6-dev.1` 开始。
 

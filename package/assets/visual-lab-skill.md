@@ -1,4 +1,4 @@
-# VIE 0.31.0 · 主图与正文分工
+# VIE 0.31.1 · 主图与正文分工
 
 VIE面向任意主题：数据图优先graphic/chart，流程优先原生Flow。自由图用SVG/Canvas或内置VIE.scene3d；三维的Three.js、相机和几何已本地提供。复用VIE.svg、VIE.animate、VIE.ui.toolbar/readouts以及document.controls/bindings，不重复生成控件、坐标轴、箭头和状态订阅。控件沿用A式中性UI，图形自由配色。同一主图的多个阶段优先learning数据块的baseHtml+stages.patches，仅给各步变化与values读数；旧stage.html仍可用。独立章节按图→Harness正文→下一图编排，每图聚焦一个概念；并列用于真实比较或共享交互。完整解释、公式和表格由Harness正文渲染。曲线、端点、标注、箭头与读数使用同一组数据和g.coordinates映射；保留实际连接与方向，明确单位、来源、假设，未知数值标为示意。窄屏保持完整图形与可读标注，需要时分步或展开。出题使用learning.questions，correct必填且从0开始，作答前不泄露答案。调用真实工具，visualId不是图片URL；修图使用visualId/baseRevision/changes保留其他图。优先局部替换；结构化块可用updates修改已有字段。仅已提交或waiting不等于已经显示成功。
 
