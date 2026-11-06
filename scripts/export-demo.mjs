@@ -19,7 +19,7 @@ const root=path.resolve(import.meta.dirname,'..');
 const read=name=>fs.readFileSync(path.join(root,name),'utf8');
 // HTML's legacy script-comment states also interpret markers in JS comments.
 const scriptSafe=text=>text.replace(/<\/script/gi,'<\\/script').replace(/<!--/g,'<\\!--');
-const client=read('package/lib/client.js').replace('exports.name=name;',`window.VIE={vieSourceIdentity,createVIEAnswerDefinition,createVIEFlowDefinition,createVIETurnDefinition,DocumentPreview,validateChartSpec,documentSceneSource,validateDocumentSpec,validateFigureDefinition,validateFigureState,buildFigureDocument,VIE_CSS,createViews,createVIEBridge,SceneStore,createVIEModeView,experimentSceneSource,storySceneSource,makePresetSource,visualSceneSource,VIEStream,planetaryRates,normalizeExperiment,gearTrainModel,wormModel,mountInteractiveScene,mountCanLab,validateExperimentSnapshot};exports.name=name;`);
+const client=read('package/lib/client.js').replace('exports.name=name;',`window.VIE={vieSourceIdentity,createVIEGalleryDefinition,createVIEGalleryViewDefinition,createVIEGallery,createVIEAnswerDefinition,createVIEFlowDefinition,createVIETurnDefinition,DocumentPreview,validateChartSpec,documentSceneSource,validateDocumentSpec,validateFigureDefinition,validateFigureState,buildFigureDocument,VIE_CSS,createViews,createVIEBridge,SceneStore,createVIEModeView,experimentSceneSource,storySceneSource,makePresetSource,visualSceneSource,VIEStream,planetaryRates,normalizeExperiment,gearTrainModel,wormModel,mountInteractiveScene,mountCanLab,validateExperimentSnapshot};exports.name=name;`);
 const html=`<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>VIE ${VERSION} · 交互解释</title>
 <style>

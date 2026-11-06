@@ -59,3 +59,13 @@ Bundled offline for opt-in 3D figures; license: package/assets/THREE-LICENSE.txt
 Acorn 8.15.0 (MIT)
 Source: https://github.com/acornjs/acorn/tree/8.15.0
 Bundled parse-only SDK preflight; license: package/assets/ACORN-LICENSE.txt.
+
+resvg-wasm 2.6.2 (MPL-2.0), copyright 2021-present yisibl.
+Unmodified JS/WASM; corresponding source: https://github.com/yisibl/resvg-js/tree/v2.6.2
+License: package/assets/RESVG-LICENSE.txt. Used offline for mobile SVG previews.
+
+
+UPNG.js 2.1.0 (MIT), Photopea. Bundled PNG encoding; require path changed to local pako.cjs. Source: https://github.com/photopea/UPNG.js
+License: package/assets/UPNG-LICENSE.txt.
+Pako 1.0.11 (MIT/Zlib), source: https://github.com/nodeca/pako/tree/1.0.11
+License: package/assets/PAKO-LICENSE.txt.

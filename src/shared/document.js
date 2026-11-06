@@ -134,17 +134,40 @@ function validateDocumentSpec(input){
   }catch(error){error.path='blocks['+index+']'+(error.path?'.spec.'+error.path:'');error.message=error.path+': '+error.message;throw error;}});
   return {title:input.title,...controls.length?{controls}:{},...(Object.keys(derive).length?{derive:{...derive}}:{}),...(input.layout?{layout:input.layout}:{}),blocks};
 }
+/** Inspect declared consumers only; never infer bindings from labels or code. */
+function documentControlDiagnostics(spec){
+  const used=new Set(),derive=spec.derive??{},controls=spec.controls??[];
+  const consume=ref=>{
+    if(typeof ref!=='string'||used.has(ref))return;
+    used.add(ref);
+    if(ref.startsWith('/derived/')){
+      for(const name of derive[ref.slice(9)]?.match(/\b[A-Za-z_][A-Za-z_0-9]*\b/g)??[]){
+        if(Object.hasOwn(MATH_FNS,name)||Object.hasOwn(MATH_CONST,name)||name==='if')continue;
+        if(Object.hasOwn(derive,name))consume('/derived/'+name);
+        else if(controls.some(c=>c.key===name))consume('/shared/'+name);
+      }
+    }
+  };
+  const boundShapes=value=>{if(!value||typeof value!=='object')return;if(typeof value.$bind==='string')consume(value.$bind);for(const child of Object.values(value))boundShapes(child);};
+  for(const block of spec.blocks){
+    if(block.type==='figure')Object.values(block.bindings??{}).forEach(consume);
+    else if(block.type==='chart')[...block.controls,...(block.inputs??[])].forEach(c=>consume(c.bind));
+    else if(block.type==='visual')boundShapes(block.spec);
+    else if(block.type==='text')for(const text of [block.title,block.body])if(text)templatePaths(text).forEach(consume);
+  }
+  return controls.flatMap((c,i)=>used.has('/shared/'+c.key)?[]:[{code:'VIE_UNUSED_CONTROL',severity:'warning',path:'controls['+i+']',key:c.key,message:'Control '+c.key+' has no declared visual consumer.',repairHint:'Add figure/chart bindings or Diagram $bind referencing '+c.key+' (directly or through derive), or remove this control. Custom code-based consumers cannot be proven by this check; verify their behavior in the browser.'}]);
+}
 function documentSceneSource(input){
   const spec=validateDocumentSpec(input),events=[{v:1,op:'surface.begin',id:'document-scene'}];
-  if(spec.layout==='grid'&&spec.controls?.length)events.push({v:1,op:'node.put',id:'document-controls',order:0,type:'Row',props:{}});
-  (spec.controls??[]).forEach((c,i)=>events.push({v:1,op:'node.put',id:'shared-'+c.key,order:i,...(spec.layout==='grid'?{parent:'document-controls'}:{}),type:CONTROL_TYPES[c.kind??'slider'],props:{label:c.label,bind:'/shared/'+c.key,default:c.value,min:c.min,max:c.max,step:c.step,...(c.options?{options:c.options}:{})}}));
+  if(spec.controls?.length)events.push({v:1,op:'node.put',id:'document-controls',order:spec.blocks.length+1,type:'Row',props:{role:'parameters'}});
+  (spec.controls??[]).forEach((c,i)=>events.push({v:1,op:'node.put',id:'shared-'+c.key,order:i,parent:'document-controls',type:CONTROL_TYPES[c.kind??'slider'],props:{label:c.label,bind:'/shared/'+c.key,default:c.value,min:c.min,max:c.max,step:c.step,...(c.unit?{unit:c.unit}:{}),...(c.options?{options:c.options}:{})}}));
   for(const [key,expr]of Object.entries(spec.derive??{}))events.push({v:1,op:'state.derive',path:'/derived/'+key,expr});
-  if(spec.layout==='grid')events.push({v:1,op:'node.put',id:'document-grid',order:(spec.controls??[]).length,type:'Row',props:{}});
+  if(spec.layout==='grid')events.push({v:1,op:'node.put',id:'document-grid',order:0,type:'Row',props:{}});
   spec.blocks.forEach((block,i)=>{
     const {type,...data}=block;
     const nodeType=type==='text'?'Text':type==='figure'?'GenerativeFigure':type==='chart'?'Chart':type==='experiment'?'InteractiveScene':data.kind;
     const props=type==='visual'?data.spec:data;
-    events.push({v:1,op:'node.put',id:'block'+(i+1),order:i+(spec.controls?.length??0),...(spec.layout==='grid'?{parent:'document-grid'}:{}),type:nodeType,props});
+    events.push({v:1,op:'node.put',id:'block'+(i+1),order:i,...(spec.layout==='grid'?{parent:'document-grid'}:{}),type:nodeType,props});
   });
   events.push({v:1,op:'surface.end',id:'document-scene'});
   const source=events.map(e=>JSON.stringify(e)+'\n').join('');

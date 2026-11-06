@@ -14,9 +14,17 @@ function validateSDKCalls(js){
   if(node.type==='Program'||node.type==='BlockStatement'){const scope=new Map(env);for(const s of node.body)visit(s,scope);return;}
   if(/Function(?:Expression|Declaration)$/.test(node.type)||node.type==='ArrowFunctionExpression'){const scope=new Map(env),names=[];for(const p of node.params)bindNames(p,names);names.forEach(n=>scope.delete(n));visit(node.body,scope);return;}
   if(node.type==='VariableDeclaration'){for(const d of node.declarations){const method=member(d.init?.callee),object=d.init?.callee?.object;if(d.id.type==='Identifier'){env.delete(d.id.name);if(d.init?.type==='CallExpression'&&(object?.name==='VIE'&&method==='svg'||env.get(object?.name)==='svg'&&method==='group'))env.set(d.id.name,'svg');}visit(d.init,env);}return;}
+  if(node.type==='CallExpression'&&node.callee?.object?.name==='VIE'&&member(node.callee)==='svg'){
+   const fn=node.arguments[0]?.properties?.find(p=>key(p)==='draw')?.value;
+   if(fn&&['FunctionExpression','ArrowFunctionExpression'].includes(fn.type)){
+    const scope=new Map(env),names=[];for(const p of fn.params)bindNames(p,names);names.forEach(n=>scope.delete(n));
+    const binding=fn.params[0]?.type==='ObjectPattern'&&fn.params[0].properties.find(p=>key(p)==='g');
+    if(binding?.value?.type==='Identifier')scope.set(binding.value.name,'svg');visit(fn.body,scope);
+   }
+  }
   if(node.type==='CallExpression'&&env.get(node.callee?.object?.name)==='svg'){
    const method=member(node.callee),arg=node.arguments[0];
-   if(method&&!SVG_SDK_KINDS.includes(method)&&!['group','axes','coordinates','anchor','connect','layoutLabels','dispose'].includes(method))svgSDKError(method,'method','unknown drawing method');
+   if(method&&!SVG_SDK_KINDS.includes(method)&&!['group','axes','coordinates','anchor','connect','layoutLabels','clear','redraw','dispose'].includes(method))svgSDKError(method,'method','unknown drawing method');
    if(SVG_SDK_KINDS.includes(method)&&arg?.type==='ObjectExpression'){
     const keys=new Map();let dynamic=false;
     for(const p of arg.properties){const k=key(p);if(k===null||p.kind!=='init'){dynamic=true;keys.clear();continue;}if(keys.has(k)){const e=Error('VIE_SDK_DUPLICATE_FIELD '+method+'.'+k+': duplicate object key; use strokeWidth for stroke thickness, width for rectangle geometry');e.code='VIE_SDK_DUPLICATE_FIELD';e.field=method+'.'+k;throw e;}keys.set(k,p);}
@@ -26,4 +34,36 @@ function validateSDKCalls(js){
   for(const [k,v]of Object.entries(node)){if(['start','end','loc'].includes(k))continue;if(Array.isArray(v))v.forEach(n=>{if(n?.type)visit(n,env);});else if(v?.type)visit(v,env);}
  };
  visit(tree,new Map());
+}
+
+/** Only reject a provable one-shot drawing; unfamiliar renderers remain unrestricted. */
+function validateFigureReactivity(spec){
+ if(!spec.bindings||!Object.keys(spec.bindings).length)return;
+ const fail=()=>{const error=Error('VIE_REACTIVITY_REQUIRED: bindings update VIE.state, not the drawing. Use VIE.svg({draw:({g,state})=>{...}}), VIE.canvas({draw}), or VIE.onState(state=>updateShapes(state)); never rely on an undeclared global state.');error.code='VIE_REACTIVITY_REQUIRED';throw error;};
+ const js=spec.js??'';
+ // HTML can own event handlers or state subscriptions even when JS only
+ // initializes a drawing. This heuristic is not a security boundary.
+ if(/<script\b|\bon\w+\s*=/i.test(spec.html??''))return;
+ if(!js.trim()){fail();return;}
+ let tree;try{tree=VIEAcorn.parse(js,{ecmaVersion:'latest',sourceType:'script'});}catch{return;}
+ const member=n=>n?.type==='MemberExpression'&&!n.computed?n.property.name:null;
+ const walk=(node,fn)=>{if(!node||typeof node!=='object')return;fn(node);for(const [key,value]of Object.entries(node)){if(['start','end','loc'].includes(key))continue;if(Array.isArray(value))value.forEach(n=>n?.type&&walk(n,fn));else if(value?.type)walk(value,fn);}};
+ const helpers=new Set(),svgNames=new Set();let svg=false,reactive=false,uncertain=false;
+ walk(tree,node=>{if(node.type==='FunctionDeclaration'&&node.id)helpers.add(node.id.name);if(node.type==='VariableDeclarator'&&node.id.type==='Identifier'&&node.init?.callee?.object?.name==='VIE'&&member(node.init.callee)==='svg')svgNames.add(node.id.name);if(node.type==='Identifier'&&node.name==='eval')uncertain=true;});
+ walk(tree,node=>{
+  if(node.type==='NewExpression'||node.type==='AwaitExpression')uncertain=true;
+  if(node.type==='AssignmentExpression'&&member(node.left)?.startsWith('on'))reactive=true;
+  if(node.type!=='CallExpression')return;
+  const callee=node.callee,name=member(callee),owner=callee?.object?.name;
+  if(owner==='VIE'){
+   if(name==='svg'){svg=true;const options=node.arguments[0];if(options?.type!=='ObjectExpression'){uncertain=true;return;}for(const property of options.properties){if(property.type!=='Property'||property.computed){uncertain=true;continue;}if((property.key.name??property.key.value)==='draw')reactive=true;}return;}
+   if(['onState','canvas','animate','mountLearning'].includes(name)){reactive=true;return;}
+   if(['state','theme'].includes(name))return;uncertain=true;return;
+  }
+  if(['addEventListener','on','subscribe','requestAnimationFrame','setTimeout','setInterval'].includes(name??callee?.name)){reactive=true;return;}
+  if(svgNames.has(owner)&&[...SVG_SDK_KINDS,'axes','group','coordinates','anchor','connect','layoutLabels'].includes(name))return;
+  if(owner==='Math'||['toFixed','toPrecision','toString'].includes(name)||callee?.type==='Identifier'&&(['Number','String','Boolean','isFinite','parseFloat','parseInt'].includes(callee.name)||helpers.has(callee.name)))return;
+  uncertain=true;
+ });
+ if(svg&&!reactive&&!uncertain)fail();
 }

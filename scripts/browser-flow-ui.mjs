@@ -3,7 +3,11 @@ import fs from 'node:fs';import path from 'node:path';import assert from 'node:a
 const root=path.resolve(import.meta.dirname,'..'),version=JSON.parse(fs.readFileSync(path.join(root,'package/package.json'))).version,session='vie-flow-ui-'+process.pid,bin=path.join(root,'node_modules/agent-browser/bin/agent-browser-win32-x64.exe'),checks=[];
 function run(...args){const r=spawnSync(bin,['--session',session,'--json',...args],{encoding:'utf8',timeout:35000});if(r.status!==0)throw Error(r.stdout+r.stderr);const j=JSON.parse(r.stdout);if(!j.success)throw Error(JSON.stringify(j));return j.data;}
 function ev(input){const r=spawnSync(bin,['--session',session,'--json','eval','--stdin'],{input,encoding:'utf8',timeout:35000});if(r.status!==0)throw Error(r.stdout+r.stderr);const j=JSON.parse(r.stdout);if(!j.success)throw Error(JSON.stringify(j));return j.data.result;}
-function click(selector){run('click',selector);run('snapshot','-i');}
+function click(selector){
+  ev(`document.querySelector(${JSON.stringify(selector)})?.scrollIntoView({block:'center',behavior:'instant'})`);
+  run('click',selector);
+  run('snapshot','-i');
+}
 const check=(name,value)=>{assert.ok(value,name);checks.push(name);console.log('PASS '+name);};
 const current=()=>ev('document.querySelector("[data-vie-flow-current]")?.textContent');
 const state=()=>ev('Object.values(VIEDemo.context.interactiveState)[0]');

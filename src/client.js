@@ -21,115 +21,7 @@ window.__ModuleLoader__.load({id:'dsh-visual-interactive-engine',factory:(requir
 /* @include view/checkpoints.js */
 /* @include view/chart.js */
 /* @include view/mode.js */
-const {makeVisualMarkup}=(()=>{
-/** Reusable declarative visual renderer. The same pure function powers React and
- * the no-dependency playground. All strings are escaped; input is revalidated.
- */
-const esc=x=>String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-const palette={primary:'var(--vie-primary,#4d82d6)',secondary:'var(--vie-secondary,#149f91)',accent:'var(--vie-accent,#d58b16)',muted:'var(--vie-muted,#8291a2)',warning:'var(--vie-warning,#cf6854)'};
-const fillPalette=Object.fromEntries(Object.entries(palette).map(([key,color])=>[key,'color-mix(in srgb,'+color+' 12%,var(--vie-bg,#fff))']));
-const color=k=>palette[k]??palette.primary;
-const bg=k=>fillPalette[k]??fillPalette.primary;
-const roleTone={input:'primary',output:'secondary',fixed:'warning',important:'accent',step:'primary',default:'muted',neutral:'muted'};
-const svgOpen=(w,h,title)=>`<svg class="vie-visual-svg" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(title)}" preserveAspectRatio="xMidYMid meet"><defs><marker id="vie-arrow-head" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0L7 3.5L0 7Z" fill="#8e9cac"/></marker></defs>`;
-const text=(x,y,label,extra='')=>`<text x="${x}" y="${y}" ${extra}>${esc(label)}</text>`;
-/* @include view/flow.js */
-function graphSVG(spec,selected,compact=false){
-  const W=compact?320:680,H=compact?310:340,cx=W/2,cy=compact?148:162;
-  const loc=new Map();const count=spec.nodes.length;
-  spec.nodes.forEach((n,i)=>{
-    if(spec.layout==='grid'){
-      const columns=compact?2:Math.ceil(Math.sqrt(count));
-      const rows=Math.ceil(count/columns);
-      const gapX=(W-(compact?110:170))/Math.max(1,columns-1),gapY=(H-92)/Math.max(1,rows-1);
-      loc.set(n.id,{x:columns===1?cx:(compact?55:85)+(i%columns)*gapX,y:rows===1?cy:46+Math.floor(i/columns)*gapY});
-    }else{
-      const a=(2*Math.PI*i/count)-Math.PI/2;
-      loc.set(n.id,{x:cx+Math.cos(a)*(compact?108:236),y:cy+Math.sin(a)*(compact?92:103)});
-    }
-  });
-  const edgeHTML=spec.edges.map(e=>{
-    const a=loc.get(e.from),b=loc.get(e.to);
-    if(e.from===e.to){const direction=a.x>W/2?-1:1,x=a.x+direction*(compact?45:57),reach=direction*(compact?46:70),label=e.label?wrappedText(x+reach*.6,a.y,e.label,compact?48:90,10,2,'fill="var(--vie-muted)"'):'';return `<path data-vie-self-loop="true" d="M${x} ${a.y-12}C${x+reach} ${a.y-52} ${x+reach} ${a.y+52} ${x} ${a.y+12}" fill="none" stroke="#9faebb" stroke-width="1.6" ${e.kind==='line'?'':'marker-end="url(#vie-arrow-head)"'}><title>${esc(e.label??'')}</title></path>${label}`;}
-    const dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;
-    const sx=a.x+dx/d*(compact?29:37),sy=a.y+dy/d*(compact?25:29),ex=b.x-dx/d*(compact?30:40),ey=b.y-dy/d*(compact?25:32);
-    const mx=(sx+ex)/2,my=(sy+ey)/2;
-    return `<line x1="${sx.toFixed(2)}" y1="${sy.toFixed(2)}" x2="${ex.toFixed(2)}" y2="${ey.toFixed(2)}" stroke="#9faebb" stroke-width="1.6" ${e.kind==='line'?'':'marker-end="url(#vie-arrow-head)"'}/>${e.label&&!compact?`<rect x="${(mx-42).toFixed(2)}" y="${(my-12).toFixed(2)}" width="84" height="20" rx="9" fill="#fff" fill-opacity=".95"/>${text(mx.toFixed(2),(my+2).toFixed(2),e.label,'font-size="10" text-anchor="middle" fill="#647587"')}`:''}`;
-  }).join('');
-  const vertices=spec.nodes.map(n=>{
-    const p=loc.get(n.id),tone=roleTone[n.role]||'primary',active=selected===n.id;
-    return `<g data-vie-item="${esc(n.id)}" tabindex="0" role="button" aria-label="${esc(n.label)}" class="vie-svg-item${active?' is-active':''}" style="cursor:pointer"><rect x="${(p.x-(compact?45:57)).toFixed(2)}" y="${(p.y-(compact?23:27)).toFixed(2)}" width="${compact?90:114}" height="${compact?46:54}" rx="13" fill="${bg(tone)}" stroke="${active?color(tone):'#cedae4'}" stroke-width="${active?2.6:1.2}"/>${wrappedText(p.x,p.y+4,n.label,compact?90:114,compact?11:12,3,'font-weight="600" fill="#34485d"')}</g>`;
-  }).join('');
-  return svgOpen(W,H,spec.title).replace('class="vie-visual-svg"',`class="vie-visual-svg ${compact?'vie-visual-mobile-svg':'vie-visual-desktop-svg'}"`)+edgeHTML+vertices+'</svg>';
-}
-function shapeSVG(s,selected,index){
-  const c=color(s.tone),fill=s.fill===false?'none':bg(s.tone),sw=s.strokeWidth??1.8;
-  let inner='';
-  const base=`stroke="${c}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round"`;
-  if(s.k==='circle')inner=`<circle cx="${s.cx}" cy="${s.cy}" r="${s.r}" fill="${fill}" ${base}/>`;
-  else if(s.k==='ellipse')inner=`<ellipse cx="${s.cx}" cy="${s.cy}" rx="${s.rx}" ry="${s.ry}" fill="${fill}" ${base}/>`;
-  else if(s.k==='rect')inner=`<rect x="${s.x}" y="${s.y}" width="${s.w}" height="${s.h}" rx="${s.rx??6}" ry="${s.ry??s.rx??6}" fill="${fill}" ${base}/>`;
-  else if(s.k==='line'||s.k==='arrow')inner=`<line x1="${s.x1}" y1="${s.y1}" x2="${s.x2}" y2="${s.y2}" ${base} ${s.k==='arrow'?'marker-end="url(#vie-arrow-head)"':''}/>`;
-  else if(s.k==='polyline')inner=`<polyline points="${s.points.map(p=>p.join(',')).join(' ')}" fill="none" ${base}/>`;
-  else if(s.k==='path')inner=`<path d="${esc(s.d)}" fill="${s.fill?fill:'none'}" ${base}/>`;
-  else inner=text(s.x,s.y,s.t,`fill="${c}" font-size="15" font-weight="560" text-anchor="${s.anchor??'start'}"`);
-  const label=s.label||s.t;
-  return s.id?label?`<g data-vie-item="${esc(s.id)}" data-vie-shape="${esc(s.id)}" tabindex="0" role="button" aria-label="${esc(label)}" class="vie-svg-item${selected===s.id?' is-active':''}">${inner}</g>`:`<g data-vie-shape="${esc(s.id)}">${inner}</g>`:inner;
-}
-function diagramSVG(spec,selected){
-  return svgOpen(spec.width,spec.height,spec.title)+spec.shapes.map((s,i)=>shapeSVG(s,selected,i)).join('')+'</svg>';
-}
-/** Numeric state bindings resolve to bounded finite SVG coordinates only. */
-function resolveVisual(input,kind,values){
-  const resolved=validateVisualSpec(kind,input);
-  const limited=[];
-  const read=coordinate=>{
-    if(!coordinate||typeof coordinate!=='object'||!Object.hasOwn(coordinate,'$bind'))return coordinate;
-    const n=values[coordinate.$bind];
-    if(typeof n!=='number'||!Number.isFinite(n)){limited.push(coordinate.$bind);return 0;}
-    const result=n*(coordinate.scale??1)+(coordinate.offset??0);
-    if(!Number.isFinite(result))throw Error('Diagram binding is not finite: '+coordinate.$bind);
-    if(Math.abs(result)>1200)limited.push(coordinate.$bind);
-    return Math.max(-1200,Math.min(1200,result));
-  };
-  const live=value=>typeof value==='string'?interpolateText(value,values):value;
-  return {...resolved,get _limited(){return limited;},title:live(resolved.title),subtitle:live(resolved.subtitle),
-    ...(resolved.nodes?{nodes:resolved.nodes.map(item=>({...item,label:live(item.label),detail:live(item.detail)}))}:{}),
-    ...(resolved.items?{items:resolved.items.map(item=>({...item,label:live(item.label),detail:live(item.detail),at:live(item.at)}))}:{}),
-    ...(resolved.edges?{edges:resolved.edges.map(item=>({...item,label:live(item.label)}))}:{}),
-    ...(resolved.shapes?{shapes:resolved.shapes.map(shape=>Object.fromEntries(Object.entries(shape).map(([key,value])=>{
-      const v=key==='t'?live(value):read(value);
-      // Signed numeric bindings can temporarily cross zero. Clamp the shape,
-      // but expose the fact that clipping occurred in the figure's note.
-      if(['w','h','r','rx','ry'].includes(key)&&typeof v==='number'){
-        const cap=shape.k==='rect'&&['rx','ry'].includes(key)?200:1200;
-        if(v<0||v>cap)limited.push(key);
-        return [key,Math.max(0,Math.min(cap,v))];
-      }
-      return [key,v];
-    })))}:{})
-  };
-}
-/** Returns trusted HTML only after strict validation. User labels are XML-escaped. */
-function makeVisualMarkup(kind,input,selected='',values={},flowState){
-  const s=resolveVisual(input,kind,values);
-  const selectedId=kind==='Timeline'?s.items.find(i=>i.id===selected)?.id:(kind==='Diagram'||kind==='Animation')?s.shapes.find(i=>i.id===selected)?.id:s.nodes.find(i=>i.id===selected)?.id;
-  const chosen=selectedId||'';
-  let visual='';
-  if(kind==='Flow')return flowMarkup(s,chosen,flowState);
-  if(kind==='RelationGraph')visual=graphSVG(s,chosen)+graphSVG(s,chosen,true);
-  if(kind==='Diagram'||kind==='Animation')visual=diagramSVG(s,chosen);
-  if(kind==='Timeline')visual=`<div class="vie-timeline-list" role="list">${s.items.map((v,i)=>`<button type="button" role="listitem" class="vie-timeline-item${chosen===v.id?' is-active':''}" data-vie-item="${esc(v.id)}"><span class="vie-timeline-step">${i+1}</span><span class="vie-timeline-when">${esc(v.at)}</span><strong>${esc(v.label)}</strong></button>`).join('')}</div>`;
-  const all=kind==='Timeline'?s.items:(kind==='Diagram'||kind==='Animation')?s.shapes.filter(i=>i.id&&(i.label||i.t)).map(i=>({id:i.id,label:i.label||i.t,detail:i.detail})):s.nodes;
-  const found=all.find(n=>n.id===selectedId);
-  const info=found?`<div class="vie-visual-selected" role="status"><strong>${esc(found.label)}</strong><span>${esc(found.detail??'已选中')}</span></div>`:`<div class="vie-visual-hint">${s.representation==='pitch-circles'?'分度圆示意 · 不表示真实齿形或接触校核':kind==='Animation'?'运动示意 · 按声明的几何变换播放':kind==='Diagram'?'示意图 · 数据依据与适用范围见图注':kind==='Timeline'?'点击事件查看详细信息':'点击图中的节点查看说明'}</div>`;
-  const accuracy=s.accuracy&&s.accuracy!=='schematic'?`<span class="vie-visual-accuracy">${s.accuracy==='validated'?'输入标注 · 待独立校核':'输入标注 · 计算结果'}</span>`:'';
-  const zoomTools=(kind==='Diagram'||kind==='Animation')?'<div class="vie-visual-zoom" role="group" aria-label="图形缩放"><button type="button" data-vie-zoom="out" aria-label="缩小图形">−</button><button type="button" data-vie-zoom="in" aria-label="放大图形">＋</button><button type="button" data-vie-zoom="fit">适合宽度</button><output data-vie-zoom-value aria-label="相对适合宽度的缩放">100%</output></div>':'';
-  return `<section class="vie-visual-panel" data-vie-visual="${kind}"><div class="vie-visual-heading"><strong>${esc(s.title)}</strong>${accuracy}</div>${s.subtitle?`<p class="vie-visual-subtitle">${esc(s.subtitle)}</p>`:''}${zoomTools}<div class="vie-visual-content">${visual}</div>${kind==='Animation'?'<div class="vie-animation-controls"><button type="button" data-vie-play aria-label="暂停或播放动画">暂停</button><input type="range" min="0" max="1000" step="1" value="0" aria-label="动画时间进度" data-vie-scrub /><span data-vie-time>0%</span><button type="button" data-vie-restart>重播</button></div>':''}${s._limited?.length?`<p class="vie-visual-warning" role="status">部分动态坐标暂不可用或超出范围，已使用占位／截断值；该形状仅供示意。</p>`:''}${info}${(kind==='Diagram'||kind==='Animation')&&all.length?`<div class="vie-visual-legend">${all.map(n=>`<button type="button" data-vie-item="${esc(n.id)}" class="${chosen===n.id?'is-active':''}">${esc(n.label)}</button>`).join('')}</div>`:''}${kind==='Flow'||kind==='RelationGraph'?`<div class="vie-visual-mobile-list">${s.nodes.map(n=>`<button type="button" data-vie-item="${esc(n.id)}" class="${chosen===n.id?'is-active':''}">${esc(n.label)}</button>`).join('')}</div>`:''}</section>`;
-}
-
-return {makeVisualMarkup};
-})();
+/* @include view/markup.js */
 let svgScopeSequence=0;
 function scopeSvgMarkup(markup,prefix){
   let index=0;
@@ -1122,6 +1014,23 @@ function makeReactView(React, core) {
     if(format==='signed')return (x>0?'+':'')+(Number.isInteger(x)?x:x.toFixed(2));
     return Number.isInteger(x)?String(x):x.toFixed(2);
   }
+  function ParameterNumber({value,min,max,step,label,onCommit}){
+    const [draft,setDraft]=React.useState(String(value));
+    React.useEffect(()=>setDraft(String(value)),[value]);
+    const commit=input=>{
+      if(input.value!==''&&input.validity.valid){onCommit(Number(input.value));setDraft(String(Number(input.value)));}
+      else setDraft(String(value));
+    };
+    return h('input',{type:'number',className:'vie-parameter-number',min,max,step,value:draft,'aria-label':label,
+      onChange:e=>setDraft(e.target.value),onBlur:e=>commit(e.currentTarget),
+      onKeyDown:e=>{if(e.key==='Enter'){e.preventDefault();commit(e.currentTarget);e.currentTarget.blur();}else if(e.key==='Escape'){e.preventDefault();e.currentTarget.value=String(value);setDraft(String(value));e.currentTarget.blur();}}});
+  }
+  function ParameterPanel({children}){
+    return h('section',{className:'vie-parameter-panel',role:'group','aria-label':'参数'},[
+      h('div',{key:'main',className:'vie-parameter-grid','data-count':Math.min(children.length,4)},children.slice(0,4)),
+      children.length>4&&h('details',{key:'more',className:'vie-parameter-more'},[h('summary',{key:'label'},'更多参数 ('+(children.length-4)+')'),h('div',{key:'grid',className:'vie-parameter-grid'},children.slice(4))])
+    ]);
+  }
   function nodeView(n, env){
     const p=n.props;const value=(p.bind && Object.hasOwn(env.values,p.bind))?env.values[p.bind]:p.value;
     const ch=n.children.map(child=>nodeView(child,env));
@@ -1136,7 +1045,7 @@ function makeReactView(React, core) {
       case 'CanTimingLab':return h(NativeVisualFrame,{key:n.id,nodeId:n.id,store:env.store,signature:JSON.stringify(p),title:'CAN 采样点'},h(CanView,{key:n.id,config:p,nodeId:n.id,store:env.store}));
       case 'Text':return h('section',{className:cls,key:n.id},[p.title&&h('h3',{key:'t'},core.interpolateText(p.title,env.values)),p.body&&h('p',{key:'b'},core.interpolateText(p.body,env.values))]);
       case 'Column':return h('div',{className:'vie-column',key:n.id},ch);
-      case 'Row':return h('div',{className:'vie-row',key:n.id},ch);
+      case 'Row':return p.role==='parameters'?h(ParameterPanel,{key:n.id},ch):h('div',{className:'vie-row',key:n.id},ch);
       case 'Split':return h('div',{className:'vie-split',key:n.id,style:{'--vie-split-ratio':String((p.ratio??0.5)*100)+'%'}},ch);
       case 'Card':return h('section',{className:'vie-card',key:n.id},[p.title&&h('div',{key:'t',className:'vie-card-title'},core.interpolateText(p.title,env.values)),...ch]);
       case 'Divider':return h('hr',{className:'vie-divider',key:n.id});
@@ -1146,9 +1055,12 @@ function makeReactView(React, core) {
       ]);
       case 'Slider':case 'NumberInput':case 'Toggle':case 'SegmentedControl':{
         const lower=p.min??0,upper=p.max??100,active=Number.isFinite(value)?value:lower;
-        const label=h('span',{className:'vie-control-label',key:'label'},[h('span',{key:'a'},p.label??''),h('b',{key:'b'},(n.type==='Toggle'?(active?'开':'关'):n.type==='SegmentedControl'?(p.options.find(o=>o.value===active)?.label??fmt(active)):fmt(active,p.format))+(p.unit?' '+p.unit:''))]);
+        const label=h('span',{className:'vie-control-label',key:'label'},[h('span',{key:'a'},p.label??''),(n.type!=='Slider'||p.format&&p.format!=='number')&&h('b',{key:'b'},(n.type==='Toggle'?(active?'开':'关'):n.type==='SegmentedControl'?(p.options.find(o=>o.value===active)?.label??fmt(active)):fmt(active,p.format))+(p.unit?' '+p.unit:''))]);
         if(n.type==='SegmentedControl')return h('section',{className:'vie-control',key:n.id},[label,h('div',{key:'choices',className:'vie-segmented',role:'group','aria-label':p.label},p.options.map(o=>h('button',{key:o.value,type:'button','aria-pressed':active===o.value,onClick:()=>env.set(p.bind,o.value)},o.label)))]);
-        return h('label',{className:'vie-control',key:n.id},[label,h('input',{key:'input',type:n.type==='Toggle'?'checkbox':n.type==='NumberInput'?'number':'range',...(n.type==='Toggle'?{checked:active===1,role:'switch'}:{min:lower,max:upper,step:p.step??1,value:active}),onChange:e=>{if(n.type==='NumberInput'&&(!e.target.value||!e.target.validity.valid))return;env.set(p.bind,n.type==='Toggle'?(e.target.checked?1:0):Number(e.target.value));},'aria-label':p.label??n.id})]);
+        const numeric=()=>h(ParameterNumber,{key:'number',value:active,min:lower,max:upper,step:p.step??1,label:(p.label??n.id)+(n.type==='Slider'?' 数值':''),onCommit:v=>env.set(p.bind,v)});
+        if(n.type==='NumberInput')return h('section',{className:'vie-control',key:n.id},[label,numeric()]);
+        const input=h('input',{key:'input',type:n.type==='Toggle'?'checkbox':'range',...(n.type==='Toggle'?{checked:active===1,role:'switch'}:{min:lower,max:upper,step:p.step??1,value:active}),onChange:e=>env.set(p.bind,n.type==='Toggle'?(e.target.checked?1:0):Number(e.target.value)),'aria-label':p.label??n.id});
+        return h('section',{className:'vie-control',key:n.id},[label,n.type==='Toggle'?input:h('div',{key:'fields',className:'vie-parameter-fields'+(p.unit?' has-unit':'')},[input,numeric(),p.unit&&h('span',{key:'unit',className:'vie-parameter-unit'},p.unit)])]);
       }
       case 'Progress':{
         let v=Number.isFinite(value)?value:null;
@@ -1287,6 +1199,7 @@ function makeReactView(React, core) {
  */
 const name='dsh-Visual-Interactive-Engine';
 const inject=['slots','uiConversation'];
+/* @include mobile/gallery.js */
 
 function createViews(React,bridge){
   /* @include view/command.js */
@@ -1449,6 +1362,11 @@ function apply(ctx){
   ctx.uiConversation.events.register(createVIEAnswerDefinition());
   ctx.uiConversation.events.register(createVIEFlowDefinition());
   ctx.uiConversation.events.register(createVIEProseDefinition());
+  if(ctx.uiConversation.views?.register){
+    ctx.uiConversation.events.register(createVIEGalleryDefinition());
+    ctx.uiConversation.views.register(createVIEGalleryViewDefinition());
+    ctx.slots.inject('conversation.view',()=>ctx.slots.register({name:'conversation.view',id:VIE_GALLERY_TARGET,label:'VIE 图解'},createVIEGallery(require('react'),bridge)));
+  }
   ctx.slots.inject('conversation.chat.commandview',()=>ctx.slots.register({name:'conversation.chat.commandview',key:'vie'},VIECommandView));
   ctx.slots.inject('conversation.chat.node',()=>ctx.slots.register({name:'conversation.chat.node',key:VIE_ANSWER_KIND},VIEAnswerView));
   ctx.slots.inject('conversation.chat.node',()=>ctx.slots.register({name:'conversation.chat.node',key:VIE_FLOW_KIND},VIEAnswerView));

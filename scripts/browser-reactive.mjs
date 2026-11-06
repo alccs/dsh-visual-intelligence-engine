@@ -10,7 +10,7 @@ function check(name,code){assert.equal(evaluate(code),true,name);checks.push({na
 try{
  run('--executable-path',chrome,'--allow-file-access','open',pathToFileURL(path.join(root,("dist/VIE-Interactive-"+VERSION+".html"))).href+'#reactive');run('set','viewport','1080','1200');run('snapshot','-i');
  run('wait','iframe[data-vie-ready="true"]');
- check('one document uses number, segmented, switch and slider controls',`document.querySelectorAll('#stage input[type=number]').length===1&&document.querySelectorAll('#stage .vie-segmented button').length===3&&document.querySelectorAll('#stage input[role=switch]').length===1&&document.querySelectorAll('#stage input[type=range]').length===1`);
+ check('one document uses number, segmented, switch and slider with a numeric companion',`document.querySelectorAll('#stage input[type=number]').length===2&&document.querySelectorAll('#stage input[aria-label="振幅 A"]').length===1&&document.querySelectorAll('#stage .vie-segmented button').length===3&&document.querySelectorAll('#stage input[role=switch]').length===1&&document.querySelectorAll('#stage input[type=range]').length===1`);
  check('responsive composition renders chart, diagram and an opaque sandbox',`document.querySelectorAll('[data-vie-chart]').length===1&&document.querySelectorAll('[data-vie-visual=Diagram]').length===1&&document.querySelector('iframe').getAttribute('sandbox')==='allow-scripts'`);
  evaluate(`window.originalCurve=document.querySelector('.vie-general-chart [clip-path] path').getAttribute('d');window.originalFrame=document.querySelector('iframe').srcdoc`);
  run('fill','input[aria-label="振幅 A"]','4');run('press','Tab');run('snapshot','-i');

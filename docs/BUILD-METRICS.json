@@ -1,12 +1,12 @@
 {
-  "version": "0.31.1",
+  "version": "0.32.0",
   "uncompressedBytes": {
-    "client": 763598,
+    "client": 783389,
     "threeChunk": 681953,
-    "host": 497254
+    "host": 578793
   },
   "promptCharacters": {
-    "entry": 214,
+    "entry": 377,
     "study": 620,
     "primaryTool": 3571
   },

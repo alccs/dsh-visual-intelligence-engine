@@ -1,15 +1,29 @@
 /** Session preferences are independent of subjects and never change model settings. */
 const VIE_MODES=['auto','on','study','off'];
 const VIE_NAMES=new Set(['vie_explain','vie_auto','vie_render','vie_compose','vie_story','vie_quick']);
+/** Bounded delivery facts only: never expose prompts, source, paths or tool arguments. */
+function vieRecentDeliveries(agent){
+  const session=agent?.session,rows=[];
+  if(typeof session?.eventAt!=='function'||!Number.isSafeInteger(session.seq))return rows;
+  try{for(let seq=session.seq-1;seq>=Math.max(0,session.seq-512)&&rows.length<4;seq--){
+    const event=session.eventAt(seq);if(event?.type!=='tool/result')continue;
+    const meta=event.data?.meta;if(meta?.kind!=='vie')continue;
+    const view=meta['dsh-go/view'];
+    rows.push({seq,valid:meta.valid===true,toolFailed:event.data?.message?.isError===true||!!event.data?.error,engineVersion:typeof meta.engineVersion==='string'?meta.engineVersion.slice(0,40):null,buildId:typeof meta.buildId==='string'?meta.buildId.slice(0,80):null,nativeCard:view&&typeof view==='object'&&!Array.isArray(view)?'provided':'not-provided',nativeViewType:typeof view?.type==='string'?view.type.slice(0,40):null,webSourceProvided:typeof meta.source==='string'&&meta.source.length>0});
+  }}catch{}
+  return rows;
+}
 function createVIEMode(defaultMode='auto',snapshot={},persist=()=>{}){
   if(!VIE_MODES.includes(defaultMode))throw Error('Invalid visualMode');
   if(!snapshot||typeof snapshot!=='object'||Array.isArray(snapshot))snapshot={};
   let global=VIE_MODES.includes(snapshot.global)?snapshot.global:defaultMode;
   const sessions=new Map(Object.entries(snapshot.sessions??{}).filter(([id,value])=>id.length<=200&&VIE_MODES.includes(value)).slice(-256));
+  const listeners=new Set();
   return {
+    subscribe(fn){listeners.add(fn);return ()=>listeners.delete(fn);},
     get:agent=>sessions.get(typeof agent==='string'?agent:agent?.session?.id)??global,
     snapshot:()=>({global,sessions:Object.fromEntries(sessions)}),
-    set(mode,sessionId){if(!VIE_MODES.includes(mode))throw Error('Use auto, on, study or off');const before=new Map(sessions),prior=global;try{if(sessionId){sessions.delete(sessionId);sessions.set(sessionId,mode);while(sessions.size>256)sessions.delete(sessions.keys().next().value);}else global=mode;persist({global,sessions:Object.fromEntries(sessions)});}catch(error){global=prior;sessions.clear();for(const [id,value]of before)sessions.set(id,value);throw error;}}
+    set(mode,sessionId){if(!VIE_MODES.includes(mode)||sessionId!==undefined&&(typeof sessionId!=='string'||!sessionId||sessionId.length>200))throw Error('Use auto, on, study or off with a valid session');const before=new Map(sessions),prior=global;try{if(sessionId){sessions.delete(sessionId);sessions.set(sessionId,mode);while(sessions.size>256)sessions.delete(sessions.keys().next().value);}else global=mode;persist({global,sessions:Object.fromEntries(sessions)});}catch(error){global=prior;sessions.clear();for(const [id,value]of before)sessions.set(id,value);throw error;}for(const fn of listeners)try{fn();}catch{}}
   };
 }
 async function installVIESessionMode(ctx,defaultMode='auto',feedback){
@@ -24,7 +38,7 @@ async function installVIESessionMode(ctx,defaultMode='auto',feedback){
   ctx.inject?.(['commands'],scope=>{feedback?.enable(true);scope.effect?.(()=>()=>feedback?.enable(false));return scope.commands.register({definitionId:'dsh-vie:mode',name:'vie',description:'VIE auto/on/study/off for this chat; global auto/on/study/off sets the default for other chats',input:{hint:'[auto|on|study|off|global auto|global on|global study|global off]'},handler:({agent,rawInput})=>{
     if(rawInput.trim().startsWith('__render ')){if(rawInput.length>4096)return {kind:'success',text:''};try{feedback?.receive(agent,JSON.parse(rawInput.trim().slice(9)));}catch{}return {kind:'success',text:''};}
     const words=rawInput.trim().split(/\s+/),isGlobal=words[0]==='global',value=isGlobal?words[1]:words[0],sessionId=isGlobal?undefined:agent?.session?.id;
-    if(rawInput.trim()==='status')return {kind:'success',text:JSON.stringify({engineVersion:typeof VIE_ENGINE_VERSION==='string'?VIE_ENGINE_VERSION:null,buildId:typeof VIE_BUILD_ID==='string'?VIE_BUILD_ID:null,...VIE_WORKFLOW_STATS.get(agent)??{status:'No visual request measured in this process'}})};
+    if(rawInput.trim()==='status')return {kind:'success',text:JSON.stringify({engineVersion:typeof VIE_ENGINE_VERSION==='string'?VIE_ENGINE_VERSION:null,buildId:typeof VIE_BUILD_ID==='string'?VIE_BUILD_ID:null,...VIE_WORKFLOW_STATS.get(agent)??{status:'No visual request measured in this process'},deliveries:vieRecentDeliveries(agent),deliveryNote:'nativeCard=provided means metadata was recorded, not that the App displayed it. Native cards do not send Web render acknowledgements.'})};
     if(!rawInput.trim())return {kind:'success',text:'VIE: '+mode.get(agent)};
     if(!VIE_MODES.includes(value)||words.length>(isGlobal?2:1)||!isGlobal&&!sessionId)return {kind:'error',text:'Usage: /vie [auto|on|study|off|global auto|global on|global study|global off]'};
     try{mode.set(value,sessionId);return {kind:'success',text:'VIE '+(isGlobal?'默认模式':'本聊天')+'：'+value};}catch(error){return {kind:'error',text:'VIE preference could not be saved: '+error.message};}

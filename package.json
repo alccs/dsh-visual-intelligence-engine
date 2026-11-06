@@ -1,11 +1,11 @@
 {
   "name": "visual-interactive-engine-source",
   "private": true,
-  "version": "0.31.1",
+  "version": "0.32.0",
   "type": "module",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "check": "node scripts/build.mjs && node --check package/lib/index.js && node --check package/lib/client.js && node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
     "demo": "node scripts/build.mjs && node scripts/export-demo.mjs",
     "browser-test": "node scripts/browser-test.mjs",
     "dsh-test": "node scripts/test-dsh.mjs",
@@ -22,9 +22,11 @@
     "verify:full": "node scripts/verify.mjs"
   },
   "devDependencies": {
+    "@resvg/resvg-wasm": "^2.6.2",
     "agent-browser": "0.39.1",
     "react": "18.3.1",
-    "react-dom": "18.3.1"
+    "react-dom": "18.3.1",
+    "upng-js": "^2.1.0"
   },
   "engines": {
     "node": ">=24"

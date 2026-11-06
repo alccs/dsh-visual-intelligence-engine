@@ -14,7 +14,7 @@ const catalogContext={};vm.runInNewContext(fs.readFileSync(path.join(sourceRoot,
 fs.mkdirSync(path.join(root,'docs'),{recursive:true});fs.writeFileSync(path.join(root,'docs/COMPONENTS.generated.md'),catalogContext.reference);
 fs.writeFileSync(path.join(root,'package/assets/components-reference.md'),catalogContext.reference);
 const skillPath=path.join(root,'package/assets/visual-lab-skill.md');const skill=fs.readFileSync(skillPath,'utf8').replace(/\r\n/g,'\n');fs.writeFileSync(skillPath,skill.replace(/^(# [^\n]+\n\n)[\s\S]*?(?=\n\n## )/,(_,heading)=>heading+catalogContext.policy));
-const buildFiles=folder=>fs.readdirSync(folder,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?buildFiles(path.join(folder,entry.name)):[path.join(folder,entry.name)]);
+const buildFiles=folder=>fs.readdirSync(folder,{withFileTypes:true}).filter(entry=>!(folder.endsWith(path.join('assets','mobile'))&&entry.name.endsWith('.png'))).flatMap(entry=>entry.isDirectory()?buildFiles(path.join(folder,entry.name)):[path.join(folder,entry.name)]);
 const buildHash=createHash('sha256');for(const file of [...buildFiles(sourceRoot),...buildFiles(path.join(root,'package/assets')),path.join(root,'package/package.json')].sort()){buildHash.update(path.relative(root,file).replaceAll('\\','/'));const bytes=fs.readFileSync(file);buildHash.update(/\.(?:js|css|md|json|txt|svg)$/.test(file)?bytes.toString('utf8').replace(/\r\n/g,'\n'):bytes);}
 const buildId=buildHash.digest('hex').slice(0,16);
 const read=file=>fs.readFileSync(file,'utf8').replace(/\r\n/g,'\n').replaceAll('__VIE_VERSION__',version).replaceAll('__VIE_BUILD_ID__',buildId);
@@ -39,5 +39,10 @@ for(const [input,output] of [['host.js','index.js'],['client.js','client.js']]){
 }
 // The Host's standard package-local chunk route preserves revision and source identity.
 fs.writeFileSync(path.join(root,'package/lib/client.three.js'),threeChunk);
+fs.copyFileSync(path.join(sourceRoot,'mobile/raster.js'),path.join(root,'package/lib/mobile-raster.js'));
+fs.mkdirSync(path.join(root,'package/lib/resvg'),{recursive:true});
+for(const file of ['index.mjs','index_bg.wasm'])fs.copyFileSync(path.join(root,'node_modules/@resvg/resvg-wasm',file),path.join(root,'package/lib/resvg',file));
+fs.writeFileSync(path.join(root,'package/lib/resvg/upng.cjs'),fs.readFileSync(path.join(root,'node_modules/upng-js/UPNG.js'),'utf8').replace('require("pako")','require("./pako.cjs")'));
+fs.copyFileSync(path.join(root,'node_modules/pako/dist/pako.min.js'),path.join(root,'package/lib/resvg/pako.cjs'));
 console.log('Three.js -> package/lib/client.three.js ('+Buffer.byteLength(threeChunk)+' bytes; on demand)');
 fs.writeFileSync(path.join(root,'docs/BUILD-METRICS.json'),JSON.stringify(buildMetrics(root),null,2)+'\n');

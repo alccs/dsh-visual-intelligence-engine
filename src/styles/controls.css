@@ -19,7 +19,7 @@
 .vie-shell :is(select,input[type=number]),[data-vie-runtime] :is(select,input[type=number]){box-sizing:border-box;max-width:100%;min-width:0;min-height:var(--vie-control-height);border:1px solid var(--vie-control-stroke);border-radius:var(--vie-control-radius);background:var(--vie-bg,#fff);color:var(--vie-ink,#272c33);font:400 13px/1.5 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;padding:7px 10px;font-variant-numeric:tabular-nums}
 .vie-shell input[type=number],[data-vie-runtime] input[type=number]{appearance:textfield;-moz-appearance:textfield}
 .vie-shell input[type=number]::-webkit-inner-spin-button,.vie-shell input[type=number]::-webkit-outer-spin-button,[data-vie-runtime] input[type=number]::-webkit-inner-spin-button,[data-vie-runtime] input[type=number]::-webkit-outer-spin-button{appearance:none;margin:0}
-.vie-shell input[type=range],[data-vie-runtime] input[type=range]{appearance:none;-webkit-appearance:none;box-sizing:border-box;display:block;width:100%;max-width:100%;height:24px;min-height:24px;padding:0;margin:0;background:transparent;cursor:pointer;touch-action:pan-y;accent-color:var(--vie-control-primary)}
+.vie-shell input[type=range],[data-vie-runtime] input[type=range]{appearance:none;-webkit-appearance:none;box-sizing:border-box;display:block;width:100%;max-width:min(100%,240px);height:24px;min-height:24px;padding:0;margin:0;background:transparent;cursor:pointer;touch-action:pan-y;accent-color:var(--vie-control-primary)}
 .vie-shell input[type=range]::-webkit-slider-runnable-track,[data-vie-runtime] input[type=range]::-webkit-slider-runnable-track{height:4px;border-radius:999px;background:linear-gradient(to right,var(--vie-control-primary) var(--vie-range-fill,0%),var(--vie-control-track) var(--vie-range-fill,0%))}
 .vie-shell input[type=range]::-moz-range-track,[data-vie-runtime] input[type=range]::-moz-range-track{height:4px;border-radius:999px;background:var(--vie-control-track)}
 .vie-shell input[type=range]::-moz-range-progress,[data-vie-runtime] input[type=range]::-moz-range-progress{height:4px;border-radius:999px;background:var(--vie-control-primary)}
@@ -36,6 +36,7 @@
 .vie-sdk-viewport[data-vie-pannable=true]::after{content:'左右滑动查看完整图形';display:block;position:sticky;left:0;width:100%;font-size:12px;color:var(--vie-muted,#718096);padding:4px 0;text-align:center}
 .vie-sdk-transport{display:flex;flex-wrap:wrap;align-items:center;gap:var(--vie-control-gap);margin-top:12px}
 .vie-sdk-transport input[type=range]{flex:1 1 140px;min-width:80px;max-width:100%}
+.vie-shell .vie-animation-controls>input[type=range]{max-width:100%}
 .vie-sdk-canvas{display:block;max-width:100%}
 .vie-sdk-toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--vie-control-gap);margin-block:10px}
 .vie-sdk-readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr));gap:8px;margin:10px 0}
@@ -51,3 +52,22 @@
 @media(pointer:coarse){.vie-shell,[data-vie-runtime]{--vie-control-height:44px;--vie-control-compact:44px}}
 @media(max-width:440px){.vie-sdk-transport{gap:6px}.vie-sdk-transport button{flex:1}.vie-sdk-transport input[type=range]{flex-basis:100%}}
 @media(prefers-reduced-motion:reduce){.vie-shell input[role=switch]::before,[data-vie-runtime] input[role=switch]::before{transition:none}}
+
+/* Parameter tracks stay compact; playback timelines keep their own flex layout. */
+.vie-shell .vie-control{width:100%;max-width:340px;align-self:center}
+.vie-shell .vie-parameter-panel,.vie-shell .vie-general-chart-controls{container:vie-parameters / inline-size;width:100%;min-width:0;margin:8px auto 0}
+.vie-shell .vie-parameter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,340px));justify-content:center;align-items:start;gap:16px 24px;width:100%;max-width:704px;margin-inline:auto}
+.vie-shell .vie-parameter-grid[data-count="1"]{grid-template-columns:minmax(0,340px)}
+.vie-shell .vie-parameter-fields{display:grid;grid-template-columns:minmax(0,240px) 72px;align-items:center;gap:8px;width:100%;min-width:0}
+.vie-shell .vie-parameter-fields.has-unit{grid-template-columns:minmax(0,240px) 72px auto}
+.vie-shell .vie-parameter-fields input[type=range]{max-width:240px;min-width:0}
+.vie-shell .vie-parameter-fields .vie-parameter-number{width:72px;min-width:0;text-align:right;padding-inline:8px}
+.vie-shell .vie-parameter-unit{font-size:12px;color:var(--vie-muted);max-width:48px;overflow-wrap:anywhere}
+.vie-shell .vie-parameter-more{margin:12px auto 0;max-width:704px}
+.vie-shell .vie-parameter-more summary{width:max-content;max-width:100%;cursor:pointer;color:var(--vie-muted);font-size:12px;padding:6px 0}
+.vie-shell .vie-parameter-more[open]>.vie-parameter-grid{margin-top:10px}
+@container vie-parameters (max-width:600px){.vie-shell .vie-parameter-grid{grid-template-columns:minmax(0,340px);gap:14px}}
+@media(pointer:coarse){.vie-shell .vie-parameter-fields input[type=range]{height:44px;min-height:44px}}
+.vie-mobile-gallery{width:100%;max-width:100%;min-width:0;padding:16px;overflow:auto;overscroll-behavior:contain;box-sizing:border-box}
+.vie-mobile-gallery>header{margin-bottom:16px}.vie-mobile-gallery>header h3{margin:0 0 8px}.vie-mobile-gallery>header p{font-size:13px;color:var(--dsw-alias-text-secondary,#777980)}
+.vie-mobile-gallery select{max-width:100%;min-height:44px;border:1px solid var(--dsw-alias-border-l2,#e7e7e9);border-radius:10px;padding:8px;background:var(--dsw-alias-background-primary,#fff);color:inherit;font:inherit}

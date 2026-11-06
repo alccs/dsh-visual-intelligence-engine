@@ -36,6 +36,14 @@ VIE 让模型在聊天中绘制图形、构建动画和交互演示。解释复�
 
 交互逻辑生成后，切换阶段、调节参数等已实现的操作在本地运行，无需为每次点击重新请求模型。需要新的解释或修改画面时，再继续对话。
 
+### 0.32.0 Harness 兼容与手机图解
+
+修复 Harness 0.2.2-rc.1 上可视化和关闭模式导致的整轮中断。工具可见范围由宿主工具注册表按会话控制，预算耗尽后正常回到正文。dsh-go 支持聊天内原生卡片与静态图片预览，完整交互可从「VIE 图解」进入。桌面和手机共用宿主时，可以配置 `mobileImagePreviews: false` 跳过图片转换。
+
+### 0.31.2 参数交互修复
+
+SVG 支持引擎托管的状态重绘，拖动参数后几何与读数同步更新。可确定的无效参数绑定会返回修复提示。可变关系优先提供有效交互，静态概念可以使用静态图。
+
 ### 0.31.1 兼容性修复
 
 修复与 Harness 内置语音输入同时启用时的槽位冲突，VIE 选择器与语音入口可共存；同时修复透明或裁出图形误报就绪，以及阶段对象无法重新显示的问题。[修复说明](docs/FIXES-0.31.1.md)
@@ -165,9 +173,9 @@ npm pack ./package
 | [架构说明](docs/ARCHITECTURE.md) | Host、客户端、文档模型与渲染流程 |
 | [图形与控件优化](docs/OPTIMIZATIONS-0.30.5.md) | 宽度适配、A 风格组件与图形修复 |
 | [版本管理](docs/VERSIONING.md) | 单一版本来源、验证与不可覆盖的本地归档 |
-| [更新日志](CHANGELOG.md) | 历史版本记录 |
+| [GitHub Releases](https://github.com/alccs/dsh-visual-intelligence-engine/releases) | 历史版本记录 |
 
-源码可用于构建和打包插件。`npm run verify` 使用公开回归，完整本地验收另有宿主检查；实际验证范围与数量记录在每次交付的清单中。
+源码可用于构建和打包插件。`npm run check` 执行构建、语法与工具契约检查；`npm run verify` 还会运行浏览器检查。源码包带有回归材料时会同时运行对应测试，实际范围与数量记录在交付清单中。
 
 ## 许可
 
@@ -175,6 +183,8 @@ npm pack ./package
 
 ## 开发与版本管理
 
-版本号统一来自 `package/package.json`，通过 `npm run version -- X.Y.Z` 或开发版本号修改；构建入口、锁文件及演示名称自动同步。`npm run verify` 执行公开回归；具备本地完整材料时可执行 `npm run verify:full`。
+0.31.5 增加 dsh-go 原生工具卡、会话模式面板及「VIE 图解」完整交互页。原生卡片为只读概览，动画和自由图在交互页或网页版操作；主机需具备对应入口条件。安装位置、使用方法和支持边界见 [dsh-go 使用说明](docs/MOBILE-0.31.5.md)。
+
+版本号统一来自 `package/package.json`，通过 `npm run version -- X.Y.Z` 修改；构建入口、锁文件及演示名称自动同步。`npm run verify` 检查公开源码与浏览器行为；具备完整回归材料时可执行 `npm run verify:full`。
 
 `npm run release` 在本地构建并归档安装包、源码和演示，记录 Git 提交、验证结果与 SHA256。同版本不同内容不能覆盖已归档交付。详见 [版本与发版流程](docs/VERSIONING.md)。

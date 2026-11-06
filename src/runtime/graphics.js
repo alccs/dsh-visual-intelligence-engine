@@ -13,6 +13,7 @@ function installGraphicsRuntime(api) {
   api.onTheme=(fn,options={})=>{if(typeof fn!=='function')throw Error('VIE.onTheme expects a function');const stop=listen('vie:themechange',()=>fn(api.theme));if(options.immediate!==false)fn(api.theme);return stop;};
   api.graphicsVersion=1;
   api.svg=function(options={}) {
+    if(options.draw!==undefined&&typeof options.draw!=='function')throw Error('VIE.svg: draw must be a function');
     const root=rootOf(options.root),width=number(options.width,520),height=number(options.height,280);
     if(width<120||height<80||width>2400||height>1600)throw Error('VIE.svg: width/height out of range');
     const viewport=document.createElement('div');viewport.className='vie-sdk-viewport';viewport.tabIndex=0;viewport.setAttribute('aria-label',options.title??'交互示意图，可横向平移查看');root.append(viewport);
@@ -21,7 +22,7 @@ function installGraphicsRuntime(api) {
     svg.style.width='100%';svg.style.display='block';svg.style.minWidth=Math.min(width,width*12/14)+'px';
     const defs=el('defs',{},svg),markerId='vie-sdk-arrow-'+(++sequence);
     el('path',{d:'M0 0L7 3.5L0 7Z',fill:'context-stroke'},el('marker',{id:markerId,viewBox:'0 0 7 7',refX:6.5,refY:3.5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse',markerUnits:'userSpaceOnUse'},defs));
-    const labels=[],connectors=new Set();let scheduled=0,disposed=false,objectSequence=0;
+    const labels=[],connectors=new Set(),stops=[];let scheduled=0,redrawFrame=0,drawn=false,disposed=false,objectSequence=0;
     const overlap=(a,b)=>a.left<b.right+3&&a.right>b.left-3&&a.top<b.bottom+3&&a.bottom>b.top-3;
     const layout=()=>{if(disposed)return;for(const connector of connectors)connector.refresh();viewport.dataset.viePannable=String(viewport.scrollWidth>viewport.clientWidth+2);const placed=[],box=svg.getBoundingClientRect();let conflicts=0;
       for(const item of labels){if(!item.node.isConnected)continue;const {x,y}=item;let accepted=false;
@@ -36,7 +37,7 @@ function installGraphicsRuntime(api) {
     const schedule=()=>{if(disposed||scheduled)return;scheduled=requestAnimationFrame(()=>{scheduled=0;layout();});};
     const observer=new ResizeObserver(schedule);observer.observe(viewport);
     const stopTheme=api.onTheme(schedule,{immediate:false});document.fonts?.ready.then(schedule);
-    const dispose=ownDispose(()=>{disposed=true;if(scheduled)cancelAnimationFrame(scheduled);observer.disconnect();stopTheme();viewport.remove();});
+    const dispose=ownDispose(()=>{disposed=true;if(scheduled)cancelAnimationFrame(scheduled);if(redrawFrame)cancelAnimationFrame(redrawFrame);observer.disconnect();stopTheme();stops.forEach(stop=>stop());connectors.clear();labels.length=0;viewport.remove();});
     function scope(parent) {
       function primitive(kind,raw={}) {
         let value=normalizeSVGPrimitive(kind,raw);const group=el('g',{'data-vie-primitive':kind,'data-vie-object':markerId+'-object-'+(++objectSequence)},parent),nodes=[],ownedLabels=[];
@@ -64,7 +65,7 @@ function installGraphicsRuntime(api) {
           }
           schedule();
         };
-        draw();return {element:group,set(next){if(disposed)return;value=normalizeSVGPrimitive(kind,next,value);draw();},remove(){clear();group.remove();schedule();}};
+        draw();return {element:group,set(next){if(disposed||!svg.contains(group))return;value=normalizeSVGPrimitive(kind,next,value);draw();},remove(){clear();group.remove();schedule();}};
       }
       const result={element:parent};for(const k of ['line','arrow','label','circle','rect','path','curve','angle','dimension'])result[k]=p=>primitive(k,p);
       result.group=(initial={})=>{const node=el('g',{},parent),child=scope(node);child.element=node;let value={...initial};child.set=next=>{value={...value,...next};const [x,y]=point(value.translate??[0,0]);node.setAttribute('transform','translate('+x+' '+y+') rotate('+number(value.rotate)+') scale('+number(value.scale,1)+')');schedule();};child.set({});return child;};
@@ -88,7 +89,11 @@ function installGraphicsRuntime(api) {
       const controller={refresh,get element(){return arrow?.element;},set(next){config={...config,...next};refresh();},remove};refresh();connectors.add(controller);return controller;
     };
     drawing.coordinates=(options={})=>{const map=createSVGCoordinateMap(options,width,height),point=map.point;return {...map,line:options=>drawing.line({...options,from:point(options.from),to:point(options.to)}),series:(points,style={})=>drawing.curve({...style,points:points.map(p=>point(p))}),marker:options=>{let value={...options};const pixel=()=>point(value.at),text=()=>String(value.label??'')+' ('+value.at.map(n=>String(Number(n.toPrecision(8)))).join(', ')+')';const dot=drawing.circle({at:pixel(),radius:4,fill:true,tone:value.tone}),label=drawing.label({at:[pixel()[0],pixel()[1]-18],text:text(),tone:value.tone});return {set(next){value={...value,...next};dot.set({at:pixel(),tone:value.tone});label.set({at:[pixel()[0],pixel()[1]-18],text:text(),tone:value.tone});},remove(){dot.remove();label.remove();}};}};};
-    return Object.assign(drawing,{element:svg,viewport,layoutLabels:layout,dispose});
+    drawing.clear=()=>{if(disposed)return;for(const connector of [...connectors])connector.remove();labels.length=0;for(const child of [...svg.children])if(child!==defs)child.remove();schedule();};
+    const redraw=()=>{if(disposed||redrawFrame||!api.visible&&drawn)return;if(!options.draw){schedule();return;}redrawFrame=requestAnimationFrame(()=>{redrawFrame=0;if(disposed||!api.visible&&drawn)return;drawing.clear();try{options.draw({g:drawing,state:api.state,theme:api.theme,width,height});drawn=true;}catch(error){api.reportError(error);}});};
+    Object.assign(drawing,{element:svg,viewport,layoutLabels:layout,redraw,dispose});
+    if(options.draw){stops.push(api.onState(redraw,{immediate:false}),api.onTheme(redraw,{immediate:false}),listen('vie:visibilitychange',redraw));redraw();}
+    return drawing;
   };
   api.canvas=function(options={}) {
     const root=rootOf(options.root),canvas=document.createElement('canvas');canvas.className='vie-sdk-canvas';canvas.setAttribute('aria-label',options.title??'交互画布');canvas.setAttribute('role','img');canvas.style.width='100%';canvas.style.height=number(options.height,280)+'px';root.append(canvas);

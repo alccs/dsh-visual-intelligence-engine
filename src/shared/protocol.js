@@ -190,14 +190,14 @@ const LIMITS = Object.freeze({bytes: 262144, line: 65536, events: 300, nodes: 80
 const COMPONENT_CATALOG=Object.freeze({
   Chart:{props:['title','x','y','series','controls','inputs','regions','note'],description:'General formula/data chart with local controls and region fills; no generated code required'},
   GenerativeFigure:{props:['title','html','css','js','height','state','bindings','preview'],description:'Topic-independent generated HTML/CSS/JS, isolated iframe; SVG/Canvas/WebGL and custom interaction, not bound to experiment templates'},
-  Column:{props:[],description:'Vertical layout'}, Row:{props:[],description:'Horizontal layout'},
+  Column:{props:[],description:'Vertical layout'}, Row:{props:['role'],description:'Horizontal layout; role parameters groups compact controls below a graphic'},
   Split:{props:['ratio'],description:'Responsive text / visual split layout'},
   Card:{props:['title'],description:'Grouped content'}, Text:{props:['title','body'],description:'Explanatory text'},
   Metric:{props:['label','value','bind','unit','format'],description:'Numeric readout (number/integer/percent/signed)'},
   Slider:{props:['label','bind','default','min','max','step','unit','format'],description:'Bound numeric slider'},
   NumberInput:{props:['label','bind','default','min','max','step','unit','format'],description:'Bound numeric input'},
-  Toggle:{props:['label','bind','default','min','max','step'],description:'Numeric 0/1 switch'},
-  SegmentedControl:{props:['label','bind','default','min','max','step','options'],description:'Numeric choice buttons'},
+  Toggle:{props:['label','bind','default','min','max','step','unit'],description:'Numeric 0/1 switch'},
+  SegmentedControl:{props:['label','bind','default','min','max','step','options','unit'],description:'Numeric choice buttons'},
   Button:{props:['label','action','target','setValue'],description:'State set/reset action'},
   Progress:{props:['label','value','bind','min','max','unit','expr','format'],description:'Normalized progress with value and percent'},
   BarChart:{props:['title','data','labels','unit','sourceLabel','showAverage'],description:'Evidence-bearing labeled bars (optional aggregate summary)'},
@@ -296,6 +296,7 @@ function validateEvent(event) {
     else if(key==='format'){if(!FORMATS.has(value))error('Unsupported format: '+value);sanitized[key]=value;}
     else if(key==='showAverage'){if(typeof value!=='boolean')error('Invalid showAverage flag');sanitized[key]=value;}
     else if(key==='ratio')sanitized[key]=number(value,0.2,0.8);
+    else if(key==='role'){if(value!=='parameters')error('Unsupported row role');sanitized[key]=value;}
     else if(['xMin','xMax','yMin','yMax'].includes(key))sanitized[key]=number(value,-1000,1000);
     else if(key==='sampleX')sanitized[key]=typeof value==='string'?path(value):number(value,-1000,1000);
     else if(key==='action') {if(!['reset','set'].includes(value))error('Invalid action');sanitized[key]=value;}

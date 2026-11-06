@@ -8,7 +8,7 @@ const click=selector=>{b.enter();b.run('click',selector);b.main();b.frames();};
 const mount=(document,id)=>{b.ev('VIEDemo.setSource(VIE.documentSceneSource('+JSON.stringify(document)+'),'+JSON.stringify(id)+')');b.frames();};
 const figure=(html,js='',css='')=>({blocks:[{type:'figure',title:'Content check',html,js,css}]});
 try{
- b.open('shared-stages');b.run('wait','iframe[data-vie-ready="true"]');
+ b.open('shared-stages');b.run('set','viewport','1080','1200');b.run('wait','iframe[data-vie-ready="true"]');
  pass('the shared diagram begins with the baseline geometry and values',attr('#particle','cx')==='100'&&text('.vie-sdk-readouts').includes('100'));
  click('.vie-learn-tabs button:nth-child(3)');pass('jumping directly to the final stage applies its geometry and color',attr('#particle','cx')==='440'&&attr('#particle','fill')==='var(--vie-secondary)');
  click('.vie-learn-tabs button:nth-child(2)');pass('going backwards removes the final-stage color and updates the readout',attr('#particle','cx')==='280'&&attr('#particle','fill')==='var(--vie-primary)'&&text('.vie-sdk-readouts').includes('280'));

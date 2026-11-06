@@ -33,7 +33,7 @@ export function archiveRelease(root=ROOT,{directory=path.resolve(root,'../releas
     for(const name of Object.keys(files))fs.copyFileSync(path.join(dist,name),path.join(temp,name),fs.constants.COPYFILE_EXCL);
     const git=args=>{const result=spawnSync('git',args,{cwd:root,encoding:'utf8',windowsHide:true});return result.status===0?result.stdout.trim():null;};
     const commit=git(['rev-parse','HEAD']),status=git(['status','--porcelain','--untracked-files=no']);
-    const manifest={version,name:metadata.name,createdAt:new Date().toISOString(),gitCommit:commit,sourceDirty:status===null?null:status.length>0,verification:{hash:gate.verificationHash,nodeTests:gate.nodeTests,browserScripts:gate.browserScripts,hostScripts:gate.hostScripts,scope:gate.scope??'local-full'},files};
+    const manifest={version,name:metadata.name,createdAt:new Date().toISOString(),gitCommit:commit,sourceDirty:status===null?null:status.length>0,verification:{hash:gate.verificationHash,sourceChecks:gate.sourceChecks??0,nodeTests:gate.nodeTests,browserScripts:gate.browserScripts,hostScripts:gate.hostScripts,scope:gate.scope??'local-full'},files};
     fs.writeFileSync(path.join(temp,'manifest.json'),JSON.stringify(manifest,null,2)+'\n',{flag:'wx'});
     fs.renameSync(temp,target);
   }finally{if(path.dirname(temp)===releaseRoot&&fs.existsSync(temp))fs.rmSync(temp,{recursive:true});}

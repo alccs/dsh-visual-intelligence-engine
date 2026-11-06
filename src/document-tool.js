@@ -42,13 +42,15 @@ function createDocumentExecutor(){
       if(new TextEncoder().encode(JSON.stringify(candidate)).length>245760)throw Error('Visual document exceeds 240KB');
       candidate=normalizeLearningDocumentAlias(candidate);
       const document=validateDocumentSpec(candidate);
+      const warnings=documentControlDiagnostics(document);
       if(candidate.caption!==undefined)display=appearance({...args,caption:args.caption!==undefined?args.caption:candidate.caption});
-      for(let i=0;i<document.blocks.length;i++)if(document.blocks[i].type==='figure'&&document.blocks[i].js)try{new VIEJavaScriptParser(document.blocks[i].js);validateSDKCalls(document.blocks[i].js);}catch(error){error.path='blocks['+i+'].js';error.message=error.path+(error.code?': SDK arguments: ':': JavaScript syntax: ')+error.message;throw error;}
+      for(let i=0;i<document.blocks.length;i++)if(document.blocks[i].type==='figure')try{const figure=document.blocks[i];if(figure.js){new VIEJavaScriptParser(figure.js);validateSDKCalls(figure.js);}validateFigureReactivity(figure);}catch(error){error.path='blocks['+i+'].js';error.message=error.path+(error.code?': SDK arguments: ':': JavaScript syntax: ')+error.message;throw error;}
       const source=documentSceneSource(document),parser=new VIEStream();parser.push(source);parser.finish();const snap=parser.snapshot();
       if(!snap.complete||snap.errors.length)throw Error(snap.errors[0]??'Incomplete scene');
+      const nativeCard=vieNativeCard({title:document.title,valid:true,source},candidate);
       save(store,id,{document:JSON.parse(JSON.stringify(candidate)),revision,display,anchorCallId});
       if(exec?.agent?.session?.id&&VIE_BASELINE_STORAGE)try{VIE_BASELINE_STORAGE.save(exec.agent.session.id,[...store]);}catch{}
-      return {note:'图形结构、脚本语法与可确定的SDK参数已校验，已提交视图；浏览器运行尚待确认，不能仅据此声称渲染成功。visualId='+id+'，revision='+revision+'。现在在Harness正文解释此图；还需另一概念图可继续调用，再紧跟对应正文，不要求more:true。每张图只表达当前概念，勿把各章节拼在一个SVG。visualId仅用于局部修改，不能写成图片链接。',meta:{kind:'vie',mode:'document',title:document.title,source,valid:true,visualUnits:documentVisualUnits(document),renderStatus:'submitted',validationScope:'schema-and-script',visualId:id,revision,...display,...anchorCallId?{anchorCallId:String(anchorCallId)}:{}}};
+      return {note:'图形结构、脚本语法与可确定的SDK参数已校验，已提交Web视图及dsh-go原生卡片元数据；客户端是否显示仍未知，不能仅据此声称渲染成功。dsh-go原生卡片不发送Web回执，回执为空不等于加载失败。visualId='+id+'，revision='+revision+'。现在在Harness正文解释此图；还需另一概念图可继续调用，再紧跟对应正文，不要求more:true。每张图只表达当前概念，勿把各章节拼在一个SVG。visualId仅用于局部修改，不能写成图片链接。'+(warnings.length?' 参数提示：'+warnings.map(w=>w.key).join('、')+' 没有声明图形消费者，请补充绑定或移除无效控件；自定义用途需验证。':''),meta:{kind:'vie',mode:'document',title:document.title,source,valid:true,'dsh-go/view':nativeCard,...(warnings.length?{warnings}:{}),visualUnits:documentVisualUnits(document),renderStatus:'submitted',validationScope:'schema-and-script',visualId:id,revision,...display,...anchorCallId?{anchorCallId:String(anchorCallId)}:{}}};
     }catch(error){
       // A parseable invalid draft can be repaired by replacing its failing block.
       // A failed patch never advances or overwrites its validated baseline.
@@ -58,7 +60,8 @@ function createDocumentExecutor(){
       const learningHint='Use one learning block with title and stages/questions. If document.type is "learning", every block must be a stage object with html; type belongs on the learning block in the canonical form.';
       const rootLearningError=errorCode==='VIE_LEARNING_INVALID'&&errorPath==='$';
       const repairHint=errorCode==='VIE_STALE_REVISION'?'Use the latest baseRevision from this result; do not overwrite with a stale draft.':errorCode==='VIE_BASE_MISSING'?'Submit the complete document once to create a baseline.':rootLearningError?'Submit a complete canonical document; this root structure cannot be repaired by replacing a single block. '+learningHint:saved?'Replace only the block at '+errorPath+' using visualId, baseRevision and changes. Keep successful blocks.'+(errorCode==='VIE_LEARNING_INVALID'?' '+learningHint:''):'Submit a native document object with blocks; avoid JSON-inside-JSON escaping.';
-      return {note:'主图未提交：参数或结构无效，并非浏览器渲染失败。'+message+(saved?'。保留草稿 '+savedId+' revision='+saved.revision+(rootLearningError?'；根结构不明确，请重新提交完整document。':'；只替换出错块，不必重写其余图。'):'。请使用原生document对象，避免嵌套JSON转义。'),meta:{kind:'vie',mode:'document',source:'',valid:false,visualUnits:documentVisualUnits(saved?.document??candidate),error:message,errorCode,errorPath,repairHint,...repair,...display,...(saved?.anchorCallId??anchorCallId)?{anchorCallId:String(saved?.anchorCallId??anchorCallId)}:{}}};
+      const hint=errorCode==='VIE_REACTIVITY_REQUIRED'?'Bind values through VIE.state. Prefer VIE.svg({draw:({g,state})=>{...}}) or VIE.canvas({draw}); explicit VIE.onState callbacks remain supported. '+repairHint:repairHint;
+      return {note:'主图未提交：参数或结构无效，并非浏览器渲染失败。'+message+(saved?'。保留草稿 '+savedId+' revision='+saved.revision+(rootLearningError?'；根结构不明确，请重新提交完整document。':'；只替换出错块，不必重写其余图。'):'。请使用原生document对象，避免嵌套JSON转义。'),meta:{kind:'vie',mode:'document',source:'',valid:false,visualUnits:documentVisualUnits(saved?.document??candidate),error:message,errorCode,errorPath,repairHint:hint,...repair,...display,...(saved?.anchorCallId??anchorCallId)?{anchorCallId:String(saved?.anchorCallId??anchorCallId)}:{}}};
     }
   };
 }

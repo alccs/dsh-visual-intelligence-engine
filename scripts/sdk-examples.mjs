@@ -1,5 +1,15 @@
 /** These examples use generic SDK operations, not subject-specific renderers. */
 export const sdkExamples={
+  parameters:{title:'紧凑参数与图形联动',controls:[{key:'width',label:'宽度',unit:'px',min:40,max:300,value:160,step:1},{key:'height',label:'高度',unit:'px',min:40,max:160,value:80,step:1}],blocks:[{type:'figure',title:'拖动或输入尺寸，观察面积变化',height:320,html:'<div id="parameter-plot"></div>',bindings:{width:'width',height:'height'},js:`VIE.svg({root:'#parameter-plot',width:520,height:280,draw:({g,state})=>{
+g.rect({at:[90,45],width:state.width,height:state.height,fill:'primary'});
+g.dimension({from:[90,220],to:[90+state.width,220],offset:0,label:'宽 '+state.width+' px',tone:'muted'});
+g.label({at:[350,30],text:'面积 '+state.width*state.height+' px²',anchor:'middle'});
+}});`}]},
+  managed:{title:'滑块驱动 SVG 重绘',controls:[{key:'size',label:'尺寸',min:40,max:200,value:80,step:1}],derive:{center:'size/2'},blocks:[{type:'figure',title:'参数、几何与读数同步变化',html:'<div id="managed-plot"></div>',height:300,bindings:{size:'size',center:'center'},js:`VIE.svg({root:'#managed-plot',width:520,height:240,draw:({g,state})=>{
+g.rect({at:[40,70],width:state.size,height:80,fill:'primary'});
+g.circle({at:[40+state.center,110],radius:6,fill:'accent'});
+g.label({at:[300,30],text:'尺寸 '+state.size+' · 中心 '+state.center,anchor:'start'});
+}});`}]},
   worm3d:{title:'三维蜗杆与理想速比',controls:[{key:'starts',label:'蜗杆头数 z₁',min:1,max:4,value:2,step:1},{key:'teeth',label:'蜗轮齿数 z₂',min:20,max:60,value:40,step:1}],blocks:[{type:'figure',title:'本地三维结构与速比示意',html:'<div id="worm-scene"></div><p id="ratio"></p><small>结构与理想速比示意；未校验真实齿面接触，旋向按演示视角约定。</small>',height:480,bindings:{starts:'starts',teeth:'teeth'},js:`const s=VIE.scene3d({root:'#worm-scene',height:320,camera:[5,4,7],target:[0,.3,.4]});
 let assembly,worm,wheel,z1=0,z2=0;
 VIE.onState(state=>{const a=Number(state.starts),b=Number(state.teeth);if(a===z1&&b===z2)return;z1=a;z2=b;assembly?.remove();assembly=s.group();

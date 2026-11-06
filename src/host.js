@@ -21,17 +21,23 @@ const VIE_COMPONENT_REFERENCE=/* @asset assets/components-reference.md */ "";
 /* @include workflow.js */
 /* @include mode.js */
 /* @include document-tool.js */
+/* @include mobile/native.js */
+/* @include mobile/preview.js */
 /** A valid protocol and a useful teaching visual are separate claims. */
 function defineVisualTool(definition){
-  return defineTool({...definition,execute:async(...args)=>{
+  return defineTool({...definition,output:{...definition.output,presentationMeta:(args,value)=>vieMobilePresentation(definition.output.presentationMeta(args,value))},execute:async(...args)=>{
     const started=Date.now(),value=await definition.execute(...args);
     if(value.meta?.kind==='vie'){
-      value.meta.hostMs=Math.max(0,Date.now()-started);value.meta.engineVersion=VIE_ENGINE_VERSION;value.meta.buildId=VIE_BUILD_ID;
+      value.meta.engineVersion=VIE_ENGINE_VERSION;value.meta.buildId=VIE_BUILD_ID;
       const exec=args[1];
       if(value.meta.presentationVersion===undefined)try{value.meta={...appearance(args[0]),...value.meta};}catch{}
       if(exec?.callId&&!value.meta.anchorCallId)value.meta.anchorCallId=String(exec.callId);
       value.meta.quality=value.meta.valid?analyzeSceneQuality(value.meta.source):{status:'rejected',checks:['schema'],issues:[{code:'SCENE_REJECTED',message:value.meta.error??value.meta.errors?.[0]??'场景无效'}]};
       if(value.meta.quality.status==='review')value.note+='；范围提示：'+value.meta.quality.issues.map(x=>x.message).join(' ');
+    }
+    if(value.meta?.kind==='vie'){
+      value.meta=vieMobilePresentation(value.meta);
+      value.meta.hostMs=Math.max(0,Date.now()-started);
     }
     return value;
   }});
@@ -203,16 +209,32 @@ export function createAutoImplementation(){
   presentResult:(_a,r)=>r.isError?undefined:{card:'generic',title:'Visual Interactive Engine（智能图文交互引擎） · 图文解释',kind:'other'}
  });
 }
-export function apply(ctx,options={}){
+export function apply(ctx,{mobileImagePreviews=true,...options}={}){
+  if(typeof mobileImagePreviews!=='boolean')throw Error('Invalid mobileImagePreviews option');
   const workflowOptions=visualWorkflowOptions(options),feedback=createRenderFeedbackRegistry();
   ctx.effect?.(()=>()=>feedback.dispose());
-  let activeMode=createVIEMode(workflowOptions.visualMode);
-  const register=implementation=>ctx.tools.register({...implementation,execute:async(...args)=>{const result=await implementation.execute(...args);if(result.meta?.valid&&result.meta.source)result.meta={...result.meta,source:flowPresentationSource(result.meta.source,activeMode.get(args[1]?.agent))};feedback.expect(args[1],result);return result;}});
+  let activeMode=createVIEMode(workflowOptions.visualMode),bridgeActive=false;
+  const register=implementation=>ctx.tools.register({
+    ...implementation,
+    execute:async(...args)=>{
+      const started=Date.now(),result=await implementation.execute(...args);
+      if(result.meta?.valid&&result.meta.source){
+        result.meta={...result.meta,source:flowPresentationSource(result.meta.source,activeMode.get(args[1]?.agent))};
+        if(mobileImagePreviews&&bridgeActive){
+          await attachVIEImagePreview(result.meta);
+          result.meta.hostMs=Math.max(0,Date.now()-started);
+        }
+      }
+      feedback.expect(args[1],result);
+      return result;
+    }
+  });
   register(createExplainImplementation());
   register(createQuickImplementation());register(createVIEImplementation());
   register(createComposeImplementation());register(createStoryImplementation());register(createAutoImplementation());
   const finish=mode=>{
   activeMode=mode;
+  installVIEDshGo(ctx,mode,active=>{bridgeActive=active;});
   ctx.inject?.(['systemPrompt'],services=>installVisualWorkflow(services,workflowOptions,mode,feedback));
   ctx.inject?.(['skills'],services=>{
     services.skills.register({name:'dsh-vie',description:'Optional detailed reference for VIE visual explanations. Direct vie_explain/vie_auto calls need no preliminary skill load. Any subject; templates optional.',source:'bundled',content:VIE_SKILL_CONTENT+'\n\n'+VIE_COMPONENT_REFERENCE});

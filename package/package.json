@@ -1,6 +1,6 @@
 {
   "name": "dsh-visual-interactive-engine",
-  "version": "0.31.1",
+  "version": "0.32.0",
   "type": "module",
   "description": "Visual Interactive Engine — interactive graphics with native Harness prose; structured input, local repair and shared controls",
   "main": "lib/index.js",
@@ -31,6 +31,44 @@
     },
     "client": {
       "platform": "web"
+    }
+  },
+  "dshGo": {
+    "v": 1,
+    "title": {
+      "zh": "VIE 图解",
+      "en": "VIE Figures"
+    },
+    "icon": "diagram",
+    "contributes": {
+      "composer.actions": [
+        {
+          "id": "vie-settings",
+          "label": {
+            "zh": "VIE 模式",
+            "en": "VIE Mode"
+          },
+          "icon": "diagram",
+          "effect": {
+            "type": "open",
+            "page": "panel:vie-modes"
+          }
+        }
+      ],
+      "panels": [
+        {
+          "id": "vie-modes",
+          "title": {
+            "zh": "VIE 模式",
+            "en": "VIE Mode"
+          },
+          "icon": "settings",
+          "placement": [
+            "session.tab",
+            "chat.panel"
+          ]
+        }
+      ]
     }
   },
   "peerDependencies": {

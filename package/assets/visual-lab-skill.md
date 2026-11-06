@@ -1,6 +1,6 @@
-# VIE 0.31.1 · 主图与正文分工
+# VIE 0.32.0 · 主图与正文分工
 
-VIE面向任意主题：数据图优先graphic/chart，流程优先原生Flow。自由图用SVG/Canvas或内置VIE.scene3d；三维的Three.js、相机和几何已本地提供。复用VIE.svg、VIE.animate、VIE.ui.toolbar/readouts以及document.controls/bindings，不重复生成控件、坐标轴、箭头和状态订阅。控件沿用A式中性UI，图形自由配色。同一主图的多个阶段优先learning数据块的baseHtml+stages.patches，仅给各步变化与values读数；旧stage.html仍可用。独立章节按图→Harness正文→下一图编排，每图聚焦一个概念；并列用于真实比较或共享交互。完整解释、公式和表格由Harness正文渲染。曲线、端点、标注、箭头与读数使用同一组数据和g.coordinates映射；保留实际连接与方向，明确单位、来源、假设，未知数值标为示意。窄屏保持完整图形与可读标注，需要时分步或展开。出题使用learning.questions，correct必填且从0开始，作答前不泄露答案。调用真实工具，visualId不是图片URL；修图使用visualId/baseRevision/changes保留其他图。优先局部替换；结构化块可用updates修改已有字段。仅已提交或waiting不等于已经显示成功。
+VIE面向任意主题：数据图优先graphic/chart，流程优先原生Flow。自由图用SVG/Canvas或内置VIE.scene3d；三维的Three.js、相机和几何已本地提供。复用VIE.svg、VIE.animate、VIE.ui.toolbar/readouts以及document.controls/bindings，不重复生成控件、坐标轴和箭头。document.controls在图下紧凑排列，slider自带数值输入，可选unit。控件沿用A式中性UI，图形自由配色。同一主图的多个阶段优先learning数据块的baseHtml+stages.patches，仅给各步变化与values读数；旧stage.html仍可用。独立章节按图→Harness正文→下一图编排，每图聚焦一个概念；并列用于真实比较或共享交互。完整解释、公式和表格由Harness正文渲染。曲线、端点、标注、箭头与读数使用同一组数据和g.coordinates映射；保留实际连接与方向，明确单位、来源、假设，未知数值标为示意。窄屏保持完整图形与可读标注，需要时分步或展开。出题使用learning.questions，correct必填且从0开始，作答前不泄露答案。调用真实工具，visualId不是图片URL；修图使用visualId/baseRevision/changes保留其他图。优先局部替换；结构化块可用updates修改已有字段。仅已提交或waiting不等于已经显示成功。
 
 ## 默认做法
 
@@ -81,6 +81,20 @@ vie_quick/vie_compose/vie_story/vie_render继续兼容旧内容；通用齿轮�
 ## 内置二维 SDK（0.30）
 
 无需安装或加载外部库。一般参数优先 document.controls + figure.bindings，避免另写滑块与同步逻辑。自绘使用 SVG 助手；大量像素或连续曲线使用 Canvas。API 只负责绘图和时钟，不验证领域规律。
+
+尺寸、位置、比例或过程可变化时，优先提供能改变图形或读数的交互。静态概念仍可静态，勿添加无效滑块。bindings 只更新 `VIE.state`，不会自动重跑脚本；不存在引擎提供的全局 `state`。
+
+参数联动优先使用受管 SVG：
+
+```js
+VIE.svg({root:'#plot',width:520,height:260,
+  draw:({g,state,theme,width,height})=>{
+    g.rect({at:[40,80],width:Number(state.size),height:60,fill:'primary'});
+    g.label({at:[300,30],text:'尺寸 '+state.size,anchor:'start'});
+  }});
+```
+
+每次绘制前引擎清空该 SVG 的图元、连线和标签，随后用最新 state 重建。回调中只绘图，不注册监听、定时器或写回状态。状态/主题变化与复位自动触发重绘；离屏完成首次绘制后暂停，回到可见区使用最新状态。返回的 clear/redraw/dispose 可显式清空、请求重绘及清理；不要在 draw 中递归调用 redraw。旧的手动更新写法继续兼容：
 
 ```js
 const g = VIE.svg({root:'#plot', width:520, height:260});
